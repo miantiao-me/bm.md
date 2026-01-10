@@ -1,0 +1,57 @@
+/*
+  Josh's Custom CSS Reset (Scoped for #bm-md)
+  https://www.joshwcomeau.com/css/custom-css-reset/
+*/
+
+#bm-md *,
+#bm-md *::before,
+#bm-md *::after {
+  box-sizing: border-box;
+}
+
+#bm-md * {
+  margin: 0;
+}
+
+#bm-md {
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  text-autospace: normal;
+  font-family: sans-serif;
+  text-align: left;
+}
+
+#bm-md img,
+#bm-md picture,
+#bm-md video,
+#bm-md canvas,
+#bm-md svg {
+  display: block;
+  max-width: 100%;
+}
+
+#bm-md input,
+#bm-md button,
+#bm-md textarea,
+#bm-md select {
+  font: inherit;
+}
+
+#bm-md p,
+#bm-md h1,
+#bm-md h2,
+#bm-md h3,
+#bm-md h4,
+#bm-md h5,
+#bm-md h6 {
+  overflow-wrap: break-word;
+}
+
+#bm-md figure.figure-table {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+#bm-md figure.figure-table table {
+  margin: 0;
+}

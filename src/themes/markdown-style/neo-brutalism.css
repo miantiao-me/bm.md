@@ -1,0 +1,804 @@
+/* ============================================
+   Neo-Brutalism - 新粗野主义风格
+   RAW. LOUD. UNAPOLOGETIC.
+   厚重黑色边框 + 硬阴影 + 高饱和色块
+   DIY/朋克/印刷文化的反设计美学
+   ============================================ */
+
+/* 配色定义（硬编码）
+   背景色: #FFFDF5 (奶油白 - 模拟旧报纸/牛皮纸)
+   主黑色: #000000 (纯黑 - 结构色)
+   强调红: #FF4757 (热辣红 - 主强调色)
+   强调黄: #FECA57 (荧光黄 - 高亮/标记)
+   强调青: #00D2D3 (电光青 - 链接/交互)
+   强调紫: #A29BFE (柔和紫 - 辅助背景)
+   灰白色: #F1F2F6 (浅灰 - 交替行)
+   白色: #FFFFFF (纯白 - 容器)
+*/
+
+/* 容器 - 奶油白纸张背景 */
+#bm-md {
+  color: #000000;
+  background-color: #fffdf5;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  font-size: 16px;
+  line-height: 1.7;
+  padding: 1.5em 1em;
+  /* 添加纸张纹理感 */
+  background-image: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 1px,
+    rgba(0, 0, 0, 0.008) 1px,
+    rgba(0, 0, 0, 0.008) 2px
+  );
+}
+
+/* ============================================
+   标题 - 厚重边框与硬阴影
+   H1-H6 使用黑色系，逐级变淡；H4-H6 相同色值
+   ============================================ */
+
+#bm-md h1,
+#bm-md h2,
+#bm-md h3,
+#bm-md h4,
+#bm-md h5,
+#bm-md h6 {
+  font-weight: 900;
+  line-height: 1.15;
+  margin-top: 1.25em;
+  margin-bottom: 0.5em;
+  letter-spacing: -0.03em;
+}
+
+/* H1 - 最醒目：黄色背景+厚边框+大硬阴影 */
+#bm-md h1 {
+  font-size: 1.875em;
+  padding: 0.4em 0.6em;
+  background-color: #feca57;
+  color: #000000;
+  border: 5px solid #000000;
+  box-shadow: 8px 8px 0 #000000;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+/* H2 - 白色背景+红色左边框+硬阴影 */
+#bm-md h2 {
+  font-size: 1.5em;
+  padding: 0.35em 0.6em;
+  background-color: #ffffff;
+  color: #000000;
+  border: 4px solid #000000;
+  border-left: 10px solid #ff4757;
+  box-shadow: 6px 6px 0 #000000;
+}
+
+/* H3 - 青色背景条 */
+#bm-md h3 {
+  font-size: 1.25em;
+  padding: 0.25em 0.5em;
+  color: #000000;
+  background-color: #00d2d3;
+  border: 4px solid #000000;
+  box-shadow: 4px 4px 0 #000000;
+  display: inline-block;
+}
+
+/* H4-H6 - 相同的深灰色 */
+#bm-md h4,
+#bm-md h5,
+#bm-md h6 {
+  color: #1a1a1a;
+}
+
+#bm-md h4 {
+  font-size: 1.125em;
+  padding-left: 0.6em;
+  border-left: 6px solid #000000;
+  background-color: rgba(254, 202, 87, 0.2);
+}
+
+#bm-md h5 {
+  font-size: 1em;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding-bottom: 0.2em;
+  border-bottom: 3px solid #000000;
+  display: inline-block;
+}
+
+#bm-md h6 {
+  font-size: 1em;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  padding-left: 0.5em;
+  border-left: 4px dashed #000000;
+}
+
+#bm-md > h1:first-child,
+#bm-md > h2:first-child,
+#bm-md > h3:first-child,
+#bm-md > h4:first-child,
+#bm-md > h5:first-child,
+#bm-md > h6:first-child {
+  margin-top: 0;
+}
+
+/* ============================================
+   段落
+   ============================================ */
+
+#bm-md p {
+  margin-bottom: 1em;
+}
+
+#bm-md p:last-child {
+  margin-bottom: 0;
+}
+
+/* ============================================
+   行内文本样式
+   ============================================ */
+
+/* 加粗 - 黄色高亮块 */
+#bm-md strong,
+#bm-md b {
+  font-weight: 900;
+  color: #000000;
+  background-color: #feca57;
+  padding: 0.08em 0.25em;
+  border: 2px solid #000000;
+}
+
+/* 斜体 - 红色下划线 */
+#bm-md em,
+#bm-md i {
+  font-style: italic;
+  color: #000000;
+  border-bottom: 3px solid #ff4757;
+}
+
+/* 删除线 - 粗红色删除 */
+#bm-md del,
+#bm-md s,
+#bm-md strike {
+  color: #666666;
+  text-decoration: line-through;
+  text-decoration-color: #ff4757;
+  text-decoration-thickness: 4px;
+}
+
+/* 高亮 - 黄色标记+边框+阴影 */
+#bm-md mark {
+  background-color: #feca57;
+  color: #000000;
+  padding: 0.12em 0.35em;
+  border: 3px solid #000000;
+  box-shadow: 3px 3px 0 #000000;
+  font-weight: 700;
+}
+
+#bm-md small {
+  font-size: 0.875em;
+  color: #333333;
+}
+
+#bm-md sup,
+#bm-md sub {
+  font-size: 0.75em;
+  line-height: 0;
+}
+
+/* 上标 - 红色徽章 */
+#bm-md sup {
+  vertical-align: super;
+  color: #ffffff;
+  font-weight: 800;
+  background-color: #ff4757;
+  padding: 0.12em 0.3em;
+  border: 2px solid #000000;
+}
+
+#bm-md sub {
+  vertical-align: sub;
+  color: #000000;
+  font-weight: 700;
+}
+
+/* 插入 - 青色底纹 */
+#bm-md ins {
+  background-color: #00d2d3;
+  text-decoration: none;
+  padding: 0.1em 0.3em;
+  border-bottom: 4px solid #000000;
+  color: #000000;
+}
+
+#bm-md q {
+  quotes: '"' '"' '' ' ' '';
+  color: #000000;
+}
+
+#bm-md q::before {
+  content: open-quote;
+  color: #ff4757;
+  font-weight: 900;
+  font-size: 1.25em;
+}
+
+#bm-md q::after {
+  content: close-quote;
+  color: #ff4757;
+  font-weight: 900;
+  font-size: 1.25em;
+}
+
+/* 变量 - 紫色背景 */
+#bm-md var {
+  font-style: italic;
+  font-weight: 700;
+  color: #000000;
+  background-color: #a29bfe;
+  padding: 0.08em 0.25em;
+  border: 2px solid #000000;
+}
+
+#bm-md samp,
+#bm-md tt {
+  font-family: 'SF Mono', Consolas, 'Liberation Mono', Menlo, monospace;
+  font-size: 0.875em;
+  background-color: #ffffff;
+  color: #000000;
+  padding: 0.18em 0.4em;
+  border: 3px solid #000000;
+  box-shadow: 2px 2px 0 #000000;
+}
+
+#bm-md abbr[title] {
+  border-bottom: 4px dotted #000000;
+  cursor: help;
+  text-decoration: none;
+}
+
+/* ============================================
+   链接 - 青色底纹+粗下划线
+   ============================================ */
+
+#bm-md a {
+  color: #000000;
+  text-decoration: none;
+  background-color: #00d2d3;
+  padding: 0.08em 0.2em;
+  border-bottom: 4px solid #000000;
+  font-weight: 600;
+}
+
+#bm-md a:hover {
+  color: #000000;
+  background-color: #feca57;
+  box-shadow: 3px 3px 0 #000000;
+}
+
+/* ============================================
+   Ruby 注音
+   ============================================ */
+
+#bm-md ruby {
+  ruby-align: center;
+}
+
+#bm-md rt {
+  font-size: 0.5em;
+  color: #333333;
+  font-weight: 700;
+}
+
+#bm-md rp {
+  color: #666666;
+}
+
+/* ============================================
+   列表 - 几何方块标记
+   ============================================ */
+
+#bm-md ul,
+#bm-md ol {
+  margin-bottom: 1em;
+  padding-left: 1.75em;
+}
+
+#bm-md ul {
+  list-style-type: square;
+}
+
+#bm-md ol {
+  list-style-type: decimal;
+}
+
+#bm-md li {
+  margin-bottom: 0.4em;
+}
+
+#bm-md li::marker {
+  color: #ff4757;
+  font-weight: 900;
+}
+
+#bm-md li > ul,
+#bm-md li > ol {
+  margin-top: 0.3em;
+  margin-bottom: 0.3em;
+}
+
+#bm-md ul ul {
+  list-style-type: disc;
+}
+
+#bm-md ul ul ul {
+  list-style-type: circle;
+}
+
+/* 任务列表 */
+#bm-md ul.contains-task-list {
+  list-style-type: none;
+  padding-left: 0;
+}
+
+#bm-md li.task-list-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5em;
+  padding-left: 0.25em;
+}
+
+#bm-md input[type='checkbox'] {
+  margin-top: 0.4em;
+  width: 1.3em;
+  height: 1.3em;
+  accent-color: #ff4757;
+  border: 4px solid #000000;
+}
+
+/* ============================================
+   引用块 - 紫色色块+硬阴影
+   ============================================ */
+
+#bm-md blockquote {
+  margin: 1.25em 0;
+  padding: 0.85em 1.1em;
+  background-color: #a29bfe;
+  color: #000000;
+  border: 5px solid #000000;
+  border-left: 12px solid #ff4757;
+  box-shadow: 8px 8px 0 #000000;
+}
+
+#bm-md blockquote p {
+  margin-bottom: 0.6em;
+}
+
+#bm-md blockquote p:last-child {
+  margin-bottom: 0;
+}
+
+#bm-md blockquote blockquote {
+  margin-top: 0.85em;
+  margin-bottom: 0;
+  background-color: #feca57;
+  border-left: 10px solid #00d2d3;
+  box-shadow: 5px 5px 0 #000000;
+}
+
+/* ============================================
+   代码 - 厚边框与硬阴影
+   ============================================ */
+
+/* 行内代码 - 黄色背景 */
+#bm-md code {
+  font-family: 'SF Mono', Consolas, 'Liberation Mono', Menlo, monospace;
+  font-size: 0.875em;
+  background-color: #feca57;
+  color: #000000;
+  padding: 0.18em 0.45em;
+  border: 3px solid #000000;
+  font-weight: 600;
+}
+
+/* 代码块 - 黑色背景+红色阴影 */
+#bm-md pre {
+  margin: 1.25em 0;
+  padding: 1.1em;
+  background-color: #000000;
+  border: 5px solid #000000;
+  box-shadow: 10px 10px 0 #ff4757;
+  overflow-x: auto;
+}
+
+#bm-md pre code {
+  background-color: transparent;
+  color: #ffffff;
+  padding: 0;
+  border: none;
+  font-size: 0.875em;
+  line-height: 1.55;
+  font-weight: 400;
+}
+
+/* ============================================
+   表格 - 网格与硬边框
+   ============================================ */
+
+#bm-md table {
+  width: 100%;
+  margin: 1.25em 0;
+  border-collapse: collapse;
+  font-size: 0.9375em;
+  border: 5px solid #000000;
+  box-shadow: 8px 8px 0 #000000;
+}
+
+#bm-md thead {
+  background-color: #feca57;
+}
+
+#bm-md tfoot {
+  background-color: #00d2d3;
+  font-size: 0.875em;
+  border-top: 5px solid #000000;
+}
+
+#bm-md th,
+#bm-md td {
+  padding: 0.55em 0.8em;
+  border: 3px solid #000000;
+  text-align: left;
+}
+
+#bm-md th {
+  font-weight: 900;
+  background-color: #feca57;
+  color: #000000;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+#bm-md tbody tr:nth-child(even) {
+  background-color: #f1f2f6;
+}
+
+/* Frontmatter 表格 */
+#bm-md .frontmatter-table {
+  width: auto;
+  margin-bottom: 1.5em;
+  font-size: 0.875em;
+  border: none;
+  background-color: transparent;
+  box-shadow: none;
+}
+
+#bm-md .frontmatter-table td {
+  padding: 0.3em 0.8em 0.3em 0;
+  border: none;
+  vertical-align: top;
+  background-color: transparent;
+}
+
+#bm-md .frontmatter-key {
+  font-weight: 900;
+  color: #000000;
+  white-space: nowrap;
+  background-color: #feca57;
+  padding: 0.12em 0.35em;
+  border: 3px solid #000000;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+#bm-md .frontmatter-key::after {
+  content: ':';
+}
+
+#bm-md .frontmatter-value {
+  color: #000000;
+}
+
+/* ============================================
+   分割线 - 粗犷几何
+   ============================================ */
+
+#bm-md hr {
+  margin: 1.75em 0;
+  border: none;
+  height: 8px;
+  background-color: #000000;
+  box-shadow: 5px 5px 0 #ff4757;
+}
+
+/* ============================================
+   图片与媒体 - 厚边框框架
+   ============================================ */
+
+#bm-md img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  border: 5px solid #000000;
+  box-shadow: 8px 8px 0 #000000;
+  margin: 1.25em 0;
+}
+
+#bm-md picture {
+  display: block;
+  margin: 1.25em 0;
+}
+
+#bm-md picture img {
+  margin: 0;
+}
+
+#bm-md figure {
+  margin: 1.25em 0;
+  text-align: center;
+}
+
+#bm-md figure img {
+  margin: 0 auto;
+}
+
+#bm-md figcaption {
+  margin-top: 0.6em;
+  font-size: 0.875em;
+  color: #000000;
+  font-weight: 800;
+  padding: 0.3em 0.6em;
+  background-color: #feca57;
+  display: inline-block;
+  border: 4px solid #000000;
+  box-shadow: 4px 4px 0 #000000;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+/* ============================================
+   脚注 - 几何分隔
+   ============================================ */
+
+#bm-md .footnotes {
+  margin-top: 2em;
+  padding-top: 1.25em;
+  border-top: 5px solid #000000;
+  font-size: 0.875em;
+  color: #333333;
+}
+
+#bm-md .footnotes ol {
+  padding-left: 1.5em;
+}
+
+#bm-md .footnote-ref {
+  font-size: 0.75em;
+  vertical-align: super;
+  color: #ffffff;
+  font-weight: 900;
+  background-color: #ff4757;
+  padding: 0.15em 0.45em;
+  border: 2px solid #000000;
+  box-shadow: 1px 1px 0 #000000;
+}
+
+#bm-md .footnote-backref,
+#bm-md .data-footnote-backref {
+  color: #000000;
+  text-decoration: none;
+  font-weight: 900;
+  background-color: #00d2d3;
+  padding: 0.12em 0.35em;
+  border: 2px solid #000000;
+}
+
+/* ============================================
+   定义列表
+   ============================================ */
+
+#bm-md dl {
+  margin: 1em 0;
+}
+
+#bm-md dt {
+  font-weight: 900;
+  color: #000000;
+  margin-top: 0.6em;
+  padding: 0.25em 0.5em;
+  background-color: #feca57;
+  border: 4px solid #000000;
+  box-shadow: 3px 3px 0 #000000;
+  display: inline-block;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+#bm-md dt:first-child {
+  margin-top: 0;
+}
+
+#bm-md dd {
+  margin-left: 1.5em;
+  margin-top: 0.3em;
+  color: #000000;
+  padding-left: 0.6em;
+  border-left: 5px solid #ff4757;
+}
+
+/* ============================================
+   键盘按键 - 物理按钮风格
+   ============================================ */
+
+#bm-md kbd {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-size: 0.8125em;
+  display: inline-block;
+  padding: 0.25em 0.55em;
+  background-color: #ffffff;
+  border: 4px solid #000000;
+  box-shadow: 5px 5px 0 #000000;
+  color: #000000;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+/* ============================================
+   警告框 - 色块硬阴影风格
+   ============================================ */
+
+#bm-md .markdown-alert {
+  margin: 1.25em 0;
+  padding: 0.85em 1.1em;
+  border: 5px solid #000000;
+  box-shadow: 6px 6px 0 #000000;
+}
+
+#bm-md .markdown-alert-title {
+  display: flex;
+  align-items: center;
+  gap: 0.45em;
+  font-weight: 900;
+  margin-bottom: 0.5em;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+/* Note - 青绿 */
+#bm-md .markdown-alert-note {
+  background-color: #00d2d3;
+}
+
+#bm-md .markdown-alert-note .markdown-alert-title {
+  color: #000000;
+}
+
+/* Tip - 黄色 */
+#bm-md .markdown-alert-tip {
+  background-color: #feca57;
+}
+
+#bm-md .markdown-alert-tip .markdown-alert-title {
+  color: #000000;
+}
+
+/* Important - 紫色 */
+#bm-md .markdown-alert-important {
+  background-color: #a29bfe;
+}
+
+#bm-md .markdown-alert-important .markdown-alert-title {
+  color: #000000;
+}
+
+/* Warning - 橙黄 */
+#bm-md .markdown-alert-warning {
+  background-color: #fdcb6e;
+  border-left: 12px solid #e17055;
+}
+
+#bm-md .markdown-alert-warning .markdown-alert-title {
+  color: #000000;
+}
+
+/* Caution - 红色 */
+#bm-md .markdown-alert-caution {
+  background-color: #ff4757;
+  color: #ffffff;
+}
+
+#bm-md .markdown-alert-caution .markdown-alert-title {
+  color: #ffffff;
+}
+
+/* ============================================
+   数学公式
+   ============================================ */
+
+#bm-md .math-inline {
+  font-size: 1em;
+  padding: 0 0.25em;
+}
+
+#bm-md .math-display {
+  margin: 1.25em 0;
+  overflow-x: auto;
+  text-align: center;
+  padding: 0.85em;
+  background-color: #ffffff;
+  border: 5px solid #000000;
+  box-shadow: 8px 8px 0 #000000;
+}
+
+/* ============================================
+   折叠详情 - 可展开硬边框
+   ============================================ */
+
+#bm-md details {
+  margin: 1.25em 0;
+  padding: 0.6em 0.9em;
+  background-color: #ffffff;
+  border: 5px solid #000000;
+  box-shadow: 6px 6px 0 #000000;
+}
+
+#bm-md summary {
+  font-weight: 900;
+  cursor: pointer;
+  color: #000000;
+  padding: 0.3em 0;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+#bm-md summary::marker {
+  color: #ff4757;
+}
+
+#bm-md details[open] summary {
+  margin-bottom: 0.6em;
+  border-bottom: 4px solid #feca57;
+  padding-bottom: 0.5em;
+}
+
+/* ============================================
+   嵌入媒体
+   ============================================ */
+
+#bm-md iframe,
+#bm-md video {
+  display: block;
+  max-width: 100%;
+  margin: 1.25em 0;
+  border: 5px solid #000000;
+  box-shadow: 8px 8px 0 #000000;
+}
+
+/* ============================================
+   元信息与时间
+   ============================================ */
+
+#bm-md .meta,
+#bm-md time {
+  font-size: 0.875em;
+  color: #000000;
+  padding: 0.25em 0.55em;
+  background-color: #00d2d3;
+  border: 3px solid #000000;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+/* ============================================
+   首行缩进变体
+   ============================================ */
+
+#bm-md.indent-first-line p {
+  text-indent: 2em;
+}

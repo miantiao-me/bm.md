@@ -1,0 +1,810 @@
+/* ============================================
+   Retro - 90年代早期互联网怀旧风格
+   Windows 95 / Geocities / 早期网页美学
+   Beveled 3D边框 + 系统字体 + 高对比度配色
+   "丑萌"美学的终极呈现
+   ============================================ */
+
+/* 配色定义（硬编码 - 无 CSS 变量）
+   背景色: #c0c0c0 (Windows 95 银灰)
+   主黑色: #000000 (纯黑)
+   主蓝色: #0000ff (经典超链接蓝)
+   访问过: #800080 (紫色)
+   强调红: #ff0000 (纯红)
+   高亮黄: #ffff00 (纯黄)
+   成功绿: #00aa00 (深绿)
+   亮绿: #00ff00 (Lime 绿)
+   标题栏: #000080 (海军蓝)
+   标题栏渐变: #1084d0 (天蓝)
+   边框亮: #ffffff (白色高光)
+   边框暗: #808080 (灰色阴影)
+   内阴影暗: #404040
+   内阴影亮: #dfdfdf
+   面板黄: #ffffcc (淡黄面板)
+   浅灰: #e8e8e8 (交替行)
+   深灰: #404040 (次要文字)
+   青色: #008080 (Teal)
+*/
+
+/* ============================================
+   容器 - Windows 95 风格主界面
+   经典外凸 3D 边框效果
+   ============================================ */
+
+#bm-md {
+  color: #000000;
+  background-color: #c0c0c0;
+  font-family: 'MS Sans Serif', 'Segoe UI', Tahoma, Geneva, Verdana, Arial, sans-serif;
+  font-size: 14px;
+  line-height: 1.5;
+  padding: 1em;
+  /* 外凸边框效果 (Outset Bevel) */
+  border: 2px solid;
+  border-color: #ffffff #808080 #808080 #ffffff;
+  box-shadow:
+    inset -1px -1px 0 #404040,
+    inset 1px 1px 0 #dfdfdf;
+  /* 90年代瓷砖纹理背景 */
+  background-image:
+    linear-gradient(45deg, #b8b8b8 25%, transparent 25%), linear-gradient(-45deg, #b8b8b8 25%, transparent 25%),
+    linear-gradient(45deg, transparent 75%, #b8b8b8 75%), linear-gradient(-45deg, transparent 75%, #b8b8b8 75%);
+  background-size: 4px 4px;
+  background-position:
+    0 0,
+    0 2px,
+    2px -2px,
+    -2px 0px;
+}
+
+/* ============================================
+   标题 - 海军蓝色系，逐级变淡
+   H1-H3 各有独特样式，H4-H6 相同颜色
+   ============================================ */
+
+#bm-md h1,
+#bm-md h2,
+#bm-md h3,
+#bm-md h4,
+#bm-md h5,
+#bm-md h6 {
+  font-family: 'Arial Black', Impact, Haettenschweiler, Arial, sans-serif;
+  font-weight: 700;
+  line-height: 1.3;
+  margin-top: 1em;
+  margin-bottom: 0.5em;
+  letter-spacing: 0.02em;
+}
+
+/* H1 - Windows 标题栏风格 (渐变标题) */
+#bm-md h1 {
+  font-size: 1.75em;
+  color: #ffffff;
+  background: linear-gradient(to right, #000080, #1084d0);
+  padding: 0.3em 0.5em;
+  border: 2px solid;
+  border-color: #ffffff #808080 #808080 #ffffff;
+  text-shadow: 1px 1px 0 #000000;
+}
+
+/* H2 - 凹槽分隔线风格 (Groove Effect) */
+#bm-md h2 {
+  font-size: 1.4em;
+  color: #000080;
+  padding-bottom: 0.3em;
+  border-bottom: 4px solid;
+  border-bottom-color: #808080;
+  box-shadow: 0 2px 0 #ffffff;
+}
+
+/* H3 - 左边框强调 + 浅灰背景 */
+#bm-md h3 {
+  font-size: 1.2em;
+  color: #0000aa;
+  padding: 0.2em 0.5em;
+  border-left: 4px solid #000080;
+  background-color: #e0e0e0;
+}
+
+/* H4-H6 使用相同颜色 */
+#bm-md h4,
+#bm-md h5,
+#bm-md h6 {
+  color: #0000cc;
+}
+
+#bm-md h4 {
+  font-size: 1.1em;
+  text-decoration: underline;
+  text-decoration-color: #0000cc;
+  text-underline-offset: 2px;
+}
+
+#bm-md h5,
+#bm-md h6 {
+  font-size: 1em;
+}
+
+#bm-md h5::before {
+  content: '>> ';
+  color: #808080;
+}
+
+#bm-md h6::before {
+  content: '>>> ';
+  color: #808080;
+}
+
+/* 首个标题无 margin-top */
+#bm-md > h1:first-child,
+#bm-md > h2:first-child,
+#bm-md > h3:first-child,
+#bm-md > h4:first-child,
+#bm-md > h5:first-child,
+#bm-md > h6:first-child {
+  margin-top: 0;
+}
+
+/* ============================================
+   段落
+   ============================================ */
+
+#bm-md p {
+  margin-bottom: 0.875em;
+}
+
+#bm-md p:last-child {
+  margin-bottom: 0;
+}
+
+/* ============================================
+   行内文本样式
+   ============================================ */
+
+/* 加粗 - 红色强调 */
+#bm-md strong,
+#bm-md b {
+  font-weight: 700;
+  color: #ff0000;
+}
+
+/* 斜体 - 海军蓝 */
+#bm-md em,
+#bm-md i {
+  font-style: italic;
+  color: #000080;
+}
+
+/* 删除线 - 灰色文字 + 红色粗删除线 */
+#bm-md del,
+#bm-md s,
+#bm-md strike {
+  color: #808080;
+  text-decoration: line-through;
+  text-decoration-color: #ff0000;
+  text-decoration-thickness: 2px;
+}
+
+/* 高亮 - 黄色荧光笔 + 黑边框 */
+#bm-md mark {
+  background-color: #ffff00;
+  color: #000000;
+  padding: 0.1em 0.2em;
+  border: 1px solid #000000;
+}
+
+#bm-md small {
+  font-size: 0.875em;
+  color: #404040;
+}
+
+#bm-md sup,
+#bm-md sub {
+  font-size: 0.75em;
+  line-height: 0;
+}
+
+/* 上标 - 红色粗体 */
+#bm-md sup {
+  vertical-align: super;
+  color: #ff0000;
+  font-weight: 700;
+}
+
+/* 下标 - 蓝色 */
+#bm-md sub {
+  vertical-align: sub;
+  color: #0000ff;
+}
+
+/* 插入 - Lime 绿背景 */
+#bm-md ins {
+  background-color: #00ff00;
+  text-decoration: none;
+  padding: 0.1em 0.2em;
+  color: #000000;
+}
+
+/* 引用 - 红色引号 */
+#bm-md q {
+  quotes: '"' '"' '' ' ' '';
+  color: #000080;
+}
+
+#bm-md q::before {
+  content: open-quote;
+  color: #ff0000;
+  font-weight: 700;
+}
+
+#bm-md q::after {
+  content: close-quote;
+  color: #ff0000;
+  font-weight: 700;
+}
+
+/* 变量 - 紫色等宽 */
+#bm-md var {
+  font-style: italic;
+  font-weight: 600;
+  color: #800080;
+  font-family: 'Courier New', Courier, monospace;
+}
+
+/* 示例输出 - 凹陷输入框风格 */
+#bm-md samp,
+#bm-md tt {
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 0.9em;
+  background-color: #ffffff;
+  color: #000000;
+  padding: 0.1em 0.3em;
+  border: 2px solid;
+  border-color: #808080 #ffffff #ffffff #808080;
+}
+
+/* 缩写 - 蓝色虚线下划线 */
+#bm-md abbr[title] {
+  border-bottom: 1px dotted #0000ff;
+  cursor: help;
+  text-decoration: none;
+}
+
+/* ============================================
+   链接 - 经典蓝色下划线
+   蓝色 -> 红色(hover)
+   ============================================ */
+
+#bm-md a {
+  color: #0000ff;
+  text-decoration: underline;
+}
+
+#bm-md a:hover {
+  color: #ff0000;
+}
+
+/* ============================================
+   Ruby 注音
+   ============================================ */
+
+#bm-md ruby {
+  ruby-align: center;
+}
+
+#bm-md rt {
+  font-size: 0.5em;
+  color: #808080;
+}
+
+#bm-md rp {
+  color: #808080;
+}
+
+/* ============================================
+   列表 - 经典圆点与数字
+   ============================================ */
+
+#bm-md ul,
+#bm-md ol {
+  margin-bottom: 0.875em;
+  padding-left: 1.75em;
+}
+
+#bm-md ul {
+  list-style-type: disc;
+}
+
+#bm-md ol {
+  list-style-type: decimal;
+}
+
+#bm-md li {
+  margin-bottom: 0.3em;
+}
+
+/* 列表标记 - 海军蓝粗体 */
+#bm-md li::marker {
+  color: #000080;
+  font-weight: 700;
+}
+
+#bm-md li > ul,
+#bm-md li > ol {
+  margin-top: 0.25em;
+  margin-bottom: 0.25em;
+}
+
+/* 嵌套列表样式变化 */
+#bm-md ul ul {
+  list-style-type: square;
+}
+
+#bm-md ul ul ul {
+  list-style-type: circle;
+}
+
+/* 任务列表 */
+#bm-md ul.contains-task-list {
+  list-style-type: none;
+  padding-left: 0;
+}
+
+#bm-md li.task-list-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5em;
+  padding-left: 0.25em;
+}
+
+/* 复选框 - 3D 凹陷风格 */
+#bm-md input[type='checkbox'] {
+  margin-top: 0.3em;
+  width: 1.1em;
+  height: 1.1em;
+  accent-color: #000080;
+  border: 2px solid;
+  border-color: #808080 #ffffff #ffffff #808080;
+}
+
+/* ============================================
+   引用块 - 凹陷黄色面板风格
+   ============================================ */
+
+#bm-md blockquote {
+  margin: 0.875em 0;
+  padding: 0.75em 1em;
+  background-color: #ffffcc;
+  border: 2px solid;
+  border-color: #808080 #ffffff #ffffff #808080;
+  box-shadow:
+    inset 1px 1px 0 #404040,
+    inset -1px -1px 0 #dfdfdf;
+  color: #000000;
+}
+
+#bm-md blockquote p {
+  margin-bottom: 0.5em;
+}
+
+#bm-md blockquote p:last-child {
+  margin-bottom: 0;
+}
+
+/* 嵌套引用 - 白色背景 + 蓝色左边框 */
+#bm-md blockquote blockquote {
+  margin-top: 0.5em;
+  margin-bottom: 0;
+  background-color: #ffffff;
+  border-left: 4px solid #000080;
+}
+
+/* ============================================
+   代码 - 终端/命令行风格
+   ============================================ */
+
+/* 行内代码 - 白底红字 + 黑边框 */
+#bm-md code {
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 0.9em;
+  background-color: #ffffff;
+  color: #ff0000;
+  padding: 0.1em 0.35em;
+  border: 1px solid #000000;
+}
+
+/* 代码块 - 海军蓝背景 + 绿色文字 (终端风格) */
+#bm-md pre {
+  margin: 0.875em 0;
+  padding: 0.75em;
+  background-color: #000080;
+  border: 2px solid;
+  border-color: #808080 #ffffff #ffffff #808080;
+  box-shadow: inset 1px 1px 0 #000000;
+  overflow-x: auto;
+}
+
+#bm-md pre code {
+  background-color: transparent;
+  color: #00ff00;
+  padding: 0;
+  border: none;
+  font-size: 0.875em;
+  line-height: 1.4;
+}
+
+/* ============================================
+   表格 - Windows 95 3D 边框风格
+   ============================================ */
+
+#bm-md table {
+  width: 100%;
+  margin: 0.875em 0;
+  border-collapse: collapse;
+  font-size: 0.9375em;
+  border: 2px solid;
+  border-color: #808080 #ffffff #ffffff #808080;
+  background-color: #ffffff;
+}
+
+/* 表头 - 渐变标题栏风格 */
+#bm-md thead {
+  background: linear-gradient(to right, #000080, #1084d0);
+  color: #ffffff;
+}
+
+/* 表尾 - 银灰背景 */
+#bm-md tfoot {
+  background-color: #c0c0c0;
+  font-size: 0.875em;
+  border-top: 2px solid #808080;
+}
+
+#bm-md th,
+#bm-md td {
+  padding: 0.4em 0.6em;
+  border: 1px solid #808080;
+  text-align: left;
+}
+
+#bm-md th {
+  font-weight: 700;
+  color: #ffffff;
+  text-shadow: 1px 1px 0 #000000;
+}
+
+/* 交替行背景 */
+#bm-md tbody tr:nth-child(even) {
+  background-color: #e8e8e8;
+}
+
+/* Frontmatter 表格 - 简化样式 */
+#bm-md .frontmatter-table {
+  width: auto;
+  margin-bottom: 1.25em;
+  font-size: 0.875em;
+  border: none;
+  background-color: transparent;
+}
+
+#bm-md .frontmatter-table td {
+  padding: 0.2em 0.6em 0.2em 0;
+  border: none;
+  vertical-align: top;
+  background-color: transparent;
+}
+
+#bm-md .frontmatter-key {
+  font-weight: 700;
+  color: #000080;
+  white-space: nowrap;
+}
+
+#bm-md .frontmatter-key::after {
+  content: ':';
+}
+
+#bm-md .frontmatter-value {
+  color: #000000;
+}
+
+/* ============================================
+   分割线 - 3D 凹槽效果 (Groove)
+   ============================================ */
+
+#bm-md hr {
+  margin: 1.25em 0;
+  border: none;
+  height: 4px;
+  background: linear-gradient(to bottom, #808080 0%, #808080 50%, #ffffff 50%, #ffffff 100%);
+}
+
+/* ============================================
+   图片与媒体 - 凹陷边框框架
+   ============================================ */
+
+#bm-md img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  border: 2px solid;
+  border-color: #808080 #ffffff #ffffff #808080;
+  box-shadow: inset 1px 1px 0 #404040;
+  margin: 0.875em 0;
+}
+
+#bm-md picture {
+  display: block;
+  margin: 0.875em 0;
+}
+
+#bm-md picture img {
+  margin: 0;
+}
+
+#bm-md figure {
+  margin: 0.875em 0;
+  text-align: center;
+}
+
+#bm-md figure img {
+  margin: 0 auto;
+}
+
+/* 图片说明 - 斜体灰色 */
+#bm-md figcaption {
+  margin-top: 0.4em;
+  font-size: 0.875em;
+  color: #404040;
+  font-style: italic;
+}
+
+/* ============================================
+   脚注 - 分隔区域
+   ============================================ */
+
+#bm-md .footnotes {
+  margin-top: 1.25em;
+  padding-top: 0.75em;
+  border-top: 2px solid #808080;
+  font-size: 0.875em;
+  color: #404040;
+}
+
+#bm-md .footnotes ol {
+  padding-left: 1.5em;
+}
+
+/* 脚注引用 - 海军蓝徽章 */
+#bm-md .footnote-ref {
+  font-size: 0.75em;
+  vertical-align: super;
+  color: #ffffff;
+  font-weight: 700;
+  background-color: #000080;
+  padding: 0.1em 0.35em;
+  text-decoration: none;
+}
+
+/* 脚注返回链接 */
+#bm-md .footnote-backref,
+#bm-md .data-footnote-backref {
+  color: #0000ff;
+  text-decoration: underline;
+  font-weight: 700;
+}
+
+/* ============================================
+   定义列表
+   ============================================ */
+
+#bm-md dl {
+  margin: 0.875em 0;
+}
+
+/* 定义术语 - 外凸按钮风格 */
+#bm-md dt {
+  font-weight: 700;
+  color: #000080;
+  margin-top: 0.5em;
+  background-color: #e0e0e0;
+  padding: 0.2em 0.4em;
+  border: 1px solid;
+  border-color: #ffffff #808080 #808080 #ffffff;
+  display: inline-block;
+}
+
+#bm-md dt:first-child {
+  margin-top: 0;
+}
+
+/* 定义描述 - 蓝色左边框 */
+#bm-md dd {
+  margin-left: 1.5em;
+  margin-top: 0.25em;
+  color: #000000;
+  padding-left: 0.5em;
+  border-left: 3px solid #000080;
+}
+
+/* ============================================
+   键盘按键 - 3D 按钮风格
+   ============================================ */
+
+#bm-md kbd {
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 0.8125em;
+  display: inline-block;
+  padding: 0.15em 0.5em;
+  background-color: #c0c0c0;
+  border: 2px solid;
+  border-color: #ffffff #808080 #808080 #ffffff;
+  box-shadow:
+    inset -1px -1px 0 #404040,
+    inset 1px 1px 0 #dfdfdf,
+    2px 2px 0 #000000;
+  color: #000000;
+  font-weight: 600;
+}
+
+/* ============================================
+   警告框 - Windows 对话框风格
+   ============================================ */
+
+#bm-md .markdown-alert {
+  margin: 0.875em 0;
+  padding: 0.6em 0.75em;
+  border: 2px solid;
+  border-color: #ffffff #808080 #808080 #ffffff;
+  box-shadow:
+    inset -1px -1px 0 #404040,
+    inset 1px 1px 0 #dfdfdf;
+  background-color: #c0c0c0;
+}
+
+#bm-md .markdown-alert-title {
+  display: flex;
+  align-items: center;
+  gap: 0.4em;
+  font-weight: 700;
+  margin-bottom: 0.4em;
+}
+
+/* Note - 蓝色信息框 */
+#bm-md .markdown-alert-note {
+  background-color: #e0e8f0;
+  border-left: 4px solid #000080;
+}
+
+#bm-md .markdown-alert-note .markdown-alert-title {
+  color: #000080;
+}
+
+/* Tip - 绿色提示框 */
+#bm-md .markdown-alert-tip {
+  background-color: #e0f0e0;
+  border-left: 4px solid #00aa00;
+}
+
+#bm-md .markdown-alert-tip .markdown-alert-title {
+  color: #00aa00;
+}
+
+/* Important - 紫色重要框 */
+#bm-md .markdown-alert-important {
+  background-color: #f0e0f0;
+  border-left: 4px solid #800080;
+}
+
+#bm-md .markdown-alert-important .markdown-alert-title {
+  color: #800080;
+}
+
+/* Warning - 黄色警告框 */
+#bm-md .markdown-alert-warning {
+  background-color: #fffff0;
+  border-left: 4px solid #cc8800;
+}
+
+#bm-md .markdown-alert-warning .markdown-alert-title {
+  color: #cc8800;
+}
+
+/* Caution - 红色危险框 */
+#bm-md .markdown-alert-caution {
+  background-color: #fff0f0;
+  border-left: 4px solid #ff0000;
+}
+
+#bm-md .markdown-alert-caution .markdown-alert-title {
+  color: #ff0000;
+}
+
+/* ============================================
+   数学公式
+   ============================================ */
+
+#bm-md .math-inline {
+  font-size: 1em;
+  padding: 0 0.2em;
+  color: #000080;
+}
+
+/* 公式块 - 凹陷白色面板 */
+#bm-md .math-display {
+  margin: 0.875em 0;
+  overflow-x: auto;
+  text-align: center;
+  padding: 0.6em;
+  background-color: #ffffff;
+  border: 2px solid;
+  border-color: #808080 #ffffff #ffffff #808080;
+  box-shadow: inset 1px 1px 0 #404040;
+}
+
+/* ============================================
+   折叠详情 - 可展开面板
+   ============================================ */
+
+#bm-md details {
+  margin: 0.875em 0;
+  padding: 0.4em 0.6em;
+  background-color: #c0c0c0;
+  border: 2px solid;
+  border-color: #ffffff #808080 #808080 #ffffff;
+  box-shadow:
+    inset -1px -1px 0 #404040,
+    inset 1px 1px 0 #dfdfdf;
+}
+
+#bm-md summary {
+  font-weight: 700;
+  cursor: pointer;
+  color: #000080;
+  padding: 0.2em 0;
+}
+
+#bm-md summary::marker {
+  color: #000080;
+}
+
+#bm-md details[open] summary {
+  margin-bottom: 0.4em;
+  border-bottom: 1px solid #808080;
+  padding-bottom: 0.4em;
+}
+
+/* ============================================
+   嵌入媒体
+   ============================================ */
+
+#bm-md iframe,
+#bm-md video {
+  display: block;
+  max-width: 100%;
+  margin: 0.875em 0;
+  border: 2px solid;
+  border-color: #808080 #ffffff #ffffff #808080;
+}
+
+/* ============================================
+   元信息与时间 - 等宽徽章风格
+   ============================================ */
+
+#bm-md .meta,
+#bm-md time {
+  font-size: 0.875em;
+  color: #404040;
+  padding: 0.1em 0.35em;
+  background-color: #e0e0e0;
+  border: 1px solid;
+  border-color: #ffffff #808080 #808080 #ffffff;
+  font-family: 'Courier New', Courier, monospace;
+}
+
+/* ============================================
+   首行缩进变体
+   ============================================ */
+
+#bm-md.indent-first-line p {
+  text-indent: 2em;
+}

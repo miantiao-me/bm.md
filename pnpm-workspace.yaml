@@ -1,0 +1,8 @@
+catalogMode: manual
+
+onlyBuiltDependencies:
+  - esbuild
+  - msw
+  - simple-git-hooks
+
+shellEmulator: true

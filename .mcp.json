@@ -1,0 +1,28 @@
+{
+  "mcpServers": {
+    "deepwiki": {
+      "type": "http",
+      "url": "https://mcp.deepwiki.com/mcp"
+    },
+    "shadcn": {
+      "type": "stdio",
+      "command": "npx",
+      "args": [
+        "-y",
+        "shadcn@latest",
+        "mcp"
+      ],
+      "env": {}
+    },
+    "lucide-icons": {
+      "type": "stdio",
+      "command": "npx",
+      "args": [
+        "-y",
+        "lucide-icons-mcp",
+        "--stdio"
+      ],
+      "env": {}
+    }
+  }
+}

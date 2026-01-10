@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no"
+    />
+    <title>bm.md</title>
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      #bm-md {
+        box-sizing: border-box;
+        min-height: 100vh;
+        min-height: 100dvh;
+      }
+
+      @media (max-width: 376px) {
+        #bm-md {
+          padding-top: 48px !important;
+        }
+      }
+
+      /*
+       * 滚动条样式
+       * 使用中性灰色以适配不同主题背景
+       */
+      ::-webkit-scrollbar {
+        width: 6px;
+        height: 6px;
+        background: transparent;
+      }
+      ::-webkit-scrollbar-track {
+        background: transparent;
+      }
+      ::-webkit-scrollbar-thumb {
+        background: transparent;
+        border-radius: 9999px;
+        transition: background 0.2s ease;
+      }
+      ::-webkit-scrollbar-thumb:hover {
+        background: rgba(128, 128, 128, 0.4);
+      }
+      ::-webkit-scrollbar-thumb:active {
+        background: rgba(128, 128, 128, 0.55);
+      }
+      ::-webkit-scrollbar-corner {
+        background: transparent;
+      }
+      :hover ::-webkit-scrollbar-thumb {
+        background: rgba(128, 128, 128, 0.25);
+      }
+      :hover ::-webkit-scrollbar-thumb:hover {
+        background: rgba(128, 128, 128, 0.4);
+      }
+      :hover ::-webkit-scrollbar-thumb:active {
+        background: rgba(128, 128, 128, 0.55);
+      }
+      /* Firefox */
+      @supports not selector(::-webkit-scrollbar) {
+        * {
+          scrollbar-width: thin;
+          scrollbar-color: transparent transparent;
+        }
+        :hover * {
+          scrollbar-color: rgba(128, 128, 128, 0.25) transparent;
+        }
+      }
+    </style>
+  </head>
+
+  <body></body>
+</html>

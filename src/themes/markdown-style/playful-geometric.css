@@ -1,0 +1,820 @@
+/* ============================================
+   Playful Geometric - 活泼几何风格
+   Memphis 设计与现代波普艺术的融合
+   结构网格 + 俏皮装饰 + 硬阴影 + 明亮纯色
+   ============================================ */
+
+/* 配色定义（硬编码）
+   背景色: #FFFDF5 (温暖奶油白 - 纸质感)
+   前景色: #1E293B (石板色 800)
+   主紫色: #8B5CF6 (Vivid Violet - 品牌主色)
+   粉色: #F472B6 (Hot Pink - 俏皮活力)
+   黄色: #FBBF24 (Amber/Yellow - 乐观积极)
+   薄荷绿: #34D399 (Emerald/Mint - 清新感)
+   边框色: #1E293B (深色边框 - 硬边界)
+   柔和背景: #F1F5F9 (Slate 100)
+   辅助灰: #64748B (Slate 500)
+*/
+
+/* 容器 - 温暖纸质感背景配点阵装饰 */
+#bm-md {
+  color: #1e293b;
+  background-color: #fffdf5;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  font-size: 16px;
+  line-height: 1.7;
+  padding: 1.5em 1em;
+  /* 几何点阵背景装饰 - Memphis 风格 */
+  background-image: radial-gradient(circle, #e2e8f0 1.5px, transparent 1.5px);
+  background-size: 24px 24px;
+}
+
+/* ============================================
+   标题 - 几何色块与硬阴影贴纸风格
+   H1-H6 使用紫色系，逐级变淡；H4-H6 相同颜色
+   ============================================ */
+
+#bm-md h1,
+#bm-md h2,
+#bm-md h3,
+#bm-md h4,
+#bm-md h5,
+#bm-md h6 {
+  font-weight: 800;
+  line-height: 1.25;
+  margin-top: 1.2em;
+  margin-bottom: 0.5em;
+  letter-spacing: -0.01em;
+}
+
+/* H1 - 糖果色块标题，非对称圆角 */
+#bm-md h1 {
+  font-size: 1.875em;
+  padding: 0.4em 0.65em;
+  background-color: #8b5cf6;
+  color: #ffffff;
+  border: 3px solid #1e293b;
+  border-radius: 0 28px 0 28px;
+  box-shadow: 6px 6px 0 #1e293b;
+}
+
+/* H2 - 左侧彩色边框 + 粉色硬阴影 */
+#bm-md h2 {
+  font-size: 1.5em;
+  padding: 0.3em 0.6em;
+  background-color: #fffdf5;
+  color: #7c3aed;
+  border: 3px solid #1e293b;
+  border-left: 10px solid #8b5cf6;
+  border-radius: 0 20px 20px 0;
+  box-shadow: 5px 5px 0 #f472b6;
+}
+
+/* H3 - 药丸形状黄色贴纸 */
+#bm-md h3 {
+  font-size: 1.25em;
+  padding: 0.25em 0.65em;
+  color: #1e293b;
+  background-color: #fbbf24;
+  border: 2px solid #1e293b;
+  border-radius: 9999px;
+  display: inline-block;
+  box-shadow: 4px 4px 0 #1e293b;
+}
+
+/* H4-H6 使用相同颜色 */
+#bm-md h4,
+#bm-md h5,
+#bm-md h6 {
+  color: #a78bfa;
+}
+
+#bm-md h4 {
+  font-size: 1.125em;
+  padding-left: 0.65em;
+  border-left: 6px solid #a78bfa;
+}
+
+#bm-md h5,
+#bm-md h6 {
+  font-size: 1em;
+}
+
+/* 首个标题无顶部边距 */
+#bm-md > h1:first-child,
+#bm-md > h2:first-child,
+#bm-md > h3:first-child,
+#bm-md > h4:first-child,
+#bm-md > h5:first-child,
+#bm-md > h6:first-child {
+  margin-top: 0;
+}
+
+/* ============================================
+   段落
+   ============================================ */
+
+#bm-md p {
+  margin-bottom: 1em;
+}
+
+#bm-md p:last-child {
+  margin-bottom: 0;
+}
+
+/* ============================================
+   行内文本样式 - 活泼色彩与几何装饰
+   ============================================ */
+
+/* 粗体 - 黄色高亮贴纸效果 */
+#bm-md strong,
+#bm-md b {
+  font-weight: 700;
+  color: #1e293b;
+  background-color: #fbbf24;
+  padding: 0.1em 0.3em;
+  border-radius: 6px;
+  box-shadow: 2px 2px 0 rgba(30, 41, 59, 0.2);
+}
+
+/* 斜体 - 紫色强调 */
+#bm-md em,
+#bm-md i {
+  font-style: italic;
+  color: #8b5cf6;
+  font-weight: 500;
+}
+
+/* 删除线 - 粉色粗线条 */
+#bm-md del,
+#bm-md s,
+#bm-md strike {
+  color: #64748b;
+  text-decoration: line-through;
+  text-decoration-color: #f472b6;
+  text-decoration-thickness: 3px;
+}
+
+/* 标记 - 贴纸硬阴影风格 */
+#bm-md mark {
+  background-color: #fbbf24;
+  color: #1e293b;
+  padding: 0.1em 0.4em;
+  border: 2px solid #1e293b;
+  border-radius: 10px;
+  box-shadow: 3px 3px 0 #1e293b;
+}
+
+#bm-md small {
+  font-size: 0.875em;
+  color: #64748b;
+}
+
+/* 上标下标 */
+#bm-md sup,
+#bm-md sub {
+  font-size: 0.75em;
+  line-height: 0;
+}
+
+/* 上标 - 粉色药丸徽章 */
+#bm-md sup {
+  vertical-align: super;
+  color: #ffffff;
+  font-weight: 700;
+  background-color: #f472b6;
+  padding: 0.15em 0.35em;
+  border-radius: 9999px;
+  border: 1px solid #1e293b;
+}
+
+/* 下标 - 紫色强调 */
+#bm-md sub {
+  vertical-align: sub;
+  color: #8b5cf6;
+  font-weight: 600;
+}
+
+/* 插入文本 - 薄荷绿底部边框 */
+#bm-md ins {
+  background-color: #34d399;
+  text-decoration: none;
+  padding: 0.1em 0.35em;
+  border-radius: 8px;
+  border-bottom: 2px solid #1e293b;
+}
+
+/* 引用 */
+#bm-md q {
+  quotes: '"' '"' '' ' ' '';
+  color: #1e293b;
+}
+
+#bm-md q::before {
+  content: open-quote;
+  color: #f472b6;
+  font-weight: 800;
+  font-size: 1.25em;
+}
+
+#bm-md q::after {
+  content: close-quote;
+  color: #f472b6;
+  font-weight: 800;
+  font-size: 1.25em;
+}
+
+/* 变量 - 紫色柔和背景 */
+#bm-md var {
+  font-style: italic;
+  font-weight: 600;
+  color: #8b5cf6;
+  background-color: rgba(139, 92, 246, 0.12);
+  padding: 0.08em 0.25em;
+  border-radius: 5px;
+}
+
+/* 示例代码 - 几何边框 */
+#bm-md samp,
+#bm-md tt {
+  font-family: 'SF Mono', Consolas, 'Liberation Mono', Menlo, monospace;
+  font-size: 0.875em;
+  background-color: #f1f5f9;
+  color: #1e293b;
+  padding: 0.15em 0.45em;
+  border: 2px solid #1e293b;
+  border-radius: 8px;
+}
+
+/* 缩写 - 紫色点状下划线 */
+#bm-md abbr[title] {
+  border-bottom: 2px dotted #8b5cf6;
+  cursor: help;
+  text-decoration: none;
+}
+
+/* ============================================
+   链接 - 活泼几何风格
+   ============================================ */
+
+#bm-md a {
+  color: #8b5cf6;
+  text-decoration: none;
+  font-weight: 500;
+  background-color: rgba(139, 92, 246, 0.1);
+  padding: 0.08em 0.25em;
+  border-radius: 5px;
+  border-bottom: 2px solid #8b5cf6;
+}
+
+#bm-md a:hover {
+  color: #ffffff;
+  background-color: #8b5cf6;
+  border-bottom-color: #1e293b;
+}
+
+/* ============================================
+   Ruby 注音
+   ============================================ */
+
+#bm-md ruby {
+  ruby-align: center;
+}
+
+#bm-md rt {
+  font-size: 0.5em;
+  color: #64748b;
+}
+
+#bm-md rp {
+  color: #94a3b8;
+}
+
+/* ============================================
+   列表 - 几何标记与活泼色彩
+   ============================================ */
+
+#bm-md ul,
+#bm-md ol {
+  margin-bottom: 1em;
+  padding-left: 1.75em;
+}
+
+#bm-md ul {
+  list-style-type: disc;
+}
+
+#bm-md ol {
+  list-style-type: decimal;
+}
+
+#bm-md li {
+  margin-bottom: 0.4em;
+}
+
+/* 列表标记 - 紫色粗体 */
+#bm-md li::marker {
+  color: #8b5cf6;
+  font-weight: 700;
+}
+
+#bm-md li > ul,
+#bm-md li > ol {
+  margin-top: 0.3em;
+  margin-bottom: 0.3em;
+}
+
+#bm-md ul ul {
+  list-style-type: circle;
+}
+
+#bm-md ul ul ul {
+  list-style-type: square;
+}
+
+/* 任务列表 */
+#bm-md ul.contains-task-list {
+  list-style-type: none;
+  padding-left: 0;
+}
+
+#bm-md li.task-list-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5em;
+  padding-left: 0.3em;
+}
+
+#bm-md input[type='checkbox'] {
+  margin-top: 0.35em;
+  width: 1.2em;
+  height: 1.2em;
+  accent-color: #8b5cf6;
+  border: 2px solid #1e293b;
+  border-radius: 5px;
+}
+
+/* ============================================
+   引用块 - 气泡贴纸风格
+   ============================================ */
+
+#bm-md blockquote {
+  margin: 1em 0;
+  padding: 0.8em 1.1em 0.8em 1.6em;
+  background-color: #f472b6;
+  color: #1e293b;
+  border: 3px solid #1e293b;
+  border-left: 10px solid #fbbf24;
+  border-radius: 0 28px 28px 0;
+  box-shadow: 6px 6px 0 #1e293b;
+}
+
+#bm-md blockquote p {
+  margin-bottom: 0.5em;
+}
+
+#bm-md blockquote p:last-child {
+  margin-bottom: 0;
+}
+
+/* 嵌套引用 - 黄色变体 */
+#bm-md blockquote blockquote {
+  margin-top: 0.8em;
+  margin-bottom: 0;
+  background-color: #fbbf24;
+  border-left-color: #8b5cf6;
+  border-radius: 0 20px 20px 0;
+  box-shadow: 4px 4px 0 #1e293b;
+}
+
+/* ============================================
+   代码 - 几何贴纸风格
+   ============================================ */
+
+/* 行内代码 - 黄色贴纸 */
+#bm-md code {
+  font-family: 'SF Mono', Consolas, 'Liberation Mono', Menlo, monospace;
+  font-size: 0.875em;
+  background-color: #fbbf24;
+  color: #1e293b;
+  padding: 0.15em 0.5em;
+  border: 2px solid #1e293b;
+  border-radius: 8px;
+}
+
+/* 代码块容器 - 深色背景配紫色硬阴影 */
+#bm-md pre {
+  margin: 1em 0;
+  padding: 1.1em;
+  background-color: #1e293b;
+  border: 3px solid #1e293b;
+  border-radius: 20px;
+  box-shadow: 8px 8px 0 #8b5cf6;
+  overflow-x: auto;
+}
+
+/* 代码块内代码重置 */
+#bm-md pre code {
+  background-color: transparent;
+  color: #ffffff;
+  padding: 0;
+  border: none;
+  border-radius: 0;
+  font-size: 0.875em;
+  line-height: 1.55;
+}
+
+/* ============================================
+   表格 - 网格几何风格
+   ============================================ */
+
+#bm-md table {
+  width: 100%;
+  margin: 1em 0;
+  border-collapse: collapse;
+  font-size: 0.9375em;
+  border: 3px solid #1e293b;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 6px 6px 0 #1e293b;
+}
+
+#bm-md thead {
+  background-color: #8b5cf6;
+  color: #ffffff;
+}
+
+#bm-md tfoot {
+  background-color: #f1f5f9;
+  font-size: 0.875em;
+  border-top: 3px solid #1e293b;
+}
+
+#bm-md th,
+#bm-md td {
+  padding: 0.55em 0.8em;
+  border: 2px solid #1e293b;
+  text-align: left;
+}
+
+#bm-md th {
+  font-weight: 700;
+  background-color: #8b5cf6;
+  color: #ffffff;
+}
+
+#bm-md tbody tr:nth-child(even) {
+  background-color: rgba(139, 92, 246, 0.08);
+}
+
+/* Frontmatter 表格 - 简洁无边框 */
+#bm-md .frontmatter-table {
+  width: auto;
+  margin-bottom: 1.5em;
+  font-size: 0.875em;
+  border: none;
+  background-color: transparent;
+  box-shadow: none;
+  border-radius: 0;
+}
+
+#bm-md .frontmatter-table td {
+  padding: 0.3em 0.8em 0.3em 0;
+  border: none;
+  vertical-align: top;
+  background-color: transparent;
+}
+
+#bm-md .frontmatter-key {
+  font-weight: 700;
+  color: #8b5cf6;
+  white-space: nowrap;
+}
+
+#bm-md .frontmatter-key::after {
+  content: ':';
+}
+
+#bm-md .frontmatter-value {
+  color: #1e293b;
+}
+
+/* ============================================
+   分割线 - 彩虹几何装饰条
+   ============================================ */
+
+#bm-md hr {
+  margin: 1.75em 0;
+  border: none;
+  height: 10px;
+  background: repeating-linear-gradient(
+    90deg,
+    #8b5cf6 0px,
+    #8b5cf6 24px,
+    #f472b6 24px,
+    #f472b6 48px,
+    #fbbf24 48px,
+    #fbbf24 72px,
+    #34d399 72px,
+    #34d399 96px
+  );
+  border-radius: 9999px;
+}
+
+/* ============================================
+   图片与媒体 - 贴纸框架风格
+   ============================================ */
+
+#bm-md img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  border: 4px solid #1e293b;
+  border-radius: 20px;
+  box-shadow: 8px 8px 0 #1e293b;
+  margin: 1em 0;
+}
+
+#bm-md picture {
+  display: block;
+  margin: 1em 0;
+}
+
+#bm-md picture img {
+  margin: 0;
+}
+
+#bm-md figure {
+  margin: 1em 0;
+  text-align: center;
+}
+
+#bm-md figure img {
+  margin: 0 auto;
+}
+
+/* 图片说明 - 药丸形状标签 */
+#bm-md figcaption {
+  margin-top: 0.6em;
+  font-size: 0.875em;
+  color: #1e293b;
+  font-weight: 600;
+  padding: 0.35em 0.75em;
+  background-color: #fbbf24;
+  display: inline-block;
+  border: 2px solid #1e293b;
+  border-radius: 9999px;
+  box-shadow: 3px 3px 0 #1e293b;
+}
+
+/* ============================================
+   脚注 - 几何分隔彩虹装饰
+   ============================================ */
+
+#bm-md .footnotes {
+  margin-top: 1.75em;
+  padding-top: 1.1em;
+  border-top: 5px solid #8b5cf6;
+  font-size: 0.875em;
+  color: #64748b;
+  /* 彩虹条纹顶部装饰 */
+  background: linear-gradient(90deg, #8b5cf6 0, #8b5cf6 48px, #f472b6 48px, #f472b6 80px, transparent 80px);
+  background-size: 100% 5px;
+  background-repeat: no-repeat;
+  background-position: top;
+}
+
+#bm-md .footnotes ol {
+  padding-left: 1.5em;
+}
+
+/* 脚注引用 - 药丸徽章 */
+#bm-md .footnote-ref {
+  font-size: 0.75em;
+  vertical-align: super;
+  color: #ffffff;
+  font-weight: 700;
+  background-color: #8b5cf6;
+  padding: 0.15em 0.45em;
+  border-radius: 9999px;
+  border: 1px solid #1e293b;
+}
+
+/* 脚注返回 - 黄色贴纸 */
+#bm-md .footnote-backref,
+#bm-md .data-footnote-backref {
+  color: #1e293b;
+  text-decoration: none;
+  font-weight: 700;
+  background-color: #fbbf24;
+  padding: 0.12em 0.4em;
+  border-radius: 6px;
+  border: 1px solid #1e293b;
+}
+
+/* ============================================
+   定义列表 - 几何标签风格
+   ============================================ */
+
+#bm-md dl {
+  margin: 1em 0;
+}
+
+/* 定义术语 - 紫色贴纸标签 */
+#bm-md dt {
+  font-weight: 700;
+  color: #ffffff;
+  margin-top: 0.6em;
+  padding: 0.25em 0.55em;
+  background-color: #8b5cf6;
+  border: 2px solid #1e293b;
+  border-radius: 10px;
+  display: inline-block;
+}
+
+#bm-md dt:first-child {
+  margin-top: 0;
+}
+
+/* 定义描述 - 粉色左边框 */
+#bm-md dd {
+  margin-left: 1.6em;
+  margin-top: 0.3em;
+  color: #1e293b;
+  padding-left: 0.7em;
+  border-left: 5px solid #f472b6;
+}
+
+/* ============================================
+   键盘按键 - 糖果按钮风格（硬阴影）
+   ============================================ */
+
+#bm-md kbd {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-size: 0.8125em;
+  display: inline-block;
+  padding: 0.25em 0.6em;
+  background-color: #ffffff;
+  border: 3px solid #1e293b;
+  border-radius: 10px;
+  box-shadow: 5px 5px 0 #1e293b;
+  color: #1e293b;
+  font-weight: 700;
+}
+
+/* ============================================
+   警告框 - 几何色块硬阴影风格
+   ============================================ */
+
+#bm-md .markdown-alert {
+  margin: 1em 0;
+  padding: 0.8em 1.1em;
+  border: 3px solid #1e293b;
+  border-radius: 0 20px 20px 20px;
+  box-shadow: 5px 5px 0 #1e293b;
+}
+
+#bm-md .markdown-alert-title {
+  display: flex;
+  align-items: center;
+  gap: 0.45em;
+  font-weight: 700;
+  margin-bottom: 0.45em;
+}
+
+/* Note - 紫色 */
+#bm-md .markdown-alert-note {
+  background-color: rgba(139, 92, 246, 0.14);
+  border-left: 8px solid #8b5cf6;
+}
+
+#bm-md .markdown-alert-note .markdown-alert-title {
+  color: #7c3aed;
+}
+
+/* Tip - 薄荷绿 */
+#bm-md .markdown-alert-tip {
+  background-color: rgba(52, 211, 153, 0.16);
+  border-left: 8px solid #34d399;
+}
+
+#bm-md .markdown-alert-tip .markdown-alert-title {
+  color: #059669;
+}
+
+/* Important - 粉色 */
+#bm-md .markdown-alert-important {
+  background-color: rgba(244, 114, 182, 0.14);
+  border-left: 8px solid #f472b6;
+}
+
+#bm-md .markdown-alert-important .markdown-alert-title {
+  color: #db2777;
+}
+
+/* Warning - 黄色 */
+#bm-md .markdown-alert-warning {
+  background-color: rgba(251, 191, 36, 0.22);
+  border-left: 8px solid #fbbf24;
+}
+
+#bm-md .markdown-alert-warning .markdown-alert-title {
+  color: #d97706;
+}
+
+/* Caution - 红色 */
+#bm-md .markdown-alert-caution {
+  background-color: rgba(239, 68, 68, 0.12);
+  border-left: 8px solid #ef4444;
+}
+
+#bm-md .markdown-alert-caution .markdown-alert-title {
+  color: #dc2626;
+}
+
+/* ============================================
+   数学公式
+   ============================================ */
+
+#bm-md .math-inline {
+  font-size: 1em;
+  padding: 0 0.25em;
+}
+
+/* 公式块 - 白色卡片配紫色硬阴影 */
+#bm-md .math-display {
+  margin: 1em 0;
+  overflow-x: auto;
+  text-align: center;
+  padding: 0.85em;
+  background-color: #ffffff;
+  border: 3px solid #1e293b;
+  border-radius: 16px;
+  box-shadow: 5px 5px 0 #8b5cf6;
+}
+
+/* ============================================
+   折叠详情 - 可展开几何风格
+   ============================================ */
+
+#bm-md details {
+  margin: 1em 0;
+  padding: 0.6em 0.85em;
+  background-color: #ffffff;
+  border: 3px solid #1e293b;
+  border-radius: 16px;
+  box-shadow: 5px 5px 0 #1e293b;
+}
+
+#bm-md summary {
+  font-weight: 700;
+  cursor: pointer;
+  color: #8b5cf6;
+  padding: 0.3em 0;
+}
+
+#bm-md summary::marker {
+  color: #f472b6;
+}
+
+#bm-md details[open] summary {
+  margin-bottom: 0.55em;
+  border-bottom: 3px solid #fbbf24;
+  padding-bottom: 0.55em;
+}
+
+/* ============================================
+   嵌入媒体 - 贴纸框架
+   ============================================ */
+
+#bm-md iframe,
+#bm-md video {
+  max-width: 100%;
+  margin: 1em 0;
+  border: 4px solid #1e293b;
+  border-radius: 20px;
+  box-shadow: 8px 8px 0 #1e293b;
+}
+
+/* ============================================
+   元信息与时间 - 薄荷绿药丸标签
+   ============================================ */
+
+#bm-md .meta,
+#bm-md time {
+  font-size: 0.875em;
+  color: #1e293b;
+  padding: 0.25em 0.6em;
+  background-color: #34d399;
+  border: 2px solid #1e293b;
+  border-radius: 9999px;
+  font-weight: 600;
+}
+
+/* ============================================
+   首行缩进变体
+   ============================================ */
+
+#bm-md.indent-first-line p {
+  text-indent: 2em;
+}

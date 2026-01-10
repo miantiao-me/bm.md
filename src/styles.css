@@ -1,0 +1,197 @@
+@import 'tailwindcss';
+@import 'tw-animate-css';
+@import 'shadcn/tailwind.css';
+@import './themes/shadcn/ayu-light.css';
+@import './themes/shadcn/ayu-mirage.css';
+@import './styles/theme-animation.css';
+@import './styles/scrollbar.css';
+
+@plugin "@tailwindcss/typography";
+
+@custom-variant dark (&:is(.dark *));
+
+:root {
+  --background: var(--ayu-light-background);
+  --foreground: var(--ayu-light-foreground);
+  --card: var(--ayu-light-card);
+  --card-foreground: var(--ayu-light-card-foreground);
+  --popover: var(--ayu-light-popover);
+  --popover-foreground: var(--ayu-light-popover-foreground);
+  --primary: var(--ayu-light-primary);
+  --primary-foreground: var(--ayu-light-primary-foreground);
+  --secondary: var(--ayu-light-secondary);
+  --secondary-foreground: var(--ayu-light-secondary-foreground);
+  --muted: var(--ayu-light-muted);
+  --muted-foreground: var(--ayu-light-muted-foreground);
+  --accent: var(--ayu-light-accent);
+  --accent-foreground: var(--ayu-light-accent-foreground);
+  --destructive: var(--ayu-light-destructive);
+  --destructive-foreground: var(--ayu-light-destructive-foreground);
+  --border: var(--ayu-light-border);
+  --input: var(--ayu-light-input);
+  --ring: var(--ayu-light-ring);
+  --chart-1: var(--ayu-light-chart-1);
+  --chart-2: var(--ayu-light-chart-2);
+  --chart-3: var(--ayu-light-chart-3);
+  --chart-4: var(--ayu-light-chart-4);
+  --chart-5: var(--ayu-light-chart-5);
+  --radius: 0.375rem;
+  --sidebar: var(--ayu-light-sidebar);
+  --sidebar-foreground: var(--ayu-light-sidebar-foreground);
+  --sidebar-primary: var(--ayu-light-sidebar-primary);
+  --sidebar-primary-foreground: var(--ayu-light-sidebar-primary-foreground);
+  --sidebar-accent: var(--ayu-light-sidebar-accent);
+  --sidebar-accent-foreground: var(--ayu-light-sidebar-accent-foreground);
+  --sidebar-border: var(--ayu-light-sidebar-border);
+  --sidebar-ring: var(--ayu-light-sidebar-ring);
+  --success: var(--ayu-light-success);
+  --success-foreground: var(--ayu-light-success-foreground);
+  --warning: var(--ayu-light-warning);
+  --warning-foreground: var(--ayu-light-warning-foreground);
+  --info: var(--ayu-light-info);
+  --info-foreground: var(--ayu-light-info-foreground);
+  --editor: var(--ayu-light-editor);
+}
+
+.dark {
+  --background: var(--ayu-mirage-background);
+  --foreground: var(--ayu-mirage-foreground);
+  --card: var(--ayu-mirage-card);
+  --card-foreground: var(--ayu-mirage-card-foreground);
+  --popover: var(--ayu-mirage-popover);
+  --popover-foreground: var(--ayu-mirage-popover-foreground);
+  --primary: var(--ayu-mirage-primary);
+  --primary-foreground: var(--ayu-mirage-primary-foreground);
+  --secondary: var(--ayu-mirage-secondary);
+  --secondary-foreground: var(--ayu-mirage-secondary-foreground);
+  --muted: var(--ayu-mirage-muted);
+  --muted-foreground: var(--ayu-mirage-muted-foreground);
+  --accent: var(--ayu-mirage-accent);
+  --accent-foreground: var(--ayu-mirage-accent-foreground);
+  --destructive: var(--ayu-mirage-destructive);
+  --destructive-foreground: var(--ayu-mirage-destructive-foreground);
+  --border: var(--ayu-mirage-border);
+  --input: var(--ayu-mirage-input);
+  --ring: var(--ayu-mirage-ring);
+  --chart-1: var(--ayu-mirage-chart-1);
+  --chart-2: var(--ayu-mirage-chart-2);
+  --chart-3: var(--ayu-mirage-chart-3);
+  --chart-4: var(--ayu-mirage-chart-4);
+  --chart-5: var(--ayu-mirage-chart-5);
+  --sidebar: var(--ayu-mirage-sidebar);
+  --sidebar-foreground: var(--ayu-mirage-sidebar-foreground);
+  --sidebar-primary: var(--ayu-mirage-sidebar-primary);
+  --sidebar-primary-foreground: var(--ayu-mirage-sidebar-primary-foreground);
+  --sidebar-accent: var(--ayu-mirage-sidebar-accent);
+  --sidebar-accent-foreground: var(--ayu-mirage-sidebar-accent-foreground);
+  --sidebar-border: var(--ayu-mirage-sidebar-border);
+  --sidebar-ring: var(--ayu-mirage-sidebar-ring);
+  --success: var(--ayu-mirage-success);
+  --success-foreground: var(--ayu-mirage-success-foreground);
+  --warning: var(--ayu-mirage-warning);
+  --warning-foreground: var(--ayu-mirage-warning-foreground);
+  --info: var(--ayu-mirage-info);
+  --info-foreground: var(--ayu-mirage-info-foreground);
+  --editor: var(--ayu-mirage-editor);
+}
+
+@theme inline {
+  --font-sans: sans-serif;
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --color-foreground: var(--foreground);
+  --color-background: var(--background);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 8px);
+  --radius-3xl: calc(var(--radius) + 12px);
+  --radius-4xl: calc(var(--radius) + 16px);
+  --color-success: var(--success);
+  --color-success-foreground: var(--success-foreground);
+  --color-warning: var(--warning);
+  --color-warning-foreground: var(--warning-foreground);
+  --color-info: var(--info);
+  --color-info-foreground: var(--info-foreground);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-editor: var(--editor);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+
+  body {
+    @apply font-sans antialiased bg-background text-foreground;
+  }
+
+  html {
+    @apply font-sans;
+  }
+
+  button:not(:disabled),
+  [role='button']:not(:disabled),
+  [role='menuitem']:not(:disabled),
+  [role='tab']:not(:disabled),
+  [role='option']:not(:disabled),
+  [role='switch']:not(:disabled),
+  [role='checkbox']:not(:disabled),
+  [role='radio']:not(:disabled),
+  summary,
+  label {
+    @apply cursor-pointer;
+  }
+
+  .doto-font {
+    font-family: 'Doto', monospace;
+    font-weight: 700;
+    font-style: normal;
+    font-optical-sizing: auto;
+    font-variation-settings:
+      'wght' 700,
+      'ROND' 0;
+  }
+
+  @keyframes wave-bounce {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-25%);
+    }
+  }
+
+  .animate-wave-bounce {
+    animation: wave-bounce 1s ease-in-out infinite;
+  }
+}

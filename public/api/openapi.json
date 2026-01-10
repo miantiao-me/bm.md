@@ -1,0 +1,229 @@
+{
+  "info": {
+    "title": "bm.md API",
+    "version": "0.1.0",
+    "description": "OpenAPI specification for the bm.md API."
+  },
+  "servers": [
+    {
+      "url": "/api"
+    }
+  ],
+  "openapi": "3.1.1",
+  "paths": {
+    "/markdown/render": {
+      "post": {
+        "operationId": "markdown.render",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "markdown": {
+                    "type": "string",
+                    "maxLength": 5242880,
+                    "description": "要渲染的 Markdown 源文本，支持 GFM（GitHub Flavored Markdown）语法、数学公式（$..$ 或 $$..$$）"
+                  },
+                  "markdownStyle": {
+                    "type": "string",
+                    "default": "ayu-light",
+                    "description": "Markdown 排版样式 ID。可选值: ayu-light"
+                  },
+                  "codeTheme": {
+                    "type": "string",
+                    "default": "kimbie-light",
+                    "description": "代码块高亮主题 ID。可选值: tokyo-night-light, tokyo-night-dark, panda-syntax-light, panda-syntax-dark, rose-pine-dawn, rose-pine, kimbie-light, kimbie-dark, paraiso-light, paraiso-dark"
+                  },
+                  "enableFootnoteLinks": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "是否将文中链接自动转换为脚注形式，便于阅读时查看原始链接"
+                  },
+                  "openLinksInNewWindow": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "是否为所有外部链接添加 target=\"_blank\"，在新窗口打开"
+                  },
+                  "platform": {
+                    "enum": [
+                      "html",
+                      "wechat",
+                      "zhihu",
+                      "juejin"
+                    ],
+                    "default": "html",
+                    "description": "目标发布平台，会针对平台特性进行适配优化。可选值: html（通用网页）, wechat（微信公众号）, zhihu（知乎专栏）, juejin（掘金）"
+                  }
+                },
+                "required": [
+                  "markdown"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "result": {
+                      "type": "string",
+                      "description": "渲染后的 HTML 片段，CSS 样式已内联到元素上，可直接复制粘贴到富文本编辑器"
+                    }
+                  },
+                  "required": [
+                    "result"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/markdown/parse": {
+      "post": {
+        "operationId": "markdown.parse",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "html": {
+                    "type": "string",
+                    "maxLength": 5242880,
+                    "description": "要转换的 HTML 源代码，可以是完整文档或 HTML 片段"
+                  }
+                },
+                "required": [
+                  "html"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "result": {
+                      "type": "string",
+                      "description": "转换后的 Markdown 文本，使用 - 作为无序列表标记"
+                    }
+                  },
+                  "required": [
+                    "result"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/markdown/extract": {
+      "post": {
+        "operationId": "markdown.extract",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "markdown": {
+                    "type": "string",
+                    "maxLength": 5242880,
+                    "description": "要提取文本的 Markdown 源文本"
+                  }
+                },
+                "required": [
+                  "markdown"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "result": {
+                      "type": "string",
+                      "description": "提取后的纯文本内容，保留段落分隔，已移除所有 Markdown 格式标记"
+                    }
+                  },
+                  "required": [
+                    "result"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/markdown/lint": {
+      "post": {
+        "operationId": "markdown.lint",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "markdown": {
+                    "type": "string",
+                    "maxLength": 5242880,
+                    "description": "要校验和修复的 Markdown 源文本"
+                  }
+                },
+                "required": [
+                  "markdown"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "result": {
+                      "type": "string",
+                      "description": "校验并自动修复后的 Markdown 文本"
+                    }
+                  },
+                  "required": [
+                    "result"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

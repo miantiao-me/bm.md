@@ -1,0 +1,728 @@
+/* ============================================
+   Botanical - 植物园有机风格
+
+   灵感来源：温室花园的宁静、陶艺工作室的温暖、
+   植物图鉴的优雅，以及自然界的不完美之美
+
+   色彩哲学：
+   - 米纸白 #F9F8F4（温暖的纸张质感）
+   - 深森林绿 #2D3A31（主文字，比纯黑更柔和）
+   - 鼠尾草绿 #8C9A84（强调色，如新叶）
+   - 赤陶土 #C27B66（链接与点缀，如陶罐）
+   - 柔和粘土 #DCCFC2（次要背景，如干燥泥土）
+   - 石色边框 #E6E2DA（极低对比度边框）
+
+   设计特点：
+   - 圆润有机的形状，模拟自然界的柔和曲线
+   - 温暖的阴影，创造纸张质感
+   - 优雅的衬线字体，传达手工艺之美
+   ============================================ */
+
+/* 容器 - 温暖的米色纸张质感 */
+#bm-md {
+  color: #2d3a31;
+  background-color: #f9f8f4;
+  font-family: Georgia, 'Songti SC', 'Noto Serif SC', 'Times New Roman', serif;
+  font-size: 16px;
+  line-height: 1.8;
+  padding: 1.5em 1.25em;
+  letter-spacing: 0.01em;
+}
+
+/* ============================================
+   标题 - 森林绿色系，逐级变淡
+   如同从树冠到林间的光影层次
+   ============================================ */
+
+#bm-md h1,
+#bm-md h2,
+#bm-md h3,
+#bm-md h4,
+#bm-md h5,
+#bm-md h6 {
+  font-family: Georgia, 'Songti SC', 'Noto Serif SC', 'Times New Roman', serif;
+  font-weight: 600;
+  line-height: 1.4;
+  margin-top: 1.4em;
+  margin-bottom: 0.6em;
+  letter-spacing: 0.02em;
+}
+
+/* H1 - 深森林绿，如古老橡树 */
+#bm-md h1 {
+  font-size: 1.875em;
+  color: #2d3a31;
+  text-align: center;
+  padding-bottom: 0.5em;
+  border-bottom: 2px solid #8c9a84;
+}
+
+/* H2 - 鼠尾草绿边框，如新生枝条 */
+#bm-md h2 {
+  font-size: 1.5em;
+  color: #3a4a3d;
+  padding: 0.3em 0.8em;
+  border-left: 4px solid #8c9a84;
+  background: linear-gradient(90deg, rgba(140, 154, 132, 0.08) 0%, transparent 100%);
+  border-radius: 0 12px 12px 0;
+}
+
+/* H3 - 如阳光穿透树叶 */
+#bm-md h3 {
+  font-size: 1.25em;
+  color: #4a5b4c;
+}
+
+/* H4-H6 - 统一柔和的林间色调 */
+#bm-md h4,
+#bm-md h5,
+#bm-md h6 {
+  color: #5d6b5e;
+}
+
+#bm-md h4 {
+  font-size: 1.125em;
+}
+
+#bm-md h5,
+#bm-md h6 {
+  font-size: 1em;
+  font-style: italic;
+}
+
+/* 首个标题无上边距 */
+#bm-md > h1:first-child,
+#bm-md > h2:first-child,
+#bm-md > h3:first-child,
+#bm-md > h4:first-child,
+#bm-md > h5:first-child,
+#bm-md > h6:first-child {
+  margin-top: 0;
+}
+
+/* ============================================
+   段落 - 自然的阅读节奏
+   ============================================ */
+
+#bm-md p {
+  margin-bottom: 1.1em;
+}
+
+#bm-md p:last-child {
+  margin-bottom: 0;
+}
+
+/* ============================================
+   行内文本样式 - 自然界的色彩变化
+   ============================================ */
+
+/* 粗体 - 深森林色强调 */
+#bm-md strong,
+#bm-md b {
+  font-weight: 700;
+  color: #2d3a31;
+}
+
+/* 斜体 - 柔和的苔藓色 */
+#bm-md em,
+#bm-md i {
+  font-style: italic;
+  color: #4a5b4c;
+}
+
+/* 删除线 - 枯叶色 */
+#bm-md del,
+#bm-md s,
+#bm-md strike {
+  color: #9ca898;
+  text-decoration: line-through;
+  text-decoration-color: #c27b66;
+}
+
+/* 高亮 - 阳光穿透叶片的感觉 */
+#bm-md mark {
+  background-color: #e8dfd0;
+  color: #2d3a31;
+  padding: 0.1em 0.3em;
+  border-radius: 4px;
+  box-shadow: 0 1px 2px rgba(45, 58, 49, 0.08);
+}
+
+/* 小号文字 */
+#bm-md small {
+  font-size: 0.875em;
+  color: #6b7a6c;
+}
+
+/* 上标 */
+#bm-md sup {
+  font-size: 0.75em;
+  line-height: 0;
+  vertical-align: super;
+}
+
+/* 下标 */
+#bm-md sub {
+  font-size: 0.75em;
+  line-height: 0;
+  vertical-align: sub;
+}
+
+/* 插入文本 - 新芽绿 */
+#bm-md ins {
+  background-color: rgba(140, 154, 132, 0.15);
+  text-decoration: none;
+  padding: 0.1em 0.25em;
+  border-radius: 3px;
+  border-bottom: 2px solid rgba(140, 154, 132, 0.4);
+}
+
+/* 行内引用 */
+#bm-md q {
+  quotes: '"' '"' '' ' ' '';
+  color: #2d3a31;
+}
+
+#bm-md q::before {
+  content: open-quote;
+  color: #c27b66;
+  font-weight: 600;
+  font-size: 1.1em;
+}
+
+#bm-md q::after {
+  content: close-quote;
+  color: #c27b66;
+  font-weight: 600;
+  font-size: 1.1em;
+}
+
+/* 变量 - 赤陶土色 */
+#bm-md var {
+  font-style: italic;
+  color: #c27b66;
+  font-weight: 500;
+}
+
+/* 示例输出 */
+#bm-md samp,
+#bm-md tt {
+  font-family: 'SF Mono', Consolas, 'Liberation Mono', Menlo, monospace;
+  font-size: 0.875em;
+  background-color: #f2f0eb;
+  color: #4a5b4c;
+  padding: 0.15em 0.35em;
+  border-radius: 6px;
+}
+
+/* 缩写 */
+#bm-md abbr[title] {
+  border-bottom: 2px dotted #8c9a84;
+  cursor: help;
+  text-decoration: none;
+}
+
+/* ============================================
+   链接 - 赤陶土色，如花园陶罐
+   ============================================ */
+
+#bm-md a {
+  color: #c27b66;
+  text-decoration: none;
+  border-bottom: 1px solid rgba(194, 123, 102, 0.4);
+}
+
+#bm-md a:hover {
+  color: #a86854;
+  border-bottom-color: #a86854;
+  background-color: rgba(194, 123, 102, 0.06);
+}
+
+/* ============================================
+   Ruby 注音
+   ============================================ */
+
+#bm-md ruby {
+  ruby-align: center;
+}
+
+#bm-md rt {
+  font-size: 0.5em;
+  color: #6b7a6c;
+}
+
+#bm-md rp {
+  color: #9ca898;
+}
+
+/* ============================================
+   列表 - 有机自然的标记
+   ============================================ */
+
+#bm-md ul,
+#bm-md ol {
+  margin-bottom: 1em;
+  padding-left: 1.75em;
+}
+
+#bm-md ul {
+  list-style-type: disc;
+}
+
+#bm-md ol {
+  list-style-type: decimal;
+}
+
+#bm-md li {
+  margin-bottom: 0.35em;
+}
+
+/* 列表标记使用鼠尾草绿 */
+#bm-md li::marker {
+  color: #8c9a84;
+}
+
+#bm-md li > ul,
+#bm-md li > ol {
+  margin-top: 0.3em;
+  margin-bottom: 0.3em;
+}
+
+#bm-md ul ul {
+  list-style-type: circle;
+}
+
+#bm-md ul ul ul {
+  list-style-type: square;
+}
+
+/* 任务列表 */
+#bm-md ul.contains-task-list {
+  list-style-type: none;
+  padding-left: 0;
+}
+
+#bm-md li.task-list-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5em;
+}
+
+#bm-md input[type='checkbox'] {
+  margin-top: 0.4em;
+  accent-color: #8c9a84;
+}
+
+/* ============================================
+   引用块 - 羊皮纸与植物图鉴的质感
+   ============================================ */
+
+#bm-md blockquote {
+  margin: 1.2em 0;
+  padding: 1em 1.25em;
+  background-color: #f5f2ec;
+  border-left: 4px solid #8c9a84;
+  border-radius: 0 16px 16px 0;
+  color: #3a4a3d;
+  box-shadow: 0 2px 8px rgba(45, 58, 49, 0.05);
+}
+
+#bm-md blockquote p {
+  margin-bottom: 0.6em;
+}
+
+#bm-md blockquote p:last-child {
+  margin-bottom: 0;
+}
+
+/* 嵌套引用 - 更柔和的粘土色 */
+#bm-md blockquote blockquote {
+  margin-top: 0.75em;
+  margin-bottom: 0;
+  border-left-color: #dccfc2;
+  background-color: #faf8f5;
+  border-radius: 0 12px 12px 0;
+}
+
+/* ============================================
+   代码 - 自然纸张上的手写笔记
+   ============================================ */
+
+/* 行内代码 */
+#bm-md code {
+  font-family: 'SF Mono', Consolas, 'Liberation Mono', Menlo, monospace;
+  font-size: 0.875em;
+  background-color: #f2f0eb;
+  color: #c27b66;
+  padding: 0.2em 0.45em;
+  border-radius: 6px;
+  border: 1px solid #e6e2da;
+}
+
+/* 代码块容器 */
+#bm-md pre {
+  margin: 1.2em 0;
+  padding: 1.25em;
+  background-color: #f5f3ef;
+  border: 1px solid #e6e2da;
+  border-radius: 16px;
+  overflow-x: auto;
+  box-shadow: inset 0 2px 4px rgba(45, 58, 49, 0.03);
+}
+
+/* 代码块内代码重置 */
+#bm-md pre code {
+  background-color: transparent;
+  color: inherit;
+  padding: 0;
+  border: none;
+  border-radius: 0;
+  font-size: 0.875em;
+  line-height: 1.6;
+}
+
+/* ============================================
+   表格 - 植物学分类表的感觉
+   ============================================ */
+
+#bm-md table {
+  width: 100%;
+  margin: 1.2em 0;
+  border-collapse: collapse;
+  font-size: 0.9375em;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(45, 58, 49, 0.06);
+}
+
+#bm-md thead {
+  background-color: rgba(140, 154, 132, 0.15);
+}
+
+#bm-md tfoot {
+  background-color: #f5f2ec;
+  font-size: 0.875em;
+}
+
+#bm-md th,
+#bm-md td {
+  padding: 0.65em 0.9em;
+  border: 1px solid #e6e2da;
+  text-align: left;
+}
+
+#bm-md th {
+  font-weight: 600;
+  color: #3a4a3d;
+  background-color: rgba(140, 154, 132, 0.1);
+}
+
+#bm-md tbody tr:nth-child(even) {
+  background-color: #faf9f6;
+}
+
+/* Frontmatter 元数据表格 */
+#bm-md .frontmatter-table {
+  width: auto;
+  margin-bottom: 1.5em;
+  font-size: 0.875em;
+  border: none;
+  box-shadow: none;
+  border-radius: 0;
+}
+
+#bm-md .frontmatter-table td {
+  padding: 0.3em 0.75em 0.3em 0;
+  border: none;
+  vertical-align: top;
+  background-color: transparent;
+}
+
+#bm-md .frontmatter-key {
+  font-weight: 600;
+  color: #5d6b5e;
+  white-space: nowrap;
+}
+
+#bm-md .frontmatter-key::after {
+  content: ':';
+}
+
+#bm-md .frontmatter-value {
+  color: #2d3a31;
+}
+
+/* ============================================
+   分割线 - 自然渐变，如地平线
+   ============================================ */
+
+#bm-md hr {
+  margin: 1.75em 0;
+  border: none;
+  height: 2px;
+  background: linear-gradient(90deg, transparent 0%, #dccfc2 20%, #8c9a84 50%, #dccfc2 80%, transparent 100%);
+  border-radius: 1px;
+}
+
+/* ============================================
+   图片与媒体 - 圆润有机边框
+   如同植物图鉴中的手绘插图边框
+   ============================================ */
+
+#bm-md img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  border-radius: 16px;
+  margin: 1.2em 0;
+  box-shadow: 0 4px 16px rgba(45, 58, 49, 0.1);
+  border: 3px solid #f9f8f4;
+}
+
+#bm-md picture {
+  display: block;
+  margin: 1.2em 0;
+}
+
+#bm-md picture img {
+  margin: 0;
+}
+
+#bm-md figure {
+  margin: 1.5em 0;
+  text-align: center;
+}
+
+#bm-md figure img {
+  margin: 0 auto;
+}
+
+#bm-md figcaption {
+  margin-top: 0.75em;
+  font-size: 0.875em;
+  color: #6b7a6c;
+  font-style: italic;
+}
+
+/* ============================================
+   脚注 - 书籍末尾的注释区
+   ============================================ */
+
+#bm-md .footnotes {
+  margin-top: 2.5em;
+  padding-top: 1.25em;
+  border-top: 2px solid #e6e2da;
+  font-size: 0.875em;
+  color: #6b7a6c;
+}
+
+#bm-md .footnotes ol {
+  padding-left: 1.25em;
+}
+
+#bm-md .footnote-ref {
+  font-size: 0.75em;
+  vertical-align: super;
+  color: #c27b66;
+  font-weight: 600;
+}
+
+#bm-md .footnote-backref,
+#bm-md .data-footnote-backref {
+  color: #8c9a84;
+  text-decoration: none;
+}
+
+/* ============================================
+   定义列表 - 植物学术语解释
+   ============================================ */
+
+#bm-md dl {
+  margin: 1.2em 0;
+}
+
+#bm-md dt {
+  font-weight: 600;
+  color: #3a4a3d;
+  margin-top: 0.75em;
+}
+
+#bm-md dt:first-child {
+  margin-top: 0;
+}
+
+#bm-md dd {
+  margin-left: 1.5em;
+  margin-top: 0.25em;
+  color: #2d3a31;
+  padding-left: 0.75em;
+  border-left: 3px solid #dccfc2;
+}
+
+/* ============================================
+   键盘按键 - 陶土质感的按钮
+   ============================================ */
+
+#bm-md kbd {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-size: 0.8125em;
+  display: inline-block;
+  padding: 0.2em 0.5em;
+  background-color: #f5f3ef;
+  border: 1px solid #e6e2da;
+  border-radius: 8px;
+  box-shadow:
+    0 2px 0 #dccfc2,
+    0 3px 4px rgba(45, 58, 49, 0.08);
+  color: #3a4a3d;
+}
+
+/* ============================================
+   警告框 - 花园中的标识牌
+   每种类型对应自然界的不同元素
+   ============================================ */
+
+#bm-md .markdown-alert {
+  margin: 1.2em 0;
+  padding: 0.9em 1.15em;
+  border-radius: 12px;
+  border-left: 4px solid;
+}
+
+#bm-md .markdown-alert-title {
+  display: flex;
+  align-items: center;
+  gap: 0.45em;
+  font-weight: 600;
+  margin-bottom: 0.45em;
+}
+
+/* Note - 溪流蓝（清澈的水） */
+#bm-md .markdown-alert-note {
+  background-color: rgba(107, 148, 168, 0.1);
+  border-left-color: #6b94a8;
+}
+
+#bm-md .markdown-alert-note .markdown-alert-title {
+  color: #5a8296;
+}
+
+/* Tip - 鼠尾草绿（新芽与希望） */
+#bm-md .markdown-alert-tip {
+  background-color: rgba(140, 154, 132, 0.12);
+  border-left-color: #8c9a84;
+}
+
+#bm-md .markdown-alert-tip .markdown-alert-title {
+  color: #5d6b5e;
+}
+
+/* Important - 紫藤色（神秘的花卉） */
+#bm-md .markdown-alert-important {
+  background-color: rgba(139, 119, 155, 0.1);
+  border-left-color: #8b779b;
+}
+
+#bm-md .markdown-alert-important .markdown-alert-title {
+  color: #7a6889;
+}
+
+/* Warning - 金盏花黄（温暖的阳光） */
+#bm-md .markdown-alert-warning {
+  background-color: rgba(199, 163, 97, 0.12);
+  border-left-color: #c7a361;
+}
+
+#bm-md .markdown-alert-warning .markdown-alert-title {
+  color: #a88d4a;
+}
+
+/* Caution - 赤陶土（秋日落叶） */
+#bm-md .markdown-alert-caution {
+  background-color: rgba(194, 123, 102, 0.1);
+  border-left-color: #c27b66;
+}
+
+#bm-md .markdown-alert-caution .markdown-alert-title {
+  color: #b06a55;
+}
+
+/* ============================================
+   数学公式 - 自然界的数学之美
+   ============================================ */
+
+#bm-md .math-inline {
+  font-size: 1em;
+}
+
+#bm-md .math-display {
+  margin: 1.2em 0;
+  overflow-x: auto;
+  text-align: center;
+  padding: 1em;
+  background-color: #faf9f6;
+  border-radius: 12px;
+  border: 1px solid #e6e2da;
+}
+
+/* ============================================
+   折叠详情 - 如同翻开的植物图鉴
+   ============================================ */
+
+#bm-md details {
+  margin: 1.2em 0;
+  padding: 0.75em 1.1em;
+  background-color: #f5f3ef;
+  border: 1px solid #e6e2da;
+  border-left: 4px solid #8c9a84;
+  border-radius: 0 12px 12px 0;
+}
+
+#bm-md summary {
+  font-weight: 600;
+  cursor: pointer;
+  color: #3a4a3d;
+}
+
+#bm-md summary::marker {
+  color: #8c9a84;
+}
+
+#bm-md details[open] summary {
+  margin-bottom: 0.75em;
+  padding-bottom: 0.6em;
+  border-bottom: 1px dashed #dccfc2;
+}
+
+/* ============================================
+   嵌入媒体 - 与图片保持一致的有机风格
+   ============================================ */
+
+#bm-md iframe,
+#bm-md video {
+  display: block;
+  max-width: 100%;
+  margin: 1.2em 0;
+  border-radius: 16px;
+  border: 1px solid #e6e2da;
+  box-shadow: 0 4px 16px rgba(45, 58, 49, 0.1);
+}
+
+/* ============================================
+   元信息与时间 - 园丁的笔记
+   ============================================ */
+
+#bm-md .meta,
+#bm-md time {
+  font-size: 0.875em;
+  color: #6b7a6c;
+  font-style: italic;
+}
+
+/* ============================================
+   首行缩进变体 - 传统书籍排版
+   ============================================ */
+
+#bm-md.indent-first-line p {
+  text-indent: 2em;
+}

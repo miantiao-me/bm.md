@@ -1,0 +1,77 @@
+/**
+ * Ayu Light theme for shadcn/ui
+ * Based on official ayu-theme/vscode-ayu Light variant
+ */
+
+:root {
+  /* Background colors */
+  --ayu-light-background: oklch(0.98 0.004 264);
+  --ayu-light-foreground: oklch(0.44 0.02 264);
+
+  /* Card */
+  --ayu-light-card: oklch(0.99 0.002 264);
+  --ayu-light-card-foreground: oklch(0.44 0.02 264);
+
+  /* Popover */
+  --ayu-light-popover: oklch(0.98 0.003 264);
+  --ayu-light-popover-foreground: oklch(0.44 0.02 264);
+
+  /* Primary - Orange accent #f29718 */
+  --ayu-light-primary: oklch(0.72 0.16 62);
+  --ayu-light-primary-foreground: oklch(0.99 0.002 264);
+
+  /* Secondary */
+  --ayu-light-secondary: oklch(0.96 0.005 264);
+  --ayu-light-secondary-foreground: oklch(0.44 0.02 264);
+
+  /* Muted */
+  --ayu-light-muted: oklch(0.96 0.005 264);
+  --ayu-light-muted-foreground: oklch(0.58 0.02 264);
+
+  /* Accent */
+  --ayu-light-accent: oklch(0.96 0.005 264);
+  --ayu-light-accent-foreground: oklch(0.44 0.02 264);
+
+  /* Destructive - Error red #e65050 */
+  --ayu-light-destructive: oklch(0.61 0.18 25);
+  --ayu-light-destructive-foreground: oklch(0.99 0.002 264);
+
+  /* Success - Green #6cbf43 */
+  --ayu-light-success: oklch(0.72 0.17 136);
+  --ayu-light-success-foreground: oklch(0.99 0.002 264);
+
+  /* Warning - Yellow #f2a300 */
+  --ayu-light-warning: oklch(0.76 0.15 77);
+  --ayu-light-warning-foreground: oklch(0.25 0.05 77);
+
+  /* Info - Blue #55b4d4 */
+  --ayu-light-info: oklch(0.73 0.09 231);
+  --ayu-light-info-foreground: oklch(0.99 0.002 264);
+
+  /* Border */
+  --ayu-light-border: oklch(0.55 0.02 264 / 0.12);
+  --ayu-light-input: oklch(0.55 0.02 264 / 0.2);
+
+  /* Ring - Focus indicator #f29718 */
+  --ayu-light-ring: oklch(0.72 0.16 62);
+
+  /* Chart colors */
+  --ayu-light-chart-1: oklch(0.72 0.16 62); /* accent orange */
+  --ayu-light-chart-2: oklch(0.73 0.09 231); /* info blue */
+  --ayu-light-chart-3: oklch(0.72 0.17 136); /* success green */
+  --ayu-light-chart-4: oklch(0.76 0.15 77); /* warning yellow */
+  --ayu-light-chart-5: oklch(0.63 0.1 295); /* number purple */
+
+  /* Editor - matches CodeMirror background #f8f9fa */
+  --ayu-light-editor: oklch(0.9816 0.0018 248.6);
+
+  /* Sidebar */
+  --ayu-light-sidebar: oklch(0.98 0.004 264);
+  --ayu-light-sidebar-foreground: oklch(0.44 0.02 264);
+  --ayu-light-sidebar-primary: oklch(0.72 0.16 62);
+  --ayu-light-sidebar-primary-foreground: oklch(0.99 0.002 264);
+  --ayu-light-sidebar-accent: oklch(0.96 0.005 264);
+  --ayu-light-sidebar-accent-foreground: oklch(0.44 0.02 264);
+  --ayu-light-sidebar-border: oklch(0.55 0.02 264 / 0.12);
+  --ayu-light-sidebar-ring: oklch(0.72 0.16 62);
+}

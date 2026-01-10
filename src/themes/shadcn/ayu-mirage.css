@@ -1,0 +1,77 @@
+/**
+ * Ayu Mirage theme for shadcn/ui
+ * Based on official ayu-theme/vscode-ayu Mirage (dark) variant
+ */
+
+.dark {
+  /* Background colors */
+  --ayu-mirage-background: oklch(0.26 0.025 264);
+  --ayu-mirage-foreground: oklch(0.83 0.015 77);
+
+  /* Card */
+  --ayu-mirage-card: oklch(0.2 0.025 264);
+  --ayu-mirage-card-foreground: oklch(0.83 0.015 77);
+
+  /* Popover */
+  --ayu-mirage-popover: oklch(0.22 0.025 264);
+  --ayu-mirage-popover-foreground: oklch(0.83 0.015 77);
+
+  /* Primary - Yellow accent #ffcc66 */
+  --ayu-mirage-primary: oklch(0.86 0.13 87);
+  --ayu-mirage-primary-foreground: oklch(0.18 0.02 264);
+
+  /* Secondary */
+  --ayu-mirage-secondary: oklch(0.22 0.025 264);
+  --ayu-mirage-secondary-foreground: oklch(0.83 0.015 77);
+
+  /* Muted */
+  --ayu-mirage-muted: oklch(0.22 0.025 264);
+  --ayu-mirage-muted-foreground: oklch(0.53 0.03 264);
+
+  /* Accent */
+  --ayu-mirage-accent: oklch(0.22 0.025 264);
+  --ayu-mirage-accent-foreground: oklch(0.83 0.015 77);
+
+  /* Destructive - Error red #ff6666 */
+  --ayu-mirage-destructive: oklch(0.67 0.2 17);
+  --ayu-mirage-destructive-foreground: oklch(0.18 0.02 264);
+
+  /* Success - Green #87d96c */
+  --ayu-mirage-success: oklch(0.82 0.15 136);
+  --ayu-mirage-success-foreground: oklch(0.18 0.02 264);
+
+  /* Warning - Yellow #ffcc66 */
+  --ayu-mirage-warning: oklch(0.86 0.13 87);
+  --ayu-mirage-warning-foreground: oklch(0.18 0.02 264);
+
+  /* Info - Cyan #5ccfe6 */
+  --ayu-mirage-info: oklch(0.81 0.09 213);
+  --ayu-mirage-info-foreground: oklch(0.18 0.02 264);
+
+  /* Border - #171b24 */
+  --ayu-mirage-border: oklch(0.2222 0.0187 266.1);
+  --ayu-mirage-input: oklch(0.22 0.025 264);
+
+  /* Ring - Focus indicator #ffcc66 */
+  --ayu-mirage-ring: oklch(0.86 0.13 87);
+
+  /* Chart colors */
+  --ayu-mirage-chart-1: oklch(0.86 0.13 87); /* accent yellow */
+  --ayu-mirage-chart-2: oklch(0.83 0.11 241); /* type blue */
+  --ayu-mirage-chart-3: oklch(0.82 0.15 136); /* success green */
+  --ayu-mirage-chart-4: oklch(0.67 0.2 17); /* error red */
+  --ayu-mirage-chart-5: oklch(0.84 0.12 295); /* number purple */
+
+  /* Editor - matches CodeMirror background #1f2430 */
+  --ayu-mirage-editor: oklch(0.2608 0.0238 267.1);
+
+  /* Sidebar */
+  --ayu-mirage-sidebar: oklch(0.2 0.025 264);
+  --ayu-mirage-sidebar-foreground: oklch(0.83 0.015 77);
+  --ayu-mirage-sidebar-primary: oklch(0.86 0.13 87);
+  --ayu-mirage-sidebar-primary-foreground: oklch(0.2 0.025 264);
+  --ayu-mirage-sidebar-accent: oklch(0.22 0.025 264);
+  --ayu-mirage-sidebar-accent-foreground: oklch(0.83 0.015 77);
+  --ayu-mirage-sidebar-border: oklch(0.2222 0.0187 266.1);
+  --ayu-mirage-sidebar-ring: oklch(0.86 0.13 87);
+}
