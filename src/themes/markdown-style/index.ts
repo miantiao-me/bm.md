@@ -6,6 +6,7 @@
 import ayuLightCss from './ayu-light.css?raw'
 import bauhausCss from './bauhaus.css?raw'
 import botanicalCss from './botanical.css?raw'
+import greenSimpleCss from './green-simple.css?raw'
 import maximalismCss from './maximalism.css?raw'
 import neoBrutalismCss from './neo-brutalism.css?raw'
 import newsprintCss from './newsprint.css?raw'
@@ -41,6 +42,11 @@ export const markdownStyles: MarkdownStyle[] = [
     id: 'botanical',
     name: 'Botanical',
     css: resetCss + botanicalCss,
+  },
+  {
+    id: 'green-simple',
+    name: 'GreenSimple',
+    css: resetCss + greenSimpleCss,
   },
   {
     id: 'sketch',
