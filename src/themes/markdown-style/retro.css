@@ -445,10 +445,14 @@
   background-color: #ffffff;
 }
 
-/* 表头首行样式（替代 thead） */
-#bm-md tr:first-child th {
+/* 表头首行样式 - 渐变应用于整行 */
+#bm-md thead tr {
   background-color: #000080;
   background: linear-gradient(to right, #000080, #1084d0);
+}
+
+#bm-md thead th {
+  background-color: transparent;
   color: #ffffff;
 }
 
