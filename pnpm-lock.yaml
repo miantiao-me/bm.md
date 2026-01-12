@@ -14,6 +14,9 @@ importers:
       '@base-ui/react':
         specifier: ^1.0.0
         version: 1.0.0(@types/react@19.2.7)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
+      '@catppuccin/highlightjs':
+        specifier: ^1.0.1
+        version: 1.0.1
       '@codemirror/commands':
         specifier: ^6.10.1
         version: 6.10.1
@@ -993,6 +996,9 @@ packages:
     peerDependenciesMeta:
       '@types/react':
         optional: true
+
+  '@catppuccin/highlightjs@1.0.1':
+    resolution: {integrity: sha512-wnagsNQbJroHQMalkprwRoapfGV1hHRx46d7GXp4kf6rlShImBlgpqPCt9OD471Gq4qpHdfFH/GJFIvY1CLqHA==}
 
   '@clack/core@0.5.0':
     resolution: {integrity: sha512-p3y0FIOwaYRUPRcMO7+dlmLh8PSRcrjuTndsiA0WAFbWES0mLZlrjVoBRZ9DzkPFJZG6KGkJmoEAY0ZcVWTkow==}
@@ -7836,6 +7842,8 @@ snapshots:
       use-sync-external-store: 1.6.0(react@19.2.3)
     optionalDependencies:
       '@types/react': 19.2.7
+
+  '@catppuccin/highlightjs@1.0.1': {}
 
   '@clack/core@0.5.0':
     dependencies:

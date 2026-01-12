@@ -49,9 +49,14 @@ export const markdownStyles: MarkdownStyle[] = [
     css: resetCss + greenSimpleCss,
   },
   {
-    id: 'sketch',
-    name: 'Sketch',
-    css: resetCss + sketchCss,
+    id: 'maximalism',
+    name: 'Maximalism',
+    css: resetCss + maximalismCss,
+  },
+  {
+    id: 'neo-brutalism',
+    name: 'Neo-Brutalism',
+    css: resetCss + neoBrutalismCss,
   },
   {
     id: 'newsprint',
@@ -59,14 +64,9 @@ export const markdownStyles: MarkdownStyle[] = [
     css: resetCss + newsprintCss,
   },
   {
-    id: 'terminal',
-    name: 'Terminal',
-    css: resetCss + terminalCss,
-  },
-  {
-    id: 'neo-brutalism',
-    name: 'Neo-Brutalism',
-    css: resetCss + neoBrutalismCss,
+    id: 'organic',
+    name: 'Organic',
+    css: resetCss + organicCss,
   },
   {
     id: 'playful-geometric',
@@ -79,19 +79,19 @@ export const markdownStyles: MarkdownStyle[] = [
     css: resetCss + professionalCss,
   },
   {
-    id: 'organic',
-    name: 'Organic',
-    css: resetCss + organicCss,
-  },
-  {
-    id: 'maximalism',
-    name: 'Maximalism',
-    css: resetCss + maximalismCss,
-  },
-  {
     id: 'retro',
     name: 'Retro',
     css: resetCss + retroCss,
+  },
+  {
+    id: 'sketch',
+    name: 'Sketch',
+    css: resetCss + sketchCss,
+  },
+  {
+    id: 'terminal',
+    name: 'Terminal',
+    css: resetCss + terminalCss,
   },
 ]
 
