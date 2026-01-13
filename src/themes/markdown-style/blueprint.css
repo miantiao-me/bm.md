@@ -1,0 +1,691 @@
+/* ============================================
+   Blueprint - 蓝图技术文档风格
+
+   设计灵感：Zed 官网 agentic-engineering 页面
+   干净专业的技术文档美学，暖冷色调对比
+
+   设计哲学：
+   - 专业 — 技术文档的精确与可信
+   - 简洁 — 去除冗余，聚焦内容
+   - 层次 — 蓝色强调，灰色辅助
+   - 温暖 — 奶油背景中和冷调文字
+
+   配色系统（硬编码）：
+   - 背景色: #f5f4ef (cream-50)
+   - 正文色: #1e293b (offgray-800)
+   - 次要文字: #475569 (offgray-600)
+   - 辅助灰: #64748b (offgray-500)
+   - 强调蓝: #0751cf (accent-blue)
+   - 标题蓝: #1d4ed8 (blue-700)
+   - 边框色: #e2e8f0 (offgray-200)
+   - 代码背景: #f8fafc (offgray-50)
+   - 浅蓝背景: #dbeafe (blue-100)
+   ============================================ */
+
+/* 容器 - 奶油白背景，专业技术感 */
+#bm-md {
+  color: #1e293b;
+  background-color: #f5f4ef;
+  font-family:
+    -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'PingFang SC', 'Microsoft YaHei',
+    sans-serif;
+  font-size: 16px;
+  line-height: 1.7;
+  padding: 1.25em 1em;
+  border: 1px solid #e2e8f0;
+}
+
+/* ============================================
+   标题 - 蓝色系，逐级变淡
+   衬线字体，技术文档层次感
+   ============================================ */
+
+#bm-md h1,
+#bm-md h2,
+#bm-md h3,
+#bm-md h4,
+#bm-md h5,
+#bm-md h6 {
+  font-family: Georgia, 'Times New Roman', 'Songti SC', 'SimSun', serif;
+  font-weight: 600;
+  line-height: 1.3;
+  margin-top: 1.25em;
+  margin-bottom: 0.4em;
+}
+
+#bm-md h1 {
+  font-size: 1.875em;
+  color: #0751cf;
+  text-align: center;
+  padding-bottom: 0.4em;
+  margin-bottom: 0.6em;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+#bm-md h2 {
+  font-size: 1.5em;
+  color: #1d4ed8;
+  padding-bottom: 0.25em;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+#bm-md h3 {
+  font-size: 1.25em;
+  color: #334155;
+}
+
+#bm-md h3::before {
+  content: '#';
+  color: #93c5fd;
+  margin-right: 0.3em;
+  font-weight: 400;
+}
+
+/* H4-H6 - 统一灰色 */
+#bm-md h4,
+#bm-md h5,
+#bm-md h6 {
+  color: #475569;
+}
+
+#bm-md h4 {
+  font-size: 1.125em;
+}
+
+#bm-md h5 {
+  font-size: 1em;
+  font-style: italic;
+}
+
+#bm-md h6 {
+  font-size: 0.9375em;
+  font-style: italic;
+}
+
+/* 首个标题无上边距 */
+#bm-md > h1:first-child,
+#bm-md > h2:first-child,
+#bm-md > h3:first-child,
+#bm-md > h4:first-child,
+#bm-md > h5:first-child,
+#bm-md > h6:first-child {
+  margin-top: 0;
+}
+
+/* ============================================
+   段落 - 舒适阅读
+   ============================================ */
+
+#bm-md p {
+  margin-bottom: 0.9em;
+}
+
+#bm-md p:last-child {
+  margin-bottom: 0;
+}
+
+/* ============================================
+   行内文本样式
+   ============================================ */
+
+#bm-md strong,
+#bm-md b {
+  font-weight: 600;
+  color: #0f172a;
+}
+
+#bm-md em,
+#bm-md i {
+  font-style: italic;
+}
+
+#bm-md del,
+#bm-md s,
+#bm-md strike {
+  color: #94a3b8;
+  text-decoration: line-through;
+}
+
+#bm-md mark {
+  background-color: #dbeafe;
+  color: #1e293b;
+  padding: 0.1em 0.2em;
+}
+
+#bm-md small {
+  font-size: 0.875em;
+  color: #64748b;
+}
+
+#bm-md sup,
+#bm-md sub {
+  font-size: 0.75em;
+  line-height: 0;
+}
+
+#bm-md sup {
+  vertical-align: super;
+}
+
+#bm-md sub {
+  vertical-align: sub;
+}
+
+#bm-md ins {
+  background-color: #e0f2fe;
+  text-decoration: none;
+  padding: 0.1em 0.2em;
+}
+
+#bm-md q {
+  quotes: '"' '"' '' ' ' '';
+  color: #1e293b;
+}
+
+#bm-md q::before {
+  content: open-quote;
+  color: #3b82f6;
+  font-weight: 600;
+}
+
+#bm-md q::after {
+  content: close-quote;
+  color: #3b82f6;
+  font-weight: 600;
+}
+
+#bm-md var {
+  font-style: italic;
+  color: #334155;
+}
+
+#bm-md samp,
+#bm-md tt {
+  font-family: 'SF Mono', Consolas, 'Liberation Mono', Menlo, monospace;
+  font-size: 0.875em;
+  background-color: #f8fafc;
+  color: #475569;
+  padding: 0.1em 0.3em;
+  border: 1px solid #e2e8f0;
+}
+
+#bm-md abbr[title] {
+  border-bottom: 1px dotted #3b82f6;
+  cursor: help;
+  text-decoration: none;
+}
+
+/* ============================================
+   链接 - 强调蓝
+   ============================================ */
+
+#bm-md a {
+  color: #0751cf;
+  text-decoration: none;
+  border-bottom: 1px solid #93c5fd;
+}
+
+#bm-md a:hover {
+  color: #1d4ed8;
+  border-bottom-color: #1d4ed8;
+}
+
+/* ============================================
+   Ruby 注音
+   ============================================ */
+
+#bm-md ruby {
+  ruby-align: center;
+}
+
+#bm-md rt {
+  font-size: 0.5em;
+  color: #64748b;
+}
+
+#bm-md rp {
+  color: #94a3b8;
+}
+
+/* ============================================
+   列表
+   ============================================ */
+
+#bm-md ul,
+#bm-md ol {
+  margin-bottom: 0.9em;
+  padding-left: 1.6em;
+}
+
+#bm-md ul {
+  list-style-type: disc;
+}
+
+#bm-md ol {
+  list-style-type: decimal;
+}
+
+#bm-md li {
+  margin-bottom: 0.2em;
+}
+
+#bm-md li::marker {
+  color: #3b82f6;
+}
+
+#bm-md li > ul,
+#bm-md li > ol {
+  margin-top: 0.2em;
+  margin-bottom: 0.2em;
+}
+
+#bm-md ul ul {
+  list-style-type: circle;
+}
+
+#bm-md ul ul ul {
+  list-style-type: square;
+}
+
+/* 任务列表 */
+#bm-md ul.contains-task-list {
+  list-style-type: none;
+  padding-left: 0;
+}
+
+#bm-md li.task-list-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.4em;
+}
+
+#bm-md input[type='checkbox'] {
+  margin-top: 0.3em;
+  accent-color: #3b82f6;
+}
+
+/* ============================================
+   引用块 - 蓝色左边框
+   ============================================ */
+
+#bm-md blockquote {
+  margin: 1em 0;
+  padding: 0.6em 1em;
+  border-left: 3px solid #3b82f6;
+  background-color: #faf9f6;
+  color: #334155;
+  font-style: italic;
+}
+
+#bm-md blockquote p {
+  margin-bottom: 0.4em;
+}
+
+#bm-md blockquote p:last-child {
+  margin-bottom: 0;
+}
+
+#bm-md blockquote blockquote {
+  margin-top: 0.5em;
+  margin-bottom: 0;
+  border-left-color: #93c5fd;
+  background-color: #f8fafc;
+}
+
+/* ============================================
+   代码 - 技术文档风格
+   ============================================ */
+
+#bm-md code {
+  font-family: 'SF Mono', Consolas, 'Liberation Mono', Menlo, monospace;
+  font-size: 0.875em;
+  background-color: #f0f9ff;
+  color: #0369a1;
+  padding: 0.15em 0.35em;
+  border: 1px solid #bae6fd;
+}
+
+#bm-md pre {
+  margin: 1em 0;
+  padding: 0.875em 1em;
+  background-color: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-top: 3px solid #3b82f6;
+  overflow-x: auto;
+}
+
+#bm-md pre code {
+  background-color: transparent;
+  color: inherit;
+  padding: 0;
+  border: none;
+  font-size: 0.875em;
+  line-height: 1.5;
+}
+
+/* ============================================
+   表格 - 简洁边框设计
+   ============================================ */
+
+#bm-md table {
+  width: 100%;
+  margin: 1em 0;
+  border-collapse: collapse;
+  font-size: 0.9375em;
+}
+
+#bm-md tr:first-child th {
+  background-color: #f8fafc;
+  color: #1e293b;
+  border-bottom: 2px solid #cbd5e1;
+}
+
+#bm-md th,
+#bm-md td {
+  padding: 0.5em 0.75em;
+  border: 1px solid #e2e8f0;
+  text-align: left;
+}
+
+#bm-md th {
+  font-weight: 600;
+  background-color: #f8fafc;
+  color: #334155;
+}
+
+#bm-md tbody tr:nth-child(even) {
+  background-color: #faf9f6;
+}
+
+/* Frontmatter 表格 */
+#bm-md .frontmatter-table {
+  width: auto;
+  margin-bottom: 1.25em;
+  font-size: 0.875em;
+  border: none;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+#bm-md .frontmatter-table td {
+  padding: 0.2em 0.75em 0.2em 0;
+  border: none;
+  vertical-align: top;
+  background-color: transparent;
+}
+
+#bm-md .frontmatter-key {
+  font-weight: 600;
+  color: #334155;
+  white-space: nowrap;
+}
+
+#bm-md .frontmatter-key::after {
+  content: ':';
+}
+
+#bm-md .frontmatter-value {
+  color: #475569;
+}
+
+/* ============================================
+   分割线 - 蓝灰点状线
+   ============================================ */
+
+#bm-md hr {
+  margin: 1.25em 0;
+  border: none;
+  border-top: 1px dashed #cbd5e1;
+  height: 0;
+}
+
+/* ============================================
+   图片与媒体
+   ============================================ */
+
+#bm-md img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  border: 1px solid #e2e8f0;
+  margin: 1em 0;
+}
+
+#bm-md picture {
+  display: block;
+  margin: 1em 0;
+}
+
+#bm-md picture img {
+  display: block;
+  margin: 0;
+}
+
+#bm-md figure {
+  margin: 1em 0;
+  text-align: center;
+}
+
+#bm-md figure img {
+  display: block;
+  margin: 0 auto;
+}
+
+#bm-md figcaption {
+  margin-top: 0.4em;
+  font-size: 0.8125em;
+  color: #64748b;
+  font-style: italic;
+}
+
+/* ============================================
+   脚注
+   ============================================ */
+
+#bm-md .footnotes {
+  margin-top: 1.5em;
+  padding-top: 0.75em;
+  border-top: 1px solid #e2e8f0;
+  font-size: 0.875em;
+  color: #64748b;
+}
+
+#bm-md .footnotes ol {
+  padding-left: 1.25em;
+}
+
+#bm-md .footnote-ref {
+  font-size: 0.75em;
+  vertical-align: super;
+  color: #0751cf;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+#bm-md .footnote-backref,
+#bm-md .data-footnote-backref {
+  color: #0751cf;
+  text-decoration: none;
+}
+
+/* ============================================
+   定义列表
+   ============================================ */
+
+#bm-md dl {
+  margin: 1em 0;
+}
+
+#bm-md dt {
+  font-weight: 600;
+  color: #1e293b;
+  margin-top: 0.5em;
+}
+
+#bm-md dt:first-child {
+  margin-top: 0;
+}
+
+#bm-md dd {
+  margin-left: 1.25em;
+  margin-top: 0.2em;
+  color: #475569;
+}
+
+/* ============================================
+   键盘按键
+   ============================================ */
+
+#bm-md kbd {
+  font-family: 'SF Mono', Consolas, 'Liberation Mono', Menlo, monospace;
+  font-size: 0.8125em;
+  display: inline-block;
+  padding: 0.15em 0.4em;
+  background-color: #f8fafc;
+  border: 1px solid #cbd5e1;
+  border-bottom: 2px solid #94a3b8;
+  color: #1e293b;
+}
+
+/* ============================================
+   警告框 - 蓝灰色调
+   ============================================ */
+
+#bm-md .markdown-alert {
+  margin: 1em 0;
+  padding: 0.625em 1em;
+  border: 1px solid;
+  border-left: 3px solid;
+  background-color: #f8fafc;
+}
+
+#bm-md .markdown-alert-title {
+  display: flex;
+  align-items: center;
+  gap: 0.4em;
+  font-weight: 600;
+  margin-bottom: 0.3em;
+}
+
+/* Note - 蓝色 */
+#bm-md .markdown-alert-note {
+  background-color: #f0f9ff;
+  border-color: #7dd3fc;
+  border-left-color: #0ea5e9;
+}
+
+#bm-md .markdown-alert-note .markdown-alert-title {
+  color: #0369a1;
+}
+
+/* Tip - 青绿色 */
+#bm-md .markdown-alert-tip {
+  background-color: #f0fdfa;
+  border-color: #5eead4;
+  border-left-color: #14b8a6;
+}
+
+#bm-md .markdown-alert-tip .markdown-alert-title {
+  color: #0f766e;
+}
+
+/* Important - 靛蓝色 */
+#bm-md .markdown-alert-important {
+  background-color: #eef2ff;
+  border-color: #a5b4fc;
+  border-left-color: #6366f1;
+}
+
+#bm-md .markdown-alert-important .markdown-alert-title {
+  color: #4338ca;
+}
+
+/* Warning - 琥珀色 */
+#bm-md .markdown-alert-warning {
+  background-color: #fffbeb;
+  border-color: #fcd34d;
+  border-left-color: #f59e0b;
+}
+
+#bm-md .markdown-alert-warning .markdown-alert-title {
+  color: #b45309;
+}
+
+/* Caution - 红色 */
+#bm-md .markdown-alert-caution {
+  background-color: #fef2f2;
+  border-color: #fca5a5;
+  border-left-color: #ef4444;
+}
+
+#bm-md .markdown-alert-caution .markdown-alert-title {
+  color: #b91c1c;
+}
+
+/* ============================================
+   数学公式
+   ============================================ */
+
+#bm-md .math-inline {
+  font-size: 1em;
+}
+
+#bm-md .math-display {
+  margin: 1em 0;
+  overflow-x: auto;
+  text-align: center;
+}
+
+/* ============================================
+   折叠详情
+   ============================================ */
+
+#bm-md details {
+  margin: 1em 0;
+  padding: 0.5em 0.75em;
+  background-color: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-left: 3px solid #3b82f6;
+}
+
+#bm-md summary {
+  font-weight: 600;
+  cursor: pointer;
+  color: #334155;
+}
+
+#bm-md details[open] summary {
+  margin-bottom: 0.5em;
+  padding-bottom: 0.5em;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+/* ============================================
+   嵌入媒体
+   ============================================ */
+
+#bm-md iframe,
+#bm-md video {
+  display: block;
+  max-width: 100%;
+  margin: 1em 0;
+  border: 1px solid #e2e8f0;
+}
+
+/* ============================================
+   元信息与时间
+   ============================================ */
+
+#bm-md .meta,
+#bm-md time {
+  font-size: 0.875em;
+  color: #64748b;
+  font-style: normal;
+}
+
+/* ============================================
+   首行缩进变体
+   ============================================ */
+
+#bm-md.indent-first-line p {
+  text-indent: 2em;
+}
