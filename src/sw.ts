@@ -1,8 +1,8 @@
 import { clientsClaim } from 'workbox-core'
 import { ExpirationPlugin } from 'workbox-expiration'
-import { cleanupOutdatedCaches, createHandlerBoundToURL, precacheAndRoute } from 'workbox-precaching'
+import { cleanupOutdatedCaches, precacheAndRoute } from 'workbox-precaching'
 import { NavigationRoute, registerRoute } from 'workbox-routing'
-import { CacheFirst, StaleWhileRevalidate } from 'workbox-strategies'
+import { CacheFirst, NetworkFirst, StaleWhileRevalidate } from 'workbox-strategies'
 
 declare let self: ServiceWorkerGlobalScope
 
@@ -13,10 +13,21 @@ cleanupOutdatedCaches()
 
 precacheAndRoute(self.__WB_MANIFEST)
 
-// 导航请求回退到预缓存的 index.html
+// 导航请求使用 NetworkFirst 策略
+// - 有网络时：获取最新页面并缓存
+// - 断网时：返回上次缓存的页面
 registerRoute(
   new NavigationRoute(
-    createHandlerBoundToURL('/index.html'),
+    new NetworkFirst({
+      cacheName: 'pages-cache',
+      networkTimeoutSeconds: 3,
+      plugins: [
+        new ExpirationPlugin({
+          maxEntries: 100,
+          maxAgeSeconds: 30 * 24 * 60 * 60,
+        }),
+      ],
+    }),
     {
       denylist: [/^\/api\//],
     },
@@ -25,8 +36,8 @@ registerRoute(
 
 registerRoute(
   ({ url }) =>
-    url.origin === 'https://fonts.googleapis.com'
-    || url.origin === 'https://fonts.gstatic.com',
+    url.origin === 'https://fonts.googleapis.cn'
+    || url.origin === 'https://fonts.gstatic.cn',
   new CacheFirst({
     cacheName: 'google-fonts',
     plugins: [

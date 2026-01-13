@@ -36,9 +36,9 @@ export const Route = createRootRoute({
       { name: 'twitter:image', content: `${appConfig.url}/banner.png` },
     ],
     links: [
-      { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
-      { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossOrigin: 'anonymous' },
-      { rel: 'stylesheet', href: `https://fonts.googleapis.com/css2?family=Doto:wght@700&display=swap&text=${encodeURIComponent(['bm.md', '404'].join(''))}` },
+      { rel: 'preconnect', href: 'https://fonts.googleapis.cn' },
+      { rel: 'preconnect', href: 'https://fonts.gstatic.cn', crossOrigin: 'anonymous' },
+      { rel: 'stylesheet', href: `https://fonts.googleapis.cn/css2?family=Doto:wght@700&display=swap&text=${encodeURIComponent(['bm.md', '404'].join(''))}` },
       { rel: 'stylesheet', href: appCss },
       { rel: 'canonical', href: appConfig.url },
       { rel: 'manifest', href: '/manifest.webmanifest' },
