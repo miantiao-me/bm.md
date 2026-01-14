@@ -5,6 +5,7 @@ export default <NitroPreset>{
   extends: 'node',
   minify: false,
   entry: join(__dirname, 'entry.ts'),
+  serveStatic: false,
   commands: {
     // preview: 'edgeone pages dev',
   },
