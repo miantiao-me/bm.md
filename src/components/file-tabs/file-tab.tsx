@@ -67,6 +67,7 @@ export function FileTab({ file, isActive, onSelect, onClose, onRename }: FileTab
         <input
           ref={inputRef}
           type="text"
+          aria-label="文件名"
           value={editName}
           onChange={e => setEditName(e.target.value)}
           onBlur={handleSave}
@@ -114,7 +115,7 @@ export function FileTab({ file, isActive, onSelect, onClose, onRename }: FileTab
         type="button"
         aria-label={`关闭 ${file.name}`}
         className={cn(
-          'flex size-4 shrink-0 items-center justify-center transition-opacity',
+          'flex size-6 shrink-0 items-center justify-center transition-opacity',
           'hover:bg-muted',
           isActive
             ? `

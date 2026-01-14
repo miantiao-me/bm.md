@@ -68,7 +68,7 @@ export function FileTabs() {
         className="scrollbar-none flex min-w-0 flex-1 overflow-x-auto"
       >
         {files.map(file => (
-          <div key={file.id} ref={setTabRef(file.id)}>
+          <div key={file.id} ref={setTabRef(file.id)} role="presentation">
             <FileTab
               file={file}
               isActive={file.id === activeFileId}

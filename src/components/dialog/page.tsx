@@ -51,7 +51,6 @@ export default function PageDialog({
           'sm:max-w-2xl',
           className,
         )}
-        initialFocus={false}
       >
         <div className="flex items-start justify-between gap-2 pr-6">
           <DialogHeader className="flex-1">

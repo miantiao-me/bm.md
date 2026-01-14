@@ -41,6 +41,7 @@ export default function MarkdownPreviewerSidebar() {
               <Button
                 variant="ghost"
                 size="icon"
+                aria-label="切换主题"
                 onClick={handleThemeToggle}
               >
                 <ClientOnly fallback={<Sun className="size-4" />}>
@@ -66,6 +67,7 @@ export default function MarkdownPreviewerSidebar() {
               <Button
                 variant="ghost"
                 size="icon"
+                aria-label={viewModeConfig.mobile.label}
                 onClick={() => setUserPreferredWidth(PREVIEW_WIDTH_MOBILE)}
               >
                 <Smartphone className={isMobileView
@@ -86,6 +88,7 @@ export default function MarkdownPreviewerSidebar() {
               <Button
                 variant="ghost"
                 size="icon"
+                aria-label={viewModeConfig.desktop.label}
                 onClick={() => setUserPreferredWidth(PREVIEW_WIDTH_DESKTOP)}
               >
                 <Monitor className={isDesktopView

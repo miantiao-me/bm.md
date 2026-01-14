@@ -154,6 +154,7 @@ export const navigationConfig = {
     { url: '/docs', label: 'API 文档', icon: 'BookOpen' },
     { url: 'https://404.li/x', label: 'Twitter', icon: 'Twitter' },
     { url: appConfig.github, label: 'GitHub', icon: 'Github' },
+    { url: 'https://404.li/coffee', label: '请喝咖啡', icon: 'Coffee' },
   ] as const satisfies readonly ExternalNavItem[],
 }
 

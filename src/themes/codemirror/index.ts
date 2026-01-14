@@ -108,7 +108,7 @@ function createAyuTheme(colors: AyuPalette, isDark: boolean): Extension {
       selectionMatch: `${colors.modified}33`,
       lineHighlight: colors.activeLine,
       gutterBackground: isDark ? colors.bg : colors.bgSecondary,
-      gutterForeground: colors.fgMuted,
+      gutterForeground: colors.fg,
       gutterBorder: 'transparent',
     },
     styles: createHighlightStyles(colors),

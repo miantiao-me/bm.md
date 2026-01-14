@@ -45,6 +45,10 @@ export const codeThemes: CodeTheme[] = [
   { id: 'tokyo-night-light', name: 'Tokyo Night Light', css: tokyoNightLightCss, isDark: false },
 ]
 
+export const codeThemeIds = codeThemes.map(t => t.id) as [string, ...string[]]
+
+export type CodeThemeId = (typeof codeThemes)[number]['id']
+
 /**
  * Get code theme by ID
  */

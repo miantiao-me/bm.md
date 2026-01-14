@@ -27,14 +27,44 @@
                     "description": "要渲染的 Markdown 源文本，支持 GFM（GitHub Flavored Markdown）语法、数学公式（$..$ 或 $$..$$）"
                   },
                   "markdownStyle": {
-                    "type": "string",
+                    "enum": [
+                      "ayu-light",
+                      "bauhaus",
+                      "blueprint",
+                      "botanical",
+                      "green-simple",
+                      "maximalism",
+                      "neo-brutalism",
+                      "newsprint",
+                      "organic",
+                      "playful-geometric",
+                      "professional",
+                      "retro",
+                      "sketch",
+                      "terminal"
+                    ],
                     "default": "ayu-light",
-                    "description": "Markdown 排版样式 ID。可选值: ayu-light"
+                    "description": "Markdown 排版样式 ID"
                   },
                   "codeTheme": {
-                    "type": "string",
+                    "enum": [
+                      "catppuccin-frappe",
+                      "catppuccin-latte",
+                      "catppuccin-macchiato",
+                      "catppuccin-mocha",
+                      "kimbie-dark",
+                      "kimbie-light",
+                      "panda-syntax-dark",
+                      "panda-syntax-light",
+                      "paraiso-dark",
+                      "paraiso-light",
+                      "rose-pine",
+                      "rose-pine-dawn",
+                      "tokyo-night-dark",
+                      "tokyo-night-light"
+                    ],
                     "default": "kimbie-light",
-                    "description": "代码块高亮主题 ID。可选值: tokyo-night-light, tokyo-night-dark, panda-syntax-light, panda-syntax-dark, rose-pine-dawn, rose-pine, kimbie-light, kimbie-dark, paraiso-light, paraiso-dark"
+                    "description": "代码块高亮主题 ID"
                   },
                   "customCss": {
                     "type": "string",

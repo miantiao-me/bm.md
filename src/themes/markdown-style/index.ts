@@ -5,6 +5,7 @@
 
 import ayuLightCss from './ayu-light.css?raw'
 import bauhausCss from './bauhaus.css?raw'
+import blueprintCss from './blueprint.css?raw'
 import botanicalCss from './botanical.css?raw'
 import greenSimpleCss from './green-simple.css?raw'
 import maximalismCss from './maximalism.css?raw'
@@ -37,6 +38,11 @@ export const markdownStyles: MarkdownStyle[] = [
     id: 'bauhaus',
     name: 'Bauhaus',
     css: resetCss + bauhausCss,
+  },
+  {
+    id: 'blueprint',
+    name: 'Blueprint',
+    css: resetCss + blueprintCss,
   },
   {
     id: 'botanical',
@@ -94,6 +100,10 @@ export const markdownStyles: MarkdownStyle[] = [
     css: resetCss + terminalCss,
   },
 ]
+
+export const markdownStyleIds = markdownStyles.map(s => s.id) as [string, ...string[]]
+
+export type MarkdownStyleId = (typeof markdownStyles)[number]['id']
 
 /**
  * Get markdown style by ID

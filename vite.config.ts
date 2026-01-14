@@ -30,9 +30,6 @@ else if (isTencentEdgeOne) {
 console.info('Using Nitro Preset:', customPreset || 'auto')
 
 const config = defineConfig({
-  preview: {
-    host: process.env.DOCKERIZED ? true : undefined,
-  },
   plugins: [
     fixNitroInlineDynamicImports(),
     // analyzer(),
@@ -42,7 +39,6 @@ const config = defineConfig({
     devtools(),
     ...(
       process.env.NODE_ENV !== 'test'
-      && !process.env.DOCKERIZED
         ? [nitro({
             preset: customPreset,
             cloudflare: {

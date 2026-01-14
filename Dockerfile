@@ -16,6 +16,7 @@ RUN pnpm run build
 
 ## Use distroless for the final image
 FROM gcr.io/distroless/nodejs22-debian12 AS runtime
+# FROM gcr.io/distroless/nodejs22-debian12:debug AS runtime
 
 WORKDIR /app
 

@@ -10,6 +10,12 @@ import { useFilesStore } from '@/stores/files'
 import { getAyuCodeMirrorTheme } from '@/themes/codemirror'
 import { importDropPasteExtension, importViewTrackerExtension } from './file-import'
 
+const lineNumbersTheme = EditorView.theme({
+  '.cm-lineNumbers': {
+    minWidth: '2em',
+  },
+})
+
 export default function CodeMirrorEditor() {
   const content = useFilesStore(state => state.currentContent)
   const setContent = useFilesStore(state => state.setCurrentContent)
@@ -32,6 +38,8 @@ export default function CodeMirrorEditor() {
         codeLanguages: languages,
       }),
       EditorView.lineWrapping,
+      EditorView.contentAttributes.of({ 'aria-label': 'Markdown 编辑器' }),
+      lineNumbersTheme,
       ...editorExtensions,
       importViewTrackerExtension,
       importDropPasteExtension,
