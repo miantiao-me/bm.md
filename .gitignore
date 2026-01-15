@@ -171,10 +171,8 @@ dist
 .dev
 esa.jsonc
 
-edge-functions
-node-functions
-
 .worktrees/
+
 dev-dist/
 
 **/*.local*
