@@ -1,4 +1,4 @@
-import { ClipboardCopy, Download, ImageDown } from 'lucide-react'
+import { ClipboardCopy, Download, ImageDown, Printer } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import {
   DropdownMenu,
@@ -8,7 +8,7 @@ import {
 } from '@/components/ui/dropdown-menu'
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip'
 import { editorCommandConfig } from '@/config'
-import { copyImage, exportImage } from '@/lib/actions'
+import { copyImage, exportImage, exportPdf } from '@/lib/actions'
 import { trackEvent } from '@/lib/analytics'
 
 export function ExportImageButton() {
@@ -20,6 +20,11 @@ export function ExportImageButton() {
   const onExportClick = async () => {
     trackEvent('export', 'image', 'button')
     await exportImage()
+  }
+
+  const onPrintClick = () => {
+    trackEvent('print', 'pdf', 'button')
+    exportPdf()
   }
 
   return (
@@ -46,6 +51,10 @@ export function ExportImageButton() {
         <DropdownMenuItem className="cursor-pointer" onClick={onExportClick}>
           <Download className="size-4" />
           {editorCommandConfig.exportImage.label}
+        </DropdownMenuItem>
+        <DropdownMenuItem className="cursor-pointer" onClick={onPrintClick}>
+          <Printer className="size-4" />
+          {editorCommandConfig.exportPdf.label}
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

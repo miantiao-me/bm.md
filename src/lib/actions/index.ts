@@ -1,6 +1,7 @@
 export { copyPlatform } from './copy-platform'
 export { copyImage, exportImage } from './export-image'
 export { exportMarkdown } from './export-markdown'
+export { exportPdf } from './export-pdf'
 export { formatMarkdown } from './format'
 export type { IconComponent, IconName } from './icon-map'
 export { getIcon, iconMap } from './icon-map'

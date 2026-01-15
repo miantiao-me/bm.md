@@ -97,6 +97,10 @@ export const editorCommandConfig = {
     label: '导出图片',
     icon: 'ImageDown' as IconName,
   },
+  exportPdf: {
+    label: '打印',
+    icon: 'Printer' as IconName,
+  },
   copyImage: {
     label: '复制图片',
     icon: 'ClipboardCopy' as IconName,
