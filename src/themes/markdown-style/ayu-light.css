@@ -1,7 +1,7 @@
 /* ============================================
-   Ayu Light - 极简温暖风格
-   基于 Obsidian Minimal 主题设计理念
-   结合 Ayu Light 官方配色方案
+   Ayu Light - Lapis 设计风格 + Ayu 配色方案
+   融合 Typora Lapis 主题的经典排版美学
+   与 Ayu Light 温暖橙色调配色
    ============================================ */
 
 /* 配色参考（硬编码自 palette/index.ts）
@@ -31,7 +31,7 @@
 }
 
 /* ============================================
-   标题 - 灰色系逐级变淡，H1 橙色装饰
+   标题 - H2 反白设计，同一色系逐级变淡
    ============================================ */
 
 #bm-md h1,
@@ -43,50 +43,60 @@
   line-height: 1.35;
   margin-top: 1.2em;
   margin-bottom: 0.5em;
-}
-
-#bm-md h1,
-#bm-md h2,
-#bm-md h3 {
   font-weight: 600;
 }
 
 #bm-md h4,
-#bm-md h5 {
+#bm-md h5,
+#bm-md h6 {
   font-weight: 500;
 }
 
-#bm-md h6 {
-  font-weight: 400;
-}
-
+/* H1 - 居中，底部橙色边框 */
 #bm-md h1 {
-  font-size: 1.25em;
+  font-size: 1.75em;
   color: #5c6166;
-  padding-bottom: 0.3em;
+  text-align: center;
+  padding-bottom: 0.5em;
   border-bottom: 2px solid #f29718;
 }
 
+/* H2 - 反白设计：橙色背景 + 白色文字 */
 #bm-md h2 {
-  font-size: 1.1em;
-  color: #5c6166;
+  font-size: 1.35em;
+  color: #fcfcfc;
+  background-color: #f29718;
+  padding: 2px 12px;
+  border-radius: 4px;
+  display: inline-block;
+  margin: 0.3em 0;
 }
 
+#bm-md h2 a {
+  color: #fcfcfc;
+}
+
+#bm-md h2 code {
+  background-color: #f29718;
+  color: #fcfcfc;
+}
+
+#bm-md h2 strong {
+  color: #fcfcfc;
+}
+
+/* H3 - 橙色文字 */
 #bm-md h3 {
-  font-size: 1.05em;
-  color: #6b7280;
+  font-size: 1.2em;
+  color: #f29718;
 }
 
-#bm-md h4 {
-  font-size: 1em;
-  color: #828e9f;
-}
-
+/* H4-H6 - 使用相同的次要色 */
+#bm-md h4,
 #bm-md h5,
 #bm-md h6 {
-  font-size: 0.9em;
+  font-size: 1em;
   color: #828e9f;
-  font-variant: small-caps;
 }
 
 #bm-md > h1:first-child,
@@ -104,6 +114,7 @@
 
 #bm-md p {
   margin-bottom: 1em;
+  line-height: 1.8;
 }
 
 #bm-md p:last-child {
@@ -114,10 +125,11 @@
    行内文本样式
    ============================================ */
 
+/* 加粗 - 使用橙色强调 */
 #bm-md strong,
 #bm-md b {
   font-weight: 600;
-  color: #5c6166;
+  color: #f29718;
 }
 
 #bm-md em,
@@ -135,7 +147,7 @@
 #bm-md mark {
   background-color: #ffe294;
   color: #5c6166;
-  padding: 0.1em 0.25em;
+  padding: 1px 4px;
   border-radius: 2px;
 }
 
@@ -191,7 +203,7 @@
   font-size: 0.85em;
   background-color: #f8f9fa;
   padding: 0.1em 0.3em;
-  border-radius: 2px;
+  border-radius: 3px;
 }
 
 #bm-md abbr[title] {
@@ -201,12 +213,14 @@
 }
 
 /* ============================================
-   链接 - 橙色，无下划线
+   链接 - 橙色带下划线（Lapis 风格）
    ============================================ */
 
 #bm-md a {
   color: #f29718;
-  text-decoration: none;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  text-decoration-thickness: 1px;
 }
 
 #bm-md a:hover {
@@ -249,17 +263,19 @@
 }
 
 #bm-md li {
-  margin-bottom: 0.075em;
+  margin-bottom: 0.4em;
+  line-height: 1.7;
 }
 
 #bm-md li::marker {
+  font-weight: bold;
   color: #828e9f;
 }
 
 #bm-md li > ul,
 #bm-md li > ol {
-  margin-top: 0.25em;
-  margin-bottom: 0.25em;
+  margin-top: 0.4em;
+  margin-bottom: 0.4em;
 }
 
 #bm-md ul ul {
@@ -287,19 +303,22 @@
 }
 
 /* ============================================
-   引用块
+   引用块 - 橙色左边框 + 浅色背景
    ============================================ */
 
 #bm-md blockquote {
+  display: block;
+  font-size: 0.95em;
+  overflow: auto;
+  border-left: 3px solid #f29718;
+  padding: 12px 20px;
   margin: 1em 0;
-  padding: 0.5em 1em;
-  border-left: 3px solid #e6e8eb;
-  background-color: #f8f9fa;
-  color: #5c6166;
+  background: #f8f9fa;
 }
 
 #bm-md blockquote p {
-  margin-bottom: 0.4em;
+  margin-bottom: 0.5em;
+  line-height: 1.7;
 }
 
 #bm-md blockquote p:last-child {
@@ -318,19 +337,21 @@
 
 #bm-md code {
   font-family: 'SF Mono', Consolas, 'Liberation Mono', Menlo, monospace;
-  font-size: 0.85em;
+  font-size: 0.9em;
   background-color: #f8f9fa;
-  color: #f07171;
-  padding: 0.15em 0.35em;
+  color: #f29718;
+  padding: 2px 4px;
   border-radius: 3px;
+  word-break: break-all;
 }
 
 #bm-md pre {
   margin: 1em 0;
-  padding: 0.875em 1em;
+  padding: 1.2em;
   background-color: #f8f9fa;
-  border-radius: 4px;
+  border-radius: 10px;
   overflow-x: auto;
+  line-height: 1.6;
 }
 
 #bm-md pre code {
@@ -348,28 +369,27 @@
    ============================================ */
 
 #bm-md table {
+  display: table;
   width: 100%;
   margin: 1em 0;
   border-collapse: collapse;
-  font-size: 0.9375em;
-  border: 1px solid #e6e8eb;
-}
-
-/* 表头首行样式（替代 thead） */
-#bm-md tr:first-child th {
-  background-color: #f8f9fa;
+  border-spacing: 0;
+  font-size: 0.95em;
+  text-align: left;
 }
 
 #bm-md th,
 #bm-md td {
-  padding: 0.4em 0.75em;
+  padding: 8px 12px;
   border: 1px solid #e6e8eb;
   text-align: left;
 }
 
 #bm-md th {
-  font-weight: 600;
-  background-color: #f8f9fa;
+  font-weight: bold;
+  color: #f29718;
+  text-align: center;
+  min-width: 6em;
 }
 
 #bm-md tbody tr:nth-child(even) {
@@ -392,7 +412,7 @@
 
 #bm-md .frontmatter-key {
   font-weight: 600;
-  color: #5c6166;
+  color: #f29718;
   white-space: nowrap;
 }
 
@@ -411,7 +431,8 @@
 #bm-md hr {
   margin: 1.5em 0;
   border: none;
-  border-top: 1px solid #e6e8eb;
+  border-top: 2px solid #e6e8eb;
+  border-radius: 2px;
 }
 
 /* ============================================
@@ -422,8 +443,7 @@
   display: block;
   max-width: 100%;
   height: auto;
-  border-radius: 8px;
-  margin: 1em 0;
+  margin: 1em auto;
 }
 
 #bm-md picture {
@@ -488,7 +508,7 @@
 
 #bm-md dt {
   font-weight: 600;
-  color: #5c6166;
+  color: #f29718;
   margin-top: 0.5em;
 }
 
@@ -499,7 +519,7 @@
 #bm-md dd {
   margin-left: 1.25em;
   margin-top: 0.2em;
-  color: #828e9f;
+  color: #5c6166;
 }
 
 /* ============================================
@@ -523,10 +543,13 @@
    ============================================ */
 
 #bm-md .markdown-alert {
+  display: block;
+  overflow: auto;
   margin: 1em 0;
-  padding: 0.625em 1em;
+  padding: 12px 20px;
   border-radius: 4px;
   border-left: 3px solid;
+  background: #f8f9fa;
 }
 
 #bm-md .markdown-alert-title {
@@ -534,11 +557,12 @@
   align-items: center;
   gap: 0.4em;
   font-weight: 600;
+  font-size: 1.1em;
   margin-bottom: 0.3em;
 }
 
 #bm-md .markdown-alert-note {
-  background-color: rgba(85, 180, 212, 0.08);
+  background-color: rgba(85, 180, 212, 0.06);
   border-left-color: #55b4d4;
 }
 
@@ -547,7 +571,7 @@
 }
 
 #bm-md .markdown-alert-tip {
-  background-color: rgba(108, 191, 67, 0.08);
+  background-color: rgba(108, 191, 67, 0.06);
   border-left-color: #6cbf43;
 }
 
@@ -556,7 +580,7 @@
 }
 
 #bm-md .markdown-alert-important {
-  background-color: rgba(163, 122, 204, 0.08);
+  background-color: rgba(163, 122, 204, 0.06);
   border-left-color: #a37acc;
 }
 
@@ -565,7 +589,7 @@
 }
 
 #bm-md .markdown-alert-warning {
-  background-color: rgba(242, 163, 0, 0.08);
+  background-color: rgba(242, 163, 0, 0.06);
   border-left-color: #f2a300;
 }
 
@@ -574,7 +598,7 @@
 }
 
 #bm-md .markdown-alert-caution {
-  background-color: rgba(230, 80, 80, 0.08);
+  background-color: rgba(230, 80, 80, 0.06);
   border-left-color: #e65050;
 }
 
@@ -605,13 +629,13 @@
   padding: 0.5em 0.75em;
   background-color: #f8f9fa;
   border: 1px solid #e6e8eb;
-  border-radius: 4px;
+  border-radius: 8px;
 }
 
 #bm-md summary {
   font-weight: 600;
   cursor: pointer;
-  color: #5c6166;
+  color: #f29718;
 }
 
 #bm-md details[open] summary {

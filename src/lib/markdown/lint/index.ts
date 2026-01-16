@@ -1,7 +1,5 @@
 import { ORPCError, os } from '@orpc/server'
-import { applyFixes } from 'markdownlint'
-import { lint as lintAsync } from 'markdownlint/promise'
-import z from 'zod'
+import * as z from 'zod'
 import { INPUT_SIZE_ERROR, MAX_INPUT_SIZE } from '../constants'
 
 export const lintDefinition = {
@@ -18,9 +16,8 @@ export const lintDefinition = {
 
 export async function lint({ markdown }: z.infer<typeof lintDefinition.inputSchema>) {
   try {
-    const results = await lintAsync({ strings: { content: markdown } })
-    const fixed = applyFixes(markdown, results.content)
-    return fixed
+    const { lint } = await import('./markdown')
+    return lint(markdown)
   }
   catch (error) {
     throw new ORPCError('INTERNAL_SERVER_ERROR', error)

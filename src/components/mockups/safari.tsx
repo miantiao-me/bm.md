@@ -104,8 +104,8 @@ export function Safari({
       </div>
 
       <div className={`
-        relative min-h-0 flex-1 overflow-hidden bg-[#e6e8eb]
-        dark:bg-[#282e3b]
+        relative min-h-0 flex-1 overflow-hidden bg-white
+        dark:bg-[#262626]
       `}
       >
         {hasVideo && (

@@ -12,6 +12,9 @@ import { env } from '@/env'
 
 import appCss from '../styles.css?url'
 
+// Google Fonts URL - 仅加载 Logo 使用的字符
+const fontUrl = `https://fonts.googleapis.cn/css2?family=Doto:wght@700&display=swap&text=${encodeURIComponent(['bm.md', '404'].join(''))}`
+
 export const Route = createRootRoute({
   head: () => ({
     meta: [
@@ -36,16 +39,21 @@ export const Route = createRootRoute({
       { name: 'twitter:image', content: `${appConfig.url}/banner.png` },
     ],
     links: [
+      // Preconnect
       { rel: 'preconnect', href: 'https://fonts.googleapis.cn' },
       { rel: 'preconnect', href: 'https://fonts.gstatic.cn', crossOrigin: 'anonymous' },
-      { rel: 'stylesheet', href: `https://fonts.googleapis.cn/css2?family=Doto:wght@700&display=swap&text=${encodeURIComponent(['bm.md', '404'].join(''))}` },
+      // Preload 关键资源
+      { rel: 'preload', href: fontUrl, as: 'style', crossOrigin: 'anonymous' },
+      { rel: 'preload', href: appCss, as: 'style' },
+      { rel: 'preload', href: '/blur-mask.svg', as: 'image', type: 'image/svg+xml' },
+      // Stylesheets
+      { rel: 'stylesheet', href: fontUrl },
       { rel: 'stylesheet', href: appCss },
+      // Meta
       { rel: 'canonical', href: appConfig.url },
       { rel: 'manifest', href: '/manifest.webmanifest' },
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
       { rel: 'apple-touch-icon', href: '/apple-touch-icon.png' },
-      { rel: 'preload', href: '/blur-mask.svg', as: 'image', type: 'image/svg+xml' },
-      { rel: 'canonical', href: appConfig.url },
     ],
   }),
   beforeLoad: () => {

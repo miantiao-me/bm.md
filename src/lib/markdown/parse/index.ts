@@ -1,7 +1,6 @@
 import { ORPCError, os } from '@orpc/server'
-import z from 'zod'
+import * as z from 'zod'
 import { INPUT_SIZE_ERROR, MAX_INPUT_SIZE } from '../constants'
-import parseHtml from './html'
 
 export const parseDefinition = {
   name: 'parse',
@@ -17,8 +16,8 @@ export const parseDefinition = {
 
 export async function parse(input: z.infer<typeof parseDefinition.inputSchema>) {
   try {
-    const markdown = await parseHtml(input.html)
-    return markdown
+    const { parse } = await import('./html')
+    return parse(input.html)
   }
   catch (error) {
     throw new ORPCError('INTERNAL_SERVER_ERROR', error)

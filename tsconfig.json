@@ -3,7 +3,6 @@
     "target": "ES2022",
     "jsx": "react-jsx",
     "lib": ["ES2022", "DOM", "DOM.Iterable", "WebWorker"],
-
     "baseUrl": ".",
     "module": "ESNext",
     /* Bundler mode */
@@ -24,7 +23,6 @@
     "noUnusedParameters": true,
     "noEmit": true,
     "verbatimModuleSyntax": false,
-
     /* Linting */
     "skipLibCheck": true,
     "noUncheckedSideEffectImports": true

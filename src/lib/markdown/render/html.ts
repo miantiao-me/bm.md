@@ -1,6 +1,5 @@
 import type { Platform } from './adapters'
 import juice from 'juice'
-import katexCss from 'katex/dist/katex.css?raw'
 import rehypeExternalLinks from 'rehype-external-links'
 import rehypeGithubAlert from 'rehype-github-alert'
 import rehypeHighlight from 'rehype-highlight'
@@ -14,8 +13,9 @@ import remarkMath from 'remark-math'
 import remarkParse from 'remark-parse'
 import remarkRehype from 'remark-rehype'
 import { unified } from 'unified'
-import { getCodeThemeById } from '@/themes/code-theme'
-import { getMarkdownStyleById } from '@/themes/markdown-style'
+import { loadCodeThemeCss } from '@/themes/code-theme/loader'
+import { loadMarkdownStyleCss } from '@/themes/markdown-style/loader'
+import { loadKatexCss } from '../utils'
 import { getAdapterPlugins } from './adapters'
 import { rehypeDivToSection, rehypeFigureWrapper, rehypeFootnoteLinks, rehypeWrapTextNodes, remarkFrontmatterTable } from './plugins'
 
@@ -105,7 +105,7 @@ function createProcessor({ enableFootnoteLinks, openLinksInNewWindow, platform =
   return processor
 }
 
-export default async function render(options: RenderOptions): Promise<string> {
+export async function render(options: RenderOptions): Promise<string> {
   const {
     markdown,
     markdownStyle,
@@ -127,12 +127,15 @@ export default async function render(options: RenderOptions): Promise<string> {
     return html
   }
 
-  const markdownStyleCss = markdownStyle ? getMarkdownStyleById(markdownStyle)?.css : ''
-  const codeThemeCss = codeTheme ? getCodeThemeById(codeTheme)?.css : ''
+  const [markdownStyleCss, codeThemeCss, katexCss] = await Promise.all([
+    markdownStyle ? loadMarkdownStyleCss(markdownStyle) : Promise.resolve(''),
+    codeTheme ? loadCodeThemeCss(codeTheme) : Promise.resolve(''),
+    hasKatex ? loadKatexCss() : Promise.resolve(''),
+  ])
   const css = [
-    markdownStyleCss,
-    codeThemeCss,
-    hasKatex ? katexCss : '',
+    markdownStyleCss ?? '',
+    codeThemeCss ?? '',
+    katexCss ?? '',
     customCss,
   ].filter(Boolean).join('\n')
 

@@ -1,5 +1,5 @@
 import { createFileRoute } from '@tanstack/react-router'
-import z from 'zod'
+import * as z from 'zod'
 import { corsMiddleware } from '@/lib/middleware/cors'
 import { getStorageProvider, StorageError } from '@/storage'
 

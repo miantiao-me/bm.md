@@ -11,7 +11,7 @@ const processor = unified()
   .use(remarkRetext, unified().use(retextEnglish))
   .use(retextStringify)
 
-export default async function extract(markdown: string) {
+export async function extract(markdown: string) {
   const processed = await processor.process(markdown)
   return processed.toString()
 }

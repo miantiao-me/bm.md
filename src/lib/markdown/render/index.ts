@@ -1,10 +1,9 @@
 import { ORPCError, os } from '@orpc/server'
-import z from 'zod'
+import * as z from 'zod'
 import { codeThemeIds } from '@/themes/code-theme'
 import { markdownStyleIds } from '@/themes/markdown-style'
 import { INPUT_SIZE_ERROR, MAX_INPUT_SIZE } from '../constants'
 import { platforms } from './adapters'
-import html from './html'
 
 export const platformSchema = z.enum(platforms)
 export const markdownStyleSchema = z.enum(markdownStyleIds)
@@ -30,7 +29,8 @@ export const renderDefinition = {
 
 export async function render(input: z.infer<typeof renderDefinition.inputSchema>) {
   try {
-    return html(input)
+    const { render } = await import('./html')
+    return render(input)
   }
   catch (error) {
     throw new ORPCError('INTERNAL_SERVER_ERROR', error)

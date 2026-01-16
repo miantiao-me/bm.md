@@ -1,7 +1,6 @@
 import { ORPCError, os } from '@orpc/server'
-import z from 'zod'
+import * as z from 'zod'
 import { INPUT_SIZE_ERROR, MAX_INPUT_SIZE } from '../constants'
-import extractText from './text'
 
 export const extractDefinition = {
   name: 'extract',
@@ -17,7 +16,8 @@ export const extractDefinition = {
 
 export async function extract(input: z.infer<typeof extractDefinition.inputSchema>) {
   try {
-    return extractText(input.markdown)
+    const { extract } = await import('./text')
+    return extract(input.markdown)
   }
   catch (error) {
     throw new ORPCError('INTERNAL_SERVER_ERROR', error)
