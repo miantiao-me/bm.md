@@ -37,6 +37,8 @@ bm.md 是一个专业的 Markdown 排版工具，提供以下核心能力：
 | `enableFootnoteLinks`  | boolean | 否   | `true`         | 是否将链接转换为脚注形式                                              |
 | `openLinksInNewWindow` | boolean | 否   | `true`         | 是否在新窗口打开链接                                                  |
 | `platform`             | string  | 否   | `html`         | 目标平台：`html`、`wechat`、`zhihu`、`juejin`                         |
+| `footnoteLabel`        | string  | 否   | `Footnotes`    | GFM 脚注区域标题                                                      |
+| `referenceTitle`       | string  | 否   | `References`   | 外部链接参考区域标题                                                  |
 
 **curl 示例**:
 
@@ -184,18 +186,22 @@ curl -X POST https://bm.md/api/markdown/lint \
 
 ### 代码主题 (codeTheme)
 
-| ID                   | 名称               | 类型 |
-| -------------------- | ------------------ | ---- |
-| `tokyo-night-light`  | Tokyo Night Light  | 浅色 |
-| `tokyo-night-dark`   | Tokyo Night Dark   | 深色 |
-| `panda-syntax-light` | Panda Syntax Light | 浅色 |
-| `panda-syntax-dark`  | Panda Syntax Dark  | 深色 |
-| `rose-pine-dawn`     | Rosé Pine Dawn     | 浅色 |
-| `rose-pine`          | Rosé Pine          | 深色 |
-| `kimbie-light`       | Kimbie Light       | 浅色 |
-| `kimbie-dark`        | Kimbie Dark        | 深色 |
-| `paraiso-light`      | Paraiso Light      | 浅色 |
-| `paraiso-dark`       | Paraiso Dark       | 深色 |
+| ID                     | 名称                 | 类型 |
+| ---------------------- | -------------------- | ---- |
+| `catppuccin-latte`     | Catppuccin Latte     | 浅色 |
+| `catppuccin-frappe`    | Catppuccin Frappé    | 深色 |
+| `catppuccin-macchiato` | Catppuccin Macchiato | 深色 |
+| `catppuccin-mocha`     | Catppuccin Mocha     | 深色 |
+| `kimbie-light`         | Kimbie Light         | 浅色 |
+| `kimbie-dark`          | Kimbie Dark          | 深色 |
+| `panda-syntax-light`   | Panda Syntax Light   | 浅色 |
+| `panda-syntax-dark`    | Panda Syntax Dark    | 深色 |
+| `paraiso-light`        | Paraiso Light        | 浅色 |
+| `paraiso-dark`         | Paraiso Dark         | 深色 |
+| `rose-pine-dawn`       | Rosé Pine Dawn       | 浅色 |
+| `rose-pine`            | Rosé Pine            | 深色 |
+| `tokyo-night-light`    | Tokyo Night Light    | 浅色 |
+| `tokyo-night-dark`     | Tokyo Night Dark     | 深色 |
 
 ### 目标平台 (platform)
 
