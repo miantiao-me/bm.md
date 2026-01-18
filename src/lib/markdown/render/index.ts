@@ -21,6 +21,8 @@ export const renderDefinition = {
     enableFootnoteLinks: z.boolean().optional().default(true).describe('是否将文中链接自动转换为脚注形式，便于阅读时查看原始链接'),
     openLinksInNewWindow: z.boolean().optional().default(true).describe('是否为所有外部链接添加 target="_blank"，在新窗口打开'),
     platform: platformSchema.optional().default('html').describe('目标发布平台，会针对平台特性进行适配优化。可选值: html（通用网页）, wechat（微信公众号）, zhihu（知乎专栏）, juejin（掘金）'),
+    footnoteLabel: z.string().max(50).optional().default('Footnotes').describe('GFM 脚注区域标题'),
+    referenceTitle: z.string().max(50).optional().default('References').describe('外部链接参考区域标题'),
   }),
   outputSchema: z.object({
     result: z.string().describe('渲染后的 HTML 片段，CSS 样式已内联到元素上，可直接复制粘贴到富文本编辑器'),

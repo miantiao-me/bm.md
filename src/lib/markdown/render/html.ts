@@ -1,3 +1,4 @@
+import type { Plugin } from 'unified'
 import type { Platform } from './adapters'
 import juice from 'juice'
 import rehypeExternalLinks from 'rehype-external-links'
@@ -27,12 +28,16 @@ export interface RenderOptions {
   enableFootnoteLinks?: boolean
   openLinksInNewWindow?: boolean
   platform?: Platform
+  footnoteLabel?: string
+  referenceTitle?: string
 }
 
 interface ProcessorOptions {
   enableFootnoteLinks?: boolean
   openLinksInNewWindow?: boolean
   platform?: Platform
+  footnoteLabel?: string
+  referenceTitle?: string
 }
 
 const sanitizeSchema = {
@@ -59,7 +64,7 @@ const sanitizeSchema = {
   },
 }
 
-function createProcessor({ enableFootnoteLinks, openLinksInNewWindow, platform = 'html' }: ProcessorOptions) {
+function createProcessor({ enableFootnoteLinks, openLinksInNewWindow, platform = 'html', footnoteLabel = 'Footnotes', referenceTitle = 'References' }: ProcessorOptions) {
   const processor = unified()
     .use(remarkParse)
     .use(remarkGfm)
@@ -68,8 +73,7 @@ function createProcessor({ enableFootnoteLinks, openLinksInNewWindow, platform =
     .use(remarkFrontmatterTable)
     .use(remarkRehype, {
       allowDangerousHtml: true,
-      footnoteLabel: '脚注',
-      footnoteBackLabel: '返回正文',
+      footnoteLabel,
       footnoteLabelTagName: 'h4',
     })
 
@@ -89,12 +93,17 @@ function createProcessor({ enableFootnoteLinks, openLinksInNewWindow, platform =
     .use(rehypeFigureWrapper)
 
   if (enableFootnoteLinks && platform !== 'wechat') {
-    processor.use(rehypeFootnoteLinks)
+    processor.use(rehypeFootnoteLinks, { referenceTitle })
   }
 
-  const adapterPlugins = getAdapterPlugins(platform)
+  const adapterPlugins = getAdapterPlugins(platform, { referenceTitle })
   for (const plugin of adapterPlugins) {
-    processor.use(plugin)
+    if (Array.isArray(plugin)) {
+      processor.use(plugin[0] as Plugin, plugin[1])
+    }
+    else {
+      processor.use(plugin as Plugin)
+    }
   }
 
   processor.use(rehypeDivToSection)
@@ -114,9 +123,11 @@ export async function render(options: RenderOptions): Promise<string> {
     enableFootnoteLinks = true,
     openLinksInNewWindow = true,
     platform = 'html',
+    footnoteLabel = 'Footnotes',
+    referenceTitle = 'References',
   } = options
 
-  const processor = createProcessor({ enableFootnoteLinks, openLinksInNewWindow, platform })
+  const processor = createProcessor({ enableFootnoteLinks, openLinksInNewWindow, platform, footnoteLabel, referenceTitle })
   const html = (await processor.process(markdown)).toString()
 
   const hasKatex = html.includes('class="katex"')

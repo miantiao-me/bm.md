@@ -11,6 +11,14 @@ import iframeShell from './iframe-shell.html?raw'
 
 const RENDER_DEBOUNCE_MS = 100
 
+const LOCALE_TEXTS: Record<string, { footnoteLabel: string, referenceTitle: string }> = {
+  'zh-CN': { footnoteLabel: '脚注', referenceTitle: '参考链接' },
+}
+
+function getLocaleTexts() {
+  return LOCALE_TEXTS[navigator.language]
+}
+
 export default function MarkdownRender() {
   const content = useFilesStore(state => state.currentContent)
   const enableScrollSync = useEditorStore(state => state.enableScrollSync)
@@ -137,6 +145,7 @@ export default function MarkdownRender() {
           customCss: customCssValue,
           enableFootnoteLinks: enableRefLinks,
           openLinksInNewWindow: openNewWin,
+          ...getLocaleTexts(),
         })
 
         if (!canceledRef.current) {

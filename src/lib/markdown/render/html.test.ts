@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import render from './html'
+import { render } from './html'
 
 describe('markdown -> html render (general)', () => {
   it('renders paragraphs as p elements', async () => {
@@ -57,7 +57,7 @@ describe('markdown -> html render (general)', () => {
 
     expect(html).toContain('footnote-ref')
     expect(html).toContain('[1]')
-    expect(html).toContain('参考链接')
+    expect(html).toContain('References')
   })
 
   it('preserves links without footnotes when disabled', async () => {
@@ -190,5 +190,40 @@ describe('platform-specific rendering', () => {
 
     expect(html).toContain('标题')
     expect(html).toContain('code')
+  })
+})
+
+describe('i18n support', () => {
+  it('uses custom referenceTitle in footnotes section', async () => {
+    const html = await render({
+      markdown: '[链接](https://example.com)',
+      enableFootnoteLinks: true,
+      platform: 'html',
+      referenceTitle: '参考链接',
+    })
+
+    expect(html).toContain('参考链接')
+    expect(html).not.toContain('References')
+  })
+
+  it('uses custom referenceTitle for wechat platform', async () => {
+    const html = await render({
+      markdown: '[链接](https://example.com)',
+      platform: 'wechat',
+      referenceTitle: '参考链接',
+    })
+
+    expect(html).toContain('参考链接')
+    expect(html).not.toContain('References')
+  })
+
+  it('uses custom footnoteLabel for GFM footnotes', async () => {
+    const html = await render({
+      markdown: '文本[^1]\n\n[^1]: 脚注内容',
+      footnoteLabel: '脚注',
+    })
+
+    expect(html).toContain('脚注')
+    expect(html).not.toContain('Footnotes')
   })
 })

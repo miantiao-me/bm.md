@@ -1,5 +1,5 @@
-import type { Plugin } from 'unified'
-import type { Platform, PlatformAdapter } from './types'
+import type { Pluggable } from 'unified'
+import type { AdapterOptions, Platform, PlatformAdapter } from './types'
 import { juejinAdapter } from './juejin'
 import { wechatAdapter } from './wechat'
 import { zhihuAdapter } from './zhihu'
@@ -7,7 +7,7 @@ import { zhihuAdapter } from './zhihu'
 const htmlAdapter: PlatformAdapter = {
   id: 'html',
   name: 'HTML',
-  plugins: [],
+  getPlugins: () => [],
 }
 
 const adapters: Record<Platform, PlatformAdapter> = {
@@ -17,8 +17,8 @@ const adapters: Record<Platform, PlatformAdapter> = {
   juejin: juejinAdapter,
 }
 
-export function getAdapterPlugins(platform: Platform): Plugin[] {
-  return adapters[platform].plugins
+export function getAdapterPlugins(platform: Platform, options?: AdapterOptions): Pluggable[] {
+  return adapters[platform].getPlugins(options)
 }
 
-export { type Platform, type PlatformAdapter, platforms } from './types'
+export { type AdapterOptions, type Platform, type PlatformAdapter, platforms } from './types'

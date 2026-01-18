@@ -8,7 +8,13 @@ interface FootnoteLink {
   text: string
 }
 
-const rehypeFootnoteLinks: Plugin<[], Root> = () => {
+interface Options {
+  referenceTitle?: string
+}
+
+const rehypeFootnoteLinks: Plugin<[Options?], Root> = (options = {}) => {
+  const { referenceTitle = 'References' } = options
+
   return (tree) => {
     const links: FootnoteLink[] = []
     const seenUrls = new Set<string>()
@@ -67,7 +73,7 @@ const rehypeFootnoteLinks: Plugin<[], Root> = () => {
           type: 'element',
           tagName: 'h4',
           properties: {},
-          children: [{ type: 'text', value: '参考链接' }],
+          children: [{ type: 'text', value: referenceTitle }],
         },
         {
           type: 'element',

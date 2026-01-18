@@ -12,7 +12,7 @@ interface FootnoteLink {
 
 function isWechatArticleUrl(href: string): boolean {
   try {
-    const url = new URL(href, 'https://placeholder.com')
+    const url = new URL(href, 'https://bm.md')
     return url.hostname === 'mp.weixin.qq.com'
   }
   catch {
@@ -151,25 +151,25 @@ function protectCodeWhitespace(code: Element) {
   preserveSpanBoundarySpaces(code)
 }
 
-const rehypeWechatListNormalize: Plugin<[], Root> = () => (tree) => {
-  const blockTags = new Set([
-    'div',
-    'p',
-    'blockquote',
-    'pre',
-    'ul',
-    'ol',
-    'table',
-    'h1',
-    'h2',
-    'h3',
-    'h4',
-    'h5',
-    'h6',
-    'hr',
-    'figure',
-  ])
+const blockTags = new Set([
+  'div',
+  'p',
+  'blockquote',
+  'pre',
+  'ul',
+  'ol',
+  'table',
+  'h1',
+  'h2',
+  'h3',
+  'h4',
+  'h5',
+  'h6',
+  'hr',
+  'figure',
+])
 
+const rehypeWechatListNormalize: Plugin<[], Root> = () => (tree) => {
   visit(tree, 'element', (node: Element, index, parent) => {
     if (
       node.tagName === 'input'
@@ -207,117 +207,125 @@ const rehypeWechatCodeWhitespace: Plugin<[], Root> = () => (tree) => {
   })
 }
 
-const rehypeWechatFootnoteLinks: Plugin<[], Root> = () => (tree) => {
-  const links: FootnoteLink[] = []
-  const hrefToId = new Map<string, number>()
-  let counter = 1
+interface WechatFootnoteLinkOptions {
+  referenceTitle?: string
+}
 
-  visit(tree, 'element', (node: Element, index, parent) => {
-    if (node.tagName !== 'a' || typeof index !== 'number' || !hasChildren(parent)) {
-      return
-    }
+const rehypeWechatFootnoteLinks: Plugin<[WechatFootnoteLinkOptions?], Root> = (options = {}) => {
+  const { referenceTitle = 'References' } = options
 
-    const rawHref = node.properties?.href
-    if (typeof rawHref !== 'string') {
-      return
-    }
+  return (tree) => {
+    const links: FootnoteLink[] = []
+    const hrefToId = new Map<string, number>()
+    let counter = 1
 
-    const href = rawHref.trim()
+    visit(tree, 'element', (node: Element, index, parent) => {
+      if (node.tagName !== 'a' || typeof index !== 'number' || !hasChildren(parent)) {
+        return
+      }
 
-    // 移除 GFM 脚注返回链接（↩）
-    if (
-      node.properties?.dataFootnoteBackref !== undefined
-      || href.startsWith('#user-content-fnref-')
-    ) {
-      parent.children.splice(index, 1)
-      return index
-    }
+      const rawHref = node.properties?.href
+      if (typeof rawHref !== 'string') {
+        return
+      }
 
-    if (!href) {
+      const href = rawHref.trim()
+
+      // 移除 GFM 脚注返回链接（↩）
+      if (
+        node.properties?.dataFootnoteBackref !== undefined
+        || href.startsWith('#user-content-fnref-')
+      ) {
+        parent.children.splice(index, 1)
+        return index
+      }
+
+      if (!href) {
+        node.tagName = 'span'
+        delete node.properties?.href
+        delete node.properties?.target
+        delete node.properties?.rel
+        return
+      }
+
+      if (isWechatArticleUrl(href)) {
+        return
+      }
+
       node.tagName = 'span'
       delete node.properties?.href
       delete node.properties?.target
       delete node.properties?.rel
-      return
-    }
 
-    if (isWechatArticleUrl(href)) {
-      return
-    }
+      if (shouldSkipFootnote(href)) {
+        return
+      }
 
-    node.tagName = 'span'
-    delete node.properties?.href
-    delete node.properties?.target
-    delete node.properties?.rel
+      let id = hrefToId.get(href)
+      if (!id) {
+        id = counter++
+        hrefToId.set(href, id)
+        links.push({ id, href, text: extractLinkText(node) })
+      }
 
-    if (shouldSkipFootnote(href)) {
-      return
-    }
-
-    let id = hrefToId.get(href)
-    if (!id) {
-      id = counter++
-      hrefToId.set(href, id)
-      links.push({ id, href, text: extractLinkText(node) })
-    }
-
-    parent.children.splice(index + 1, 0, {
-      type: 'element',
-      tagName: 'sup',
-      properties: { className: ['footnote-ref'] },
-      children: [{ type: 'text', value: `[${id}]` }],
+      parent.children.splice(index + 1, 0, {
+        type: 'element',
+        tagName: 'sup',
+        properties: { className: ['footnote-ref'] },
+        children: [{ type: 'text', value: `[${id}]` }],
+      })
     })
-  })
 
-  if (links.length === 0) {
-    return
-  }
+    if (links.length === 0) {
+      return
+    }
 
-  tree.children.push({
-    type: 'element',
-    tagName: 'section',
-    properties: { className: ['footnotes'], dataFootnotes: '' },
-    children: [
-      {
-        type: 'element',
-        tagName: 'h4',
-        properties: {},
-        children: [{ type: 'text', value: '参考链接' }],
-      },
-      {
-        type: 'element',
-        tagName: 'ol',
-        properties: {},
-        children: links.map(link => ({
+    tree.children.push({
+      type: 'element',
+      tagName: 'section',
+      properties: { className: ['footnotes'], dataFootnotes: '' },
+      children: [
+        {
           type: 'element',
-          tagName: 'li',
+          tagName: 'h4',
           properties: {},
-          children: [
-            {
-              type: 'element',
-              tagName: 'span',
-              properties: {},
-              children: [{ type: 'text', value: `${link.text || link.href}: ` }],
-            },
-            {
-              type: 'element',
-              tagName: 'span',
-              properties: { style: 'word-break: break-all;' },
-              children: [{ type: 'text', value: link.href }],
-            },
-          ],
-        } as Element)),
-      },
-    ],
-  })
+          children: [{ type: 'text', value: referenceTitle }],
+        },
+        {
+          type: 'element',
+          tagName: 'ol',
+          properties: {},
+          children: links.map(link => ({
+            type: 'element',
+            tagName: 'li',
+            properties: {},
+            children: [
+              {
+                type: 'element',
+                tagName: 'span',
+                properties: {},
+                children: [{ type: 'text', value: `${link.text || link.href}: ` }],
+              },
+              {
+                type: 'element',
+                tagName: 'span',
+                properties: { style: 'word-break: break-all;' },
+                children: [{ type: 'text', value: link.href }],
+              },
+            ],
+          } as Element)),
+        },
+      ],
+    })
+  }
 }
 
 export const wechatAdapter: PlatformAdapter = {
   id: 'wechat',
   name: '微信公众号',
-  plugins: [
+  getPlugins: options => [
     rehypeWechatListNormalize,
     rehypeWechatCodeWhitespace,
-    rehypeWechatFootnoteLinks,
+    [rehypeWechatFootnoteLinks, { referenceTitle: options?.referenceTitle }],
   ],
 }

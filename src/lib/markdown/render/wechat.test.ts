@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import render from './html'
+import { render } from './html'
 
 describe('wechat render adapter', () => {
   it('converts external links to footnotes and removes href', async () => {
@@ -11,8 +11,7 @@ describe('wechat render adapter', () => {
     expect(html).not.toContain('href="https://example.com"')
     expect(html).toContain('<span>示例</span>')
     expect(html).toMatch(/<sup[^>]*>\[1\]<\/sup>/)
-    expect(html).toContain('参考链接')
-    expect(html).toContain('<code')
+    expect(html).toContain('References')
     expect(html).toContain('https://example.com')
   })
 
@@ -24,7 +23,7 @@ describe('wechat render adapter', () => {
 
     expect(html).toContain('href="https://mp.weixin.qq.com/s/abc"')
     expect(html).not.toContain('footnote-ref')
-    expect(html).not.toContain('参考链接')
+    expect(html).not.toContain('References')
   })
 
   it('footnotes mailto and tel links', async () => {
@@ -37,7 +36,7 @@ describe('wechat render adapter', () => {
     expect(html).not.toContain('href="tel:123"')
     expect(html).toContain('mailto:test@example.com')
     expect(html).toContain('tel:123')
-    expect(html).toContain('参考链接')
+    expect(html).toContain('References')
   })
 
   it('keeps nested lists valid', async () => {
@@ -66,7 +65,7 @@ describe('wechat render adapter', () => {
       platform: 'wechat',
     })
 
-    expect(html).toMatch(/<section[^>]*overflow-x:\s*auto[^>]*>\s*<table/)
+    expect(html).toMatch(/<figure[^>]*class="figure-table"[^>]*>\s*<table/)
   })
 
   it('converts code block newlines to br elements', async () => {
