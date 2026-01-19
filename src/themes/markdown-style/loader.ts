@@ -11,6 +11,7 @@ const themeModules: Record<string, () => Promise<{ default: string }>> = {
   'bauhaus': () => import('./bauhaus.css?raw'),
   'blueprint': () => import('./blueprint.css?raw'),
   'botanical': () => import('./botanical.css?raw'),
+  'gemini': () => import('./gemini.css?raw'),
   'green-simple': () => import('./green-simple.css?raw'),
   'maximalism': () => import('./maximalism.css?raw'),
   'neo-brutalism': () => import('./neo-brutalism.css?raw'),
