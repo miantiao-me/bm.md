@@ -1,0 +1,733 @@
+/* ============================================
+   Gemini - Google Material Design 3 风格
+
+   设计哲学：通过 Material Design 传达现代专业感
+   灵感来源：Google Gemini 文档站、Material Design 3、
+   Google Cloud 平台，以及 Google 品牌设计系统
+
+   情感关键词：
+   - 现代 — Material Design 3 的清爽设计语言
+   - 可信 — Google Blue 传达专业与可靠
+   - 清晰 — 充足留白、清晰层次、易读性优先
+   - 智能 — 适合技术文档与教程类内容
+   - 简洁 — 卡片化组件、柔和阴影、精准圆角
+
+   配色系统（硬编码）：
+   - Google Blue 主色: #1A73E8
+   - 次级蓝色: #1557B0
+   - 深蓝色: #0D47A1
+   - 正文颜色: #3C4043
+   - 次级文字: #5F6368
+   - 浅灰文字: #80868B
+   - 边框颜色: #DADCE0
+   - 背景主色: #FFFFFF
+   - 背景次色: #F8F9FA
+   - 代码块背景: #F5F5F5
+   - 高亮背景: #E8F0FE
+   - 成功绿色: #1E8E3E (Note)
+   - 警告橙色: #F9AB00 (Warning)
+   - 错误红色: #D93025 (Caution/行内代码)
+   - 重要紫色: #9334E6 (Important)
+   ============================================ */
+
+/* 容器 - 纯白背景，Material Design 基础 */
+#bm-md {
+  color: #3c4043;
+  background-color: #ffffff;
+  font-family:
+    -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'PingFang SC', 'Hiragino Sans GB',
+    'Microsoft YaHei', sans-serif;
+  font-size: 16px;
+  line-height: 1.75;
+  padding: 1.5em 1.25em;
+}
+
+/* ============================================
+   标题 - Google Blue 色系，逐级变淡
+   Material Design Typography Scale
+   ============================================ */
+
+#bm-md h1,
+#bm-md h2,
+#bm-md h3,
+#bm-md h4,
+#bm-md h5,
+#bm-md h6 {
+  font-family:
+    -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'PingFang SC', 'Hiragino Sans GB',
+    'Microsoft YaHei', sans-serif;
+  font-weight: 600;
+  line-height: 1.3;
+  margin-top: 1.5em;
+  margin-bottom: 0.75em;
+}
+
+/* H1 - 居中主标题，Google Blue 底部边框 */
+#bm-md h1 {
+  font-size: 1.875em;
+  color: #1a73e8;
+  font-weight: 600;
+  text-align: center;
+  padding-bottom: 0.5em;
+  margin-bottom: 0.75em;
+  border-bottom: 2px solid #1a73e8;
+}
+
+/* H2 - 章节标题，Material Card 风格 */
+#bm-md h2 {
+  font-size: 1.5em;
+  color: #1557b0;
+  font-weight: 600;
+  padding: 0.5em 0.75em;
+  margin: 1.5em 0 0.75em 0;
+  background-color: #f8f9fa;
+  border-left: 4px solid #1a73e8;
+  border-radius: 4px;
+}
+
+/* H3 - 小节标题，深蓝色 */
+#bm-md h3 {
+  font-size: 1.25em;
+  color: #0d47a1;
+  font-weight: 600;
+}
+
+/* H4-H6 - 次级标题，统一灰色 */
+#bm-md h4,
+#bm-md h5,
+#bm-md h6 {
+  color: #5f6368;
+  font-weight: 500;
+}
+
+#bm-md h4 {
+  font-size: 1.125em;
+}
+
+#bm-md h5 {
+  font-size: 1em;
+}
+
+#bm-md h6 {
+  font-size: 0.9375em;
+}
+
+/* 首个标题无上边距 */
+#bm-md > h1:first-child,
+#bm-md > h2:first-child,
+#bm-md > h3:first-child,
+#bm-md > h4:first-child,
+#bm-md > h5:first-child,
+#bm-md > h6:first-child {
+  margin-top: 0;
+}
+
+/* ============================================
+   段落 - 舒适阅读间距
+   ============================================ */
+
+#bm-md p {
+  margin-bottom: 1em;
+}
+
+#bm-md p:last-child {
+  margin-bottom: 0;
+}
+
+/* ============================================
+   行内文本样式 - Material Design 文字处理
+   ============================================ */
+
+/* 粗体 - 深色强调 */
+#bm-md strong,
+#bm-md b {
+  font-weight: 600;
+  color: #202124;
+}
+
+/* 斜体 */
+#bm-md em,
+#bm-md i {
+  font-style: italic;
+}
+
+/* 删除线 - 灰色表示废弃 */
+#bm-md del,
+#bm-md s,
+#bm-md strike {
+  color: #80868b;
+  text-decoration: line-through;
+}
+
+/* 高亮 - Google Blue 浅背景 */
+#bm-md mark {
+  background-color: #e8f0fe;
+  color: #3c4043;
+  padding: 0.1em 0.3em;
+  border-radius: 2px;
+}
+
+/* 小号文字 */
+#bm-md small {
+  font-size: 0.875em;
+  color: #5f6368;
+}
+
+/* 上下标 */
+#bm-md sup,
+#bm-md sub {
+  font-size: 0.75em;
+  line-height: 0;
+}
+
+#bm-md sup {
+  vertical-align: super;
+}
+
+#bm-md sub {
+  vertical-align: sub;
+}
+
+/* 插入文本 - 蓝色下划线 */
+#bm-md ins {
+  background-color: #e8f0fe;
+  text-decoration: none;
+  padding: 0.1em 0.2em;
+  border-bottom: 1px solid #1a73e8;
+}
+
+/* 行内引用 - 蓝色引号 */
+#bm-md q {
+  quotes: '"' '"' '' ' ' '';
+  color: #3c4043;
+}
+
+#bm-md q::before {
+  content: open-quote;
+  color: #1a73e8;
+  font-weight: 600;
+}
+
+#bm-md q::after {
+  content: close-quote;
+  color: #1a73e8;
+  font-weight: 600;
+}
+
+/* 变量 - 斜体 */
+#bm-md var {
+  font-style: italic;
+  color: #0d47a1;
+}
+
+/* 示例输出 - 等宽字体 */
+#bm-md samp,
+#bm-md tt {
+  font-family: 'SF Mono', Consolas, 'Liberation Mono', Menlo, monospace;
+  font-size: 0.875em;
+  background-color: #f8f9fa;
+  color: #5f6368;
+  padding: 0.15em 0.3em;
+  border: 1px solid #dadce0;
+  border-radius: 2px;
+}
+
+/* 缩写 - 蓝色点状下划线 */
+#bm-md abbr[title] {
+  border-bottom: 1px dotted #1a73e8;
+  cursor: help;
+  text-decoration: none;
+}
+
+/* ============================================
+   链接 - Google Blue 下划线
+   ============================================ */
+
+#bm-md a {
+  color: #1a73e8;
+  text-decoration: none;
+  border-bottom: 1px solid #1a73e8;
+}
+
+#bm-md a:hover {
+  color: #1557b0;
+  border-bottom-color: #1557b0;
+}
+
+/* ============================================
+   Ruby 注音
+   ============================================ */
+
+#bm-md ruby {
+  ruby-align: center;
+}
+
+#bm-md rt {
+  font-size: 0.5em;
+  color: #5f6368;
+}
+
+#bm-md rp {
+  color: #80868b;
+}
+
+/* ============================================
+   列表 - Material Design 列表样式
+   ============================================ */
+
+#bm-md ul,
+#bm-md ol {
+  margin-bottom: 1em;
+  padding-left: 1.75em;
+}
+
+#bm-md ul {
+  list-style-type: disc;
+}
+
+#bm-md ol {
+  list-style-type: decimal;
+}
+
+#bm-md li {
+  margin-bottom: 0.3em;
+}
+
+/* 列表标记使用 Google Blue */
+#bm-md li::marker {
+  color: #1a73e8;
+  font-weight: 600;
+}
+
+#bm-md li > ul,
+#bm-md li > ol {
+  margin-top: 0.3em;
+  margin-bottom: 0.3em;
+}
+
+#bm-md ul ul {
+  list-style-type: circle;
+}
+
+#bm-md ul ul ul {
+  list-style-type: square;
+}
+
+/* 任务列表 */
+#bm-md ul.contains-task-list {
+  list-style-type: none;
+  padding-left: 0;
+}
+
+#bm-md li.task-list-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.4em;
+}
+
+#bm-md input[type='checkbox'] {
+  margin-top: 0.35em;
+  accent-color: #1a73e8;
+}
+
+/* ============================================
+   引用块 - Material Card 风格
+   ============================================ */
+
+#bm-md blockquote {
+  margin: 1.25em 0;
+  padding: 0.75em 1em;
+  border-left: 4px solid #1a73e8;
+  background-color: #f8f9fa;
+  border-radius: 4px;
+  color: #3c4043;
+}
+
+#bm-md blockquote p {
+  margin-bottom: 0.5em;
+}
+
+#bm-md blockquote p:last-child {
+  margin-bottom: 0;
+}
+
+/* 嵌套引用 - 更浅的蓝色边框 */
+#bm-md blockquote blockquote {
+  margin-top: 0.5em;
+  margin-bottom: 0;
+  border-left-color: #4285f4;
+  background-color: #f1f3f4;
+}
+
+/* ============================================
+   代码 - Material Design 代码块风格
+   ============================================ */
+
+/* 行内代码 - 红色文字，灰色背景 */
+#bm-md code {
+  font-family: 'SF Mono', Consolas, 'Liberation Mono', Menlo, monospace;
+  font-size: 0.875em;
+  background-color: #f5f5f5;
+  color: #d93025;
+  padding: 0.15em 0.4em;
+  border-radius: 4px;
+  border: 1px solid #dadce0;
+}
+
+/* 代码块容器 - Material elevation-1 阴影 */
+#bm-md pre {
+  margin: 1.25em 0;
+  padding: 1em 1.25em;
+  background-color: #f8f9fa;
+  border: 1px solid #dadce0;
+  border-radius: 8px;
+  overflow-x: auto;
+  box-shadow:
+    0 1px 2px 0 rgba(60, 64, 67, 0.3),
+    0 1px 3px 1px rgba(60, 64, 67, 0.15);
+}
+
+/* 代码块内代码重置 */
+#bm-md pre code {
+  background-color: transparent;
+  color: inherit;
+  padding: 0;
+  border: none;
+  font-size: 0.875em;
+  line-height: 1.5;
+}
+
+/* ============================================
+   表格 - Material Data Table 风格
+   ============================================ */
+
+#bm-md table {
+  width: 100%;
+  margin: 1.25em 0;
+  border-collapse: collapse;
+  font-size: 0.9375em;
+  border: 1px solid #dadce0;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+#bm-md th,
+#bm-md td {
+  padding: 0.75em 1em;
+  text-align: left;
+}
+
+#bm-md th {
+  background-color: #f8f9fa;
+  color: #3c4043;
+  font-weight: 600;
+  border-bottom: 2px solid #dadce0;
+}
+
+#bm-md td {
+  border-bottom: 1px solid #e8eaed;
+}
+
+/* 表格斑马纹与 hover 效果 */
+#bm-md tbody tr:nth-child(even) {
+  background-color: #fafafa;
+}
+
+#bm-md tbody tr:hover {
+  background-color: #f8f9fa;
+}
+
+/* Frontmatter 元数据表格 */
+#bm-md .frontmatter-table {
+  width: auto;
+  margin-bottom: 1.5em;
+  font-size: 0.875em;
+  border: none;
+  border-radius: 0;
+}
+
+#bm-md .frontmatter-table td {
+  padding: 0.25em 0.75em 0.25em 0;
+  border: none;
+  vertical-align: top;
+  background-color: transparent;
+}
+
+#bm-md .frontmatter-key {
+  font-weight: 600;
+  color: #1a73e8;
+  white-space: nowrap;
+}
+
+#bm-md .frontmatter-key::after {
+  content: ':';
+}
+
+#bm-md .frontmatter-value {
+  color: #5f6368;
+}
+
+/* ============================================
+   分割线 - Material Divider
+   ============================================ */
+
+#bm-md hr {
+  margin: 1.5em 0;
+  border: none;
+  height: 1px;
+  background-color: #dadce0;
+}
+
+/* ============================================
+   图片与媒体 - Material 图片处理
+   ============================================ */
+
+#bm-md img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+  margin: 1.25em 0;
+}
+
+#bm-md picture {
+  display: block;
+  margin: 1.25em 0;
+}
+
+#bm-md picture img {
+  display: block;
+  margin: 0;
+}
+
+#bm-md figure {
+  margin: 1.5em 0;
+  text-align: center;
+}
+
+#bm-md figure img {
+  display: block;
+  margin: 0 auto;
+}
+
+#bm-md figcaption {
+  margin-top: 0.5em;
+  font-size: 0.875em;
+  color: #5f6368;
+  font-style: italic;
+}
+
+/* ============================================
+   脚注 - Material 脚注样式
+   ============================================ */
+
+#bm-md .footnotes {
+  margin-top: 2em;
+  padding-top: 1em;
+  border-top: 1px solid #dadce0;
+  font-size: 0.875em;
+  color: #5f6368;
+}
+
+#bm-md .footnotes ol {
+  padding-left: 1.5em;
+}
+
+#bm-md .footnote-ref {
+  font-size: 0.75em;
+  vertical-align: super;
+  color: #1a73e8;
+  font-weight: 600;
+}
+
+#bm-md .footnote-backref,
+#bm-md .data-footnote-backref {
+  color: #1a73e8;
+  text-decoration: none;
+}
+
+/* ============================================
+   定义列表 - 术语定义样式
+   ============================================ */
+
+#bm-md dl {
+  margin: 1.25em 0;
+}
+
+#bm-md dt {
+  font-weight: 600;
+  color: #1a73e8;
+  margin-top: 0.75em;
+}
+
+#bm-md dt:first-child {
+  margin-top: 0;
+}
+
+#bm-md dd {
+  margin-left: 1.5em;
+  margin-top: 0.25em;
+  color: #5f6368;
+}
+
+/* ============================================
+   键盘按键 - Material Chip 风格
+   ============================================ */
+
+#bm-md kbd {
+  font-family: 'SF Mono', Consolas, 'Liberation Mono', Menlo, monospace;
+  font-size: 0.8125em;
+  display: inline-block;
+  padding: 0.2em 0.5em;
+  background-color: #f8f9fa;
+  color: #3c4043;
+  border: 1px solid #dadce0;
+  border-radius: 4px;
+  box-shadow: 0 1px 1px 0 rgba(60, 64, 67, 0.3);
+}
+
+/* ============================================
+   警告框 - Material 色彩语义系统
+   蓝色=信息、绿色=成功、紫色=重要、橙色=警告、红色=危险
+   ============================================ */
+
+#bm-md .markdown-alert {
+  margin: 1.25em 0;
+  padding: 0.75em 1em;
+  border: 1px solid;
+  border-left: 4px solid;
+  border-radius: 4px;
+}
+
+#bm-md .markdown-alert-title {
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+  font-weight: 600;
+  margin-bottom: 0.5em;
+}
+
+/* Note - 蓝色（信息） */
+#bm-md .markdown-alert-note {
+  background-color: #e8f0fe;
+  border-color: #d2e3fc;
+  border-left-color: #1a73e8;
+}
+
+#bm-md .markdown-alert-note .markdown-alert-title {
+  color: #1a73e8;
+}
+
+/* Tip - 绿色（成功提示） */
+#bm-md .markdown-alert-tip {
+  background-color: #e6f4ea;
+  border-color: #c6e7d0;
+  border-left-color: #1e8e3e;
+}
+
+#bm-md .markdown-alert-tip .markdown-alert-title {
+  color: #1e8e3e;
+}
+
+/* Important - 紫色（重要事项） */
+#bm-md .markdown-alert-important {
+  background-color: #f3e8fd;
+  border-color: #e9d2fd;
+  border-left-color: #9334e6;
+}
+
+#bm-md .markdown-alert-important .markdown-alert-title {
+  color: #9334e6;
+}
+
+/* Warning - 橙色（警告） */
+#bm-md .markdown-alert-warning {
+  background-color: #fef7e0;
+  border-color: #fde293;
+  border-left-color: #f9ab00;
+}
+
+#bm-md .markdown-alert-warning .markdown-alert-title {
+  color: #ea8600;
+}
+
+/* Caution - 红色（危险） */
+#bm-md .markdown-alert-caution {
+  background-color: #fce8e6;
+  border-color: #f6aea9;
+  border-left-color: #d93025;
+}
+
+#bm-md .markdown-alert-caution .markdown-alert-title {
+  color: #d93025;
+}
+
+/* ============================================
+   数学公式 - 学术风格
+   ============================================ */
+
+#bm-md .math-inline {
+  font-size: 1em;
+}
+
+#bm-md .math-display {
+  margin: 1.25em 0;
+  overflow-x: auto;
+  text-align: center;
+}
+
+/* ============================================
+   折叠详情 - Material Expansion Panel
+   ============================================ */
+
+#bm-md details {
+  margin: 1.25em 0;
+  padding: 0.75em 1em;
+  background-color: #f8f9fa;
+  border: 1px solid #dadce0;
+  border-radius: 4px;
+}
+
+#bm-md summary {
+  font-weight: 600;
+  cursor: pointer;
+  color: #1a73e8;
+}
+
+#bm-md details[open] summary {
+  margin-bottom: 0.75em;
+  padding-bottom: 0.75em;
+  border-bottom: 1px solid #dadce0;
+}
+
+/* ============================================
+   嵌入媒体 - 统一 Material 样式
+   ============================================ */
+
+#bm-md iframe,
+#bm-md video {
+  display: block;
+  max-width: 100%;
+  margin: 1.25em 0;
+  border: 1px solid #dadce0;
+  border-radius: 8px;
+}
+
+/* ============================================
+   元信息与时间 - Material 辅助文本
+   ============================================ */
+
+#bm-md .meta,
+#bm-md time {
+  font-size: 0.875em;
+  color: #80868b;
+  font-style: italic;
+}
+
+/* ============================================
+   首行缩进变体 - 中文排版优化
+   ============================================ */
+
+#bm-md.indent-first-line p {
+  text-indent: 2em;
+}
