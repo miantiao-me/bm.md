@@ -1,4 +1,6 @@
+import { existsSync, readFileSync } from 'node:fs'
 import { createRequire } from 'node:module'
+import { resolve } from 'node:path'
 import process from 'node:process'
 import tailwindcss from '@tailwindcss/vite'
 import { devtools } from '@tanstack/devtools-vite'
@@ -14,6 +16,36 @@ import { cssRawMinifyPlugin, fixNitroInlineDynamicImports, htmlRawMinifyPlugin, 
 import { appConfig } from './src/config/app'
 
 const require = createRequire(import.meta.url)
+
+function loadLocalGitHubEnv() {
+  const envPath = resolve(process.cwd(), '.env')
+  if (!existsSync(envPath))
+    return
+
+  const content = readFileSync(envPath, 'utf-8')
+  const keys = new Set(['GITHUB_TOKEN', 'GITHUB_OWNER', 'GITHUB_REPO', 'GITHUB_BRANCH'])
+
+  for (const rawLine of content.split('\n')) {
+    const line = rawLine.trim()
+    if (!line || line.startsWith('#'))
+      continue
+
+    const equalIndex = line.indexOf('=')
+    if (equalIndex === -1)
+      continue
+
+    const key = line.slice(0, equalIndex).trim()
+    if (!keys.has(key))
+      continue
+
+    const value = line.slice(equalIndex + 1).trim().replace(/^['"]|['"]$/g, '')
+    if (value)
+      process.env[key] = value
+  }
+}
+
+loadLocalGitHubEnv()
+
 const isAliyunESA = Boolean(process.env.AliUid)
 const isTencentEdgeOne = process.env.HOME === '/dev/shm/home' && process.env.TMPDIR === '/dev/shm/tmp'
 

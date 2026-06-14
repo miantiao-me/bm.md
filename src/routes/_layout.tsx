@@ -1,6 +1,7 @@
 import { ClientOnly, createFileRoute, Outlet } from '@tanstack/react-router'
 import { useEffect } from 'react'
 import { CommandPalette } from '@/components/command-palette'
+import { ImageUploadDialog } from '@/components/dialog/image-upload-dialog'
 import MarkdownEditor from '@/components/markdown/editor'
 import { FooterBar } from '@/components/markdown/footer-bar'
 import MarkdownPreviewer from '@/components/markdown/previewer'
@@ -36,6 +37,7 @@ function App() {
       <ClientOnly>
         <CommandPalette />
       </ClientOnly>
+      <ImageUploadDialog />
       <Outlet />
     </div>
   )

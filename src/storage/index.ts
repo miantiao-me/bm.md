@@ -11,6 +11,7 @@ import { DCStorage } from './dc-storage'
 import { S3Storage } from './s3-storage'
 
 export { DCStorage } from './dc-storage'
+export { GitHubStorage } from './github-storage'
 export { S3Storage } from './s3-storage'
 export * from './types'
 

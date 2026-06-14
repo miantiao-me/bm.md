@@ -16,6 +16,7 @@ import { Route as LayoutIndexRouteImport } from './routes/_layout.index'
 import { Route as ApiSplatRouteImport } from './routes/api.$'
 import { Route as LayoutAboutRouteImport } from './routes/_layout.about'
 import { Route as ApiUploadImageRouteImport } from './routes/api.upload.image'
+import { Route as ApiUploadGithubImagesRouteImport } from './routes/api.upload.github-images'
 import { Route as LayoutDocsSkillRouteImport } from './routes/_layout.docs.skill'
 import { Route as LayoutDocsMcpRouteImport } from './routes/_layout.docs.mcp'
 
@@ -53,6 +54,11 @@ const ApiUploadImageRoute = ApiUploadImageRouteImport.update({
   path: '/api/upload/image',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiUploadGithubImagesRoute = ApiUploadGithubImagesRouteImport.update({
+  id: '/api/upload/github-images',
+  path: '/api/upload/github-images',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const LayoutDocsSkillRoute = LayoutDocsSkillRouteImport.update({
   id: '/docs/skill',
   path: '/docs/skill',
@@ -72,6 +78,7 @@ export interface FileRoutesByFullPath {
   '/api/$': typeof ApiSplatRoute
   '/docs/mcp': typeof LayoutDocsMcpRoute
   '/docs/skill': typeof LayoutDocsSkillRoute
+  '/api/upload/github-images': typeof ApiUploadGithubImagesRoute
   '/api/upload/image': typeof ApiUploadImageRoute
 }
 export interface FileRoutesByTo {
@@ -82,6 +89,7 @@ export interface FileRoutesByTo {
   '/': typeof LayoutIndexRoute
   '/docs/mcp': typeof LayoutDocsMcpRoute
   '/docs/skill': typeof LayoutDocsSkillRoute
+  '/api/upload/github-images': typeof ApiUploadGithubImagesRoute
   '/api/upload/image': typeof ApiUploadImageRoute
 }
 export interface FileRoutesById {
@@ -94,6 +102,7 @@ export interface FileRoutesById {
   '/_layout/': typeof LayoutIndexRoute
   '/_layout/docs/mcp': typeof LayoutDocsMcpRoute
   '/_layout/docs/skill': typeof LayoutDocsSkillRoute
+  '/api/upload/github-images': typeof ApiUploadGithubImagesRoute
   '/api/upload/image': typeof ApiUploadImageRoute
 }
 export interface FileRouteTypes {
@@ -106,6 +115,7 @@ export interface FileRouteTypes {
     | '/api/$'
     | '/docs/mcp'
     | '/docs/skill'
+    | '/api/upload/github-images'
     | '/api/upload/image'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -116,6 +126,7 @@ export interface FileRouteTypes {
     | '/'
     | '/docs/mcp'
     | '/docs/skill'
+    | '/api/upload/github-images'
     | '/api/upload/image'
   id:
     | '__root__'
@@ -127,6 +138,7 @@ export interface FileRouteTypes {
     | '/_layout/'
     | '/_layout/docs/mcp'
     | '/_layout/docs/skill'
+    | '/api/upload/github-images'
     | '/api/upload/image'
   fileRoutesById: FileRoutesById
 }
@@ -135,6 +147,7 @@ export interface RootRouteChildren {
   DocsRoute: typeof DocsRoute
   McpRoute: typeof McpRoute
   ApiSplatRoute: typeof ApiSplatRoute
+  ApiUploadGithubImagesRoute: typeof ApiUploadGithubImagesRoute
   ApiUploadImageRoute: typeof ApiUploadImageRoute
 }
 
@@ -189,6 +202,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiUploadImageRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/upload/github-images': {
+      id: '/api/upload/github-images'
+      path: '/api/upload/github-images'
+      fullPath: '/api/upload/github-images'
+      preLoaderRoute: typeof ApiUploadGithubImagesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/_layout/docs/skill': {
       id: '/_layout/docs/skill'
       path: '/docs/skill'
@@ -228,6 +248,7 @@ const rootRouteChildren: RootRouteChildren = {
   DocsRoute: DocsRoute,
   McpRoute: McpRoute,
   ApiSplatRoute: ApiSplatRoute,
+  ApiUploadGithubImagesRoute: ApiUploadGithubImagesRoute,
   ApiUploadImageRoute: ApiUploadImageRoute,
 }
 export const routeTree = rootRouteImport
