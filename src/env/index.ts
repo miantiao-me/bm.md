@@ -9,11 +9,11 @@
 function getPrivate(key: string): string | undefined {
   // 优先从 EdgeKV 缓存获取
   if (globalThis.edgeKVCache && key in globalThis.edgeKVCache) {
-    return globalThis.edgeKVCache[key] as string
+    return (globalThis.edgeKVCache[key] as string).trim()
   }
   // 从 process.env 获取
   if (typeof process !== 'undefined' && process.env?.[key]) {
-    return process.env[key]
+    return process.env[key]!.trim()
   }
   return undefined
 }
@@ -30,6 +30,12 @@ export const env = {
   get S3_SECRET_ACCESS_KEY() { return getPrivate('S3_SECRET_ACCESS_KEY') },
   get S3_REGION() { return getPrivate('S3_REGION') },
   get S3_PUBLIC_BASE_URL() { return getPrivate('S3_PUBLIC_BASE_URL') },
+
+  // GitHub 图床配置
+  get GITHUB_TOKEN() { return getPrivate('GITHUB_TOKEN') },
+  get GITHUB_OWNER() { return getPrivate('GITHUB_OWNER') },
+  get GITHUB_REPO() { return getPrivate('GITHUB_REPO') },
+  get GITHUB_BRANCH() { return getPrivate('GITHUB_BRANCH') },
 
   // DC 图床配置
   get DC_UPLOAD_URL() { return getPrivate('DC_UPLOAD_URL') },

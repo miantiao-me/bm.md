@@ -1,9 +1,10 @@
 /**
  * 存储服务类型定义
  */
+import type { Buffer } from 'node:buffer'
 
 /** 存储提供商类型 */
-export type StorageProviderType = 's3' | 'dc'
+export type StorageProviderType = 's3' | 'dc' | 'github'
 
 /** 上传结果 */
 export interface UploadResult {
@@ -12,8 +13,8 @@ export interface UploadResult {
 
 /** 上传选项 */
 export interface UploadOptions {
-  /** 文件内容 */
-  file: Blob
+  /** 文件内容 (Blob 用于浏览器端, Buffer 用于服务端) */
+  file: Blob | Buffer
   /** 文件名 */
   filename: string
   /** 文件 MIME 类型 */
