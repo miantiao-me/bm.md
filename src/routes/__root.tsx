@@ -11,6 +11,7 @@ import { Toaster } from '@/components/ui/sonner'
 import { TooltipProvider } from '@/components/ui/tooltip'
 import { appConfig } from '@/config'
 import { env } from '@/env'
+import { GOOGLE_FONTS_CSS_BASE_URL, GOOGLE_FONTS_CSS_ORIGIN, GOOGLE_FONTS_STATIC_ORIGIN } from '@/lib/google-fonts'
 import { logSafeError } from '@/lib/log-safe-error'
 
 import appCss from '../styles.css?url'
@@ -21,7 +22,7 @@ const initClientIntegrations = createClientOnlyFn(async () => {
 })
 
 // Google Fonts URL - 仅加载 Logo 使用的字符
-const fontUrl = `https://fonts.googleapis.cn/css2?family=Doto:wght@700&display=swap&text=${encodeURIComponent(['bm.md', '404'].join(''))}`
+const fontUrl = `${GOOGLE_FONTS_CSS_BASE_URL}?family=Doto:wght@700&display=swap&text=${encodeURIComponent(['bm.md', '404'].join(''))}`
 
 export const Route = createRootRoute({
   beforeLoad: () => {
@@ -61,8 +62,8 @@ export const Route = createRootRoute({
     ],
     links: [
       // Preconnect
-      { rel: 'preconnect', href: 'https://fonts.googleapis.cn' },
-      { rel: 'preconnect', href: 'https://fonts.gstatic.cn', crossOrigin: 'anonymous' },
+      { rel: 'preconnect', href: GOOGLE_FONTS_CSS_ORIGIN },
+      { rel: 'preconnect', href: GOOGLE_FONTS_STATIC_ORIGIN, crossOrigin: 'anonymous' },
       // Preload 关键资源
       { rel: 'preload', href: fontUrl, as: 'style', crossOrigin: 'anonymous' },
       { rel: 'preload', href: appCss, as: 'style' },

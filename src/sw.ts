@@ -3,6 +3,7 @@ import { ExpirationPlugin } from 'workbox-expiration'
 import { cleanupOutdatedCaches, precacheAndRoute } from 'workbox-precaching'
 import { NavigationRoute, registerRoute } from 'workbox-routing'
 import { CacheFirst, NetworkFirst, StaleWhileRevalidate } from 'workbox-strategies'
+import { GOOGLE_FONTS_CSS_ORIGIN, GOOGLE_FONTS_STATIC_ORIGIN } from './lib/google-fonts'
 
 declare let self: ServiceWorkerGlobalScope
 
@@ -36,8 +37,8 @@ registerRoute(
 
 registerRoute(
   ({ url }) =>
-    url.origin === 'https://fonts.googleapis.cn'
-    || url.origin === 'https://fonts.gstatic.cn',
+    url.origin === GOOGLE_FONTS_CSS_ORIGIN
+    || url.origin === GOOGLE_FONTS_STATIC_ORIGIN,
   new CacheFirst({
     cacheName: 'google-fonts',
     plugins: [

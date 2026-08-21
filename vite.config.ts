@@ -35,12 +35,11 @@ const dynamicOptimizeDeps = [
   '@orpc/server/message-port',
   '@antv/infographic',
   '@antv/infographic/ssr',
+  '@zumer/snapdom',
   'beautiful-mermaid',
   'juice',
   'markdownlint',
   'markdownlint/promise',
-  '@zumer/snapdom',
-  'jspdf',
   'workbox-window',
 ]
 
