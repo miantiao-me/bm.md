@@ -1,7 +1,9 @@
 import type { InfographicPaletteId, InfographicThemeId } from '@/themes/infographic-theme'
+import type { MarkdownStyleId } from '@/themes/markdown-style/metadata'
 import type { MermaidThemeId } from '@/themes/mermaid-theme'
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
+import { DEFAULT_MARKDOWN_STYLE_ID } from '@/themes/markdown-style/metadata'
 
 export const PREVIEW_WIDTH_MOBILE = 415
 export const PREVIEW_WIDTH_DESKTOP = 768
@@ -27,8 +29,8 @@ interface PreviewState {
   previewColorScheme: PreviewColorScheme
   togglePreviewColorScheme: () => void
 
-  markdownStyle: string
-  setMarkdownStyle: (id: string) => void
+  markdownStyle: MarkdownStyleId
+  setMarkdownStyle: (id: MarkdownStyleId) => void
 
   codeTheme: string
   setCodeTheme: (theme: string) => void
@@ -94,7 +96,7 @@ export const usePreviewStore = create<PreviewState>()(
         previewColorScheme: state.previewColorScheme === 'dark' ? 'light' : 'dark',
       })),
 
-      markdownStyle: 'ayu-light',
+      markdownStyle: DEFAULT_MARKDOWN_STYLE_ID,
       setMarkdownStyle: markdownStyle => set({ markdownStyle }),
 
       codeTheme: 'kimbie-light',

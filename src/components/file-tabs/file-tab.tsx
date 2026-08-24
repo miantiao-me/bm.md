@@ -121,8 +121,11 @@ export function FileTab({
         'group relative flex h-7 shrink-0 items-center text-xs select-none',
         'hover:bg-accent',
         isActive
-          ? 'bg-accent text-primary'
-          : 'text-muted-foreground',
+          ? 'bg-accent text-foreground shadow-[inset_0_-2px_0_0_var(--primary)]'
+          : `
+            text-muted-foreground
+            hover:text-foreground
+          `,
       )}
     >
       <button
@@ -145,7 +148,7 @@ export function FileTab({
         onDoubleClick={startEditing}
         onKeyDown={handleTabKeyDown}
       >
-        <FileText className="size-3.5 shrink-0" aria-hidden="true" />
+        <FileText className={cn('size-3.5 shrink-0', isActive && 'text-primary')} aria-hidden="true" />
         <span className="max-w-48 truncate" title={file.name}>{file.name}</span>
         <span className="sr-only">，按 F2 重命名，按 Delete 关闭</span>
       </button>

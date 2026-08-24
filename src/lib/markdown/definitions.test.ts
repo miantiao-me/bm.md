@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest'
+import { DEFAULT_MARKDOWN_STYLE_ID } from '@/themes/markdown-style/metadata'
 
-import { markdownTools } from './definitions'
+import { markdownTools, renderDefinition } from './definitions'
 
 describe('markdown 工具 registry', () => {
   it('暴露 render/parse/extract/lint 四个工具', () => {
@@ -27,5 +28,11 @@ describe('markdown 工具 registry', () => {
     for (const tool of markdownTools) {
       expect(() => tool.inputSchema.parse({})).toThrow()
     }
+  })
+
+  it('render 默认使用 Kami 主题', () => {
+    const input = renderDefinition.inputSchema.parse({ markdown: '# 标题' })
+
+    expect(input.markdownStyle).toBe(DEFAULT_MARKDOWN_STYLE_ID)
   })
 })

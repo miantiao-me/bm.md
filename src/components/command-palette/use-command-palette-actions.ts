@@ -1,6 +1,7 @@
 import type { SupportedPlatform } from '@/config'
 import type { EditorBooleanKey, EditorBooleanSetterKey } from '@/stores/editor'
 import type { InfographicSettings } from '@/stores/preview'
+import type { MarkdownStyleId } from '@/themes/markdown-style/metadata'
 import type { MermaidThemeId } from '@/themes/mermaid-theme'
 import { useNavigate } from '@tanstack/react-router'
 import { useTheme } from 'next-themes'
@@ -27,7 +28,7 @@ import {
 import { useHotkeys } from './use-hotkeys'
 
 export interface CommandPaletteActions {
-  markdownStyle: string
+  markdownStyle: MarkdownStyleId
   codeTheme: string
   mermaidTheme: MermaidThemeId
   infographic: InfographicSettings
@@ -52,7 +53,7 @@ export interface CommandPaletteActions {
   handleExternalLink: (url: string) => void
   isSettingEnabled: (storeKey: EditorBooleanKey) => boolean
   handleToggleSetting: (storeKey: EditorBooleanKey, setterKey: EditorBooleanSetterKey) => void
-  handleSelectMarkdownStyle: (id: string) => void
+  handleSelectMarkdownStyle: (id: MarkdownStyleId) => void
   handleSelectCodeTheme: (id: string) => void
   handleSelectMermaidTheme: (id: MermaidThemeId) => void
   handleSelectInfographicTheme: (id: string) => void
@@ -244,7 +245,7 @@ export function useCommandPaletteActions(setResetDialogOpen: (open: boolean) => 
     setter(!currentValue)
   }
 
-  const handleSelectMarkdownStyle = (id: string) => {
+  const handleSelectMarkdownStyle = (id: MarkdownStyleId) => {
     setMarkdownStyle(id)
     resetSubMenu()
     closePanel()

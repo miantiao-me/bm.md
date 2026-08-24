@@ -5,6 +5,15 @@ import { PdfError } from './protocol'
 
 export const FONT_PROBE_ATTRIBUTE = 'data-bm-pdf-font-probe'
 
+const DEFAULT_GRAPHEME_SEGMENTER: Pick<Intl.Segmenter, 'segment'> | null = typeof Intl.Segmenter === 'function'
+  ? new Intl.Segmenter(undefined, { granularity: 'grapheme' })
+  : null
+
+export interface PdfTypography {
+  bodySerif: boolean
+  headingSerif?: boolean
+}
+
 export interface FontCacheStorage {
   open: (name: string) => Promise<{
     match: (request: string) => Promise<Response | undefined>
@@ -45,11 +54,22 @@ export function hasEmoji(text: string): boolean {
     || /[\u2190-\u27BF]/u.test(text)
 }
 
+export function isSerifFontFamily(fontFamily: string): boolean {
+  return fontFamily.split(',').some((family) => {
+    const normalized = family.trim().replace(/^['"]|['"]$/g, '').toLowerCase()
+    if (!normalized || normalized === 'sans-serif')
+      return false
+    return normalized === 'serif'
+      || /(?:^|[\s-])noto serif(?:[\s-]|$)/.test(normalized)
+      || /(?:^|[\s-])(?:georgia|times(?: new roman)?|song(?:ti)?|stsong|ming[a-z]*|simsun)(?:[\s-]|$)/.test(normalized)
+  })
+}
+
 export function selectFontFamilies(selection: {
   lang: string
   languages: string[]
-  serif: boolean
   text: string
+  typography: PdfTypography
   usesCode: boolean
 }): string[] {
   const regions = new Set<ReturnType<typeof cjkRegion>>([cjkRegion(selection.lang)])
@@ -60,8 +80,13 @@ export function selectFontFamilies(selection: {
   if (/[\u1100-\u11FF\u3130-\u318F\uAC00-\uD7AF]/.test(selection.text))
     regions.add('KR')
 
-  const style = selection.serif ? 'Serif' : 'Sans'
-  const families = [...regions].map(region => `Noto ${style} ${region}`)
+  const bodyStyle = selection.typography.bodySerif ? 'Serif' : 'Sans'
+  const families = [...regions].map(region => `Noto ${bodyStyle} ${region}`)
+  if (selection.typography.headingSerif !== undefined) {
+    const headingStyle = selection.typography.headingSerif ? 'Serif' : 'Sans'
+    for (const region of regions)
+      families.push(`Noto ${headingStyle} ${region}`)
+  }
   if (selection.usesCode) {
     families.push('Noto Sans Mono')
     for (const region of regions)
@@ -134,17 +159,16 @@ export function isFontUnavailable(error: unknown): boolean {
 
 export function missingGlyphs(error: unknown): number[] {
   const message = error instanceof Error ? error.message : String(error)
-  return [...message.matchAll(/\(U\+([0-9A-F]{4,6})\)/gi)]
-    .map(match => Number.parseInt(match[1], 16))
-    .filter((codepoint, index, values) => values.indexOf(codepoint) === index)
+  const codepoints = new Set<number>()
+  for (const match of message.matchAll(/\(U\+([0-9A-F]{4,6})\)/gi))
+    codepoints.add(Number.parseInt(match[1], 16))
+  return [...codepoints]
 }
 
 export function replaceGraphemes(
   text: string,
   missing: ReadonlySet<number>,
-  segmenter: Pick<Intl.Segmenter, 'segment'> | null = typeof Intl.Segmenter === 'function'
-    ? new Intl.Segmenter(undefined, { granularity: 'grapheme' })
-    : null,
+  segmenter: Pick<Intl.Segmenter, 'segment'> | null = DEFAULT_GRAPHEME_SEGMENTER,
 ): { replacements: GlyphReplacement[], text: string } {
   if (!segmenter)
     throw new PdfError('renderFailed', '当前浏览器无法安全处理缺失字符，请使用打印功能')
@@ -180,8 +204,8 @@ export function recoverMissingGlyphs(
   probed: ReadonlySet<number>,
 ): { input: PdfRenderInput, probed: number[], replacements: GlyphReplacement[] } {
   const document = new DOMParser().parseFromString(input.html, 'text/html')
-  const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT)
   const missing = new Set(codepoints)
+  const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT)
   const replacements: GlyphReplacement[] = []
   let node = walker.nextNode()
   while (node) {

@@ -60,7 +60,7 @@ pre
 pre code（重置行内代码样式）
 table
 th, td
-tbody tr:nth-child(even)
+tbody tr:nth-child(even)（例外：kami 对齐 tw93/Kami 官方样式，基础表格不启用斑马纹）
 .frontmatter-table
 .frontmatter-table td
 .frontmatter-key

@@ -1,3 +1,4 @@
+import type { PdfTypography } from './fonts'
 import { cjkRegion } from './fonts'
 
 function valueEnd(css: string, start: number): number {
@@ -160,69 +161,83 @@ function codeFontStack(region: 'SC' | 'TC' | 'JP' | 'KR'): string {
   return `"Noto Sans Mono", "Noto Sans ${region}", "Noto Color Emoji", "Noto Emoji", monospace`
 }
 
-export function createPdfStyles(serif: boolean, lang = 'zh-CN'): string {
-  const bodyFamily = fontStack(serif, cjkRegion(lang))
+function languageSelectors(tags: string[], elements: string[]): string {
+  return tags.flatMap(tag => elements.map(element => `#bm-md ${element}:lang(${tag})`)).join(', ')
+}
+
+export function createPdfStyles(typography: PdfTypography, lang = 'zh-CN'): string {
+  const region = cjkRegion(lang)
+  const bodyFamily = fontStack(typography.bodySerif, region)
+  const headingSerif = typography.headingSerif ?? typography.bodySerif
+  const headingFamily = fontStack(headingSerif, region)
+  const bodyElements = ['p', 'li', 'blockquote', 'table']
+  const headingElements = ['h1', 'h2', 'h3', 'h4', 'h5', 'h6']
+  const codeElements = ['pre', 'code', 'kbd', 'samp']
+  const languageRules = [
+    { tags: ['zh-CN', 'zh-Hans'], region: 'SC' as const },
+    { tags: ['zh-TW', 'zh-Hant', 'zh-HK'], region: 'TC' as const },
+    { tags: ['ja'], region: 'JP' as const },
+    { tags: ['ko'], region: 'KR' as const },
+  ].flatMap(rule => [
+    `${languageSelectors(rule.tags, bodyElements)} {\n  font-family: ${fontStack(typography.bodySerif, rule.region)} !important;\n}`,
+    `${languageSelectors(rule.tags, headingElements)} {\n  font-family: ${fontStack(headingSerif, rule.region)} !important;\n}`,
+    `${languageSelectors(rule.tags, codeElements)} {\n  font-family: ${codeFontStack(rule.region)} !important;\n}`,
+  ]).join('\n')
+  // 只固定字体并保证 A4 版心与分页/折行；垂直节奏全部交给主题样式表。
   return `
-#bm-md, #bm-md p, #bm-md li, #bm-md blockquote, #bm-md table,
-#bm-md h1, #bm-md h2, #bm-md h3, #bm-md h4, #bm-md h5, #bm-md h6 {
+#bm-md, #bm-md p, #bm-md li, #bm-md blockquote, #bm-md table {
   font-family: ${bodyFamily} !important;
 }
-#bm-md:lang(zh-CN), #bm-md:lang(zh-Hans), #bm-md :lang(zh-CN), #bm-md :lang(zh-Hans) {
-  font-family: ${fontStack(serif, 'SC')} !important;
+#bm-md h1, #bm-md h2, #bm-md h3, #bm-md h4, #bm-md h5, #bm-md h6 {
+  font-family: ${headingFamily} !important;
 }
-#bm-md:lang(zh-TW), #bm-md:lang(zh-Hant), #bm-md:lang(zh-HK),
-#bm-md :lang(zh-TW), #bm-md :lang(zh-Hant), #bm-md :lang(zh-HK) {
-  font-family: ${fontStack(serif, 'TC')} !important;
-}
-#bm-md:lang(ja), #bm-md :lang(ja) { font-family: ${fontStack(serif, 'JP')} !important; }
-#bm-md:lang(ko), #bm-md :lang(ko) { font-family: ${fontStack(serif, 'KR')} !important; }
+${languageRules}
 #bm-md pre, #bm-md code, #bm-md kbd, #bm-md samp {
-  font-family: ${codeFontStack(cjkRegion(lang))} !important;
-}
-#bm-md pre:lang(zh-CN), #bm-md code:lang(zh-CN), #bm-md pre :lang(zh-CN), #bm-md code :lang(zh-CN) {
-  font-family: ${codeFontStack('SC')} !important;
-}
-#bm-md pre:lang(zh-TW), #bm-md pre:lang(zh-Hant), #bm-md code:lang(zh-TW), #bm-md code:lang(zh-Hant),
-#bm-md pre :lang(zh-TW), #bm-md pre :lang(zh-Hant), #bm-md code :lang(zh-TW), #bm-md code :lang(zh-Hant) {
-  font-family: ${codeFontStack('TC')} !important;
-}
-#bm-md pre:lang(ja), #bm-md code:lang(ja), #bm-md pre :lang(ja), #bm-md code :lang(ja) {
-  font-family: ${codeFontStack('JP')} !important;
-}
-#bm-md pre:lang(ko), #bm-md code:lang(ko), #bm-md pre :lang(ko), #bm-md code :lang(ko) {
-  font-family: ${codeFontStack('KR')} !important;
+  font-family: ${codeFontStack(region)} !important;
 }
 #bm-md {
-  width: 100%;
-  max-width: 100%;
-  box-sizing: border-box;
-  line-height: ${serif ? 1.78 : 1.72};
+  padding: 0;
 }
-#bm-md h1, #bm-md h2, #bm-md h3, #bm-md h4, #bm-md h5, #bm-md h6 { line-height: 1.35; }
-#bm-md h1 { margin-top: 1.6em; margin-bottom: 0.72em; }
-#bm-md h2 { margin-top: 1.45em; margin-bottom: 0.64em; }
-#bm-md h3 { margin-top: 1.3em; margin-bottom: 0.56em; }
-#bm-md h4, #bm-md h5, #bm-md h6 { margin-top: 1.15em; margin-bottom: 0.48em; }
-#bm-md > h1:first-child, #bm-md > h2:first-child, #bm-md > h3:first-child,
-#bm-md > h4:first-child, #bm-md > h5:first-child, #bm-md > h6:first-child { margin-top: 0; }
-#bm-md p { margin-bottom: 0.9em; }
 #bm-md p, #bm-md li { orphans: 3; widows: 3; }
-#bm-md ul, #bm-md ol { margin-bottom: 0.9em; }
-#bm-md li { margin-bottom: 0.3em; }
-#bm-md li > ul, #bm-md li > ol { margin-top: 0.28em; margin-bottom: 0.28em; }
-#bm-md blockquote, #bm-md pre, #bm-md table, #bm-md figure,
-#bm-md picture, #bm-md .markdown-alert, #bm-md .math-display, #bm-md details {
-  margin-top: 1.15em;
-  margin-bottom: 1.15em;
-}
 #bm-md blockquote, #bm-md .markdown-alert { box-decoration-break: clone; }
-#bm-md pre, #bm-md pre code { line-height: 1.55; }
-#bm-md pre { max-width: 100%; overflow-x: visible; white-space: pre-wrap; overflow-wrap: break-word; }
+#bm-md pre { overflow-x: visible; white-space: pre-wrap; overflow-wrap: break-word; }
 #bm-md table { width: 100%; max-width: 100%; overflow-x: visible; }
 #bm-md pre, #bm-md figure.figure-image, #bm-md picture, #bm-md img,
 #bm-md svg, #bm-md .markdown-alert, #bm-md .math-display, #bm-md details { break-inside: avoid; }
 #bm-md tr { break-inside: avoid; }
-#bm-md hr { margin-top: 1.4em; margin-bottom: 1.4em; break-inside: avoid; }
+#bm-md hr { break-inside: avoid; }
 #bm-md img, #bm-md svg { max-width: 100%; height: auto; }
+#bm-md img.bm-pdf-katex-inline, #bm-md img.bm-pdf-katex-display {
+  padding: 0 !important;
+  border-width: 0 !important;
+  border-style: none !important;
+  border-color: transparent !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  background: transparent !important;
+  height: auto !important;
+}
+#bm-md img.bm-pdf-svg-diagram {
+  padding: 0 !important;
+  border-width: 0 !important;
+  border-style: none !important;
+  border-color: transparent !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  background: transparent !important;
+  height: auto !important;
+}
+#bm-md img.bm-pdf-katex-inline {
+  display: inline-block !important;
+  max-width: 100% !important;
+  margin: 0 !important;
+}
+#bm-md img.bm-pdf-katex-display {
+  display: block !important;
+  max-width: 100% !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  break-inside: avoid;
+}
 `.trim()
 }

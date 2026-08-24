@@ -26,7 +26,7 @@
 
   /* Muted */
   --ayu-mirage-muted: oklch(0.22 0.025 264);
-  --ayu-mirage-muted-foreground: oklch(0.53 0.03 264);
+  --ayu-mirage-muted-foreground: oklch(0.56 0.025 264);
 
   /* Accent */
   --ayu-mirage-accent: oklch(0.22 0.025 264);
@@ -48,9 +48,9 @@
   --ayu-mirage-info: oklch(0.81 0.09 213);
   --ayu-mirage-info-foreground: oklch(0.18 0.02 264);
 
-  /* Border - #171b24 */
-  --ayu-mirage-border: oklch(0.2222 0.0187 266.1);
-  --ayu-mirage-input: oklch(0.22 0.025 264);
+  /* Border - 提亮至背景之上，保证面板分隔可见 */
+  --ayu-mirage-border: oklch(0.31 0.02 264);
+  --ayu-mirage-input: oklch(0.3 0.02 264);
 
   /* Ring - Focus indicator #ffcc66 */
   --ayu-mirage-ring: oklch(0.86 0.13 87);
@@ -72,6 +72,6 @@
   --ayu-mirage-sidebar-primary-foreground: oklch(0.2 0.025 264);
   --ayu-mirage-sidebar-accent: oklch(0.22 0.025 264);
   --ayu-mirage-sidebar-accent-foreground: oklch(0.83 0.015 77);
-  --ayu-mirage-sidebar-border: oklch(0.2222 0.0187 266.1);
+  --ayu-mirage-sidebar-border: oklch(0.31 0.02 264);
   --ayu-mirage-sidebar-ring: oklch(0.86 0.13 87);
 }

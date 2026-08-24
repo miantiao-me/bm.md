@@ -1,5 +1,6 @@
 import type { PreviewColorScheme, PreviewWidth } from '@/stores/preview'
 import type { InfographicPaletteId, InfographicThemeId } from '@/themes/infographic-theme'
+import type { MarkdownStyleId } from '@/themes/markdown-style/metadata'
 import type { MermaidThemeId } from '@/themes/mermaid-theme'
 import { useEditorStore } from '@/stores/editor'
 import { isFileContentReady, useFilesStore } from '@/stores/files'
@@ -9,7 +10,7 @@ export interface PreviewSignatureInput {
   contentFileId: string | null
   currentContent: string
   previewWidth: PreviewWidth
-  markdownStyle: string
+  markdownStyle: MarkdownStyleId
   codeTheme: string
   mermaidTheme: MermaidThemeId
   infographicTheme: InfographicThemeId

@@ -2,7 +2,7 @@ import type { CliDefinition } from '../types/definition'
 import * as z from 'zod'
 import { codeThemeIds } from '@/themes/code-theme/metadata'
 import { infographicPaletteIds, infographicThemeIds } from '@/themes/infographic-theme'
-import { markdownStyleIds } from '@/themes/markdown-style/metadata'
+import { DEFAULT_MARKDOWN_STYLE_ID, markdownStyleIds } from '@/themes/markdown-style/metadata'
 import { mermaidThemeIds } from '@/themes/mermaid-theme'
 import { INPUT_SIZE_ERROR, MAX_INPUT_SIZE } from '../constants'
 import { outputOption } from '../types/definition'
@@ -21,7 +21,7 @@ export const renderDefinition = {
   description: '将 Markdown 内容渲染为适用于不同平台的 HTML 片段。支持 GFM 语法、数学公式（KaTeX）、代码高亮，并自动将 CSS 样式内联到元素上，确保在微信公众号等富文本编辑器中正确显示。',
   inputSchema: z.object({
     markdown: z.string().max(MAX_INPUT_SIZE, INPUT_SIZE_ERROR).describe('要渲染的 Markdown 源文本，支持 GFM（GitHub Flavored Markdown）语法、数学公式（$..$ 或 $$..$$）'),
-    markdownStyle: markdownStyleSchema.optional().default('ayu-light').describe('Markdown 排版样式 ID'),
+    markdownStyle: markdownStyleSchema.optional().default(DEFAULT_MARKDOWN_STYLE_ID).describe('Markdown 排版样式 ID'),
     codeTheme: codeThemeSchema.optional().default('kimbie-light').describe('代码块高亮主题 ID'),
     mermaidTheme: mermaidThemeSchema.optional().default('').describe('Mermaid 流程图主题 ID，空字符串表示使用默认主题'),
     infographicTheme: infographicThemeSchema.optional().default('default').describe('Infographic 信息图主题 ID'),

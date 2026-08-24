@@ -1,9 +1,11 @@
 import type { PdfRenderInput } from './protocol'
 import { logSafeError } from '@/lib/log-safe-error'
 import { createPdfStyles, sanitizeCss, selectBackgroundColor } from './css'
-import { selectFontFamilies } from './fonts'
+import { isSerifFontFamily, selectFontFamilies } from './fonts'
 import { loadImages, resolveImageUrl } from './images'
+import { replaceKatexWithImages } from './katex-images'
 import { PdfError } from './protocol'
+import { replaceSvgWithImages } from './svg-images'
 
 function stylesheets(document: Document): string[] {
   const result: string[] = []
@@ -19,15 +21,15 @@ function stylesheets(document: Document): string[] {
   return result
 }
 
-function usesSerif(content: HTMLElement): boolean {
-  const family = content.ownerDocument.defaultView?.getComputedStyle(content).fontFamily.toLowerCase() ?? ''
-  return family.split(',').some((name) => {
-    const normalized = name.trim().replace(/^['"]|['"]$/g, '')
-    return normalized === 'serif'
-      || normalized.includes('song')
-      || normalized.includes('ming')
-      || normalized.includes('georgia')
-  })
+export function detectPdfTypography(content: HTMLElement) {
+  const view = content.ownerDocument.defaultView
+  const heading = content.querySelector<HTMLElement>('h1, h2, h3, h4, h5, h6')
+  return {
+    bodySerif: isSerifFontFamily(view?.getComputedStyle(content).fontFamily ?? ''),
+    headingSerif: heading
+      ? isSerifFontFamily(view?.getComputedStyle(heading).fontFamily ?? '')
+      : undefined,
+  }
 }
 
 export async function createPdfSnapshot(content: HTMLElement): Promise<PdfRenderInput> {
@@ -49,38 +51,53 @@ export async function createPdfSnapshot(content: HTMLElement): Promise<PdfRender
 
   const sourceImages = Array.from(content.querySelectorAll('img'))
   const clonedImages = Array.from(clone.querySelectorAll('img'))
-  const imageSources = sourceImages.map((image, index) => {
+  sourceImages.forEach((image, index) => {
     const src = resolveImageUrl(image.currentSrc, image.getAttribute('src') ?? '', content.ownerDocument.baseURI)
     clonedImages[index].setAttribute('src', src)
     clonedImages[index].removeAttribute('srcset')
+    clonedImages[index].removeAttribute('sizes')
     clonedImages[index].removeAttribute('loading')
-    return src
+    if (clonedImages[index].parentElement?.localName === 'picture')
+      clonedImages[index].parentElement?.querySelectorAll('source').forEach(source => source.remove())
   })
 
   const lang = content.ownerDocument.documentElement.lang || 'zh-CN'
-  const serif = usesSerif(content)
+  const typography = detectPdfTypography(content)
   const view = content.ownerDocument.defaultView
-  return {
-    backgroundColor: selectBackgroundColor([
-      view?.getComputedStyle(content).backgroundColor ?? '',
-      view?.getComputedStyle(content.ownerDocument.body).backgroundColor ?? '',
-      view?.getComputedStyle(content.ownerDocument.documentElement).backgroundColor ?? '',
-    ]),
-    fontFamilies: selectFontFamilies({
+  const title = clone.querySelector('h1')?.textContent?.trim() || 'bm.md'
+  let katexUrls: string[] = []
+  let svgUrls: string[] = []
+  try {
+    katexUrls = await replaceKatexWithImages(content, clone)
+    svgUrls = await replaceSvgWithImages(content, clone)
+    const imageSources = Array.from(clone.querySelectorAll('img'), image => image.getAttribute('src') ?? '')
+      .filter(Boolean)
+    return {
+      backgroundColor: selectBackgroundColor([
+        view?.getComputedStyle(content).backgroundColor ?? '',
+        view?.getComputedStyle(content.ownerDocument.body).backgroundColor ?? '',
+        view?.getComputedStyle(content.ownerDocument.documentElement).backgroundColor ?? '',
+      ]),
+      fontFamilies: selectFontFamilies({
+        lang,
+        languages: Array.from(clone.querySelectorAll('[lang]'), element => element.getAttribute('lang') ?? '')
+          .filter(Boolean),
+        text: clone.textContent ?? '',
+        typography,
+        usesCode: Boolean(clone.querySelector('pre, code, kbd, samp')),
+      }),
+      html: clone.outerHTML,
+      images: await loadImages(imageSources),
       lang,
-      languages: Array.from(clone.querySelectorAll('[lang]'), element => element.getAttribute('lang') ?? '')
-        .filter(Boolean),
-      serif,
-      text: clone.textContent ?? '',
-      usesCode: Boolean(clone.querySelector('pre, code, kbd, samp')),
-    }),
-    html: clone.outerHTML,
-    images: await loadImages(imageSources),
-    lang,
-    stylesheets: [
-      ...stylesheets(content.ownerDocument).map(sanitizeCss),
-      createPdfStyles(serif, lang),
-    ],
-    title: clone.querySelector('h1')?.textContent?.trim() || 'bm.md',
+      stylesheets: [
+        ...stylesheets(content.ownerDocument).map(sanitizeCss),
+        createPdfStyles(typography, lang),
+      ],
+      title,
+    }
+  }
+  finally {
+    for (const url of [...svgUrls, ...katexUrls])
+      URL.revokeObjectURL(url)
   }
 }

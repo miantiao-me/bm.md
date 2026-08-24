@@ -32,8 +32,7 @@ export function Safari({
     <div
       className={`
         relative flex w-full flex-col overflow-hidden rounded-xl border
-        border-neutral-300/60
-        dark:border-neutral-600/60
+        border-border
         ${className ?? ''}
       `}
       style={style}
@@ -42,32 +41,19 @@ export function Safari({
       <div
         className={`
           relative flex w-full shrink-0 items-center justify-between
-          rounded-t-xl bg-[#fcfcfc] px-5
-          dark:bg-[#1f2430]
+          rounded-t-xl bg-card px-5
         `}
         style={{ height: HEADER_HEIGHT }}
       >
         <div className="flex shrink-0 items-center gap-5">
           <div className="flex items-center gap-2">
-            <div className={`
-              size-3 rounded-full bg-[#e6e8eb]
-              dark:bg-[#282e3b]
-            `}
-            />
-            <div className={`
-              size-3 rounded-full bg-[#e6e8eb]
-              dark:bg-[#282e3b]
-            `}
-            />
-            <div className={`
-              size-3 rounded-full bg-[#e6e8eb]
-              dark:bg-[#282e3b]
-            `}
-            />
+            <div className="size-3 rounded-full bg-foreground/15" />
+            <div className="size-3 rounded-full bg-foreground/15" />
+            <div className="size-3 rounded-full bg-foreground/15" />
           </div>
 
           {mode === 'default' && (
-            <div className="flex items-center gap-3 text-neutral-400">
+            <div className="flex items-center gap-3 text-muted-foreground">
               <PanelLeft className="size-4" strokeWidth={1.5} />
               <ChevronLeft className="size-4" strokeWidth={1.5} />
               <ChevronRight className="size-4" strokeWidth={1.5} />
@@ -75,26 +61,30 @@ export function Safari({
           )}
         </div>
 
-        <div className={`
-          pointer-events-none absolute inset-0 flex items-center justify-center
-          px-32
-        `}
-        >
-          <div className={`
-            pointer-events-auto flex w-full max-w-md items-center justify-center
-            gap-1.5 rounded-md bg-[#e6e8eb] px-3 py-1.5
-            dark:bg-[#282e3b]
+        <div
+          className={`
+            pointer-events-none absolute inset-0 flex items-center
+            justify-center px-32
           `}
+        >
+          <div
+            className={`
+              pointer-events-auto flex w-full max-w-md items-center
+              justify-center gap-1.5 rounded-md bg-muted px-3 py-1.5
+            `}
           >
-            <Lock className="size-3 shrink-0 text-neutral-400" strokeWidth={2} />
-            <span className="truncate text-xs text-neutral-400">
+            <Lock className="size-3 shrink-0 text-muted-foreground" strokeWidth={2} />
+            <span className="truncate text-xs text-muted-foreground">
               {url}
             </span>
           </div>
         </div>
 
         {mode === 'default' && (
-          <div className="flex shrink-0 items-center gap-4 text-neutral-400">
+          <div className={`
+            flex shrink-0 items-center gap-4 text-muted-foreground
+          `}
+          >
             <Share className="size-4" strokeWidth={1.5} />
             <Plus className="size-4" strokeWidth={1.5} />
             <SquareStack className="size-4" strokeWidth={1.5} />
@@ -103,10 +93,8 @@ export function Safari({
         )}
       </div>
 
-      <div className={`
-        relative min-h-0 flex-1 overflow-hidden bg-white
-        dark:bg-[#262626]
-      `}
+      <div
+        className="relative min-h-0 flex-1 overflow-hidden bg-background"
       >
         {hasVideo && (
           <video

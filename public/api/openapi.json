@@ -28,21 +28,17 @@
                   },
                   "markdownStyle": {
                     "enum": [
-                      "ayu-light",
+                      "kami",
                       "bauhaus",
                       "blueprint",
                       "botanical",
-                      "kami",
-                      "neo-brutalism",
                       "newsprint",
-                      "organic",
-                      "professional",
                       "retro",
                       "sketch",
                       "terminal"
                     ],
                     "type": "string",
-                    "default": "ayu-light",
+                    "default": "kami",
                     "description": "Markdown 排版样式 ID"
                   },
                   "codeTheme": {

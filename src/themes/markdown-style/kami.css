@@ -1,59 +1,18 @@
 /* ============================================
-   Kami — 暖羊皮纸 + 墨蓝克制
-   严格对齐 tw93/Kami 原版（references/design.md
-   + kami.tw93.fun/styles.css 的实现细节）
-
-   十条不变量：
-   1. 背景羊皮纸 #f5f4ed，绝不纯白
-   2. 唯一强调色：墨蓝 #1B365D（覆盖 ≤ 5%）
-   3. 灰色全部暖灰，禁止冷蓝灰
-   4. 衬线驱动层级
-   5. 衬线字重锁 500，禁用 700+ 真粗体
-   6. 行高：标题 1.05-1.3 / 阅读 1.5-1.55
-   7. 字距留 0（项目规则禁用 letter-spacing）
-   8. Tag 背景必须纯 hex
-   9. 仅 ring/whisper 阴影；本主题不使用阴影
-   10. 全文禁止 italic
-
-   配色 token（硬编码自 kami.tw93.fun/styles.css）：
-   - parchment    #f5f4ed   页面背景
-   - ivory        #faf9f5   卡片/抬升容器
-   - warm-sand    #e8e6dc   交互面/按键
-   - brand        #1B365D   唯一强调
-   - brand-light  #2D5A8A
-   - near-black   #141413   主文字 / 标题 / 强调粗体
-   - dark-warm    #3d3d3a   次文字 / strong
-   - olive        #504e49   引用 / caption
-   - stone        #6b6a64   三级元数据
-   - border       #e8e6dc
-   - border-soft  #e5e3d8
-   - tag-lightest #EEF2F7   行内代码、calm tag
-   - tag-light    #E4ECF5   standard tag、mark
-   - tag-mid      #D6E1EE
-   - tag-deep     #D0DCE9
-
-   字号刻度（来自 type-sample）：
-   - body          14px / 1.55
-   - lede          15px / 1.55
-   - h3            17px / 1.3
-   - h2            22px / 1.25
-   - h1            30px / 1.2
+   Kami — 羊皮纸、墨蓝与克制的编辑排版
+   对齐 tw93/Kami V1.12.0，并适配紧凑的屏幕阅读
    ============================================ */
 
-/* 容器 — body 基线 */
 #bm-md {
   color: #141413;
   background-color: #f5f4ed;
-  font-family: Charter, Georgia, 'Source Han Serif SC', 'Noto Serif CJK SC', 'Songti SC', 'STSong', Palatino, serif;
+  font-family:
+    'Source Han Serif SC', 'Source Han Serif CN', 'Noto Serif CJK SC', 'Noto Serif SC', 'Songti SC', 'STSong', SimSun,
+    Charter, Georgia, Palatino, serif;
   font-size: 14px;
   line-height: 1.55;
-  padding: 2em 1.75em;
+  padding: 28px 24px;
 }
-
-/* ============================================
-   标题 — 纯尺寸驱动层级（live .section-title 无装饰）
-   衬线 500，颜色逐级变淡
-   ============================================ */
 
 #bm-md h1,
 #bm-md h2,
@@ -63,52 +22,56 @@
 #bm-md h6 {
   font-family: inherit;
   font-weight: 500;
-  color: #141413;
-  margin-top: 1.6em;
-  margin-bottom: 0.5em;
+  break-after: avoid;
 }
 
-/* H1 — Section title 级（32px ≈ 2.28em），无装饰，纯字号驱动 */
 #bm-md h1 {
-  font-size: 2.28em;
+  margin-top: 32px;
+  margin-bottom: 12px;
+  padding-left: 10px;
+  border-left: 3px solid #1b365d;
+  color: #141413;
+  font-size: 30px;
   line-height: 1.2;
-  margin-bottom: 0.6em;
 }
 
-/* H2 — Section title（type-sample.h2 22px ≈ 1.57em）*/
 #bm-md h2 {
-  font-size: 1.57em;
+  margin-top: 28px;
+  margin-bottom: 10px;
+  color: #141413;
+  font-size: 22px;
   line-height: 1.25;
 }
 
-/* H3 — Subsection（type-sample.h3 17px ≈ 1.21em）*/
 #bm-md h3 {
-  font-size: 1.21em;
-  line-height: 1.3;
+  margin-top: 22px;
+  margin-bottom: 8px;
   color: #3d3d3a;
+  font-size: 17px;
+  line-height: 1.3;
 }
 
-/* H4-H6 — 同色（暖灰梯度），逐级缩小 */
 #bm-md h4,
 #bm-md h5,
 #bm-md h6 {
+  margin-top: 18px;
+  margin-bottom: 6px;
   color: #504e49;
   line-height: 1.35;
 }
 
 #bm-md h4 {
-  font-size: 1.07em;
+  font-size: 15px;
 }
 
 #bm-md h5 {
-  font-size: 1em;
+  font-size: 14px;
 }
 
 #bm-md h6 {
-  font-size: 0.9285em;
+  font-size: 12px;
 }
 
-/* 首个标题无上边距 */
 #bm-md > h1:first-child,
 #bm-md > h2:first-child,
 #bm-md > h3:first-child,
@@ -118,35 +81,28 @@
   margin-top: 0;
 }
 
-/* ============================================
-   段落 — 阅读型行距
-   ============================================ */
-
 #bm-md p {
-  margin-bottom: 1em;
+  margin-bottom: 12px;
   color: #141413;
+  widows: 2;
+  orphans: 2;
 }
 
 #bm-md p:last-child {
   margin-bottom: 0;
 }
 
-/* ============================================
-   行内文本 — 严禁 italic
-   strong/b → dark-warm + 500（对齐 .hero-tokens b）
-   em/i    → brand + normal（对齐 .manifesto em）
-   ============================================ */
-
 #bm-md strong,
 #bm-md b {
+  color: #141413;
   font-weight: 500;
-  color: #3d3d3a;
 }
 
+/* em/i 保留 Markdown 斜体语义，显式声明避免依赖默认行为 */
 #bm-md em,
 #bm-md i {
-  font-style: normal;
-  color: #1b365d;
+  color: #141413;
+  font-style: italic;
 }
 
 #bm-md del,
@@ -156,17 +112,16 @@
   text-decoration: line-through;
 }
 
-/* 高亮 — tag.standard 同款纯 hex */
 #bm-md mark {
-  background-color: #e4ecf5;
+  padding: 1px 4px;
+  border-radius: 2px;
   color: #1b365d;
-  padding: 0.05em 0.45em;
-  border-radius: 4px;
+  background-color: #e4ecf5;
 }
 
 #bm-md small {
-  font-size: 0.857em;
   color: #6b6a64;
+  font-size: 12px;
 }
 
 #bm-md sup,
@@ -184,41 +139,42 @@
 }
 
 #bm-md ins {
-  background-color: #eef2f7;
+  padding: 1px 3px;
+  border-bottom: 1px solid #1b365d;
   color: #1b365d;
+  background-color: #eef2f7;
   text-decoration: none;
-  padding: 0.05em 0.35em;
-  border-radius: 2px;
 }
 
-/* 行内引用 — 直接字符，避免公众号剥离 quotes 属性 */
 #bm-md q {
   color: #504e49;
 }
 
 #bm-md q::before {
-  content: '"';
+  content: '“';
   color: #1b365d;
 }
 
 #bm-md q::after {
-  content: '"';
+  content: '”';
   color: #1b365d;
 }
 
 #bm-md var {
+  color: #3d3d3a;
   font-style: normal;
-  color: #141413;
+  font-weight: 500;
 }
 
 #bm-md samp,
 #bm-md tt {
-  font-family: 'JetBrains Mono', 'Fira Code', 'SF Mono', Consolas, Monaco, monospace;
-  font-size: 0.857em;
-  background-color: #eef2f7;
-  color: #141413;
-  padding: 0.07em 0.35em;
+  padding: 1px 4px;
   border-radius: 2px;
+  color: #3d3d3a;
+  background-color: #faf9f5;
+  font-family:
+    'JetBrains Mono', 'SF Mono', 'Fira Code', Consolas, Monaco, 'Source Han Serif SC', 'Noto Serif CJK SC', monospace;
+  font-size: 12px;
 }
 
 #bm-md abbr[title] {
@@ -227,48 +183,36 @@
   text-decoration: none;
 }
 
-/* ============================================
-   链接 — 单一墨蓝强调
-   ============================================ */
-
+/* 链接对齐官方 .prose a：品牌色文字，hover 才出现下划线 */
 #bm-md a {
   color: #1b365d;
+  font-weight: 500;
   text-decoration: none;
-  border-bottom: 1px solid #d0dce9;
 }
 
 #bm-md a:hover {
-  color: #2d5a8a;
-  border-bottom-color: #1b365d;
+  color: #1b365d;
+  text-decoration: underline;
+  text-underline-offset: 3px;
 }
-
-/* ============================================
-   Ruby
-   ============================================ */
 
 #bm-md ruby {
   ruby-align: center;
 }
 
 #bm-md rt {
-  font-size: 0.5em;
   color: #6b6a64;
+  font-size: 0.5em;
 }
 
 #bm-md rp {
   color: #6b6a64;
 }
 
-/* ============================================
-   列表 — marker 用墨蓝
-   ============================================ */
-
-/* ul/ol 设 brand 色让 marker 兜底继承（公众号会剥离 ::marker） */
 #bm-md ul,
 #bm-md ol {
-  margin-bottom: 1em;
-  padding-left: 1.5em;
-  color: #1b365d;
+  margin-bottom: 12px;
+  padding-left: 22px;
 }
 
 #bm-md ul {
@@ -280,18 +224,24 @@
 }
 
 #bm-md li {
-  margin-bottom: 0.25em;
+  margin-bottom: 4px;
   color: #141413;
 }
 
-#bm-md li::marker {
+/* 原生 marker：无序不加粗，有序 500（对齐官方列表规则） */
+#bm-md ul li::marker {
   color: #1b365d;
+}
+
+#bm-md ol li::marker {
+  color: #1b365d;
+  font-weight: 500;
 }
 
 #bm-md li > ul,
 #bm-md li > ol {
-  margin-top: 0.25em;
-  margin-bottom: 0.25em;
+  margin-top: 4px;
+  margin-bottom: 4px;
 }
 
 #bm-md ul ul {
@@ -303,40 +253,32 @@
 }
 
 #bm-md ul.contains-task-list {
-  list-style-type: none;
   padding-left: 0;
+  list-style-type: none;
 }
 
 #bm-md li.task-list-item {
   display: flex;
   align-items: flex-start;
-  gap: 0.4em;
+  gap: 6px;
 }
 
 #bm-md input[type='checkbox'] {
-  margin-top: 0.3em;
-  margin-right: 0.1em;
+  margin-top: 4px;
   accent-color: #1b365d;
 }
 
-/* ============================================
-   引用块 — 严格对齐 live .quote
-   2px brand 左边框 + olive 文字 + 衬线 15px / 1.55 + 无背景
-   ============================================ */
-
 #bm-md blockquote {
-  margin: 1.1em 0;
-  padding: 0.3em 0 0.3em 1em;
+  margin: 16px 0;
+  padding: 4px 0 4px 14px;
   border-left: 2px solid #1b365d;
-  background-color: transparent;
   color: #504e49;
-  font-family: inherit;
-  font-size: 1.07em;
+  background-color: transparent;
   line-height: 1.55;
 }
 
 #bm-md blockquote p {
-  margin-bottom: 0.4em;
+  margin-bottom: 6px;
   color: #504e49;
 }
 
@@ -345,92 +287,87 @@
 }
 
 #bm-md blockquote blockquote {
-  margin-top: 0.5em;
+  margin-top: 8px;
   margin-bottom: 0;
-  border-left-color: #d0dce9;
+  border-left-color: #e5e3d8;
 }
 
-/* ============================================
-   代码 — 严格对齐 live .code 与 .rules code
-   行内：#EEF2F7 + brand + 2px radius
-   代码块：ivory + border + 6px radius
-   ============================================ */
-
 #bm-md code {
-  font-family: 'JetBrains Mono', 'Fira Code', 'SF Mono', Consolas, Monaco, monospace;
-  font-size: 0.857em;
-  background-color: #eef2f7;
-  color: #1b365d;
-  padding: 1px 5px;
+  padding: 1px 4px;
   border-radius: 2px;
+  color: #3d3d3a;
+  background-color: #faf9f5;
+  font-family:
+    'JetBrains Mono', 'SF Mono', 'Fira Code', Consolas, Monaco, 'Source Han Serif SC', 'Noto Serif CJK SC', 'Songti SC',
+    monospace;
+  font-size: 12px;
 }
 
 #bm-md pre {
-  margin: 1.1em 0;
+  margin: 14px 0;
   padding: 12px 14px;
-  background-color: #faf9f5;
-  border: 1px solid #e8e6dc;
-  border-radius: 6px;
   overflow-x: auto;
+  border-radius: 4px;
+  color: #141413;
+  background-color: #faf9f5;
+  font-family:
+    'JetBrains Mono', 'SF Mono', 'Fira Code', Consolas, Monaco, 'Source Han Serif SC', 'Noto Serif CJK SC', 'Songti SC',
+    monospace;
+  font-size: 12px;
+  line-height: 1.5;
   white-space: pre;
 }
 
 #bm-md pre code {
-  background-color: transparent;
-  color: #141413;
   padding: 0;
   border-radius: 0;
-  font-size: 0.857em;
-  line-height: 1.55;
+  color: inherit;
+  background-color: transparent;
+  font-size: inherit;
+  line-height: inherit;
 }
-
-/* ============================================
-   表格 — 严格对齐 live .space-table
-   仅底分隔线 + 暖色 border-soft + 表头 stone 色
-   ============================================ */
 
 #bm-md table {
   width: 100%;
-  margin: 1.1em 0;
+  margin: 16px 0;
   border-collapse: collapse;
-  font-size: 1em;
+  color: #3d3d3a;
+  font-size: 13px;
 }
 
 #bm-md th,
 #bm-md td {
-  padding: 12px 16px 12px 0;
-  text-align: left;
-  vertical-align: top;
+  padding: 7px 10px;
   border: none;
   border-bottom: 1px solid #e5e3d8;
-  color: #3d3d3a;
+  text-align: left;
+  vertical-align: top;
 }
 
 #bm-md th {
-  font-family: inherit;
+  border-bottom-color: #e8e6dc;
+  color: #3d3d3a;
   font-weight: 500;
-  font-size: 0.928em;
-  color: #6b6a64;
-  padding-top: 0;
 }
 
-/* Frontmatter */
+/* 基础表格无斑马纹；官方 .striped 为可选增强，Markdown 渲染不启用 */
+
 #bm-md .frontmatter-table {
   width: auto;
-  margin-bottom: 1.5em;
-  font-size: 0.928em;
+  margin-bottom: 20px;
+  color: #504e49;
+  font-size: 12px;
 }
 
 #bm-md .frontmatter-table td {
-  padding: 0.2em 0.75em 0.2em 0;
+  padding: 2px 10px 2px 0;
   border: none;
   background-color: transparent;
-  color: #504e49;
 }
 
 #bm-md .frontmatter-key {
+  color: #1b365d;
   font-weight: 500;
-  color: #3d3d3a;
   white-space: nowrap;
 }
 
@@ -442,33 +379,24 @@
   color: #504e49;
 }
 
-/* ============================================
-   分割线
-   ============================================ */
-
 #bm-md hr {
-  margin: 1.75em 0;
-  border: none;
   height: 1px;
+  margin: 24px 0;
+  border: none;
   background-color: #e5e3d8;
 }
-
-/* ============================================
-   图片 — 8px 圆角 + 暖边（对齐 .demo-card a img）
-   ============================================ */
 
 #bm-md img {
   display: block;
   max-width: 100%;
   height: auto;
-  margin: 1.1em 0;
-  border-radius: 6px;
-  border: 1px solid #e8e6dc;
+  margin: 16px 0;
+  border-radius: 4px;
 }
 
 #bm-md picture {
   display: block;
-  margin: 1.1em 0;
+  margin: 16px 0;
 }
 
 #bm-md picture img {
@@ -477,42 +405,39 @@
 }
 
 #bm-md figure {
-  margin: 1.25em 0;
+  margin: 18px 0;
 }
 
 #bm-md figure img {
   display: block;
-  margin: 0;
+  margin: 0 auto;
 }
 
 #bm-md figcaption {
-  margin-top: 0.5em;
-  padding-left: 0.75em;
-  border-left: 2px solid #e5e3d8;
-  font-size: 0.857em;
-  color: #504e49;
+  margin-top: 6px;
+  color: #6b6a64;
+  font-size: 12px;
+  line-height: 1.45;
+  text-align: center;
 }
 
-/* ============================================
-   脚注
-   ============================================ */
-
 #bm-md .footnotes {
-  margin-top: 1.75em;
-  padding-top: 0.75em;
+  margin-top: 28px;
+  padding-top: 12px;
   border-top: 1px solid #e5e3d8;
-  font-size: 0.857em;
   color: #504e49;
+  font-size: 12px;
+  line-height: 1.5;
 }
 
 #bm-md .footnotes ol {
-  padding-left: 1.25em;
+  padding-left: 18px;
 }
 
 #bm-md .footnote-ref {
+  color: #1b365d;
   font-size: 0.75em;
   vertical-align: super;
-  color: #1b365d;
 }
 
 #bm-md .footnote-backref,
@@ -521,18 +446,14 @@
   text-decoration: none;
 }
 
-/* ============================================
-   定义列表
-   ============================================ */
-
 #bm-md dl {
-  margin: 1.1em 0;
+  margin: 14px 0;
 }
 
 #bm-md dt {
-  font-weight: 500;
+  margin-top: 8px;
   color: #141413;
-  margin-top: 0.5em;
+  font-weight: 500;
 }
 
 #bm-md dt:first-child {
@@ -540,174 +461,147 @@
 }
 
 #bm-md dd {
-  margin-left: 1.25em;
-  margin-top: 0.2em;
+  margin-top: 3px;
+  margin-left: 18px;
   color: #504e49;
 }
 
-/* ============================================
-   键盘按键 — warm-sand
-   ============================================ */
-
 #bm-md kbd {
-  font-family: 'JetBrains Mono', 'Fira Code', 'SF Mono', Consolas, Monaco, monospace;
-  font-size: 0.857em;
   display: inline-block;
-  padding: 0.15em 0.5em;
-  background-color: #e8e6dc;
-  border: 1px solid #d8d4c4;
-  border-radius: 3px;
-  color: #141413;
+  padding: 1px 5px;
+  border: 1px solid #e8e6dc;
+  border-radius: 2px;
+  color: #3d3d3a;
+  background-color: #faf9f5;
+  font-family:
+    'JetBrains Mono', 'SF Mono', Consolas, Monaco, 'Source Han Serif SC', 'Noto Serif CJK SC', 'Songti SC', monospace;
+  font-size: 12px;
 }
 
-/* ============================================
-   警告框 — 严格对齐 live .anti.yes 模式
-   ivory 底 + 1px border + 3px brand 左边框
-   通过浅色 hex 梯度区分严重程度
-   ============================================ */
-
 #bm-md .markdown-alert {
-  margin: 1.1em 0;
-  padding: 18px 20px;
-  background-color: #faf9f5;
-  border: 1px solid #e8e6dc;
-  border-left: 3px solid #1b365d;
+  margin: 16px 0;
+  padding: 12px 14px;
+  border-left: 2px solid #1b365d;
   border-radius: 4px;
+  color: #3d3d3a;
+  background-color: #faf9f5;
   line-height: 1.55;
 }
 
 #bm-md .markdown-alert-title {
   display: flex;
   align-items: center;
-  gap: 0.4em;
+  gap: 6px;
+  margin-bottom: 6px;
+  color: #1b365d;
+  font-size: 12px;
   font-weight: 500;
-  font-size: 0.857em;
   text-transform: uppercase;
-  margin-bottom: 8px;
+}
+
+#bm-md .markdown-alert-note,
+#bm-md .markdown-alert-note .markdown-alert-title {
+  border-left-color: #1b365d;
   color: #1b365d;
 }
 
-/* Note */
 #bm-md .markdown-alert-note {
   background-color: #faf9f5;
 }
 
-#bm-md .markdown-alert-note .markdown-alert-title {
-  color: #6b6a64;
+/* tip 与 note 同属墨蓝单色系，以 brand-tint 浅底区分层级 */
+#bm-md .markdown-alert-tip,
+#bm-md .markdown-alert-tip .markdown-alert-title {
+  border-left-color: #1b365d;
+  color: #1b365d;
 }
 
-/* Tip */
 #bm-md .markdown-alert-tip {
   background-color: #eef2f7;
-  border-color: #e4ecf5;
 }
 
-#bm-md .markdown-alert-tip .markdown-alert-title {
-  color: #1b365d;
-}
-
-/* Important */
-#bm-md .markdown-alert-important {
-  background-color: #e4ecf5;
-  border-color: #d6e1ee;
-}
-
+#bm-md .markdown-alert-important,
 #bm-md .markdown-alert-important .markdown-alert-title {
-  color: #1b365d;
-}
-
-/* Warning */
-#bm-md .markdown-alert-warning {
-  background-color: #d6e1ee;
-  border-color: #d0dce9;
   border-left-color: #1b365d;
-}
-
-#bm-md .markdown-alert-warning .markdown-alert-title {
   color: #1b365d;
 }
 
-/* Caution — 用 near-black 收口加重，仍守住唯一强调色 */
-#bm-md .markdown-alert-caution {
-  background-color: #d0dce9;
-  border-color: #d6e1ee;
-  border-left-color: #141413;
+#bm-md .markdown-alert-important {
+  border-left-width: 3px;
+  background-color: #e4ecf5;
 }
 
+/* warning/caution 使用官方唯一授权的暖色例外（breaking-* token），
+   语义同为"警示"；不引入第二套暖色，靠左线宽度区分两级 */
+#bm-md .markdown-alert-warning,
+#bm-md .markdown-alert-warning .markdown-alert-title {
+  border-left-color: #8b4513;
+  color: #8b4513;
+}
+
+#bm-md .markdown-alert-warning {
+  background-color: #f0e0d8;
+}
+
+#bm-md .markdown-alert-caution,
 #bm-md .markdown-alert-caution .markdown-alert-title {
-  color: #141413;
+  border-left-color: #8b4513;
+  color: #8b4513;
 }
 
-/* ============================================
-   数学公式
-   ============================================ */
+#bm-md .markdown-alert-caution {
+  border-left-width: 3px;
+  background-color: #f0e0d8;
+}
 
 #bm-md .math-inline {
+  color: #141413;
   font-size: 1em;
 }
 
 #bm-md .math-display {
-  margin: 1.1em 0;
+  margin: 16px 0;
+  padding: 10px 12px;
   overflow-x: auto;
+  border-radius: 4px;
+  background-color: #faf9f5;
   text-align: center;
 }
 
-/* ============================================
-   折叠详情 — 同 alert/anti.yes 风格
-   ============================================ */
-
 #bm-md details {
-  margin: 1.1em 0;
-  padding: 12px 16px;
-  background-color: #faf9f5;
-  border: 1px solid #e8e6dc;
-  border-left: 3px solid #1b365d;
+  margin: 16px 0;
+  padding: 10px 12px;
+  border-left: 2px solid #1b365d;
   border-radius: 4px;
+  background-color: #faf9f5;
 }
 
 #bm-md summary {
-  font-weight: 500;
-  cursor: pointer;
   color: #1b365d;
-  list-style: none;
-}
-
-#bm-md summary::-webkit-details-marker {
-  display: none;
+  cursor: pointer;
+  font-weight: 500;
 }
 
 #bm-md details[open] summary {
-  margin-bottom: 0.5em;
-  padding-bottom: 0.5em;
+  margin-bottom: 8px;
+  padding-bottom: 6px;
   border-bottom: 1px solid #e5e3d8;
 }
-
-/* ============================================
-   嵌入媒体
-   ============================================ */
 
 #bm-md iframe,
 #bm-md video {
   display: block;
   max-width: 100%;
-  margin: 1.1em 0;
+  margin: 16px 0;
   border: 1px solid #e8e6dc;
-  border-radius: 6px;
+  border-radius: 4px;
 }
-
-/* ============================================
-   元信息与时间
-   ============================================ */
 
 #bm-md .meta,
 #bm-md time {
-  font-size: 0.857em;
   color: #6b6a64;
+  font-size: 12px;
 }
-
-/* ============================================
-   首行缩进变体
-   ============================================ */
 
 #bm-md.indent-first-line p {
   text-indent: 2em;

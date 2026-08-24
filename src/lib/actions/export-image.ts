@@ -1,8 +1,8 @@
 import type { CaptureResult } from '@zumer/snapdom'
 import { toast } from 'sonner'
 import { copyImage as copyImageToClipboard } from '@/lib/clipboard'
+import { getSafeRasterDimensions } from '@/lib/raster'
 import { getPreviewElement } from './preview'
-import { getSafeRasterDimensions } from './raster'
 
 async function createPreviewSnapshot(): Promise<CaptureResult | null> {
   const previewContent = getPreviewElement()

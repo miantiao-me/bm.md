@@ -23,10 +23,6 @@
   font-size: 16px;
   line-height: 1.65;
   padding: 1.5em 1em;
-  /* 几何点阵装饰 - 构成主义网格感 */
-  background-image: radial-gradient(circle, #121212 1px, transparent 1px);
-  background-size: 20px 20px;
-  background-position: 0 0;
 }
 
 /* ============================================
@@ -181,14 +177,11 @@
   line-height: 0;
 }
 
-/* 上标 - 红色徽章 */
+/* 上标 - 红色 */
 #bm-md sup {
   vertical-align: super;
-  color: #ffffff;
+  color: #d02020;
   font-weight: 700;
-  background-color: #d02020;
-  padding: 0.1em 0.35em;
-  border: 1px solid #121212;
 }
 
 /* 下标 - 蓝色 */
@@ -207,7 +200,7 @@
 }
 
 #bm-md q {
-  quotes: '«' '»' '"' '"';
+  quotes: '"' '"';
   color: #121212;
 }
 
@@ -239,7 +232,7 @@
   background-color: #ffffff;
   color: #121212;
   padding: 0.15em 0.4em;
-  border: 3px solid #121212;
+  border: 2px solid #121212;
 }
 
 #bm-md abbr[title] {
@@ -254,18 +247,16 @@
 
 #bm-md a {
   color: #1040c0;
-  text-decoration: none;
   font-weight: 600;
-  background-image: linear-gradient(#d02020, #d02020);
-  background-size: 100% 3px;
-  background-position: 0 100%;
-  background-repeat: no-repeat;
-  padding-bottom: 2px;
+  text-decoration: underline;
+  text-decoration-color: #d02020;
+  text-decoration-thickness: 3px;
+  text-underline-offset: 3px;
 }
 
 #bm-md a:hover {
   color: #d02020;
-  background-image: linear-gradient(#1040c0, #1040c0);
+  text-decoration-color: #1040c0;
 }
 
 /* ============================================
@@ -429,12 +420,6 @@
   box-shadow: 6px 6px 0 #121212;
 }
 
-/* 表头首行样式（替代 thead） */
-#bm-md tr:first-child th {
-  background-color: #1040c0;
-  color: #ffffff;
-}
-
 #bm-md th,
 #bm-md td {
   padding: 0.55em 0.8em;
@@ -492,10 +477,11 @@
 #bm-md hr {
   margin: 1.75em 0;
   border: none;
-  height: 8px;
+  height: 6px;
+  /* 主红实心色带 + 黑色实体边框：构成主义的单一色块 */
   background-color: #d02020;
-  background: linear-gradient(90deg, #d02020 33.33%, #f0c020 33.33%, #f0c020 66.66%, #1040c0 66.66%);
-  box-shadow: 4px 4px 0 #121212;
+  border-top: 3px solid #121212;
+  border-bottom: 3px solid #121212;
 }
 
 /* ============================================
@@ -506,7 +492,7 @@
   display: block;
   max-width: 100%;
   height: auto;
-  border: 5px solid #121212;
+  border: 4px solid #121212;
   box-shadow: 8px 8px 0 #1040c0;
   margin: 1.25em 0;
 }
@@ -683,7 +669,7 @@
   color: #ffffff;
 }
 
-/* Warning - 黄色渐变 */
+/* Warning - 黄色平色警示底 */
 #bm-md .markdown-alert-warning {
   background-color: rgba(240, 192, 32, 0.35);
   border-left: 8px solid #d02020;
@@ -764,7 +750,7 @@
   display: block;
   max-width: 100%;
   margin: 1.25em 0;
-  border: 5px solid #121212;
+  border: 4px solid #121212;
   box-shadow: 8px 8px 0 #d02020;
 }
 

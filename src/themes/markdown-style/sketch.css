@@ -9,7 +9,7 @@
 
    核心原则：
    - 没有直线：每个边框都使用不规则的 border-radius
-   - 真实纹理：点阵背景模拟笔记本纸张
+   - 纯色纸张：无纹理背景，靠暖色与不规则边框传达手绘感
    - 硬偏移阴影：无模糊，创造剪贴纸拼贴效果
    - 手写感：接近涂鸦和马克笔的视觉效果
    - 刻意的"杂乱"：不对称、重叠，看起来是草稿状态
@@ -24,13 +24,10 @@
    - 木纹边 #c9c3b8（柔和边框）
    ============================================ */
 
-/* 容器 - 笔记本纸张纹理 */
+/* 容器 - 温暖纸张 */
 #bm-md {
   color: #2d2d2d;
   background-color: #fdfbf7;
-  /* 点阵纹理模拟笔记本方格纸 */
-  background-image: radial-gradient(#e5e0d8 1px, transparent 1px);
-  background-size: 20px 20px;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
   font-size: 16px;
   line-height: 1.7;
@@ -131,13 +128,12 @@
    行内文本样式 - 手绘标记效果
    ============================================ */
 
-/* 加粗 - 红色马克笔高亮底纹 */
+/* 加粗 - 红色马克笔 + 纯色荧光笔浅底 */
 #bm-md strong,
 #bm-md b {
   font-weight: 700;
   color: #c93030;
-  /* 底部高亮效果，像用荧光笔划过 */
-  background: linear-gradient(180deg, transparent 55%, rgba(255, 77, 77, 0.18) 55%);
+  background-color: rgba(255, 77, 77, 0.14);
 }
 
 /* 斜体 - 蓝色圆珠笔 */
@@ -204,7 +200,7 @@
 
 /* 引用 */
 #bm-md q {
-  quotes: '"' '"' '' ' ' '';
+  quotes: '"' '"';
   color: #2d2d2d;
   font-style: italic;
 }
@@ -255,18 +251,16 @@
 
 #bm-md a {
   color: #2d5da1;
-  text-decoration: none;
-  /* 虚线下划线模拟手绘 */
-  background-image: linear-gradient(90deg, #2d5da1 60%, transparent 60%);
-  background-size: 5px 2px;
-  background-position: 0 100%;
-  background-repeat: repeat-x;
-  padding-bottom: 2px;
+  /* 原生虚线下划线模拟手绘 */
+  text-decoration: underline dashed;
+  text-decoration-color: #2d5da1;
+  text-decoration-thickness: 1.5px;
+  text-underline-offset: 3px;
 }
 
 #bm-md a:hover {
   color: #ff4d4d;
-  background-image: linear-gradient(90deg, #ff4d4d 60%, transparent 60%);
+  text-decoration-color: #ff4d4d;
 }
 
 /* ============================================
@@ -509,10 +503,8 @@
 #bm-md hr {
   margin: 1.5em 0;
   border: none;
-  height: 3px;
-  /* 虚线模拟手绘分割线 */
-  background-color: #2d2d2d;
-  background: repeating-linear-gradient(90deg, #2d2d2d 0px, #2d2d2d 10px, transparent 10px, transparent 16px);
+  /* 虚线边框模拟手绘分割线 */
+  border-top: 3px dashed #2d2d2d;
 }
 
 /* ============================================

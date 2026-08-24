@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'vitest'
+import { DEFAULT_MARKDOWN_STYLE_ID } from '@/themes/markdown-style/metadata'
 import {
   migratePreviewState,
   partializePreviewState,
@@ -8,6 +9,10 @@ import {
 } from './preview'
 
 describe('preview store 持久化', () => {
+  it('默认使用 Kami 主题', () => {
+    expect(usePreviewStore.getState().markdownStyle).toBe(DEFAULT_MARKDOWN_STYLE_ID)
+  })
+
   it('持久化 previewWidth', () => {
     const persisted = partializePreviewState({
       ...usePreviewStore.getState(),

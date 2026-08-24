@@ -1,9 +1,10 @@
 import type { Platform } from '@/lib/markdown/render/adapters'
+import type { MarkdownStyleId } from '@/themes/markdown-style/metadata'
 import { getMarkdownLocaleTexts } from '@/lib/locale'
 
 export interface PreviewRenderOptions {
   content: string
-  markdownStyle: string
+  markdownStyle: MarkdownStyleId
   codeTheme: string
   mermaidTheme: string
   infographicTheme: string
@@ -17,7 +18,7 @@ export interface PreviewRenderOptions {
 export interface RenderPlatformHtmlOptions {
   platform: Platform
   content: string
-  markdownStyle: string
+  markdownStyle: MarkdownStyleId
   codeTheme: string
   mermaidTheme: string
   infographicTheme: string

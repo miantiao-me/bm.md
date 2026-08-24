@@ -178,7 +178,7 @@
 }
 
 #bm-md q {
-  quotes: '"' '"' '' ' ' '';
+  quotes: '"' '"';
   color: #222222;
 }
 
@@ -381,14 +381,6 @@
   border: 1px solid #111111;
 }
 
-/* 表头首行样式（替代 thead） */
-#bm-md tr:first-child th {
-  color: #f9f9f7;
-  font-weight: 700;
-  background-color: #111111;
-  border-bottom: 2px solid #111111;
-}
-
 #bm-md th,
 #bm-md td {
   padding: 0.5em 0.75em;
@@ -396,10 +388,11 @@
   text-align: left;
 }
 
+/* 表头 - 报刊行情表风格：墨黑底反白字 */
 #bm-md th {
   font-weight: 700;
-  background-color: #e8e8e6;
-  color: #111111;
+  background-color: #111111;
+  color: #f9f9f7;
   text-transform: uppercase;
   font-size: 0.875em;
 }

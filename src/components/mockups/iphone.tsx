@@ -222,10 +222,7 @@ export function Phone({
 
       {!hasVideo && !src && children && (
         <div
-          className={`
-            absolute z-0 overflow-hidden bg-white
-            dark:bg-[#262626]
-          `}
+          className="absolute z-0 overflow-hidden bg-background"
           style={{
             left: `${LEFT_PCT}%`,
             top: `${TOP_PCT}%`,

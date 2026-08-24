@@ -3,13 +3,14 @@ import { afterEach, describe, expect, it } from 'vitest'
 import { useEditorStore } from '@/stores/editor'
 import { useFilesStore } from '@/stores/files'
 import { partializePreviewState, PREVIEW_WIDTH_MOBILE, usePreviewStore } from '@/stores/preview'
+import { DEFAULT_MARKDOWN_STYLE_ID } from '@/themes/markdown-style/metadata'
 import { createPreviewSignature, isPreviewReadyNow } from './preview-ready'
 
 const baseInput = {
   contentFileId: 'file-1',
   currentContent: '# 正文',
   previewWidth: PREVIEW_WIDTH_MOBILE,
-  markdownStyle: 'ayu-light',
+  markdownStyle: DEFAULT_MARKDOWN_STYLE_ID,
   codeTheme: 'kimbie-light',
   mermaidTheme: '',
   infographicTheme: 'default',
@@ -39,7 +40,7 @@ describe('预览输入签名', () => {
     ['文件', { contentFileId: 'file-2' }],
     ['正文', { currentContent: '# 新正文' }],
     ['宽度', { previewWidth: 768 }],
-    ['Markdown 样式', { markdownStyle: 'github' }],
+    ['Markdown 样式', { markdownStyle: 'bauhaus' }],
     ['代码样式', { codeTheme: 'github-dark' }],
     ['自定义样式', { customCss: 'p { color: red; }' }],
   ] satisfies Array<[string, Partial<PreviewSignatureInput>]>)('%s变化后签名不匹配', (_name, change) => {

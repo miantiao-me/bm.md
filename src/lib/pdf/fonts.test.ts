@@ -4,6 +4,7 @@ import {
   FontUnavailableError,
   generatedProbe,
   googleFontFamily,
+  isSerifFontFamily,
   missingGlyphs,
   replaceGraphemes,
   selectFontFamilies,
@@ -20,8 +21,8 @@ describe('pdf 字体', () => {
     expect(selectFontFamilies({
       lang: 'zh-Hant',
       languages: ['ja'],
-      serif: true,
       text: '繁體 かな ✅',
+      typography: { bodySerif: true },
       usesCode: true,
     })).toEqual([
       'Noto Serif TC',
@@ -32,6 +33,23 @@ describe('pdf 字体', () => {
       'Noto Color Emoji',
       'Noto Emoji',
     ])
+  })
+
+  it('识别常见 Serif 字体且不把 Sans Serif 误判', () => {
+    for (const family of ['serif', 'Noto Serif SC', 'Georgia', 'Times New Roman', 'Songti SC', 'STSong', 'MingLiU', 'SimSun'])
+      expect(isSerifFontFamily(family)).toBe(true)
+    for (const family of ['sans-serif', 'Noto Sans SC', 'Arial', 'Source Sans 3'])
+      expect(isSerifFontFamily(family)).toBe(false)
+  })
+
+  it('混排时同时选择正文和标题家族并去重，无标题时不额外加载', () => {
+    const base = { lang: 'zh-CN', languages: [], text: '正文', usesCode: false }
+    expect(selectFontFamilies({ ...base, typography: { bodySerif: false, headingSerif: true } }))
+      .toEqual(['Noto Sans SC', 'Noto Serif SC'])
+    expect(selectFontFamilies({ ...base, typography: { bodySerif: false } }))
+      .toEqual(['Noto Sans SC'])
+    expect(selectFontFamilies({ ...base, typography: { bodySerif: true, headingSerif: true } }))
+      .toEqual(['Noto Serif SC'])
   })
 
   it('generated content 探针对 Emoji 同时加入彩色与单色字体', () => {
@@ -45,6 +63,11 @@ describe('pdf 字体', () => {
     expect(replaceGraphemes('完成✅️', new Set([0x2705]))).toEqual({
       replacements: [{ original: '✅️', codepoints: [0x2705, 0xFE0F] }],
       text: '完成□',
+    })
+    const segmenter = new Intl.Segmenter(undefined, { granularity: 'grapheme' })
+    expect(replaceGraphemes('保留✅️', new Set([0x2705]), segmenter)).toEqual({
+      replacements: [{ original: '✅️', codepoints: [0x2705, 0xFE0F] }],
+      text: '保留□',
     })
     expect(() => replaceGraphemes('👨‍👩‍👧‍👦', new Set([0x1F468]), null))
       .toThrow('无法安全处理缺失字符')

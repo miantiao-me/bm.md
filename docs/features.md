@@ -110,22 +110,18 @@ sequenceDiagram
 
 ### Markdown 排版样式
 
-内置 12 种精心设计的排版风格：
+内置 8 种排版风格。Kami 是默认样式，定位为简洁、清晰的纸张阅读体验，设计灵感来自 [tw93/Kami](https://github.com/tw93/Kami)。
 
-| 样式 ID         | 名称          | 风格描述                   |
-| --------------- | ------------- | -------------------------- |
-| `ayu-light`     | Ayu Light     | 清新淡雅的浅色主题         |
-| `bauhaus`       | Bauhaus       | 包豪斯风格，几何与功能主义 |
-| `blueprint`     | Blueprint     | 蓝图技术文档风格           |
-| `botanical`     | Botanical     | 植物园风格，自然柔和       |
-| `kami`          | Kami          | 纸张阅读风格               |
-| `neo-brutalism` | Neo-Brutalism | 新野兽派，大胆对比         |
-| `newsprint`     | Newsprint     | 报纸印刷风格               |
-| `organic`       | Organic       | 有机自然风格               |
-| `professional`  | Professional  | 专业商务风格               |
-| `retro`         | Retro         | 复古怀旧风格               |
-| `sketch`        | Sketch        | 手绘素描风格               |
-| `terminal`      | Terminal      | 终端/命令行风格            |
+| 样式 ID     | 名称      | 风格描述                   |
+| ----------- | --------- | -------------------------- |
+| `kami`      | Kami      | 简洁的纸张阅读风格（默认） |
+| `bauhaus`   | Bauhaus   | 包豪斯风格，几何与功能主义 |
+| `blueprint` | Blueprint | 蓝图技术文档风格           |
+| `botanical` | Botanical | 植物园风格，自然柔和       |
+| `newsprint` | Newsprint | 报纸印刷风格               |
+| `retro`     | Retro     | 复古怀旧风格               |
+| `sketch`    | Sketch    | 手绘素描风格               |
+| `terminal`  | Terminal  | 终端/命令行风格            |
 
 ### 代码高亮主题
 
@@ -276,7 +272,7 @@ pnpm dlx bmmd lint article.md --fix
 | 参数                         | 默认值         | 说明                               |
 | ---------------------------- | -------------- | ---------------------------------- |
 | `--platform <platform>`      | `html`         | 输出平台：`html`、`wechat`         |
-| `--markdown-style <id>`      | `ayu-light`    | Markdown 排版样式                  |
+| `--markdown-style <id>`      | `kami`         | Markdown 排版样式                  |
 | `--code-theme <id>`          | `kimbie-light` | 代码块高亮主题                     |
 | `--mermaid-theme <id>`       | 默认主题       | Mermaid 流程图主题                 |
 | `--infographic-theme <id>`   | `default`      | Infographic 信息图主题             |

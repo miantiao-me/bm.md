@@ -1,43 +1,38 @@
 /* ============================================
-   Blueprint - 蓝图技术文档风格
+   Blueprint - 编辑化技术文档风格
 
-   设计灵感：Zed 官网 agentic-engineering 页面
-   干净专业的技术文档美学，暖冷色调对比
+   设计来源：zed.dev/agentic-engineering
+   暖浅灰画布上的白色纸面，蓝色强调，
+   衬线标题 + 易读正文 + 等宽标签。
 
-   设计哲学：
-   - 专业 — 技术文档的精确与可信
-   - 简洁 — 去除冗余，聚焦内容
-   - 层次 — 蓝色强调，灰色辅助
-   - 温暖 — 奶油背景中和冷调文字
-
-   配色系统（硬编码）：
-   - 背景色: #f5f4ef (cream-50)
-   - 正文色: #1e293b (offgray-800)
-   - 次要文字: #475569 (offgray-600)
-   - 辅助灰: #64748b (offgray-500)
-   - 强调蓝: #0751cf (accent-blue)
-   - 标题蓝: #1d4ed8 (blue-700)
-   - 边框色: #e2e8f0 (offgray-200)
-   - 代码背景: #f8fafc (offgray-50)
-   - 浅蓝背景: #dbeafe (blue-100)
+   配色系统（取自 Zed 官方 CSS 变量）：
+   - 页面底: #f5f4f3 (cream-50)
+   - 正文: #474c55 (offgray-800)
+   - 次要文字: #626976 (offgray-600)
+   - 辅助灰: #727a89 (offgray-500)
+   - 强调蓝: #1348dc (accent-blue)
+   - 深层蓝: #1c398e (blue-900)
+   - hover 蓝: #1447e6 (blue-700)
+   - 主边框: #ced1d6 (offgray-100)
+   - 浅底: #e3e4e7 (offgray-50)
+   - 高亮: #dbeafe (blue-100)
    ============================================ */
 
-/* 容器 - 奶油白背景，专业技术感 */
+/* 容器 - Zed 官方暖浅灰纯色画布 */
 #bm-md {
-  color: #1e293b;
-  background-color: #f5f4ef;
+  color: #474c55;
+  background-color: #f5f4f3;
   font-family:
     -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'PingFang SC', 'Microsoft YaHei',
     sans-serif;
   font-size: 16px;
   line-height: 1.7;
   padding: 1.25em 1em;
-  border: 1px solid #e2e8f0;
 }
 
 /* ============================================
-   标题 - 蓝色系，逐级变淡
-   衬线字体，技术文档层次感
+   标题 - 衬线，从品牌蓝过渡到墨灰，逐级变淡
+   H2 细实线、H3 细虚线：Zed 的分隔层级语言
    ============================================ */
 
 #bm-md h1,
@@ -53,39 +48,44 @@
   margin-bottom: 0.4em;
 }
 
+/* H1 - 品牌强调蓝，居中（对应官方 hero 标题） */
 #bm-md h1 {
   font-size: 1.875em;
-  color: #0751cf;
+  color: #1348dc;
   text-align: center;
   padding-bottom: 0.4em;
   margin-bottom: 0.6em;
-  border-bottom: 1px solid #e2e8f0;
+  border-bottom: 1px solid #ced1d6;
 }
 
+/* H2 - 深蓝 + 细实线 */
 #bm-md h2 {
   font-size: 1.5em;
-  color: #1d4ed8;
+  color: #1c398e;
   padding-bottom: 0.25em;
-  border-bottom: 1px solid #e2e8f0;
+  border-bottom: 1px solid #ced1d6;
 }
 
+/* H3 - 墨灰 + 细虚线，'#' 锚点呼应 Markdown 源语言 */
 #bm-md h3 {
   font-size: 1.25em;
-  color: #334155;
+  color: #474c55;
+  padding-bottom: 0.2em;
+  border-bottom: 1px dotted #abafb8;
 }
 
 #bm-md h3::before {
   content: '#';
-  color: #60a5fa;
   margin-right: 0.3em;
+  color: #1348dc;
   font-weight: 400;
 }
 
-/* H4-H6 - 统一灰色 */
+/* H4-H6 - 统一次要文字色 */
 #bm-md h4,
 #bm-md h5,
 #bm-md h6 {
-  color: #475569;
+  color: #626976;
 }
 
 #bm-md h4 {
@@ -131,7 +131,7 @@
 #bm-md strong,
 #bm-md b {
   font-weight: 600;
-  color: #0f172a;
+  color: #35383f;
 }
 
 #bm-md em,
@@ -142,19 +142,19 @@
 #bm-md del,
 #bm-md s,
 #bm-md strike {
-  color: #94a3b8;
+  color: #727a89;
   text-decoration: line-through;
 }
 
 #bm-md mark {
   background-color: #dbeafe;
-  color: #1e293b;
+  color: #35383f;
   padding: 0.1em 0.2em;
 }
 
 #bm-md small {
   font-size: 0.875em;
-  color: #64748b;
+  color: #626976;
 }
 
 #bm-md sup,
@@ -172,62 +172,67 @@
 }
 
 #bm-md ins {
-  background-color: #e0f2fe;
+  background-color: #dbeafe;
+  color: #35383f;
   text-decoration: none;
   padding: 0.1em 0.2em;
 }
 
 #bm-md q {
-  quotes: '"' '"' '' ' ' '';
-  color: #1e293b;
+  quotes: '"' '"';
+  color: #474c55;
 }
 
 #bm-md q::before {
   content: open-quote;
-  color: #3b82f6;
+  color: #1348dc;
   font-weight: 600;
 }
 
 #bm-md q::after {
   content: close-quote;
-  color: #3b82f6;
+  color: #1348dc;
   font-weight: 600;
 }
 
 #bm-md var {
   font-style: italic;
-  color: #334155;
+  color: #535964;
 }
 
+/* 等宽标签 - Zed 的 mono 标签语言 */
 #bm-md samp,
 #bm-md tt {
-  font-family: 'SF Mono', Consolas, 'Liberation Mono', Menlo, monospace;
+  font-family: ui-monospace, 'SF Mono', Consolas, 'Liberation Mono', Menlo, monospace;
   font-size: 0.875em;
-  background-color: #f8fafc;
-  color: #475569;
+  background-color: #e3e4e7;
+  color: #535964;
   padding: 0.1em 0.3em;
-  border: 1px solid #e2e8f0;
+  border-radius: 3px;
 }
 
 #bm-md abbr[title] {
-  border-bottom: 1px dotted #3b82f6;
+  border-bottom: 1px dotted #1348dc;
   cursor: help;
   text-decoration: none;
 }
 
 /* ============================================
-   链接 - 强调蓝
+   链接 - 强调蓝下划线，hover 增强
    ============================================ */
 
 #bm-md a {
-  color: #0751cf;
-  text-decoration: none;
-  border-bottom: 1px solid #93c5fd;
+  color: #1348dc;
+  font-weight: 500;
+  text-decoration: underline;
+  text-decoration-color: rgba(19, 72, 220, 0.5);
+  text-underline-offset: 3px;
 }
 
 #bm-md a:hover {
-  color: #1d4ed8;
-  border-bottom-color: #1d4ed8;
+  color: #1447e6;
+  text-decoration-color: #1447e6;
+  text-decoration-thickness: 2px;
 }
 
 /* ============================================
@@ -240,11 +245,11 @@
 
 #bm-md rt {
   font-size: 0.5em;
-  color: #64748b;
+  color: #626976;
 }
 
 #bm-md rp {
-  color: #94a3b8;
+  color: #abafb8;
 }
 
 /* ============================================
@@ -270,7 +275,7 @@
 }
 
 #bm-md li::marker {
-  color: #3b82f6;
+  color: #1348dc;
 }
 
 #bm-md li > ul,
@@ -301,19 +306,19 @@
 
 #bm-md input[type='checkbox'] {
   margin-top: 0.3em;
-  accent-color: #3b82f6;
+  accent-color: #1348dc;
 }
 
 /* ============================================
-   引用块 - 蓝色左边框
+   引用块 - 品牌蓝左线的安静引用
+   （与 Kami 的墨蓝左线靠色板区分：品牌蓝 + 暖灰画布）
    ============================================ */
 
 #bm-md blockquote {
   margin: 1em 0;
-  padding: 0.6em 1em;
-  border-left: 3px solid #3b82f6;
-  background-color: #faf9f6;
-  color: #334155;
+  padding: 0.2em 1em;
+  border-left: 3px solid #1348dc;
+  color: #474c55;
 }
 
 #bm-md blockquote p {
@@ -327,29 +332,29 @@
 #bm-md blockquote blockquote {
   margin-top: 0.5em;
   margin-bottom: 0;
-  border-left-color: #93c5fd;
-  background-color: #f8fafc;
+  border-left-color: #abafb8;
 }
 
 /* ============================================
-   代码 - 技术文档风格
+   代码 - 白纸面展板 + 浅蓝行内标注
    ============================================ */
 
 #bm-md code {
-  font-family: 'SF Mono', Consolas, 'Liberation Mono', Menlo, monospace;
+  font-family: ui-monospace, 'SF Mono', Consolas, 'Liberation Mono', Menlo, monospace;
   font-size: 0.875em;
-  background-color: #f0f9ff;
-  color: #0369a1;
+  background-color: #eff6ff;
+  color: #1c398e;
   padding: 0.15em 0.35em;
-  border: 1px solid #bae6fd;
+  border-radius: 3px;
 }
 
 #bm-md pre {
   margin: 1em 0;
   padding: 0.875em 1em;
-  background-color: #f8fafc;
-  border: 1px solid #e2e8f0;
-  border-top: 2px solid #3b82f6;
+  background-color: #ffffff;
+  border: 1px solid #ced1d6;
+  border-top: 2px solid #1348dc;
+  border-radius: 4px;
   overflow-x: auto;
 }
 
@@ -357,13 +362,13 @@
   background-color: transparent;
   color: inherit;
   padding: 0;
-  border: none;
+  border-radius: 0;
   font-size: 0.875em;
   line-height: 1.5;
 }
 
 /* ============================================
-   表格 - 简洁边框设计
+   表格 - 明确网格 + 隔行底色
    ============================================ */
 
 #bm-md table {
@@ -371,38 +376,36 @@
   margin: 1em 0;
   border-collapse: collapse;
   font-size: 0.9375em;
-}
-
-#bm-md tr:first-child th {
-  background-color: #f8fafc;
-  color: #1e293b;
-  border-bottom: 2px solid #cbd5e1;
+  background-color: #ffffff;
+  border: 1px solid #ced1d6;
 }
 
 #bm-md th,
 #bm-md td {
   padding: 0.5em 0.75em;
-  border: 1px solid #e2e8f0;
+  border: 1px solid #e3e4e7;
   text-align: left;
 }
 
 #bm-md th {
   font-weight: 600;
-  background-color: #f8fafc;
-  color: #334155;
+  background-color: #e3e4e7;
+  color: #35383f;
+  border-bottom: 2px solid #abafb8;
 }
 
 #bm-md tbody tr:nth-child(even) {
-  background-color: #faf9f6;
+  background-color: #f5f4f3;
 }
 
-/* Frontmatter 表格 */
+/* Frontmatter 元数据表格 - 等宽键名 */
 #bm-md .frontmatter-table {
   width: auto;
   margin-bottom: 1.25em;
   font-size: 0.875em;
   border: none;
-  border-bottom: 1px solid #e2e8f0;
+  border-bottom: 1px solid #ced1d6;
+  background-color: transparent;
 }
 
 #bm-md .frontmatter-table td {
@@ -413,8 +416,9 @@
 }
 
 #bm-md .frontmatter-key {
-  font-weight: 600;
-  color: #334155;
+  font-family: ui-monospace, 'SF Mono', Consolas, 'Liberation Mono', Menlo, monospace;
+  font-weight: 500;
+  color: #1348dc;
   white-space: nowrap;
 }
 
@@ -423,29 +427,30 @@
 }
 
 #bm-md .frontmatter-value {
-  color: #475569;
+  color: #626976;
 }
 
 /* ============================================
-   分割线 - 蓝灰点状线
+   分割线 - 细实线（对齐 Zed 的实线分隔）
    ============================================ */
 
 #bm-md hr {
   margin: 1.25em 0;
   border: none;
-  border-top: 1px dashed #cbd5e1;
+  border-top: 1px solid #ced1d6;
   height: 0;
 }
 
 /* ============================================
-   图片与媒体
+   图片与媒体 - 白底细框
    ============================================ */
 
 #bm-md img {
   display: block;
   max-width: 100%;
   height: auto;
-  border: 1px solid #e2e8f0;
+  border: 1px solid #ced1d6;
+  border-radius: 4px;
   margin: 1em 0;
 }
 
@@ -472,8 +477,8 @@
 #bm-md figcaption {
   margin-top: 0.4em;
   font-size: 0.8125em;
-  color: #64748b;
   font-style: italic;
+  color: #626976;
 }
 
 /* ============================================
@@ -483,9 +488,9 @@
 #bm-md .footnotes {
   margin-top: 1.5em;
   padding-top: 0.75em;
-  border-top: 1px solid #e2e8f0;
+  border-top: 1px solid #ced1d6;
   font-size: 0.875em;
-  color: #64748b;
+  color: #727a89;
 }
 
 #bm-md .footnotes ol {
@@ -495,14 +500,14 @@
 #bm-md .footnote-ref {
   font-size: 0.75em;
   vertical-align: super;
-  color: #0751cf;
+  color: #1348dc;
   font-weight: 600;
   text-decoration: none;
 }
 
 #bm-md .footnote-backref,
 #bm-md .data-footnote-backref {
-  color: #0751cf;
+  color: #1348dc;
   text-decoration: none;
 }
 
@@ -516,7 +521,7 @@
 
 #bm-md dt {
   font-weight: 600;
-  color: #1e293b;
+  color: #35383f;
   margin-top: 0.5em;
 }
 
@@ -527,26 +532,27 @@
 #bm-md dd {
   margin-left: 1.25em;
   margin-top: 0.2em;
-  color: #475569;
+  color: #626976;
 }
 
 /* ============================================
-   键盘按键
+   键盘按键 - 细框轻阴影
    ============================================ */
 
 #bm-md kbd {
-  font-family: 'SF Mono', Consolas, 'Liberation Mono', Menlo, monospace;
+  font-family: ui-monospace, 'SF Mono', Consolas, 'Liberation Mono', Menlo, monospace;
   font-size: 0.8125em;
   display: inline-block;
   padding: 0.15em 0.4em;
-  background-color: #f8fafc;
-  border: 1px solid #cbd5e1;
-  border-bottom: 2px solid #94a3b8;
-  color: #1e293b;
+  background-color: #ffffff;
+  border: 1px solid #abafb8;
+  border-radius: 3px;
+  box-shadow: 0 2px 0 #ced1d6;
+  color: #35383f;
 }
 
 /* ============================================
-   警告框 - 蓝灰色调
+   警告框 - 低饱和技术标注
    ============================================ */
 
 #bm-md .markdown-alert {
@@ -554,7 +560,8 @@
   padding: 0.625em 1em;
   border: 1px solid;
   border-left: 3px solid;
-  background-color: #f8fafc;
+  border-radius: 0 4px 4px 0;
+  background-color: #e3e4e7;
 }
 
 #bm-md .markdown-alert-title {
@@ -565,59 +572,59 @@
   margin-bottom: 0.3em;
 }
 
-/* Note - 蓝色 */
+/* Note - 强调蓝 */
 #bm-md .markdown-alert-note {
-  background-color: #f0f9ff;
-  border-color: #7dd3fc;
-  border-left-color: #0ea5e9;
+  background-color: #eff6ff;
+  border-color: #bedbff;
+  border-left-color: #1348dc;
 }
 
 #bm-md .markdown-alert-note .markdown-alert-title {
-  color: #0369a1;
+  color: #1348dc;
 }
 
 /* Tip - 青绿色 */
 #bm-md .markdown-alert-tip {
-  background-color: #f0fdfa;
-  border-color: #5eead4;
-  border-left-color: #14b8a6;
+  background-color: #effcf9;
+  border-color: #99e8db;
+  border-left-color: #14a08a;
 }
 
 #bm-md .markdown-alert-tip .markdown-alert-title {
-  color: #0f766e;
+  color: #0d7264;
 }
 
 /* Important - 靛蓝色 */
 #bm-md .markdown-alert-important {
-  background-color: #eef2ff;
-  border-color: #a5b4fc;
-  border-left-color: #6366f1;
+  background-color: #f0f2ff;
+  border-color: #b3bcf5;
+  border-left-color: #4c5fd5;
 }
 
 #bm-md .markdown-alert-important .markdown-alert-title {
-  color: #4338ca;
+  color: #3a4cb8;
 }
 
 /* Warning - 琥珀色 */
 #bm-md .markdown-alert-warning {
-  background-color: #fffbeb;
-  border-color: #fcd34d;
-  border-left-color: #f59e0b;
+  background-color: #fdf6e7;
+  border-color: #efd695;
+  border-left-color: #cd8b09;
 }
 
 #bm-md .markdown-alert-warning .markdown-alert-title {
-  color: #b45309;
+  color: #96650a;
 }
 
 /* Caution - 红色 */
 #bm-md .markdown-alert-caution {
-  background-color: #fef2f2;
-  border-color: #fca5a5;
-  border-left-color: #ef4444;
+  background-color: #fdf0ef;
+  border-color: #f2b5b0;
+  border-left-color: #d43f36;
 }
 
 #bm-md .markdown-alert-caution .markdown-alert-title {
-  color: #b91c1c;
+  color: #ad2f27;
 }
 
 /* ============================================
@@ -641,21 +648,21 @@
 #bm-md details {
   margin: 1em 0;
   padding: 0.5em 0.75em;
-  background-color: #f8fafc;
-  border: 1px solid #e2e8f0;
-  border-left: 3px solid #3b82f6;
+  background-color: #ffffff;
+  border: 1px solid #ced1d6;
+  border-radius: 4px;
 }
 
 #bm-md summary {
   font-weight: 600;
   cursor: pointer;
-  color: #334155;
+  color: #1348dc;
 }
 
 #bm-md details[open] summary {
   margin-bottom: 0.5em;
   padding-bottom: 0.5em;
-  border-bottom: 1px solid #e2e8f0;
+  border-bottom: 1px dashed #ced1d6;
 }
 
 /* ============================================
@@ -667,17 +674,19 @@
   display: block;
   max-width: 100%;
   margin: 1em 0;
-  border: 1px solid #e2e8f0;
+  border: 1px solid #ced1d6;
+  border-radius: 4px;
 }
 
 /* ============================================
-   元信息与时间
+   元信息与时间 - 等宽标签
    ============================================ */
 
 #bm-md .meta,
 #bm-md time {
-  font-size: 0.875em;
-  color: #64748b;
+  font-family: ui-monospace, 'SF Mono', Consolas, 'Liberation Mono', Menlo, monospace;
+  font-size: 0.8125em;
+  color: #626976;
   font-style: normal;
 }
 

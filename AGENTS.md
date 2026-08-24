@@ -87,3 +87,9 @@ Zustand 持久化 key 必须以 `bm.md.` 开头，避免与已有 IndexedDB / lo
 ## 测试环境
 
 Vitest 默认运行在 Node 环境，没有浏览器 DOM。DOM / Worker 相关代码需要 mock，或拆成纯函数测试；`file-storage` 测试可使用已安装的 `fake-indexeddb`。
+
+## Cloned Dependency Source
+
+只读依赖源码位于 `.slim/clonedeps/repos/`，仅供检查，禁止修改。
+
+- `.slim/clonedeps/repos/tw93__Kami/` - `tw93/Kami` at `V1.12.0`; 用于参考 Kami 的设计规范、Token 与文档排版模板。

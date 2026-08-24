@@ -1,0 +1,14 @@
+{
+  "version": "1.0.0",
+  "updatedAt": "2026-08-21T00:00:00.000Z",
+  "dependencies": [
+    {
+      "name": "tw93/Kami",
+      "resolvedVersion": "V1.12.0",
+      "repoUrl": "https://github.com/tw93/Kami.git",
+      "ref": "fbdb54f59b7f224db55322357e5739b9ef9687f4",
+      "path": ".slim/clonedeps/repos/tw93__Kami",
+      "reason": "用于研究 Kami 的设计规范、Token 与文档排版模板"
+    }
+  ]
+}
