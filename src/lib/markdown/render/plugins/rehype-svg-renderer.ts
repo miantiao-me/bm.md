@@ -26,8 +26,8 @@ interface SvgRendererConfig<TOptions> {
   render: (code: string, options: TOptions) => Promise<string>
   /** 从渲染结果中提取纯 SVG（可选，默认直接返回） */
   extractSvg?: (raw: string) => string
-  /** 调整 SVG 节点样式（可选） */
-  adjustSvgStyle?: (svgNode: Element) => void
+  /** 调整 SVG 节点样式（可选，第二参数为插件选项） */
+  adjustSvgStyle?: (svgNode: Element, options: TOptions) => void
 }
 
 function isCodeBlock(node: Element, languageId: string): boolean {
@@ -178,7 +178,7 @@ export function createSvgRendererPlugin<TOptions>(
             prefixSvgIds(svgNode, `bm-${languageId}-${metadata.hash}-${ordinal}-`)
 
             if (adjustSvgStyle) {
-              adjustSvgStyle(svgNode)
+              adjustSvgStyle(svgNode, options)
             }
 
             applySvgAccessibility(svgNode, languageId)

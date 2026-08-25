@@ -84,10 +84,25 @@ describe('markdown -> html render (general)', () => {
     expect(figureTag).toContain('data-bm-hash="')
     expect(svgTag).toContain('role="img"')
     expect(svgTag).not.toContain('data-bm-rich')
-    expect(svgTag).toContain('width:100%;max-width:100%;height:auto;')
+    expect(svgTag).toContain('width:100%;max-width:151.59px;height:auto;display:block;margin:0 auto;')
     expect(markerTag).toContain('id="bm-mermaid-')
     expect(html).not.toContain('@import')
     expect(html).not.toContain('id="arrowhead"')
+  })
+
+  it('injects the default markdown style font family into diagram SVGs', async () => {
+    const html = await render({
+      markdown: [
+        '```mermaid',
+        'flowchart TD',
+        '  A[开始] --> B[结束]',
+        '```',
+      ].join('\n'),
+    })
+
+    // 默认排版风格为 Kami（衬线类）：图表文字随文档字体族，库默认 Inter 不再控制输出
+    expect(html).toContain('text { font-family: serif;')
+    expect(html).not.toContain('\'Inter\'')
   })
 
   it('keeps SVG ids unique for duplicated Mermaid blocks', async () => {

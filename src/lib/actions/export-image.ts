@@ -9,9 +9,13 @@ async function createPreviewSnapshot(): Promise<CaptureResult | null> {
   if (!previewContent)
     return null
 
+  const fontsReady = previewContent.ownerDocument?.fonts?.ready
+  if (fontsReady)
+    await fontsReady
+
   const { snapdom } = await import('@zumer/snapdom')
   const { width, height } = getSafeRasterDimensions(previewContent)
-  return snapdom(previewContent, { dpr: 1, width, height })
+  return snapdom(previewContent, { dpr: 1, width, height, embedFonts: true })
 }
 
 export async function exportImage() {

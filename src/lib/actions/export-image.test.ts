@@ -23,6 +23,7 @@ describe('图片导出', () => {
     vi.clearAllMocks()
     mocks.getPreviewElement.mockReturnValue({
       getBoundingClientRect: () => ({ width: 600, height: 400 }),
+      ownerDocument: {},
     })
     mocks.snapdom.mockResolvedValue({
       download: mocks.download,
@@ -31,15 +32,35 @@ describe('图片导出', () => {
     mocks.toBlob.mockResolvedValue(new Blob(['image'], { type: 'image/png' }))
   })
 
-  it('使用安全尺寸和固定 DPR 创建快照', async () => {
+  it('fonts API 缺失时仍使用安全尺寸、固定 DPR 和字体嵌入创建快照', async () => {
     mocks.copyImage.mockResolvedValue(true)
 
     await copyImage()
 
     expect(mocks.snapdom).toHaveBeenCalledWith(
       mocks.getPreviewElement.mock.results[0].value,
-      { dpr: 1, width: 1200, height: 800 },
+      { dpr: 1, width: 1200, height: 800, embedFonts: true },
     )
+  })
+
+  it('等待字体就绪后再创建快照', async () => {
+    let resolveFonts: (() => void) | undefined
+    const fontsReady = new Promise<void>((resolve) => {
+      resolveFonts = resolve
+    })
+    mocks.getPreviewElement.mockReturnValue({
+      getBoundingClientRect: () => ({ width: 600, height: 400 }),
+      ownerDocument: { fonts: { ready: fontsReady } },
+    })
+
+    const exporting = exportImage()
+    await Promise.resolve()
+    expect(mocks.snapdom).not.toHaveBeenCalled()
+
+    resolveFonts?.()
+    await exporting
+
+    expect(mocks.snapdom).toHaveBeenCalledOnce()
   })
 
   it('下载时显式指定 JPEG 格式和质量', async () => {

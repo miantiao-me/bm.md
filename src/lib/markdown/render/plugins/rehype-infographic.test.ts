@@ -48,6 +48,24 @@ theme dark
     expect(result.themeConfig).toEqual({ palette: 'antv' })
   })
 
+  it('保留 DSL 中的深层 themeConfig 配置且不注入字体', () => {
+    const result = buildInfographicOptions(`${baseSyntax}
+theme dark
+  palette spectral
+  colorPrimary red
+  base
+    text
+      fill blue`, {
+      fontFamily: 'Georgia, serif',
+    })
+
+    expect(result.themeConfig).toEqual({
+      colorPrimary: 'red',
+      palette: 'antv',
+      base: { text: { fill: 'blue' } },
+    })
+  })
+
   it('生成的选项可由真实 SSR 渲染为 SVG', async () => {
     const syntax = `infographic list-row-simple-horizontal-arrow
 data

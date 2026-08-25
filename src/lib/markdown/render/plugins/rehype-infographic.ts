@@ -2,11 +2,13 @@ import { parseSyntax } from '@antv/infographic'
 import { renderToString } from '@antv/infographic/ssr'
 import { isValidPalette, isValidTheme } from '@/themes/infographic-theme'
 import { createSvgRendererPlugin } from './rehype-svg-renderer'
-import { makeSvgResponsive } from './svg-style'
+import { applyRootFontFamily, makeSvgResponsive } from './svg-style'
 
 export interface RehypeInfographicOptions {
   theme?: string
   palette?: string
+  /** 图表字体栈，来自 Markdown 排版风格的 diagramFontFamily；缺省保持库默认 */
+  fontFamily?: string
 }
 
 type SsrInfographicOptions = Exclude<Parameters<typeof renderToString>[0], string>
@@ -47,7 +49,10 @@ const rehypeInfographic = createSvgRendererPlugin<RehypeInfographicOptions>({
     return renderToString(infographicOptions)
   },
   extractSvg: extractSvgContent,
-  adjustSvgStyle: svgNode => makeSvgResponsive(svgNode, { visible: true }),
+  adjustSvgStyle: (svgNode, options) => {
+    applyRootFontFamily(svgNode, options.fontFamily)
+    makeSvgResponsive(svgNode, { visible: true })
+  },
 })
 
 export default rehypeInfographic

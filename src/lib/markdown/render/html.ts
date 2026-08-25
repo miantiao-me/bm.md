@@ -18,6 +18,7 @@ import remarkRehype from 'remark-rehype'
 import { unified } from 'unified'
 import { loadCodeThemeCss } from '@/themes/code-theme/loader'
 import { loadMarkdownStyleCss } from '@/themes/markdown-style/loader'
+import { resolveDiagramFontFamily } from '@/themes/markdown-style/metadata'
 import { getAdapterPlugins } from './adapters'
 import rehypeDivToSection from './plugins/rehype-div-to-section'
 import rehypeFigureWrapper from './plugins/rehype-figure-wrapper'
@@ -36,9 +37,9 @@ export interface PreviewRenderResult {
   css: string
 }
 
-type ProcessorOptions = Pick<RenderOptions, 'enableFootnoteLinks' | 'openLinksInNewWindow' | 'mermaidTheme' | 'infographicTheme' | 'infographicPalette' | 'platform' | 'footnoteLabel' | 'referenceTitle'>
+type ProcessorOptions = Pick<RenderOptions, 'enableFootnoteLinks' | 'openLinksInNewWindow' | 'mermaidTheme' | 'infographicTheme' | 'infographicPalette' | 'markdownStyle' | 'platform' | 'footnoteLabel' | 'referenceTitle'>
 
-function createProcessor({ enableFootnoteLinks, openLinksInNewWindow, mermaidTheme, infographicTheme, infographicPalette, platform = 'html', footnoteLabel = 'Footnotes', referenceTitle = 'References' }: ProcessorOptions) {
+function createProcessor({ enableFootnoteLinks, openLinksInNewWindow, mermaidTheme, infographicTheme, infographicPalette, markdownStyle, platform = 'html', footnoteLabel = 'Footnotes', referenceTitle = 'References' }: ProcessorOptions) {
   const processor = unified()
     .use(remarkParse)
     .use(remarkGfm)
@@ -62,8 +63,8 @@ function createProcessor({ enableFootnoteLinks, openLinksInNewWindow, mermaidThe
     .use(rehypeRaw)
     .use(rehypeGithubAlert)
     .use(rehypeSanitize, sanitizeSchema)
-    .use(rehypeMermaid, { theme: mermaidTheme })
-    .use(rehypeInfographic, { theme: infographicTheme, palette: infographicPalette })
+    .use(rehypeMermaid, { theme: mermaidTheme, fontFamily: resolveDiagramFontFamily(markdownStyle) })
+    .use(rehypeInfographic, { theme: infographicTheme, palette: infographicPalette, fontFamily: resolveDiagramFontFamily(markdownStyle) })
     .use(rehypeKatex, {
       output: 'htmlAndMathml',
       trust: false,
@@ -130,6 +131,7 @@ export async function renderPreview(options: RenderOptions): Promise<PreviewRend
 export async function renderMarkdownHtml(options: RenderOptions): Promise<string> {
   const {
     markdown,
+    markdownStyle,
     mermaidTheme,
     infographicTheme,
     infographicPalette,
@@ -140,7 +142,7 @@ export async function renderMarkdownHtml(options: RenderOptions): Promise<string
     referenceTitle = 'References',
   } = options
 
-  const processor = createProcessor({ enableFootnoteLinks, openLinksInNewWindow, mermaidTheme, infographicTheme, infographicPalette, platform, footnoteLabel, referenceTitle })
+  const processor = createProcessor({ enableFootnoteLinks, openLinksInNewWindow, mermaidTheme, infographicTheme, infographicPalette, markdownStyle, platform, footnoteLabel, referenceTitle })
 
   return (await processor.process(markdown)).toString()
 }
