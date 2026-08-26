@@ -1,6 +1,15 @@
 import { describe, expect, it } from 'vitest'
 import { render } from './html'
 
+function renderWechat(markdown: string): Promise<string> {
+  return render({ markdown, platform: 'wechat' })
+}
+
+function expectNoNativeLists(html: string): void {
+  expect(html).not.toMatch(/<(?:ol|ul|li)(?:\s|>)/)
+  expect(html).not.toContain('list-style')
+}
+
 describe('wechat render adapter', () => {
   it('converts external links to footnotes and removes href', async () => {
     const html = await render({
@@ -50,24 +59,79 @@ describe('wechat render adapter', () => {
     expect(html.match(/https:\/\/example\.com/g)).toHaveLength(1)
   })
 
-  it('keeps nested lists valid', async () => {
-    const html = await render({
-      markdown: '- a\n  - b',
-      platform: 'wechat',
-    })
+  it('degrades unordered, ordered, and mixed nested lists to text-marked sections', async () => {
+    const html = await renderWechat('- a\n  1. b\n  2. c\n- d\n\n1. one\n   - nested')
 
-    expect(html).not.toMatch(/<\/li>\s*<(ul|ol)>/)
+    expect(html).toContain('• a')
+    expect(html).toContain('1. b')
+    expect(html).toContain('2. c')
+    expect(html).toContain('1. one')
+    expect(html).toContain('• nested')
+    expect(html).toMatch(/padding-left: 4em; text-indent: -2em;/)
   })
 
-  it('renders task list checkboxes as symbols', async () => {
+  it('renders checked, unchecked, and empty GFM tasks as text markers', async () => {
+    const html = await renderWechat('- [x] done\n- [ ] todo\n- [x] <!-- empty -->')
+
+    expect(html).toContain('☑ done')
+    expect(html).toContain('☐ todo')
+    expect(html).toContain('☑ ')
+    expect(html).not.toContain('<input')
+    expectNoNativeLists(html)
+  })
+
+  it('preserves multi-paragraph, block, and inline list content', async () => {
+    const html = await renderWechat('- **strong** and *em* with `code` and $E=mc^2$\n\n  second paragraph\n\n  > quote')
+
+    expect(html).toContain('<strong>strong</strong>')
+    expect(html).toContain('<em>em</em>')
+    expect(html).toContain('<code>code</code>')
+    expect(html).toContain('class="katex"')
+    expect(html).toContain('second paragraph')
+    expect(html).toContain('<blockquote>')
+  })
+
+  it('degrades both markdown and generated link footnote lists', async () => {
     const html = await render({
-      markdown: '- [x] done\n- [ ] todo',
+      markdown: '正文脚注[^note]和[链接](https://example.com)。\n\n[^note]: 脚注内容',
       platform: 'wechat',
     })
 
-    expect(html).toContain('☑')
-    expect(html).toContain('☐')
-    expect(html).not.toContain('<input')
+    expect(html).toContain('脚注内容')
+    expect(html).toContain('References')
+    expect(html).toContain('https://example.com')
+    expectNoNativeLists(html)
+  })
+
+  it('keeps multi-paragraph footnote markers on the first paragraph only', async () => {
+    const html = await render({
+      markdown: '正文[^note]\n\n[^note]: 第一段\n\n    第二段',
+      platform: 'wechat',
+    })
+
+    expect(html).toMatch(/text-indent: -2em;">1\. 第一段<\/section>/)
+    expect(html).toMatch(/text-indent: 0;">\u00A0{2}第二段\s*<\/section>/)
+    expect(html).not.toMatch(/<section[^>]*>\s*<\/section>/)
+  })
+
+  it('does not emit native list tags or list-style for wechat', async () => {
+    const html = await render({
+      markdown: '1. one\n2. two\n\n- three',
+      platform: 'wechat',
+    })
+
+    expectNoNativeLists(html)
+  })
+
+  it('keeps native lists for html platform', async () => {
+    const html = await render({
+      markdown: '1. one\n2. two\n\n- three',
+      platform: 'html',
+    })
+
+    expect(html).toContain('<ol>')
+    expect(html).toContain('<ul>')
+    expect(html).toContain('<li>')
   })
 
   it('wraps tables with overflow container', async () => {

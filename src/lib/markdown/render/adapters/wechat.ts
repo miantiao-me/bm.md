@@ -5,6 +5,7 @@ import type { PlatformAdapter } from './types'
 import { visit } from 'unist-util-visit'
 import { getTextContent, hasChildren, isElement } from '@/lib/markdown/hast'
 import { createFootnoteReference, createFootnoteSection } from '../plugins/footnote-hast'
+import { rehypeWechatList } from '../plugins/rehype-wechat-list'
 
 interface FootnoteLink {
   id: number
@@ -131,54 +132,6 @@ function protectCodeWhitespace(code: Element) {
   preserveSpanBoundarySpaces(code)
 }
 
-const blockTags = new Set([
-  'div',
-  'p',
-  'blockquote',
-  'pre',
-  'ul',
-  'ol',
-  'table',
-  'h1',
-  'h2',
-  'h3',
-  'h4',
-  'h5',
-  'h6',
-  'hr',
-  'figure',
-])
-
-const rehypeWechatListNormalize: Plugin<[], Root> = () => (tree) => {
-  visit(tree, 'element', (node: Element, index, parent) => {
-    if (
-      node.tagName === 'input'
-      && node.properties?.type === 'checkbox'
-      && typeof index === 'number'
-      && hasChildren(parent)
-    ) {
-      const checked = node.properties.checked === true
-        || node.properties.checked === ''
-        || node.properties.checked === 'checked'
-      parent.children.splice(index, 1, { type: 'text', value: `${checked ? '☑' : '☐'} ` })
-    }
-  })
-
-  visit(tree, 'element', (node: Element) => {
-    if (node.tagName !== 'li') {
-      return
-    }
-    const first = node.children[0]
-    if (first?.type !== 'element' || first.tagName !== 'p') {
-      return
-    }
-    const hasBlock = first.children.some(c => c.type === 'element' && blockTags.has(c.tagName))
-    if (!hasBlock) {
-      node.children.splice(0, 1, ...first.children)
-    }
-  })
-}
-
 const rehypeWechatCodeWhitespace: Plugin<[], Root> = () => (tree) => {
   visit(tree, 'element', (node: Element, _index, parent) => {
     if (node.tagName === 'code' && isElement(parent) && parent.tagName === 'pre') {
@@ -281,8 +234,8 @@ export const wechatAdapter: PlatformAdapter = {
   id: 'wechat',
   name: '微信公众号',
   getPlugins: options => [
-    rehypeWechatListNormalize,
-    rehypeWechatCodeWhitespace,
     [rehypeWechatFootnoteLinks, { referenceTitle: options?.referenceTitle }],
+    rehypeWechatList,
+    rehypeWechatCodeWhitespace,
   ],
 }

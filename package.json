@@ -106,6 +106,8 @@
     "eslint-plugin-react-refresh": "^0.5.3",
     "fake-indexeddb": "^6.2.5",
     "file-saver": "^2.0.5",
+    "hast-util-phrasing": "^3.0.1",
+    "hast-util-whitespace": "^3.0.0",
     "highlight.js": "^11.11.1",
     "idb": "^8.0.3",
     "input-otp": "^1.4.2",
