@@ -1,0 +1,44 @@
+name: 发布 npm 包
+
+on:
+  push:
+    branches:
+      - master
+
+concurrency:
+  group: npm-publish-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    name: 构建并发布 CLI
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - name: 检出仓库
+        uses: actions/checkout@v4
+
+      - name: 设置 pnpm
+        uses: pnpm/action-setup@v4
+
+      - name: 设置 Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: .node-version
+          cache: pnpm
+
+      - name: 安装依赖
+        run: pnpm install --frozen-lockfile
+
+      - name: 测试 CLI
+        run: pnpm test src/cli/index.test.ts
+
+      - name: 构建 CLI
+        run: pnpm build:cli
+
+      - name: 发布新版本
+        uses: JS-DevTools/npm-publish@v4
+        with:
+          strategy: upgrade
