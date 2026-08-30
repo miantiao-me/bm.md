@@ -34,7 +34,7 @@ export function usePlatformCopy(platform: Platform): PlatformCopyResult {
       } = usePreviewStore.getState()
       const { enableFootnoteLinks, openLinksInNewWindow } = useEditorStore.getState()
 
-      return await renderPlatformHtml({
+      const html = await renderPlatformHtml({
         platform,
         content,
         markdownStyle,
@@ -46,13 +46,13 @@ export function usePlatformCopy(platform: Platform): PlatformCopyResult {
         enableFootnoteLinks,
         openLinksInNewWindow,
       })
+      setIsLoading(false)
+      return html
     }
     catch (err) {
       console.error(`[${platform}] 渲染失败:`, err)
-      throw err instanceof Error ? err : new Error('渲染失败')
-    }
-    finally {
       setIsLoading(false)
+      throw err instanceof Error ? err : new Error('渲染失败')
     }
   }
 

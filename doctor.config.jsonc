@@ -17,5 +17,12 @@
       "src/themes/markdown-style/index.ts",
       "**/*.gen.ts"
     ]
+  },
+  "surfaces": {
+    "score": {
+      "excludeTags": [
+        "test-noise"
+      ]
+    }
   }
 }

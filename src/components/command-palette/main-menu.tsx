@@ -1,4 +1,4 @@
-import type { CommandPaletteSubMenu } from './shared'
+import type { CommandPaletteSubMenu } from './shared-data'
 import type { CommandPaletteActions } from './use-command-palette-actions'
 import {
   ChevronRight,
@@ -17,6 +17,7 @@ import {
   CommandShortcut,
 } from '@/components/ui/command'
 import { editorCommandConfig, viewModeConfig } from '@/config'
+import { HotkeyShortcut } from './shared'
 import {
   CopyImageCommandIcon,
   DesktopViewIcon,
@@ -26,7 +27,6 @@ import {
   ExportPdfCommandIcon,
   externalNavigationItems,
   FormatCommandIcon,
-  HotkeyShortcut,
   ImportCommandIcon,
   internalNavigationItems,
   MobileViewIcon,
@@ -34,7 +34,7 @@ import {
   PrintPreviewCommandIcon,
   ThemeDarkCommandIcon,
   ThemeLightCommandIcon,
-} from './shared'
+} from './shared-data'
 
 interface MainMenuProps {
   actions: CommandPaletteActions

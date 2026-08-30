@@ -3,6 +3,7 @@ import { usePlatformCopy } from './use-platform-copy'
 
 const mocks = vi.hoisted(() => ({
   renderPlatformHtml: vi.fn(),
+  setIsLoading: vi.fn(),
   filesState: {
     activeFileId: 'file-1' as string | null,
     contentFileId: 'file-1' as string | null,
@@ -25,7 +26,7 @@ const mocks = vi.hoisted(() => ({
 }))
 
 vi.mock('react', () => ({
-  useState: <T>(initial: T) => [initial, vi.fn()] as const,
+  useState: <T>(initial: T) => [initial, mocks.setIsLoading] as const,
 }))
 
 vi.mock('@/lib/markdown/client-render', () => ({
@@ -78,7 +79,11 @@ describe('usePlatformCopy', () => {
     mocks.previewState.markdownStyle = 'click-time-style'
     mocks.editorState.openLinksInNewWindow = false
 
-    await expect(getHtml()).resolves.toBe('<section>完整平台 HTML</section>')
+    const html = getHtml()
+    expect(mocks.setIsLoading).toHaveBeenLastCalledWith(true)
+
+    await expect(html).resolves.toBe('<section>完整平台 HTML</section>')
+    expect(mocks.setIsLoading.mock.calls).toEqual([[true], [false]])
     expect(mocks.renderPlatformHtml).toHaveBeenCalledWith(expect.objectContaining({
       platform: 'html',
       content: '点击时内容',
@@ -104,7 +109,11 @@ describe('usePlatformCopy', () => {
 
     const { getHtml } = usePlatformCopy('html')
 
-    await expect(getHtml()).rejects.toBe(error)
+    const html = getHtml()
+    expect(mocks.setIsLoading).toHaveBeenLastCalledWith(true)
+
+    await expect(html).rejects.toBe(error)
+    expect(mocks.setIsLoading.mock.calls).toEqual([[true], [false]])
   })
 
   it('渲染抛出非 Error 值时转换为简短 Error', async () => {
