@@ -122,4 +122,4 @@ EdgeOne 构建环境由 std-env 自动识别，Nitro 会自动选择官方 prese
 
 ## 📄 许可证
 
-[AGPL-3.0](https://github.com/miantiao-me/bm.md/blob/master/LICENSE)
+[LGPL-3.0](https://github.com/miantiao-me/bm.md/blob/master/LICENSE)
