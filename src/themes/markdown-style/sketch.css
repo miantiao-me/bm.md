@@ -514,7 +514,6 @@
 #bm-md img {
   display: block;
   max-width: 100%;
-  height: auto;
   border: 3px solid #2d2d2d;
   /* 不规则手绘边框 */
   border-radius: 5px 10px 7px 12px;

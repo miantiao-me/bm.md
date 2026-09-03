@@ -30,6 +30,11 @@
   max-width: 100%;
 }
 
+/* 没有显式高度的图片才自动计算高度，保留宽高属性的指定尺寸 */
+#bm-md img:not([height]) {
+  height: auto;
+}
+
 #bm-md input,
 #bm-md button,
 #bm-md textarea,

@@ -171,6 +171,14 @@ describe('wechat render adapter', () => {
     expect(html).not.toContain('\r')
     expect(html).toContain('<br>')
   })
+
+  it('保留 Obsidian 图片尺寸和高亮标记', async () => {
+    const html = await renderWechat('![说明|320x180](/image.png)\n\n==**高亮**==')
+
+    expect(html).toMatch(/<img[^>]*alt="说明"[^>]*width="320"[^>]*height="180"/)
+    expect(html).toMatch(/<figcaption><span>说明<\/span><\/figcaption>/)
+    expect(html).toContain('<mark><strong>高亮</strong></mark>')
+  })
 })
 
 describe('katex rendering', () => {

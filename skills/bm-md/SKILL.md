@@ -9,7 +9,7 @@ description: 使用 bm.md 服务进行 Markdown 排版、渲染和格式转换�
 
 bm.md 是一个专业的 Markdown 排版工具，提供以下核心能力：
 
-- **Markdown 渲染**：将 Markdown 转换为带样式的 HTML，支持 8 种排版风格
+- **Markdown 渲染**：将 Markdown 转换为带样式的 HTML，支持 8 种排版风格、文本高亮与图片尺寸
 - **HTML 转 Markdown**：将 HTML 内容逆向转换为 Markdown 格式
 - **纯文本提取**：从 Markdown 中提取纯文本，移除所有格式标记
 - **格式校验与修复**：自动检测并修复 Markdown 格式问题

@@ -28,6 +28,8 @@ import rehypeKatexMetadata from './plugins/rehype-katex-metadata'
 import rehypeMermaid from './plugins/rehype-mermaid'
 import rehypeWrapTextNodes from './plugins/rehype-wrap-text-nodes'
 import remarkFrontmatterTable from './plugins/remark-frontmatter-table'
+import remarkHighlight from './plugins/remark-highlight'
+import remarkImageDimensions from './plugins/remark-image-dimensions'
 import { sanitizeSchema } from './sanitize-schema'
 
 export type RenderOptions = z.input<typeof renderDefinition.inputSchema>
@@ -42,6 +44,8 @@ type ProcessorOptions = Pick<RenderOptions, 'enableFootnoteLinks' | 'openLinksIn
 function createProcessor({ enableFootnoteLinks, openLinksInNewWindow, mermaidTheme, infographicTheme, infographicPalette, markdownStyle, platform = 'html', footnoteLabel = 'Footnotes', referenceTitle = 'References' }: ProcessorOptions) {
   const processor = unified()
     .use(remarkParse)
+    .use(remarkHighlight)
+    .use(remarkImageDimensions)
     .use(remarkGfm)
     .use(remarkMath)
     .use(remarkFrontmatter, ['yaml', 'toml'])

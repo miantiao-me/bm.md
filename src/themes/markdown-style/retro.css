@@ -180,6 +180,12 @@
   border: 1px solid #000000;
 }
 
+/* 纯红在黄色高亮上对比不足，改用深红保留复古强调色 */
+#bm-md mark strong,
+#bm-md mark b {
+  color: #800000;
+}
+
 #bm-md small {
   font-size: 0.875em;
   color: #404040;
@@ -504,7 +510,6 @@
 #bm-md img {
   display: block;
   max-width: 100%;
-  height: auto;
   border: 2px solid;
   border-color: #808080 #ffffff #ffffff #808080;
   box-shadow: inset 1px 1px 0 #404040;

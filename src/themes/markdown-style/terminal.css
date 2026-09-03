@@ -171,6 +171,37 @@
   text-shadow: none;
 }
 
+/* 反色高亮内统一使用深色前景，避免终端语义色与琥珀底色混淆 */
+#bm-md mark strong,
+#bm-md mark b,
+#bm-md mark em,
+#bm-md mark i,
+#bm-md mark small,
+#bm-md mark sup,
+#bm-md mark sub,
+#bm-md mark q,
+#bm-md mark var {
+  color: #0a0a0a;
+}
+
+#bm-md mark del,
+#bm-md mark s,
+#bm-md mark strike {
+  color: #0a0a0a;
+  text-decoration-color: #0a0a0a;
+}
+
+#bm-md mark q::before,
+#bm-md mark q::after {
+  color: #0a0a0a;
+}
+
+#bm-md mark a,
+#bm-md mark a:hover {
+  color: #0a0a0a;
+  text-decoration-color: #0a0a0a;
+}
+
 #bm-md small {
   font-size: 0.875em;
   color: #888888;
@@ -509,7 +540,6 @@
 #bm-md img {
   display: block;
   max-width: 100%;
-  height: auto;
   border: 1px solid #1f521f;
   margin: 1em 0;
 }

@@ -166,6 +166,12 @@
   font-weight: 600;
 }
 
+/* 红色强调在黄色高亮上对比不足，改用深红保留语义与可读性 */
+#bm-md mark strong,
+#bm-md mark b {
+  color: #7a1800;
+}
+
 #bm-md small {
   font-size: 0.875em;
   color: #444444;
@@ -491,7 +497,6 @@
 #bm-md img {
   display: block;
   max-width: 100%;
-  height: auto;
   border: 4px solid #121212;
   box-shadow: 8px 8px 0 #1040c0;
   margin: 1.25em 0;

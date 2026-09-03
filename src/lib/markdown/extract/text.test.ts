@@ -25,6 +25,13 @@ describe('markdown -> text extract', () => {
     expect(text).toContain('Bold text with link.')
   })
 
+  it('removes highlight markers while keeping content', async () => {
+    const text = await extract('前文 ==高亮== 后文')
+
+    expect(text).toContain('前文 高亮 后文')
+    expect(text).not.toContain('==')
+  })
+
   it('extracts text from headings', async () => {
     const markdown = '# 一级标题\n\n## 二级标题'
     const text = await extract(markdown)

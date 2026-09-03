@@ -15,6 +15,7 @@ export const sanitizeSchema = {
     ...(defaultSchema.tagNames || []),
     'figure',
     'figcaption',
+    'mark',
     'section',
   ],
   attributes: {

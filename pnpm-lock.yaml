@@ -226,6 +226,21 @@ importers:
       micromark-extension-gfm:
         specifier: ^3.0.0
         version: 3.0.0
+      micromark-util-chunked:
+        specifier: ^2.0.0
+        version: 2.0.0
+      micromark-util-classify-character:
+        specifier: ^2.0.0
+        version: 2.0.0
+      micromark-util-resolve-all:
+        specifier: ^2.0.0
+        version: 2.0.0
+      micromark-util-symbol:
+        specifier: ^2.0.0
+        version: 2.0.0
+      micromark-util-types:
+        specifier: ^2.0.0
+        version: 2.0.0
       morphdom:
         specifier: ^2.7.8
         version: 2.7.8
