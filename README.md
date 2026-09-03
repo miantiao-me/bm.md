@@ -1,5 +1,7 @@
 # bm.md
 
+[![持续集成](https://img.shields.io/github/actions/workflow/status/miantiao-me/bm.md/ci.yml?branch=master&style=flat&logo=github)](https://github.com/miantiao-me/bm.md/actions/workflows/ci.yml) [![npm 版本](https://img.shields.io/npm/v/bmmd?style=flat&logo=npm&logoColor=white)](https://www.npmjs.com/package/bmmd) [![许可证](https://img.shields.io/github/license/miantiao-me/bm.md?style=flat)](https://github.com/miantiao-me/bm.md/blob/master/LICENSE) [![TanStack Start](https://img.shields.io/badge/TanStack%20Start-React-FF4154?style=flat&logo=tanstack&logoColor=white)](https://tanstack.com/start/latest) [![shadcn/ui](https://img.shields.io/badge/shadcn-ui-000000?style=flat&logo=shadcnui&logoColor=white)](https://ui.shadcn.com/)
+
 更好用的 Markdown 排版助手｜微信公众号专门适配，支持输出到网页与图片。
 
 ---

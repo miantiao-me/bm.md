@@ -1,4 +1,4 @@
-name: CI
+name: 持续集成
 
 on:
   workflow_dispatch:
@@ -9,32 +9,33 @@ on:
 
 jobs:
   verify:
+    name: 验证项目
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
-      - name: Checkout
+      - name: 检出仓库
         uses: actions/checkout@v4
 
-      - name: Setup pnpm
+      - name: 设置 pnpm
         uses: pnpm/action-setup@v4
 
-      - name: Setup Node
+      - name: 设置 Node.js
         uses: actions/setup-node@v4
         with:
           node-version-file: .node-version
           cache: pnpm
 
-      - name: Install dependencies
+      - name: 安装依赖
         run: pnpm install --frozen-lockfile
 
-      - name: Typecheck
+      - name: 类型检查
         run: pnpm typecheck
 
-      - name: Lint
+      - name: 代码检查
         run: pnpm lint
 
-      - name: Test
+      - name: 运行测试
         run: pnpm test
 
-      - name: Build
+      - name: 构建项目
         run: pnpm build

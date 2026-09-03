@@ -1,4 +1,4 @@
-name: Create and publish a Docker image
+name: 构建并发布 Docker 镜像
 
 on:
   push:
@@ -13,6 +13,7 @@ env:
 
 jobs:
   build-and-push-image:
+    name: 构建并推送镜像
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -20,17 +21,17 @@ jobs:
       attestations: write
       id-token: write
     steps:
-      - name: Checkout repository
+      - name: 检出仓库
         uses: actions/checkout@v4
 
-      - name: Log in to the Container registry
+      - name: 登录容器镜像仓库
         uses: docker/login-action@v3
         with:
           registry: ${{ env.REGISTRY }}
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Extract metadata (tags, labels) for Docker
+      - name: 提取 Docker 元数据
         id: meta
         uses: docker/metadata-action@v5
         with:
@@ -40,7 +41,7 @@ jobs:
             type=ref,event=branch
             type=raw,value=latest,enable={{is_default_branch}}
 
-      - name: Build and push Docker image
+      - name: 构建并推送 Docker 镜像
         id: push
         uses: docker/build-push-action@v6
         with:
@@ -49,7 +50,7 @@ jobs:
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
 
-      - name: Delete old versions
+      - name: 删除旧版本
         uses: actions/delete-package-versions@v5
         with:
           package-name: ${{ github.event.repository.name }}

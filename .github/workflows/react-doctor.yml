@@ -4,7 +4,7 @@
 # Docs: https://www.react.doctor/ci
 # Source: https://github.com/millionco/react-doctor
 
-name: React Doctor
+name: React Doctor 检查
 
 on:
   # Scans the PR's changed files and posts a sticky summary comment listing only the new issues introduced relative to the merge base of the target branch.
@@ -27,20 +27,26 @@ concurrency:
 
 jobs:
   react-doctor:
+    name: 检查 React 项目
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v5
+      - name: 检出仓库
+        uses: actions/checkout@v5
 
-      - uses: pnpm/action-setup@v4
+      - name: 设置 pnpm
+        uses: pnpm/action-setup@v4
 
-      - uses: actions/setup-node@v4
+      - name: 设置 Node.js
+        uses: actions/setup-node@v4
         with:
           node-version-file: .node-version
           cache: pnpm
 
-      - run: pnpm install --frozen-lockfile
+      - name: 安装依赖
+        run: pnpm install --frozen-lockfile
 
-      - uses: millionco/react-doctor@v2
+      - name: 运行 React Doctor
+        uses: millionco/react-doctor@v2
       # Advisory by default: React Doctor reports findings on every PR — a
       # sticky summary comment, inline review comments, and a commit status
       # with the health score — but never fails the check, so it won't red-X
