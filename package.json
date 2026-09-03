@@ -1,7 +1,7 @@
 {
   "name": "bmmd",
   "type": "module",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "private": false,
   "packageManager": "pnpm@11.11.0",
   "description": "Markdown 排版 CLI，支持微信公众号与 HTML 输出。",
