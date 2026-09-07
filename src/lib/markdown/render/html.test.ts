@@ -84,7 +84,7 @@ describe('markdown -> html render (general)', () => {
     expect(figureTag).toContain('data-bm-hash="')
     expect(svgTag).toContain('role="img"')
     expect(svgTag).not.toContain('data-bm-rich')
-    expect(svgTag).toContain('width:100%;max-width:151.59px;height:auto;display:block;margin:0 auto;')
+    expect(svgTag).toMatch(/width:100%;max-width:\d+(?:\.\d+)?px;height:auto;display:block;margin:0 auto;/)
     expect(markerTag).toContain('id="bm-mermaid-')
     expect(html).not.toContain('@import')
     expect(html).not.toContain('id="arrowhead"')

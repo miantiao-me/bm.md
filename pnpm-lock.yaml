@@ -137,8 +137,8 @@ importers:
         specifier: ^1.0.0
         version: 1.0.0
       beautiful-mermaid:
-        specifier: ^1.1.3
-        version: 1.1.3
+        specifier: 0.1.3
+        version: 0.1.3
       cac:
         specifier: ^7.0.0
         version: 7.0.0
@@ -1272,6 +1272,13 @@ packages:
     engines: {node: '>=20.19.0'}
     peerDependencies:
       postcss-selector-parser: ^7.1.1
+
+  '@dagrejs/dagre@1.1.8':
+    resolution: {integrity: sha512-5SEDlndt4W/LaVzPYJW+bSmSEZc9EzTf8rJ20WCKvjS5EAZAN0b+x0Yww7VMT4R3Wootkg+X9bUfUxazYw6Blw==}
+
+  '@dagrejs/graphlib@2.2.4':
+    resolution: {integrity: sha512-mepCf/e9+SKYy1d02/UkvSy6+6MoyXhVxP8lLDfA7BPE1X1d4dR0sZznmbM8/XVJ1GPM+Svnx7Xj6ZweByWUkw==}
+    engines: {node: '>17.0.0'}
 
   '@date-fns/tz@1.5.0':
     resolution: {integrity: sha512-lwYN/vDPeNRULcepoE/LO2Pgx+7/RV+S9ARfbc9lr2DtGkOD7pAiruHvbR1RX3Qyf6ja47EWJDMsNK5vK08DJg==}
@@ -4144,8 +4151,8 @@ packages:
     engines: {node: '>=6.0.0'}
     hasBin: true
 
-  beautiful-mermaid@1.1.3:
-    resolution: {integrity: sha512-TItrtrAyHp1vwFfFVYauWGrquouk/6SS21Aq3RsxindSYZODcN4xYrPZD6BiZRU+o5mKJzDPz9MUSMvELdylyg==}
+  beautiful-mermaid@0.1.3:
+    resolution: {integrity: sha512-lVEHCnlVLtVRbO03T+D9kY5BZlkpvFU6F18LEu2N2VLB0eo5evG1FJWg3SvREErKY+zZ7j9f+cNsgtiOhYI2Nw==}
 
   bidi-js@1.0.3:
     resolution: {integrity: sha512-RKshQI1R3YQ+n9YJz2QQ147P66ELpa1FQEg20Dk8oW9t2KgLbpDLLp9aGZ7y8WHSshDknG0bknqGw5/tyCs5tw==}
@@ -4813,9 +4820,6 @@ packages:
 
   electron-to-chromium@1.5.381:
     resolution: {integrity: sha512-n9Wa6yB+vDsGuA8AKbl/0z7HbvWqt5jxIdvr1IUicd0ryPrk7/xzwqLv8D9AbbvZ6avVNtXYLTfmgFHkwkyelg==}
-
-  elkjs@0.11.1:
-    resolution: {integrity: sha512-zxxR9k+rx5ktMwT/FwyLdPCrq7xN6e4VGGHH8hA01vVYKjTFik7nHOxBnAYtrgYUB1RpAiLvA1/U2YraWxyKKg==}
 
   embla-carousel-react@8.6.0:
     resolution: {integrity: sha512-0/PjqU7geVmo6F734pmPqpyHqiM99olvyecY7zdweCw+6tKEXnrE90pBiBbMMU8s5tICemzpQ3hi5EpxzGW+JA==}
@@ -9826,6 +9830,12 @@ snapshots:
     dependencies:
       postcss-selector-parser: 7.1.4
 
+  '@dagrejs/dagre@1.1.8':
+    dependencies:
+      '@dagrejs/graphlib': 2.2.4
+
+  '@dagrejs/graphlib@2.2.4': {}
+
   '@date-fns/tz@1.5.0': {}
 
   '@dotenvx/dotenvx@1.74.3':
@@ -12512,10 +12522,9 @@ snapshots:
 
   baseline-browser-mapping@2.10.40: {}
 
-  beautiful-mermaid@1.1.3:
+  beautiful-mermaid@0.1.3:
     dependencies:
-      elkjs: 0.11.1
-      entities: 7.0.1
+      '@dagrejs/dagre': 1.1.8
 
   bidi-js@1.0.3:
     dependencies:
@@ -13167,8 +13176,6 @@ snapshots:
       jake: 10.8.5
 
   electron-to-chromium@1.5.381: {}
-
-  elkjs@0.11.1: {}
 
   embla-carousel-react@8.6.0(react@19.2.7):
     dependencies:

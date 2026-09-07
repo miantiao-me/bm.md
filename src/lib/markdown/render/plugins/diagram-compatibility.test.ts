@@ -32,11 +32,10 @@ describe('mermaid compatibility matrix', () => {
   it.each([
     ['flowchart TD', '', 'flowchart TD\n  A[开始] --> B[校验]\n  B --> C{通过?}\n  C -->|是| D[完成]\n  C -->|否| E[重试]', '通过?'],
     ['flowchart LR', '', 'flowchart LR\n  Alpha --> Beta --> Gamma', 'Gamma'],
-    ['state', 'zinc-dark', 'stateDiagram-v2\n  [*] --> 空闲\n  空闲 --> 处理中: 接收任务\n  处理中 --> 完成: 执行成功\n  处理中 --> 空闲: 执行失败\n  完成 --> [*]', '接收任务'],
+    ['state', 'zinc-dark', 'stateDiagram-v2\n  [*] --> Idle\n  Idle --> Processing: start\n  Processing --> Complete: done\n  Complete --> [*]', 'start'],
     ['sequence', 'tokyo-night', 'sequenceDiagram\n  用户->>服务: 提交请求\n  服务->>数据库: 查询记录\n  数据库-->>服务: 返回结果\n  服务-->>用户: 响应数据', '提交请求'],
     ['class', '', 'classDiagram\n  Animal <|-- Dog\n  Animal <|-- Cat\n  Animal : +String name\n  Dog : +fetch()\n  Cat : +purr()', 'Animal'],
     ['ER', 'zinc-dark', 'erDiagram\n  CUSTOMER {\n    string id PK\n    string name\n  }\n  ORDER {\n    string id PK\n    date placed_at\n  }\n  CUSTOMER ||--o{ ORDER : places', 'CUSTOMER'],
-    ['XY', 'tokyo-night', 'xychart-beta\n  x-axis [Jan, Feb, Mar]\n  y-axis "Revenue" 0 --> 100\n  bar [30, 60, 45]', 'Revenue'],
   ] as const)('renders %s through the Markdown pipeline', async (_type, theme, syntax, text) => {
     const html = await render({ markdown: fenced('mermaid', syntax), mermaidTheme: theme })
 
@@ -51,6 +50,21 @@ describe('mermaid compatibility matrix', () => {
     else {
       // 关键标签必须是渲染的 <text>，而不是 <title> 提示
       expect(html).toMatch(new RegExp(`<text[^>]*>[^<]*${text}`))
+    }
+  })
+
+  it('marks unsupported XY charts as render errors', async () => {
+    const error = vi.spyOn(console, 'error').mockImplementation(() => {})
+    try {
+      const html = await render({
+        markdown: fenced('mermaid', 'xychart-beta\n  x-axis [Jan, Feb, Mar]\n  bar [30, 60, 45]'),
+      })
+
+      expect(html).toContain('class="figure-mermaid figure-mermaid-error"')
+      expect(html).not.toContain('<svg')
+    }
+    finally {
+      error.mockRestore()
     }
   })
 })

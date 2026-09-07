@@ -91,7 +91,7 @@
     "@zumer/snapdom": "^2.15.0",
     "aws4fetch": "^1.0.20",
     "babel-plugin-react-compiler": "^1.0.0",
-    "beautiful-mermaid": "^1.1.3",
+    "beautiful-mermaid": "0.1.3",
     "cac": "^7.0.0",
     "class-variance-authority": "^0.7.1",
     "clipboard-polyfill": "^4.1.1",
