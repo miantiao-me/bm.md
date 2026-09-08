@@ -1,20 +1,35 @@
 ---
 name: bm-md
-description: 使用 bm.md 服务进行 Markdown 排版、渲染和格式转换，支持微信公众号与通用 HTML 输出
+description: 使用 bm.md 写作、改写、排版或渲染 Markdown；生成 Mermaid 与 AntV Infographic，设置图片尺寸、高亮重点，以及执行 HTML/纯文本转换和 Markdown lint
 ---
 
 # bm.md Markdown 排版技能
 
-## 概述
+## 核心能力
 
-bm.md 是一个专业的 Markdown 排版工具，提供以下核心能力：
+使用 bm.md 完成以下任务：
 
 - **Markdown 渲染**：将 Markdown 转换为带样式的 HTML，支持 8 种排版风格、文本高亮与图片尺寸
 - **HTML 转 Markdown**：将 HTML 内容逆向转换为 Markdown 格式
 - **纯文本提取**：从 Markdown 中提取纯文本，移除所有格式标记
 - **格式校验与修复**：自动检测并修复 Markdown 格式问题
 
-优先使用本地 CLI，只有在无 Node.js 环境或无法执行命令时才使用 REST API。
+## 核心工作流
+
+1. **明确交付目标**：确认受众、输出平台、事实边界与期望文件；信息不足时先询问，不猜测事实或数值。
+2. **先组织正文**：先完成标题层级、段落、列表、表格、引用和代码，再考虑视觉增强。
+3. **按语义选择增强**：只在增强理解时加入 Mermaid、Infographic、高亮或图片尺寸。遵循下方决策规则并按需读取对应参考。
+4. **执行渲染**：优先使用 CLI；本地无法执行命令或用户明确要求远程调用时，改用 REST API。
+5. **检查并回退**：检查命令状态、响应的 `result`、图表错误和关键信息完整性。增强语法失败时先修正；仍失败则回退为结构清晰的正文、列表或表格，不交付损坏的图表。
+
+## 增强决策与按需参考
+
+- 流程、调用链、状态、类关系或 ER 模型：使用 [Mermaid](references/mermaid.md)。
+- 并列、步骤、比较、层级、关系或真实数值：使用 [AntV Infographic](references/infographic.md)。字段与模板绑定，按参考中的已验证示例生成。
+- 局部关键结论：使用[文本高亮](references/rich-markdown.md)，不要整段高亮。
+- 用户给定尺寸或布局确需固定尺寸：使用[图片尺寸语法](references/rich-markdown.md)；不知道尺寸时保留普通图片。
+
+保持克制：不要用图表装饰简单内容，不要用 Mermaid 和 Infographic 重复表达同一信息，不要虚构事实或数值。生成丰富 Markdown 后，必须通过 bm.md 渲染并检查结果。
 
 ## 执行优先级
 
@@ -254,15 +269,6 @@ curl -X POST https://bm.md/api/markdown/lint \
 | -------- | ------------------------------ |
 | `html`   | 通用网页，标准 HTML 输出       |
 | `wechat` | 微信公众号，针对微信编辑器优化 |
-
----
-
-## 使用场景
-
-1. **内容创作者**：将 Markdown 文章一键转换为微信公众号格式，直接粘贴发布
-2. **多端发布**：同一份 Markdown 源文件，生成适配不同输出场景的 HTML
-3. **内容迁移**：将网页内容转换为 Markdown 进行存档或编辑
-4. **文本分析**：提取纯文本用于字数统计、关键词分析等
 
 ---
 
