@@ -1,0 +1,759 @@
+/* ============================================
+   Pixel Orbit - 像素轨道
+   复古像素街机风格 | 80 年代 CRT 显示器未来主义
+   深空藏青为底，青 / 粉 / 黄三色高饱和霓虹分层点亮
+   仅用"4px 像素单位"硬阴影（零模糊偏移）传达 8-bit 质感
+   不做发光、扫描线、颗粒噪点、星空等大气特效
+   ============================================ */
+
+/* 配色定义（硬编码 - 无 CSS 变量）
+   深空底: #0a0e1c（近黑藏青，页面基底）
+   卡片面: #121a3a（略亮藏青，代码块/引用/表格/警告框/详情框容器）
+   浮层面: #1b2657（再亮一级藏青，行内代码/kbd/术语标签等"芯片"底）
+   结构线: #2c3768（中性藏青灰，分隔线与非语义硬阴影）
+   褪色青: #3f6b7a（低饱和青，链接下划线 / H4-H6 装饰细线）
+   正文字: #ccd3f0（柔和薰衣草白，非霓虹，保证长文可读）
+   次要字: #8b93c0（更暗的薰衣草灰，注释性/元信息文字）
+   霓虹青: #5edcf4（主强调 - H1 / 链接 / note / sub）
+   霓虹粉: #ff4fa3（次强调 - H2 / important / mark / sup）
+   霓虹黄: #f4d03f（第三强调 - H3 / strong / tip）
+   霓虹橙: #ff9f3d（warning 专用暖色）
+   霓虹红: #ff4545（caution 专用暖色）
+
+   像素单位约定：所有 box-shadow 的偏移量只使用 4px 或 8px（4 的倍数），
+   模糊半径恒为 0，靠硬阴影堆叠传达 8-bit 质感；全文不使用圆角。
+   ============================================ */
+
+#bm-md {
+  color: #ccd3f0;
+  background-color: #0a0e1c;
+  font-family:
+    -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'PingFang SC', 'Microsoft YaHei',
+    sans-serif;
+  font-size: 15px;
+  line-height: 1.6;
+  padding: 1.5em 1em;
+}
+
+/* ============================================
+   标题 - 几何粗体大写，青 / 粉 / 黄轮换点亮
+   H1-H3 各占用一种霓虹并轮换硬阴影色；H4-H6 收敛为正文色，
+   仅靠字重、字号与左侧细线维持层级，避免深色长文里霓虹堆叠刺眼
+   ============================================ */
+
+#bm-md h1,
+#bm-md h2,
+#bm-md h3,
+#bm-md h4,
+#bm-md h5,
+#bm-md h6 {
+  font-weight: 800;
+  line-height: 1.25;
+  margin-top: 1.3em;
+  margin-bottom: 0.6em;
+}
+
+/* H1 - 霓虹青文字 + 青色下划线 + 粉色硬阴影
+   background-color 特意与页面底色保持一致：硬阴影默认画在元素背景下方，
+   若不设置背景，阴影会从文字间的透明区域透出、糊成一片色块；
+   显式填充同色背景后，阴影只在盒子外沿露出干净的 4px 像素台阶 */
+#bm-md h1 {
+  margin-top: 1.6em;
+  padding-bottom: 0.3em;
+  border-bottom: 4px solid #5edcf4;
+  background-color: #0a0e1c;
+  color: #5edcf4;
+  font-size: 1.7em;
+  text-transform: uppercase;
+  box-shadow: 4px 4px 0 #ff4fa3;
+}
+
+/* H2 - 霓虹粉文字 + 左侧色条 + 黄色硬阴影（同样的背景色技巧） */
+#bm-md h2 {
+  padding: 0.1em 0 0.1em 0.6em;
+  border-left: 4px solid #ff4fa3;
+  background-color: #0a0e1c;
+  color: #ff4fa3;
+  font-size: 1.4em;
+  text-transform: uppercase;
+  box-shadow: 4px 4px 0 #f4d03f;
+}
+
+/* H3 - 霓虹黄文字 + 虚线左边框；不叠加硬阴影，为高频出现的小节标题保持克制 */
+#bm-md h3 {
+  padding-left: 0.55em;
+  border-left: 4px dashed #f4d03f;
+  color: #f4d03f;
+  font-size: 1.15em;
+  text-transform: uppercase;
+}
+
+/* H4-H6 - 收敛为正文色，仅用细线与字重维持层级 */
+#bm-md h4,
+#bm-md h5,
+#bm-md h6 {
+  padding-left: 0.5em;
+  border-left: 2px solid #3f6b7a;
+  color: #ccd3f0;
+}
+
+#bm-md h4 {
+  font-size: 1.05em;
+}
+
+#bm-md h5 {
+  font-size: 1em;
+}
+
+#bm-md h6 {
+  font-size: 0.9em;
+}
+
+#bm-md > h1:first-child,
+#bm-md > h2:first-child,
+#bm-md > h3:first-child,
+#bm-md > h4:first-child,
+#bm-md > h5:first-child,
+#bm-md > h6:first-child {
+  margin-top: 0;
+}
+
+/* ============================================
+   段落
+   ============================================ */
+
+#bm-md p {
+  margin-bottom: 1em;
+}
+
+#bm-md p:last-child {
+  margin-bottom: 0;
+}
+
+/* ============================================
+   行内文本样式 - 三色霓虹各司其职，正文本身不染色
+   ============================================ */
+
+#bm-md strong,
+#bm-md b {
+  color: #f4d03f;
+  font-weight: 700;
+}
+
+#bm-md em,
+#bm-md i {
+  color: #5edcf4;
+  font-style: italic;
+}
+
+#bm-md del,
+#bm-md s,
+#bm-md strike {
+  color: #8b93c0;
+  text-decoration: line-through;
+  text-decoration-color: #ff4545;
+}
+
+/* 高亮 - 半透明粉底 + 粉色底线，而非实心亮粉底：
+   实心亮粉底会让内部再嵌套的霓虹强调（strong 黄 / em 青）对比度骤降，
+   半透明叠在深色页面上仍是暗色调，任何霓虹文字落在上面都保持高对比 */
+#bm-md mark {
+  padding: 0.05em 0.3em;
+  border-bottom: 2px solid #ff4fa3;
+  background-color: rgba(255, 79, 163, 0.18);
+  color: #ff4fa3;
+}
+
+#bm-md small {
+  color: #8b93c0;
+  font-size: 0.85em;
+}
+
+#bm-md sup,
+#bm-md sub {
+  font-size: 0.75em;
+  line-height: 0;
+}
+
+#bm-md sup {
+  vertical-align: super;
+  color: #ff4fa3;
+}
+
+#bm-md sub {
+  vertical-align: sub;
+  color: #5edcf4;
+}
+
+#bm-md ins {
+  padding: 0.05em 0.3em;
+  border-bottom: 2px solid #5edcf4;
+  background-color: rgba(94, 220, 244, 0.15);
+  color: #5edcf4;
+  text-decoration: none;
+}
+
+#bm-md q {
+  quotes: '"' '"';
+  color: #ccd3f0;
+}
+
+#bm-md q::before {
+  content: open-quote;
+  color: #f4d03f;
+  font-weight: 700;
+}
+
+#bm-md q::after {
+  content: close-quote;
+  color: #f4d03f;
+  font-weight: 700;
+}
+
+#bm-md var {
+  color: #f4d03f;
+  font-style: italic;
+  font-weight: 600;
+}
+
+#bm-md samp,
+#bm-md tt {
+  padding: 0.1em 0.35em;
+  border: 1px solid #2c3768;
+  background-color: #1b2657;
+  color: #ccd3f0;
+  font-family: 'JetBrains Mono', 'SF Mono', 'Fira Code', Consolas, Monaco, monospace;
+  font-size: 0.85em;
+}
+
+#bm-md abbr[title] {
+  border-bottom: 1px dotted #5edcf4;
+  cursor: help;
+  text-decoration: none;
+}
+
+/* ============================================
+   链接
+   ============================================ */
+
+#bm-md a {
+  color: #5edcf4;
+  font-weight: 600;
+  text-decoration: underline;
+  text-decoration-color: #3f6b7a;
+  text-underline-offset: 2px;
+}
+
+#bm-md a:hover {
+  color: #ff4fa3;
+  text-decoration-color: #ff4fa3;
+}
+
+/* ============================================
+   Ruby 注音
+   ============================================ */
+
+#bm-md ruby {
+  ruby-align: center;
+}
+
+#bm-md rt {
+  color: #8b93c0;
+  font-size: 0.5em;
+}
+
+#bm-md rp {
+  color: #8b93c0;
+}
+
+/* ============================================
+   列表 - 方块符号呼应像素方块气质
+   ============================================ */
+
+#bm-md ul,
+#bm-md ol {
+  margin-bottom: 1em;
+  padding-left: 1.6em;
+}
+
+#bm-md ul {
+  list-style-type: square;
+}
+
+#bm-md ol {
+  list-style-type: decimal;
+}
+
+#bm-md li {
+  margin-bottom: 0.35em;
+  color: #ccd3f0;
+}
+
+#bm-md ul li::marker {
+  color: #5edcf4;
+}
+
+#bm-md ol li::marker {
+  color: #ff4fa3;
+  font-weight: 700;
+}
+
+#bm-md li > ul,
+#bm-md li > ol {
+  margin-top: 0.35em;
+  margin-bottom: 0.35em;
+}
+
+#bm-md ul ul {
+  list-style-type: circle;
+}
+
+#bm-md ul ul ul {
+  list-style-type: disc;
+}
+
+#bm-md ul.contains-task-list {
+  padding-left: 0;
+  list-style-type: none;
+}
+
+#bm-md li.task-list-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5em;
+}
+
+#bm-md input[type='checkbox'] {
+  margin-top: 0.3em;
+  accent-color: #5edcf4;
+  border: 1px solid #5edcf4;
+}
+
+/* ============================================
+   引用块 - 卡片面底色 + 结构性硬阴影
+   ============================================ */
+
+#bm-md blockquote {
+  margin: 1.2em 0;
+  padding: 0.85em 1em 0.85em 1.1em;
+  border-left: 4px solid #ff4fa3;
+  background-color: #121a3a;
+  color: #b3bce0;
+  box-shadow: 4px 4px 0 #2c3768;
+}
+
+#bm-md blockquote p {
+  margin-bottom: 0.6em;
+  color: #b3bce0;
+}
+
+#bm-md blockquote p:last-child {
+  margin-bottom: 0;
+}
+
+/* 嵌套引用 - 换黄色边框 + 浮层面底色，去掉阴影避免层层堆叠 */
+#bm-md blockquote blockquote {
+  margin-top: 0.6em;
+  margin-bottom: 0;
+  border-left-color: #f4d03f;
+  background-color: #1b2657;
+  box-shadow: none;
+}
+
+/* ============================================
+   代码 - 等宽字体统一呼应 HUD 读数感
+   ============================================ */
+
+#bm-md code {
+  padding: 0.15em 0.4em;
+  border: 1px solid #2c3768;
+  background-color: #1b2657;
+  color: #f4d03f;
+  font-family: 'JetBrains Mono', 'SF Mono', 'Fira Code', Consolas, Monaco, monospace;
+  font-size: 0.85em;
+}
+
+/* 代码块 - 顶边 4px 青色色条模拟终端窗口标题条，结构性硬阴影保持克制
+   （代码块出现频率高，不用霓虹色阴影，避免长文里视觉噪音过重） */
+#bm-md pre {
+  margin: 1.2em 0;
+  padding: 1em 1.1em;
+  overflow-x: auto;
+  border: 1px solid #2c3768;
+  border-top: 4px solid #5edcf4;
+  background-color: #111833;
+  color: #ccd3f0;
+  font-family: 'JetBrains Mono', 'SF Mono', 'Fira Code', Consolas, Monaco, monospace;
+  font-size: 0.85em;
+  line-height: 1.55;
+  white-space: pre;
+  box-shadow: 4px 4px 0 #2c3768;
+}
+
+#bm-md pre code {
+  padding: 0;
+  border: none;
+  background-color: transparent;
+  color: inherit;
+  font-size: inherit;
+  line-height: inherit;
+}
+
+/* ============================================
+   表格 - 藏青卡片 + 等宽表头，模拟 HUD 数据面板
+   用 tr:first-child th 承担表头背景，替代直接给 thead 写样式
+   ============================================ */
+
+#bm-md table {
+  width: 100%;
+  margin: 1.2em 0;
+  border-collapse: collapse;
+  border: 1px solid #2c3768;
+  background-color: #121a3a;
+  font-size: 0.9em;
+  box-shadow: 4px 4px 0 #2c3768;
+}
+
+#bm-md th,
+#bm-md td {
+  padding: 0.5em 0.75em;
+  border: 1px solid #2c3768;
+  text-align: left;
+  vertical-align: top;
+}
+
+#bm-md th {
+  color: #5edcf4;
+  font-family: 'JetBrains Mono', 'SF Mono', 'Fira Code', Consolas, Monaco, monospace;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+#bm-md tr:first-child th {
+  background-color: #1b2657;
+}
+
+#bm-md tbody tr:nth-child(even) {
+  background-color: rgba(94, 220, 244, 0.05);
+}
+
+/* ============================================
+   Frontmatter 元数据表 - 紧凑等宽键值对
+   ============================================ */
+
+#bm-md .frontmatter-table {
+  width: auto;
+  margin-bottom: 1.4em;
+  border: none;
+  background-color: transparent;
+  font-family: 'JetBrains Mono', 'SF Mono', 'Fira Code', Consolas, Monaco, monospace;
+  font-size: 0.85em;
+}
+
+#bm-md .frontmatter-table td {
+  padding: 0.15em 0.6em 0.15em 0;
+  border: none;
+  background-color: transparent;
+  vertical-align: top;
+}
+
+#bm-md .frontmatter-key {
+  color: #5edcf4;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+#bm-md .frontmatter-key::after {
+  content: ':';
+}
+
+#bm-md .frontmatter-value {
+  color: #8b93c0;
+}
+
+/* ============================================
+   分割线 - 4px 像素单位虚线
+   ============================================ */
+
+#bm-md hr {
+  height: 0;
+  margin: 2em 0;
+  border: none;
+  border-top: 4px dashed #2c3768;
+}
+
+/* ============================================
+   图片与媒体 - 青色描边 + 粉/黄双层堆叠硬阴影
+   像素贴纸相框效果：图片本身是不透明像素内容，天然不会有阴影透穿问题
+   ============================================ */
+
+#bm-md img {
+  display: block;
+  max-width: 100%;
+  margin: 1.3em 0;
+  border: 2px solid #5edcf4;
+  box-shadow:
+    4px 4px 0 #ff4fa3,
+    8px 8px 0 #f4d03f;
+}
+
+#bm-md picture {
+  display: block;
+  margin: 1.3em 0;
+}
+
+#bm-md picture img {
+  margin: 0;
+}
+
+#bm-md figure {
+  margin: 1.3em 0;
+  text-align: center;
+}
+
+#bm-md figure img {
+  margin: 0 auto;
+}
+
+#bm-md figcaption {
+  margin-top: 0.5em;
+  color: #8b93c0;
+  font-family: 'JetBrains Mono', 'SF Mono', 'Fira Code', Consolas, Monaco, monospace;
+  font-size: 0.8em;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+/* ============================================
+   脚注
+   ============================================ */
+
+#bm-md .footnotes {
+  margin-top: 2em;
+  padding-top: 1em;
+  border-top: 1px dashed #2c3768;
+  color: #8b93c0;
+  font-size: 0.85em;
+}
+
+#bm-md .footnotes ol {
+  padding-left: 1.5em;
+}
+
+#bm-md .footnote-ref {
+  padding: 0.05em 0.35em;
+  background-color: #ff4fa3;
+  color: #0a0e1c;
+  font-family: 'JetBrains Mono', 'SF Mono', 'Fira Code', Consolas, Monaco, monospace;
+  font-size: 0.75em;
+  font-weight: 700;
+  text-decoration: none;
+  vertical-align: super;
+}
+
+#bm-md .footnote-backref,
+#bm-md .data-footnote-backref {
+  color: #5edcf4;
+  text-decoration: none;
+}
+
+/* ============================================
+   定义列表 - 术语像芯片标签一样挂在浮层面上
+   ============================================ */
+
+#bm-md dl {
+  margin: 1.1em 0;
+}
+
+#bm-md dt {
+  display: inline-block;
+  margin-top: 0.6em;
+  padding: 0.15em 0.5em;
+  border: 1px solid #2c3768;
+  background-color: #1b2657;
+  color: #f4d03f;
+  font-weight: 700;
+  box-shadow: 4px 4px 0 #2c3768;
+}
+
+#bm-md dt:first-child {
+  margin-top: 0;
+}
+
+#bm-md dd {
+  margin-top: 0.35em;
+  margin-left: 1.4em;
+  color: #ccd3f0;
+}
+
+/* ============================================
+   键盘按键 - 像素按键，硬阴影模拟实体键位的厚度
+   ============================================ */
+
+#bm-md kbd {
+  display: inline-block;
+  padding: 0.1em 0.5em;
+  border: 1px solid #5edcf4;
+  background-color: #1b2657;
+  color: #5edcf4;
+  font-family: 'JetBrains Mono', 'SF Mono', 'Fira Code', Consolas, Monaco, monospace;
+  font-size: 0.8em;
+  font-weight: 700;
+  box-shadow: 4px 4px 0 #2c3768;
+}
+
+/* ============================================
+   GitHub Alert - 五色霓虹各司其职
+   note=青 / tip=黄 / important=粉 / warning=橙 / caution=红
+   ============================================ */
+
+#bm-md .markdown-alert {
+  margin: 1.2em 0;
+  padding: 0.8em 1em;
+  border-left: 4px solid #2c3768;
+  background-color: #121a3a;
+  box-shadow: 4px 4px 0 #2c3768;
+}
+
+#bm-md .markdown-alert-title {
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+  margin-bottom: 0.5em;
+  font-family: 'JetBrains Mono', 'SF Mono', 'Fira Code', Consolas, Monaco, monospace;
+  font-size: 0.8em;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+#bm-md .markdown-alert-note,
+#bm-md .markdown-alert-note .markdown-alert-title {
+  color: #5edcf4;
+}
+
+#bm-md .markdown-alert-note {
+  border-left-color: #5edcf4;
+  box-shadow: 4px 4px 0 #5edcf4;
+}
+
+#bm-md .markdown-alert-tip,
+#bm-md .markdown-alert-tip .markdown-alert-title {
+  color: #f4d03f;
+}
+
+#bm-md .markdown-alert-tip {
+  border-left-color: #f4d03f;
+  box-shadow: 4px 4px 0 #f4d03f;
+}
+
+#bm-md .markdown-alert-important,
+#bm-md .markdown-alert-important .markdown-alert-title {
+  color: #ff4fa3;
+}
+
+#bm-md .markdown-alert-important {
+  border-left-color: #ff4fa3;
+  box-shadow: 4px 4px 0 #ff4fa3;
+}
+
+#bm-md .markdown-alert-warning,
+#bm-md .markdown-alert-warning .markdown-alert-title {
+  color: #ff9f3d;
+}
+
+#bm-md .markdown-alert-warning {
+  border-left-color: #ff9f3d;
+  box-shadow: 4px 4px 0 #ff9f3d;
+}
+
+#bm-md .markdown-alert-caution,
+#bm-md .markdown-alert-caution .markdown-alert-title {
+  color: #ff4545;
+}
+
+#bm-md .markdown-alert-caution {
+  border-left-color: #ff4545;
+  box-shadow: 4px 4px 0 #ff4545;
+}
+
+/* ============================================
+   数学公式
+   ============================================ */
+
+#bm-md .math-inline {
+  color: #5edcf4;
+  font-size: 1em;
+}
+
+#bm-md .math-display {
+  margin: 1.2em 0;
+  padding: 0.8em;
+  overflow-x: auto;
+  border: 1px solid #2c3768;
+  background-color: #111833;
+  color: #ccd3f0;
+  text-align: center;
+  box-shadow: 4px 4px 0 #2c3768;
+}
+
+/* ============================================
+   折叠详情
+   ============================================ */
+
+#bm-md details {
+  margin: 1.2em 0;
+  padding: 0.7em 0.9em;
+  border-left: 4px solid #5edcf4;
+  background-color: #121a3a;
+  box-shadow: 4px 4px 0 #2c3768;
+}
+
+#bm-md summary {
+  color: #5edcf4;
+  font-family: 'JetBrains Mono', 'SF Mono', 'Fira Code', Consolas, Monaco, monospace;
+  font-size: 0.9em;
+  font-weight: 700;
+  cursor: pointer;
+  text-transform: uppercase;
+}
+
+#bm-md details[open] summary {
+  margin-bottom: 0.6em;
+  padding-bottom: 0.5em;
+  border-bottom: 1px dashed #2c3768;
+}
+
+/* ============================================
+   嵌入媒体
+   ============================================ */
+
+#bm-md iframe,
+#bm-md video {
+  display: block;
+  max-width: 100%;
+  margin: 1.2em 0;
+  border: 2px solid #2c3768;
+  box-shadow: 4px 4px 0 #5edcf4;
+}
+
+/* ============================================
+   元信息与时间 - 等宽徽章
+   ============================================ */
+
+#bm-md .meta,
+#bm-md time {
+  padding: 0.1em 0.4em;
+  border: 1px solid #2c3768;
+  background-color: #121a3a;
+  color: #8b93c0;
+  font-family: 'JetBrains Mono', 'SF Mono', 'Fira Code', Consolas, Monaco, monospace;
+  font-size: 0.8em;
+}
+
+/* ============================================
+   首行缩进变体
+   ============================================ */
+
+#bm-md.indent-first-line p {
+  text-indent: 2em;
+}

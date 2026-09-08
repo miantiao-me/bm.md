@@ -233,16 +233,25 @@ curl -X POST https://bm.md/api/markdown/lint \
 
 ### 排版样式 (markdownStyle)
 
-| ID          | 名称      | 风格描述                   |
-| ----------- | --------- | -------------------------- |
-| `kami`      | Kami      | 简洁的纸张阅读风格（默认） |
-| `bauhaus`   | Bauhaus   | 包豪斯风格，几何与功能主义 |
-| `blueprint` | Blueprint | 蓝图风格，工程设计感       |
-| `botanical` | Botanical | 植物园风格，自然柔和       |
-| `newsprint` | Newsprint | 报纸印刷风格               |
-| `retro`     | Retro     | 复古怀旧风格               |
-| `sketch`    | Sketch    | 手绘素描风格               |
-| `terminal`  | Terminal  | 终端/命令行风格            |
+| ID              | 名称          | 风格描述                       |
+| --------------- | ------------- | ------------------------------ |
+| `kami`          | Kami          | 简洁的纸张阅读风格（默认）     |
+| `bauhaus`       | Bauhaus       | 包豪斯风格，几何与功能主义     |
+| `blueprint`     | Blueprint     | 蓝图风格，工程设计感           |
+| `botanical`     | Botanical     | 植物园风格，自然柔和           |
+| `newsprint`     | Newsprint     | 报纸印刷风格                   |
+| `retro`         | Retro         | 复古怀旧风格                   |
+| `sketch`        | Sketch        | 手绘素描风格                   |
+| `terminal`      | Terminal      | 终端/命令行风格                |
+| `black-ledger`  | Black Ledger  | 黑白账本风格，纯墨色的文献质感 |
+| `forest-review` | Forest Review | 森林季报风格，暖调编辑排版     |
+| `navy-vellum`   | Navy Vellum   | 深蓝羊皮纸风格，静谧的学术手记 |
+| `rose-nocturne` | Rose Nocturne | 玫瑰夜曲风格，暗色调时尚编辑   |
+| `solar-catalog` | Solar Catalog | 日光图录风格，展览海报质感     |
+| `triad-paper`   | Triad Paper   | 三调纸面风格，三色时尚杂志感   |
+| `field-tablet`  | Field Tablet  | 田野铭牌风格，考古手册质感     |
+| `public-square` | Public Square | 公共广场风格，行动主义海报     |
+| `pixel-orbit`   | Pixel Orbit   | 像素轨道风格，复古像素街机     |
 
 ### 代码主题 (codeTheme)
 

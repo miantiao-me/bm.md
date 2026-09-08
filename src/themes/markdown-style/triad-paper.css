@@ -1,0 +1,760 @@
+/* ============================================
+   Triad Paper — 三调纸面风格，三色时尚杂志感
+   严格三色系统：灰粉、黄油黄、酒红反复互换背景/文字角色，
+   不引入第四色相；无衬线正文 + 衬线斜体点缀 + 等宽元数据标签
+   ============================================ */
+
+/* 配色定义（硬编码 - 无 CSS 变量）
+   全部色板只落在两组色相上：玫红/酒红同源（约 344°-346°）与黄油黄（约 48°），
+   对外呈现为「粉 / 黄 / 酒红」三种品牌色，深浅浓淡皆为同色系派生，无第四色相。
+
+   粉 Pink（纸面主色）:            #f2b6c6
+   黄 Mustard（色块高亮/主强调）:   #f2d86a
+   酒红 Burgundy（正文墨色/强调块）: #7a1f35
+   酒红-最深 Ink 1（一级标题/加粗/暗底强调）: #43101c
+   酒红-深 Ink 2（二级标题/上标/编号）:       #591729
+   酒红-中 Ink 3（三级标题/下标/引用正文）:   #6f1e33
+   酒红-浅 Ink 4（四至六级标题/次要文字）:    #82273d
+   玫红斜体强调（em、引号、图注）:            #8f2247
+   粉-深（描边/分隔线，非文字）:              #b8536f
+   黄-深（描边/分隔线，非文字）:              #8a6a1a
+   黄-浅（次级纸面，如代码、引用块背景）:      #f7e8a6
+   粉-深纸面（important/caution 提示块背景）:  #e09fb0
+*/
+
+#bm-md {
+  color: #7a1f35;
+  background-color: #f2b6c6;
+  font-family:
+    'Avenir Next',
+    'Century Gothic',
+    Futura,
+    -apple-system,
+    BlinkMacSystemFont,
+    'Segoe UI',
+    'Helvetica Neue',
+    Arial,
+    sans-serif;
+  font-size: 15px;
+  line-height: 1.6;
+  padding: 26px 22px;
+}
+
+#bm-md h1,
+#bm-md h2,
+#bm-md h3,
+#bm-md h4,
+#bm-md h5,
+#bm-md h6 {
+  font-family: inherit;
+  font-weight: 700;
+  break-after: avoid;
+}
+
+/* H1 — 黄油黄色块 masthead，酒红硬阴影，编辑感刊头 */
+#bm-md h1 {
+  margin-top: 28px;
+  margin-bottom: 18px;
+  padding: 10px 16px;
+  background-color: #f2d86a;
+  color: #43101c;
+  font-size: 26px;
+  font-weight: 800;
+  line-height: 1.2;
+  text-transform: uppercase;
+  box-shadow: 4px 4px 0 #7a1f35;
+}
+
+/* H2 — 纸面留白 + 深粉分隔线 */
+#bm-md h2 {
+  margin-top: 26px;
+  margin-bottom: 12px;
+  padding-bottom: 6px;
+  border-bottom: 3px solid #b8536f;
+  color: #591729;
+  font-size: 20px;
+  line-height: 1.25;
+}
+
+/* H3 — 深黄褐左侧竖线 */
+#bm-md h3 {
+  margin-top: 20px;
+  margin-bottom: 8px;
+  padding-left: 10px;
+  border-left: 3px solid #8a6a1a;
+  color: #6f1e33;
+  font-size: 17px;
+  line-height: 1.3;
+}
+
+/* H4-H6 同色，仅字号与字体处理递减 */
+#bm-md h4,
+#bm-md h5,
+#bm-md h6 {
+  margin-top: 16px;
+  margin-bottom: 6px;
+  color: #82273d;
+  line-height: 1.35;
+}
+
+#bm-md h4 {
+  font-size: 16px;
+}
+
+#bm-md h5 {
+  font-size: 14px;
+}
+
+/* H6 借用 JetBrains Mono 气质，作为最小一级的章节标记 */
+#bm-md h6 {
+  font-family: 'JetBrains Mono', 'SF Mono', 'Fira Code', Consolas, Monaco, monospace;
+  font-size: 13px;
+  text-transform: uppercase;
+}
+
+#bm-md > h1:first-child,
+#bm-md > h2:first-child,
+#bm-md > h3:first-child,
+#bm-md > h4:first-child,
+#bm-md > h5:first-child,
+#bm-md > h6:first-child {
+  margin-top: 0;
+}
+
+#bm-md p {
+  margin-bottom: 13px;
+  color: #7a1f35;
+  widows: 2;
+  orphans: 2;
+}
+
+#bm-md p:last-child {
+  margin-bottom: 0;
+}
+
+#bm-md strong,
+#bm-md b {
+  color: #43101c;
+  font-weight: 800;
+}
+
+/* em/i 巧思：切换到衬线斜体（Instrument Serif 气质），呼应「玫红」强调 */
+#bm-md em,
+#bm-md i {
+  font-family: 'Big Caslon', Didot, Georgia, 'Times New Roman', 'STKaiti', 'Kaiti SC', KaiTi, serif;
+  font-style: italic;
+  font-weight: 400;
+  color: #8f2247;
+}
+
+#bm-md del,
+#bm-md s,
+#bm-md strike {
+  color: #82273d;
+  text-decoration: line-through;
+  text-decoration-color: #7a1f35;
+  text-decoration-thickness: 2px;
+}
+
+/* mark 用足量黄油黄荧光笔 + 最深酒红字，经典高对比高亮 */
+#bm-md mark {
+  padding: 1px 5px;
+  border-radius: 2px;
+  background-color: #f2d86a;
+  color: #43101c;
+}
+
+#bm-md small {
+  font-size: 12px;
+  color: #82273d;
+}
+
+#bm-md sup,
+#bm-md sub {
+  font-size: 0.7em;
+  line-height: 0;
+}
+
+#bm-md sup {
+  vertical-align: super;
+  color: #591729;
+  font-weight: 600;
+}
+
+#bm-md sub {
+  vertical-align: sub;
+  color: #6f1e33;
+  font-weight: 600;
+}
+
+#bm-md ins {
+  padding: 1px 4px;
+  border-bottom: 2px solid #7a1f35;
+  background-color: #f7e8a6;
+  color: #7a1f35;
+  text-decoration: none;
+}
+
+#bm-md q {
+  color: #6f1e33;
+}
+
+/* 引号巧思：pull-quote 标点固定使用衬线斜体 + 玫红 */
+#bm-md q::before {
+  content: '\201C';
+  font-family: 'Big Caslon', Didot, Georgia, 'Times New Roman', 'STKaiti', 'Kaiti SC', KaiTi, serif;
+  font-style: italic;
+  color: #8f2247;
+}
+
+#bm-md q::after {
+  content: '\201D';
+  font-family: 'Big Caslon', Didot, Georgia, 'Times New Roman', 'STKaiti', 'Kaiti SC', KaiTi, serif;
+  font-style: italic;
+  color: #8f2247;
+}
+
+#bm-md var {
+  font-style: italic;
+  font-weight: 600;
+  color: #591729;
+}
+
+#bm-md samp,
+#bm-md tt {
+  font-family: 'JetBrains Mono', 'SF Mono', 'Fira Code', Consolas, Monaco, monospace;
+  font-size: 12px;
+  padding: 1px 5px;
+  border-radius: 2px;
+  background-color: #f7e8a6;
+  color: #591729;
+}
+
+#bm-md abbr[title] {
+  border-bottom: 1px dotted #8a6a1a;
+  cursor: help;
+  text-decoration: none;
+}
+
+#bm-md a {
+  padding: 0 2px;
+  border-radius: 2px;
+  background-color: transparent;
+  color: #7a1f35;
+  font-weight: 600;
+  text-decoration: underline;
+  text-decoration-color: #8a6a1a;
+  text-underline-offset: 2px;
+}
+
+/* 悬停即翻转为「黄底酒红字」高亮块，呼应三色互换角色 */
+#bm-md a:hover {
+  background-color: #f2d86a;
+  color: #43101c;
+  text-decoration: none;
+}
+
+#bm-md ruby {
+  ruby-align: center;
+}
+
+#bm-md rt {
+  color: #82273d;
+  font-size: 0.5em;
+}
+
+#bm-md rp {
+  color: #82273d;
+}
+
+#bm-md ul,
+#bm-md ol {
+  margin-bottom: 13px;
+  padding-left: 22px;
+}
+
+#bm-md ul {
+  list-style-type: disc;
+}
+
+#bm-md ol {
+  list-style-type: decimal;
+}
+
+#bm-md li {
+  margin-bottom: 4px;
+  color: #7a1f35;
+}
+
+#bm-md ul li::marker {
+  color: #8a6a1a;
+}
+
+/* 有序列表编号巧思：呼应「序数用衬线斜体」的设定 */
+#bm-md ol li::marker {
+  font-family: 'Big Caslon', Didot, Georgia, 'Times New Roman', 'STKaiti', 'Kaiti SC', KaiTi, serif;
+  font-style: italic;
+  font-weight: 600;
+  color: #591729;
+}
+
+#bm-md li > ul,
+#bm-md li > ol {
+  margin-top: 4px;
+  margin-bottom: 4px;
+}
+
+#bm-md ul ul {
+  list-style-type: circle;
+}
+
+#bm-md ul ul ul {
+  list-style-type: square;
+}
+
+#bm-md ul.contains-task-list {
+  padding-left: 0;
+  list-style-type: none;
+}
+
+#bm-md li.task-list-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
+}
+
+#bm-md input[type='checkbox'] {
+  margin-top: 4px;
+  accent-color: #7a1f35;
+}
+
+/* 引用块 — 浅黄纸面 + 酒红竖线 + 衬线斜体大引号（pull-quote 巧思） */
+#bm-md blockquote {
+  margin: 16px 0;
+  padding: 10px 16px 14px 18px;
+  border-left: 4px solid #7a1f35;
+  background-color: #f7e8a6;
+  color: #6f1e33;
+  line-height: 1.6;
+}
+
+#bm-md blockquote::before {
+  content: '\201C';
+  display: block;
+  margin-bottom: 2px;
+  font-family: 'Big Caslon', Didot, Georgia, 'Times New Roman', 'STKaiti', 'Kaiti SC', KaiTi, serif;
+  font-style: italic;
+  font-weight: 400;
+  font-size: 2.2em;
+  line-height: 0.7;
+  color: #8f2247;
+}
+
+#bm-md blockquote p {
+  margin-bottom: 6px;
+  color: #6f1e33;
+}
+
+#bm-md blockquote p:last-child {
+  margin-bottom: 0;
+}
+
+/* 嵌套引用回到纸面粉，边线换成深黄褐，呈现三色交替节奏 */
+#bm-md blockquote blockquote {
+  margin-top: 10px;
+  margin-bottom: 0;
+  background-color: #f2b6c6;
+  border-left-color: #8a6a1a;
+}
+
+#bm-md blockquote blockquote::before {
+  content: none;
+}
+
+#bm-md code {
+  font-family: 'JetBrains Mono', 'SF Mono', 'Fira Code', Consolas, Monaco, monospace;
+  font-size: 13px;
+  padding: 1px 5px;
+  border-radius: 2px;
+  background-color: #f7e8a6;
+  color: #591729;
+}
+
+/* 代码块 — 近黑酒红底 + 黄油黄字，实现「酒红底黄字」的旗舰组合 */
+#bm-md pre {
+  margin: 16px 0;
+  padding: 14px 16px;
+  overflow-x: auto;
+  border-top: 4px solid #f2d86a;
+  background-color: #43101c;
+  color: #f2d86a;
+  font-family: 'JetBrains Mono', 'SF Mono', 'Fira Code', Consolas, Monaco, monospace;
+  font-size: 13px;
+  line-height: 1.55;
+  white-space: pre;
+}
+
+#bm-md pre code {
+  padding: 0;
+  border-radius: 0;
+  background-color: transparent;
+  color: inherit;
+  font-size: inherit;
+  line-height: inherit;
+}
+
+#bm-md table {
+  width: 100%;
+  margin: 16px 0;
+  border-collapse: collapse;
+  color: #7a1f35;
+  font-size: 13.5px;
+}
+
+#bm-md th,
+#bm-md td {
+  padding: 8px 10px;
+  border: none;
+  border-bottom: 1px solid #b8536f;
+  text-align: left;
+  vertical-align: top;
+}
+
+/* 表头翻转为「酒红底黄字」，与代码块呼应 */
+#bm-md th {
+  border-bottom: 2px solid #43101c;
+  background-color: #7a1f35;
+  color: #f2d86a;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+/* 表头背景较深，行内强调元素统一继承表头自身的黄字，避免暗底叠暗字 */
+#bm-md th strong,
+#bm-md th b,
+#bm-md th em,
+#bm-md th i,
+#bm-md th del,
+#bm-md th s,
+#bm-md th a {
+  color: inherit;
+}
+
+#bm-md tbody tr:nth-child(even) {
+  background-color: #f7e8a6;
+}
+
+#bm-md .frontmatter-table {
+  width: auto;
+  margin-bottom: 18px;
+  border: none;
+  background-color: transparent;
+  font-family: 'JetBrains Mono', 'SF Mono', 'Fira Code', Consolas, Monaco, monospace;
+  font-size: 12px;
+}
+
+#bm-md .frontmatter-table td {
+  padding: 2px 10px 2px 0;
+  border: none;
+  background-color: transparent;
+  vertical-align: top;
+}
+
+#bm-md .frontmatter-key {
+  color: #591729;
+  font-weight: 700;
+  white-space: nowrap;
+  text-transform: uppercase;
+}
+
+#bm-md .frontmatter-key::after {
+  content: ':';
+}
+
+#bm-md .frontmatter-value {
+  color: #7a1f35;
+}
+
+/* 分割线 — 酒红 + 深粉双线叠合，形成紧凑的两色色块 */
+#bm-md hr {
+  height: 0;
+  margin: 26px 0;
+  border: none;
+  border-top: 2px solid #7a1f35;
+  border-bottom: 2px solid #b8536f;
+}
+
+/* 图片 — 酒红硬边框 + 黄油黄硬阴影，杂志印刷分色感 */
+#bm-md img {
+  display: block;
+  max-width: 100%;
+  margin: 16px 0;
+  border: 3px solid #7a1f35;
+  box-shadow: 4px 4px 0 #f2d86a;
+}
+
+#bm-md picture {
+  display: block;
+  margin: 16px 0;
+}
+
+#bm-md picture img {
+  margin: 0;
+}
+
+#bm-md figure {
+  margin: 18px 0;
+  text-align: center;
+}
+
+#bm-md figure img {
+  margin: 0 auto;
+}
+
+/* 图注沿用衬线斜体点缀 */
+#bm-md figcaption {
+  margin-top: 6px;
+  font-family: 'Big Caslon', Didot, Georgia, 'Times New Roman', 'STKaiti', 'Kaiti SC', KaiTi, serif;
+  font-style: italic;
+  color: #8f2247;
+  font-size: 12.5px;
+  line-height: 1.4;
+  text-align: center;
+}
+
+#bm-md .footnotes {
+  margin-top: 26px;
+  padding-top: 12px;
+  border-top: 2px solid #7a1f35;
+  color: #82273d;
+  font-family: 'JetBrains Mono', 'SF Mono', 'Fira Code', Consolas, Monaco, monospace;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+#bm-md .footnotes ol {
+  padding-left: 18px;
+}
+
+#bm-md .footnote-ref {
+  padding: 0 4px;
+  border-radius: 2px;
+  background-color: #f7e8a6;
+  color: #7a1f35;
+  font-family: 'JetBrains Mono', 'SF Mono', 'Fira Code', Consolas, Monaco, monospace;
+  font-size: 11px;
+  font-weight: 700;
+  vertical-align: super;
+  text-decoration: none;
+}
+
+#bm-md .footnote-backref,
+#bm-md .data-footnote-backref {
+  color: #7a1f35;
+  font-family: 'JetBrains Mono', 'SF Mono', 'Fira Code', Consolas, Monaco, monospace;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+#bm-md dl {
+  margin: 14px 0;
+}
+
+#bm-md dt {
+  display: inline-block;
+  margin-top: 8px;
+  padding: 2px 8px;
+  border-radius: 2px;
+  background-color: #f7e8a6;
+  color: #7a1f35;
+  font-weight: 700;
+}
+
+#bm-md dt:first-child {
+  margin-top: 0;
+}
+
+#bm-md dd {
+  margin-top: 4px;
+  margin-left: 18px;
+  padding-left: 10px;
+  border-left: 3px solid #b8536f;
+  color: #7a1f35;
+}
+
+#bm-md kbd {
+  display: inline-block;
+  padding: 1px 6px;
+  border: 1px solid #8a6a1a;
+  border-radius: 2px;
+  background-color: #f7e8a6;
+  color: #7a1f35;
+  font-family: 'JetBrains Mono', 'SF Mono', 'Fira Code', Consolas, Monaco, monospace;
+  font-size: 12px;
+  box-shadow: 2px 2px 0 #7a1f35;
+}
+
+#bm-md .markdown-alert {
+  margin: 16px 0;
+  padding: 12px 14px;
+  border-left: 3px solid #7a1f35;
+  line-height: 1.6;
+}
+
+#bm-md .markdown-alert-title {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 8px;
+  color: #7a1f35;
+  font-family: 'JetBrains Mono', 'SF Mono', 'Fira Code', Consolas, Monaco, monospace;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+/* Note — 浅黄纸面 + 深粉描边，五种提示里最轻的一档 */
+#bm-md .markdown-alert-note {
+  background-color: #f7e8a6;
+  border-left: 3px solid #b8536f;
+}
+
+#bm-md .markdown-alert-note .markdown-alert-title {
+  color: #6f1e33;
+}
+
+/* Tip — 满版黄油黄 + 酒红描边，明快的建议语气 */
+#bm-md .markdown-alert-tip {
+  background-color: #f2d86a;
+  border-left: 3px solid #7a1f35;
+}
+
+#bm-md .markdown-alert-tip .markdown-alert-title {
+  color: #7a1f35;
+}
+
+/* Important — 深粉纸面 + 酒红描边，比 note 更浓郁的第二档 */
+#bm-md .markdown-alert-important {
+  background-color: #e09fb0;
+  border-left: 4px solid #7a1f35;
+  color: #43101c;
+}
+
+#bm-md .markdown-alert-important .markdown-alert-title {
+  color: #43101c;
+}
+
+/* Warning — 满版黄油黄 + 加粗酒红描边与硬阴影，比 tip 更醒目 */
+#bm-md .markdown-alert-warning {
+  background-color: #f2d86a;
+  border-left: 5px solid #7a1f35;
+  box-shadow: 3px 3px 0 #7a1f35;
+}
+
+#bm-md .markdown-alert-warning .markdown-alert-title {
+  color: #43101c;
+}
+
+/* Caution — 深粉纸面 + 最厚酒红描边 + 深黄褐顶边，五档中最重 */
+#bm-md .markdown-alert-caution {
+  background-color: #e09fb0;
+  border-left: 7px solid #7a1f35;
+  border-top: 3px solid #8a6a1a;
+  box-shadow: 3px 3px 0 #43101c;
+  color: #43101c;
+}
+
+#bm-md .markdown-alert-caution .markdown-alert-title {
+  color: #43101c;
+}
+
+/* important / caution 的纸面偏深粉，行内强调统一收敛到最深墨色，确保可读 */
+#bm-md .markdown-alert-important strong,
+#bm-md .markdown-alert-important b,
+#bm-md .markdown-alert-important em,
+#bm-md .markdown-alert-important i,
+#bm-md .markdown-alert-important del,
+#bm-md .markdown-alert-important s,
+#bm-md .markdown-alert-important small,
+#bm-md .markdown-alert-important a,
+#bm-md .markdown-alert-important li,
+#bm-md .markdown-alert-caution strong,
+#bm-md .markdown-alert-caution b,
+#bm-md .markdown-alert-caution em,
+#bm-md .markdown-alert-caution i,
+#bm-md .markdown-alert-caution del,
+#bm-md .markdown-alert-caution s,
+#bm-md .markdown-alert-caution small,
+#bm-md .markdown-alert-caution a,
+#bm-md .markdown-alert-caution li {
+  color: #43101c;
+}
+
+#bm-md .math-inline {
+  color: #7a1f35;
+  font-size: 1em;
+}
+
+#bm-md .math-display {
+  margin: 16px 0;
+  padding: 12px 14px;
+  overflow-x: auto;
+  background-color: #f7e8a6;
+  color: #591729;
+  text-align: center;
+}
+
+#bm-md details {
+  margin: 16px 0;
+  padding: 10px 14px;
+  border-left: 3px solid #7a1f35;
+  background-color: #f7e8a6;
+}
+
+#bm-md summary {
+  color: #7a1f35;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+#bm-md summary::marker {
+  color: #7a1f35;
+}
+
+#bm-md details[open] summary {
+  margin-bottom: 8px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid #b8536f;
+}
+
+#bm-md iframe,
+#bm-md video {
+  display: block;
+  max-width: 100%;
+  margin: 16px 0;
+  border: 3px solid #7a1f35;
+}
+
+/* .meta 走等宽标签气质，time 走衬线斜体，呼应「时间轴年份用衬线斜体」的设定 */
+#bm-md .meta {
+  display: inline-block;
+  padding: 1px 6px;
+  border-radius: 2px;
+  background-color: #f7e8a6;
+  color: #7a1f35;
+  font-family: 'JetBrains Mono', 'SF Mono', 'Fira Code', Consolas, Monaco, monospace;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+#bm-md time {
+  font-family: 'Big Caslon', Didot, Georgia, 'Times New Roman', 'STKaiti', 'Kaiti SC', KaiTi, serif;
+  font-style: italic;
+  color: #8f2247;
+  font-size: 0.95em;
+}
+
+#bm-md.indent-first-line p {
+  text-indent: 2em;
+}

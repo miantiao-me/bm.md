@@ -1,0 +1,652 @@
+/* ============================================
+   Field Tablet — 田野铭牌风格，考古手册质感
+   骨白纸面 + 黑色结构线打底，六种大地强调色
+   （蓝、赭红棕、青绿、洋红、橙、橄榄芥末黄）
+   分别标记链接、引用、代码等不同元素，
+   如同田野考察队铭牌手册上的分类墨戳
+   ============================================ */
+
+#bm-md {
+  color: #0a0a0a;
+  background-color: #f4efe0;
+  font-family:
+    -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', 'PingFang SC', 'Hiragino Sans GB',
+    'Microsoft YaHei', Arial, sans-serif;
+  font-size: 15px;
+  line-height: 1.7;
+  padding: 24px 20px;
+}
+
+/* 标题统一走黑/暖褐同一色系，逐级变淡；大写 + 粗体传达模版字的铭牌工业感 */
+#bm-md h1,
+#bm-md h2,
+#bm-md h3,
+#bm-md h4,
+#bm-md h5,
+#bm-md h6 {
+  font-family: inherit;
+  font-weight: 800;
+  line-height: 1.3;
+  text-transform: uppercase;
+  break-after: avoid;
+}
+
+/* H1 唯一使用赭红棕（sienna）标签色：左侧色条 + 黑色底线 +
+   偏移硬边（0 模糊）在底线下方叠一道 sienna 细带，模拟双线铭牌边 */
+#bm-md h1 {
+  margin-top: 34px;
+  margin-bottom: 16px;
+  padding: 6px 0 8px 14px;
+  border-left: 6px solid #8a3d1c;
+  border-bottom: 3px solid #0a0a0a;
+  color: #0a0a0a;
+  font-size: 26px;
+  line-height: 1.25;
+  box-shadow: 0 6px 0 0 #8a3d1c;
+}
+
+#bm-md h2 {
+  margin-top: 28px;
+  margin-bottom: 14px;
+  padding: 4px 0 6px 12px;
+  border-left: 5px solid #0a0a0a;
+  color: #1c160c;
+  font-size: 20px;
+  line-height: 1.3;
+}
+
+#bm-md h3 {
+  margin-top: 22px;
+  margin-bottom: 10px;
+  padding-left: 10px;
+  border-left: 3px solid #0a0a0a;
+  color: #332c1a;
+  font-size: 17px;
+  line-height: 1.35;
+}
+
+/* H4-H6 同色同权重，仅字号递减，回到常规大小写以适应正文密集的子标题 */
+#bm-md h4,
+#bm-md h5,
+#bm-md h6 {
+  margin-top: 18px;
+  margin-bottom: 8px;
+  color: #55503f;
+  font-weight: 700;
+  line-height: 1.4;
+  text-transform: none;
+}
+
+#bm-md h4 {
+  font-size: 15px;
+}
+
+#bm-md h5 {
+  font-size: 14px;
+}
+
+#bm-md h6 {
+  font-size: 13px;
+}
+
+#bm-md > h1:first-child,
+#bm-md > h2:first-child,
+#bm-md > h3:first-child,
+#bm-md > h4:first-child,
+#bm-md > h5:first-child,
+#bm-md > h6:first-child {
+  margin-top: 0;
+}
+
+#bm-md p {
+  margin-bottom: 14px;
+  color: #0a0a0a;
+  widows: 2;
+  orphans: 2;
+}
+
+#bm-md p:last-child {
+  margin-bottom: 0;
+}
+
+#bm-md strong,
+#bm-md b {
+  color: #0a0a0a;
+  font-weight: 800;
+}
+
+#bm-md em,
+#bm-md i {
+  color: #332c1a;
+  font-style: italic;
+}
+
+/* 删除线保持中性灰褐文字，只让划线本身用洋红，像校订笔在纸面留下的一道印记 */
+#bm-md del,
+#bm-md s,
+#bm-md strike {
+  color: #6b6552;
+  text-decoration: line-through;
+  text-decoration-color: #9c1258;
+  text-decoration-thickness: 2px;
+}
+
+#bm-md mark {
+  padding: 2px 5px;
+  border-radius: 3px;
+  color: #0a0a0a;
+  background-color: #ecd382;
+}
+
+#bm-md small {
+  color: #6b6552;
+  font-size: 12px;
+}
+
+#bm-md sup,
+#bm-md sub {
+  font-size: 0.75em;
+  line-height: 0;
+}
+
+#bm-md sup {
+  vertical-align: super;
+}
+
+#bm-md sub {
+  vertical-align: sub;
+}
+
+#bm-md ins {
+  padding: 2px 5px;
+  border-bottom: 2px solid #0b5f52;
+  border-radius: 2px;
+  color: #0a0a0a;
+  background-color: #d9ece6;
+  text-decoration: none;
+}
+
+#bm-md q {
+  color: #6b6552;
+}
+
+#bm-md q::before {
+  content: '\201C';
+  color: #0a0a0a;
+}
+
+#bm-md q::after {
+  content: '\201D';
+  color: #0a0a0a;
+}
+
+#bm-md var {
+  color: #332c1a;
+  font-style: normal;
+  font-weight: 700;
+}
+
+#bm-md samp,
+#bm-md tt {
+  padding: 2px 5px;
+  border-radius: 3px;
+  color: #0b5f52;
+  background-color: #e2dcc9;
+  font-family: ui-monospace, 'SF Mono', 'JetBrains Mono', Consolas, 'Liberation Mono', Menlo, monospace;
+  font-size: 13px;
+}
+
+#bm-md abbr[title] {
+  border-bottom: 1px dotted #2f5a8f;
+  cursor: help;
+  text-decoration: none;
+}
+
+/* 链接固定用蓝——档案手册里最常见的"参见"墨戳色 */
+#bm-md a {
+  color: #2f5a8f;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+#bm-md a:hover {
+  color: #1f3f66;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+#bm-md ruby {
+  ruby-align: center;
+}
+
+#bm-md rt {
+  color: #6b6552;
+  font-size: 0.5em;
+}
+
+#bm-md rp {
+  color: #6b6552;
+}
+
+#bm-md ul,
+#bm-md ol {
+  margin-bottom: 14px;
+  padding-left: 24px;
+}
+
+#bm-md ul {
+  list-style-type: disc;
+}
+
+#bm-md ol {
+  list-style-type: decimal;
+}
+
+#bm-md li {
+  margin-bottom: 5px;
+  color: #0a0a0a;
+}
+
+/* 无序列表用橄榄芥末色圆点，有序列表用黑色粗体数字——数字如模版刻号，圆点如索引墨点 */
+#bm-md ul li::marker {
+  color: #6b5a12;
+}
+
+#bm-md ol li::marker {
+  color: #0a0a0a;
+  font-weight: 800;
+}
+
+#bm-md li > ul,
+#bm-md li > ol {
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+#bm-md ul ul {
+  list-style-type: circle;
+}
+
+#bm-md ul ul ul {
+  list-style-type: square;
+}
+
+#bm-md ul.contains-task-list {
+  padding-left: 0;
+  list-style-type: none;
+}
+
+#bm-md li.task-list-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+#bm-md input[type='checkbox'] {
+  margin-top: 4px;
+  accent-color: #2f5a8f;
+}
+
+/* 引用块用赭红棕左线标记，不填色背景，保持长文阅读的克制感 */
+#bm-md blockquote {
+  margin: 18px 0;
+  padding: 6px 0 6px 16px;
+  border-left: 4px solid #8a3d1c;
+  color: #6b6552;
+  background-color: transparent;
+  line-height: 1.7;
+}
+
+#bm-md blockquote p {
+  margin-bottom: 6px;
+  color: #6b6552;
+}
+
+#bm-md blockquote p:last-child {
+  margin-bottom: 0;
+}
+
+#bm-md blockquote blockquote {
+  margin-top: 8px;
+  margin-bottom: 0;
+  border-left-color: #d8cba3;
+}
+
+/* 行内代码用青绿点缀，像仪器标签上的检定印章 */
+#bm-md code {
+  padding: 2px 5px;
+  border-radius: 3px;
+  color: #0b5f52;
+  background-color: #e2dcc9;
+  font-family: ui-monospace, 'SF Mono', 'JetBrains Mono', Consolas, 'Liberation Mono', Menlo, monospace;
+  font-size: 13px;
+}
+
+/* 代码块保持中性墨黑文字，避免整块代码都被青绿淹没；顶部黑线呼应标题的铭牌切口 */
+#bm-md pre {
+  margin: 16px 0;
+  padding: 14px 16px;
+  overflow-x: auto;
+  border: 1px solid #d8cba3;
+  border-top: 3px solid #0a0a0a;
+  border-radius: 4px;
+  color: #0a0a0a;
+  background-color: #e2dcc9;
+  font-family: ui-monospace, 'SF Mono', 'JetBrains Mono', Consolas, 'Liberation Mono', Menlo, monospace;
+  font-size: 13px;
+  line-height: 1.6;
+  white-space: pre;
+}
+
+#bm-md pre code {
+  padding: 0;
+  border-radius: 0;
+  color: inherit;
+  background-color: transparent;
+  font-size: inherit;
+  line-height: inherit;
+}
+
+#bm-md table {
+  width: 100%;
+  margin: 18px 0;
+  border-collapse: collapse;
+  border-top: 3px solid #0a0a0a;
+  color: #332c1a;
+  font-size: 13px;
+}
+
+#bm-md th,
+#bm-md td {
+  padding: 8px 10px;
+  border: none;
+  border-bottom: 1px solid #d8cba3;
+  text-align: left;
+  vertical-align: top;
+}
+
+/* 表头用橄榄芥末色底线 + 浅牙骨底色，如索引卡的分类标签 */
+#bm-md th {
+  border-bottom: 2px solid #6b5a12;
+  background-color: #e2dcc9;
+  color: #0a0a0a;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+#bm-md tbody tr:nth-child(even) {
+  background-color: #e2dcc9;
+}
+
+#bm-md .frontmatter-table {
+  width: auto;
+  margin-bottom: 20px;
+  color: #6b6552;
+  font-size: 12px;
+}
+
+#bm-md .frontmatter-table td {
+  padding: 2px 12px 2px 0;
+  border: none;
+  background-color: transparent;
+  vertical-align: top;
+}
+
+/* frontmatter-key 与正文 dt 共用赭红棕："字段标签"家族色 */
+#bm-md .frontmatter-key {
+  color: #8a3d1c;
+  font-weight: 800;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+#bm-md .frontmatter-key::after {
+  content: ':';
+}
+
+#bm-md .frontmatter-value {
+  color: #6b6552;
+}
+
+#bm-md hr {
+  height: 3px;
+  margin: 30px 0;
+  border: none;
+  background-color: #0a0a0a;
+}
+
+#bm-md img {
+  display: block;
+  max-width: 100%;
+  margin: 18px 0;
+  border: 2px solid #0a0a0a;
+  border-radius: 4px;
+  box-shadow: 4px 4px 0 0 #0b5f52;
+}
+
+#bm-md picture {
+  display: block;
+  margin: 18px 0;
+}
+
+#bm-md picture img {
+  display: block;
+  margin: 0;
+}
+
+#bm-md figure {
+  margin: 20px 0;
+}
+
+#bm-md figure img {
+  display: block;
+  margin: 0 auto;
+}
+
+/* 图注做成博物馆标签条：顶部细线 + 大写小字 */
+#bm-md figcaption {
+  margin-top: 8px;
+  padding-top: 6px;
+  border-top: 1px solid #d8cba3;
+  color: #6b6552;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1.5;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+#bm-md .footnotes {
+  margin-top: 32px;
+  padding-top: 14px;
+  border-top: 2px solid #0a0a0a;
+  color: #6b6552;
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+#bm-md .footnotes ol {
+  padding-left: 20px;
+}
+
+#bm-md .footnote-ref {
+  color: #2f5a8f;
+  font-size: 0.75em;
+  font-weight: 700;
+  vertical-align: super;
+}
+
+#bm-md .footnote-backref,
+#bm-md .data-footnote-backref {
+  color: #2f5a8f;
+  text-decoration: none;
+}
+
+#bm-md dl {
+  margin: 16px 0;
+}
+
+#bm-md dt {
+  margin-top: 10px;
+  color: #8a3d1c;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+#bm-md dt:first-child {
+  margin-top: 0;
+}
+
+#bm-md dd {
+  margin-top: 4px;
+  margin-left: 20px;
+  padding-left: 10px;
+  border-left: 2px solid #d8cba3;
+  color: #6b6552;
+}
+
+/* kbd 做成微缩键帽：实边框 + 硬阴影（0 模糊），青绿文字延续"仪器标签"语言 */
+#bm-md kbd {
+  display: inline-block;
+  padding: 2px 6px;
+  border: 1px solid #0a0a0a;
+  border-radius: 3px;
+  background-color: #e2dcc9;
+  box-shadow: 0 2px 0 0 #0a0a0a;
+  color: #0b5f52;
+  font-family: ui-monospace, 'SF Mono', 'JetBrains Mono', Consolas, 'Liberation Mono', Menlo, monospace;
+  font-size: 12px;
+}
+
+#bm-md .markdown-alert {
+  margin: 18px 0;
+  padding: 14px 16px;
+  border-left: 4px solid #0a0a0a;
+  border-radius: 4px;
+  color: #332c1a;
+  background-color: #e2dcc9;
+  line-height: 1.6;
+}
+
+#bm-md .markdown-alert-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+  font-size: 13px;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+/* note = 蓝，与链接同色，呼应"参见/说明"语义 */
+#bm-md .markdown-alert-note,
+#bm-md .markdown-alert-note .markdown-alert-title {
+  border-left-color: #2f5a8f;
+  color: #2f5a8f;
+}
+
+#bm-md .markdown-alert-note {
+  background-color: #dde6f0;
+}
+
+/* tip = 青绿，与代码/kbd 同色，呼应"经过验证的建议" */
+#bm-md .markdown-alert-tip,
+#bm-md .markdown-alert-tip .markdown-alert-title {
+  border-left-color: #0b5f52;
+  color: #0b5f52;
+}
+
+#bm-md .markdown-alert-tip {
+  background-color: #d9ece6;
+}
+
+/* important = 洋红，与删除线同色系，代表"需要被特别校订/留意"，左线加粗一级 */
+#bm-md .markdown-alert-important,
+#bm-md .markdown-alert-important .markdown-alert-title {
+  border-left-color: #9c1258;
+  color: #9c1258;
+}
+
+#bm-md .markdown-alert-important {
+  border-left-width: 6px;
+  background-color: #f1dbe6;
+}
+
+/* warning/caution 共用橙、赭红棕暖色系，caution 左线加粗一级表示更高一档 */
+#bm-md .markdown-alert-warning,
+#bm-md .markdown-alert-warning .markdown-alert-title {
+  border-left-color: #8f4508;
+  color: #8f4508;
+}
+
+#bm-md .markdown-alert-warning {
+  background-color: #f3ddc0;
+}
+
+#bm-md .markdown-alert-caution,
+#bm-md .markdown-alert-caution .markdown-alert-title {
+  border-left-color: #8a3d1c;
+  color: #8a3d1c;
+}
+
+#bm-md .markdown-alert-caution {
+  border-left-width: 6px;
+  background-color: #f1ddc7;
+}
+
+#bm-md .math-inline {
+  color: #0a0a0a;
+  font-size: 1em;
+}
+
+#bm-md .math-display {
+  margin: 18px 0;
+  padding: 14px;
+  overflow-x: auto;
+  border-radius: 4px;
+  background-color: #e2dcc9;
+  color: #0a0a0a;
+  text-align: center;
+}
+
+#bm-md details {
+  margin: 18px 0;
+  padding: 12px 16px;
+  border-left: 3px solid #2f5a8f;
+  border-radius: 4px;
+  background-color: #e2dcc9;
+}
+
+#bm-md summary {
+  color: #2f5a8f;
+  cursor: pointer;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+#bm-md details[open] summary {
+  margin-bottom: 10px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid #d8cba3;
+}
+
+#bm-md iframe,
+#bm-md video {
+  display: block;
+  max-width: 100%;
+  margin: 18px 0;
+  border: 2px solid #0a0a0a;
+  border-radius: 4px;
+}
+
+#bm-md .meta,
+#bm-md time {
+  color: #6b6552;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+#bm-md.indent-first-line p {
+  text-indent: 2em;
+}

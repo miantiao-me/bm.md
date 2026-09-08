@@ -1,0 +1,778 @@
+/* ============================================
+   Rose Nocturne — 玫瑰夜曲风格，暗色调时尚编辑
+   暖调近黑画布 + 单一签名热粉强调色 + 珠光米白正文
+   衬线大标题的编辑气质，克制、性感、深夜时装杂志感
+   ============================================ */
+
+/* 配色定义（硬编码，单一热粉签名色系 + 独立警示色，全程纯色不使用渐变）
+   画布   BG            #0e0a0d  暖调近黑
+   卡片   SURFACE       #1a1418  面板层：代码块/引用/警示框/详情/表头/斑马纹
+   细线   HAIRLINE      rgba(241, 231, 236, 0.12)  容器内框线、图片/嵌入媒体描边
+   细线-强 HAIRLINE-2    rgba(241, 231, 236, 0.18)  表格线、脚注分隔、键盘按键边框
+   正文   TEXT          #f1e7ec  珠光米白（不是纯白）
+   正文-亮 TEXT-STRONG   #fbeef5  加粗强调，比正文再亮一分的珠光
+   辅文   TEXT-MUTED    #c7b4bf  次级文字：图注/脚注/定义描述/表格正文/引用
+   弱化   TEXT-FAINT    #93818a  最弱化：删除线文字、嵌套引用边线、rp
+   签名色 ACCENT        #ed3d8c  热粉——H1、链接、强调、代码、列表标记的核心色
+   签名色-2 ACCENT-2     #e4639d  H2，比签名色柔和一分
+   签名色-3 ACCENT-3     #dd88ae  H3 / var，更柔
+   签名色-4 ACCENT-4     #d9a6bd  H4-H6，最贴近正文的粉调，可读性最高
+   签名色-亮 ACCENT-BRIGHT #ff6bae  链接 hover / important 警示的提亮版本
+   警示色 WARN           #e2933f  warning、caution 共用的橙棕色，与品牌粉区分
+   警示色-深 WARN-DEEP    #c97430  caution 比 warning 更深一分，区分层级
+   ============================================ */
+
+#bm-md {
+  color: #f1e7ec;
+  background-color: #0e0a0d;
+  border: 1px solid rgba(241, 231, 236, 0.12);
+  font-family:
+    -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'PingFang SC', 'Microsoft YaHei',
+    sans-serif;
+  font-size: 15px;
+  line-height: 1.55;
+  padding: 30px 28px;
+}
+
+/* ============================================
+   标题 — 衬线大字号，热粉单色系逐级变淡
+   H1-H3 各自独立色阶，H4-H6 统一使用最淡的粉调
+   ============================================ */
+
+#bm-md h1,
+#bm-md h2,
+#bm-md h3,
+#bm-md h4,
+#bm-md h5,
+#bm-md h6 {
+  font-family:
+    Georgia, 'Palatino Linotype', Palatino, 'Source Han Serif SC', 'Source Han Serif CN', 'Noto Serif CJK SC',
+    'Songti SC', 'STSong', SimSun, serif;
+  font-weight: 600;
+  line-height: 1.12;
+}
+
+/* H1 - 热粉正文标题 + 同色细线，如刊头下方的印刷分隔线 */
+#bm-md h1 {
+  margin-top: 36px;
+  margin-bottom: 14px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid #ed3d8c;
+  color: #ed3d8c;
+  font-size: 30px;
+}
+
+/* H2 - 稍柔的粉，左侧竖线呼应刊头栏目标签 */
+#bm-md h2 {
+  margin-top: 30px;
+  margin-bottom: 12px;
+  padding-left: 10px;
+  border-left: 3px solid #e4639d;
+  color: #e4639d;
+  font-size: 22px;
+}
+
+/* H3 - 更柔的玫粉，破折号前缀是唯一的装饰性文本（非空元素允许） */
+#bm-md h3 {
+  margin-top: 24px;
+  margin-bottom: 10px;
+  color: #dd88ae;
+  font-size: 18px;
+}
+
+#bm-md h3::before {
+  content: '\2014\a0';
+  color: #dd88ae;
+  font-weight: 600;
+}
+
+/* H4-H6 - 统一使用最淡的粉调，贴近正文色但仍可辨识为标题 */
+#bm-md h4,
+#bm-md h5,
+#bm-md h6 {
+  color: #d9a6bd;
+}
+
+#bm-md h4 {
+  margin-top: 20px;
+  margin-bottom: 8px;
+  font-size: 16px;
+}
+
+#bm-md h5 {
+  margin-top: 18px;
+  margin-bottom: 6px;
+  font-size: 15px;
+  font-style: italic;
+}
+
+#bm-md h6 {
+  margin-top: 16px;
+  margin-bottom: 6px;
+  font-size: 13px;
+  text-transform: uppercase;
+}
+
+#bm-md > h1:first-child,
+#bm-md > h2:first-child,
+#bm-md > h3:first-child,
+#bm-md > h4:first-child,
+#bm-md > h5:first-child,
+#bm-md > h6:first-child {
+  margin-top: 0;
+}
+
+/* ============================================
+   段落
+   ============================================ */
+
+#bm-md p {
+  margin-bottom: 14px;
+  color: #f1e7ec;
+  widows: 2;
+  orphans: 2;
+}
+
+#bm-md p:last-child {
+  margin-bottom: 0;
+}
+
+/* ============================================
+   行内文本样式 — 单一热粉强调贯穿全篇，加粗则改用更亮的珠光
+   ============================================ */
+
+#bm-md strong,
+#bm-md b {
+  color: #fbeef5;
+  font-weight: 700;
+}
+
+#bm-md em,
+#bm-md i {
+  color: #ed3d8c;
+  font-style: italic;
+}
+
+#bm-md del,
+#bm-md s,
+#bm-md strike {
+  color: #93818a;
+  text-decoration: line-through;
+  text-decoration-color: rgba(237, 61, 140, 0.5);
+}
+
+/* 高亮 - 热粉底色 + 深底文字，像一道荧光笔划过的印刷页 */
+#bm-md mark {
+  padding: 1px 5px;
+  border-radius: 2px;
+  color: #0e0a0d;
+  background-color: #ed3d8c;
+}
+
+/* 粉底之上嵌套的强调元素默认也是粉色，会与底色糊在一起，强制改回深底色保持可读 */
+#bm-md mark strong,
+#bm-md mark b,
+#bm-md mark em,
+#bm-md mark i,
+#bm-md mark a {
+  color: #0e0a0d;
+}
+
+#bm-md small {
+  color: #c7b4bf;
+  font-size: 0.8em;
+}
+
+#bm-md sup,
+#bm-md sub {
+  font-size: 0.75em;
+  line-height: 0;
+}
+
+#bm-md sup {
+  vertical-align: super;
+  color: #ed3d8c;
+}
+
+#bm-md sub {
+  vertical-align: sub;
+  color: #d9a6bd;
+}
+
+#bm-md ins {
+  padding: 1px 3px;
+  border-bottom: 1px solid #ed3d8c;
+  color: #f1e7ec;
+  background-color: rgba(237, 61, 140, 0.14);
+  text-decoration: none;
+}
+
+#bm-md q {
+  color: #c7b4bf;
+  font-style: italic;
+}
+
+#bm-md q::before {
+  content: '\201C';
+  color: #ed3d8c;
+}
+
+#bm-md q::after {
+  content: '\201D';
+  color: #ed3d8c;
+}
+
+#bm-md var {
+  color: #dd88ae;
+  font-style: italic;
+  font-weight: 600;
+}
+
+#bm-md samp,
+#bm-md tt {
+  padding: 1px 4px;
+  border-radius: 2px;
+  color: #c7b4bf;
+  background-color: #1a1418;
+  font-family: 'JetBrains Mono', 'SF Mono', 'Fira Code', Consolas, Monaco, monospace;
+  font-size: 0.85em;
+}
+
+#bm-md abbr[title] {
+  border-bottom: 1px dotted #ed3d8c;
+  cursor: help;
+  text-decoration: none;
+}
+
+/* ============================================
+   链接 — 热粉下划线，hover 时提亮为更明亮的粉
+   ============================================ */
+
+#bm-md a {
+  color: #ed3d8c;
+  font-weight: 500;
+  text-decoration: underline;
+  text-decoration-color: rgba(237, 61, 140, 0.4);
+  text-underline-offset: 2px;
+}
+
+#bm-md a:hover {
+  color: #ff6bae;
+  text-decoration-color: currentColor;
+}
+
+/* ============================================
+   Ruby 注音
+   ============================================ */
+
+#bm-md ruby {
+  ruby-align: center;
+}
+
+#bm-md rt {
+  color: #c7b4bf;
+  font-size: 0.5em;
+}
+
+#bm-md rp {
+  color: #93818a;
+}
+
+/* ============================================
+   列表
+   ============================================ */
+
+#bm-md ul,
+#bm-md ol {
+  margin-bottom: 14px;
+  padding-left: 22px;
+}
+
+#bm-md ul {
+  list-style-type: disc;
+}
+
+#bm-md ol {
+  list-style-type: decimal;
+}
+
+#bm-md li {
+  margin-bottom: 6px;
+  color: #f1e7ec;
+}
+
+#bm-md ul li::marker {
+  color: #ed3d8c;
+}
+
+#bm-md ol li::marker {
+  color: #ed3d8c;
+  font-weight: 600;
+}
+
+#bm-md li > ul,
+#bm-md li > ol {
+  margin-top: 6px;
+  margin-bottom: 6px;
+}
+
+#bm-md ul ul {
+  list-style-type: circle;
+}
+
+#bm-md ul ul ul {
+  list-style-type: square;
+}
+
+#bm-md ul.contains-task-list {
+  padding-left: 0;
+  list-style-type: none;
+}
+
+#bm-md li.task-list-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+#bm-md input[type='checkbox'] {
+  margin-top: 4px;
+  accent-color: #ed3d8c;
+}
+
+/* ============================================
+   引用块 — 深夜编辑的拉页引语：大号衬线引号 + 热粉边线
+   ============================================ */
+
+#bm-md blockquote {
+  margin: 18px 0;
+  padding: 12px 18px 12px 20px;
+  border-left: 2px solid #ed3d8c;
+  border-radius: 4px;
+  color: #c7b4bf;
+  background-color: #1a1418;
+  line-height: 1.55;
+}
+
+#bm-md blockquote::before {
+  display: block;
+  margin-bottom: 4px;
+  content: '\201C';
+  color: #ed3d8c;
+  font-family:
+    Georgia, 'Palatino Linotype', Palatino, 'Source Han Serif SC', 'Source Han Serif CN', 'Noto Serif CJK SC',
+    'Songti SC', 'STSong', SimSun, serif;
+  font-size: 2em;
+  line-height: 0.6;
+}
+
+#bm-md blockquote p {
+  margin-bottom: 8px;
+  color: inherit;
+}
+
+#bm-md blockquote p:last-child {
+  margin-bottom: 0;
+}
+
+/* 嵌套引用退回画布底色，制造"往后退一层"的空间感；不再重复大引号 */
+#bm-md blockquote blockquote {
+  margin-top: 10px;
+  margin-bottom: 0;
+  border-left-color: #93818a;
+  background-color: #0e0a0d;
+}
+
+#bm-md blockquote blockquote::before {
+  content: none;
+}
+
+/* ============================================
+   代码 — 行内代码染粉，代码块用顶部细线标签
+   ============================================ */
+
+#bm-md code {
+  padding: 2px 5px;
+  border-radius: 3px;
+  color: #ed3d8c;
+  background-color: #1a1418;
+  font-family: 'JetBrains Mono', 'SF Mono', 'Fira Code', Consolas, Monaco, monospace;
+  font-size: 0.85em;
+}
+
+#bm-md pre {
+  margin: 18px 0;
+  padding: 14px 16px;
+  overflow-x: auto;
+  border: 1px solid rgba(241, 231, 236, 0.12);
+  border-top: 2px solid #ed3d8c;
+  border-radius: 4px;
+  color: #f1e7ec;
+  background-color: #1a1418;
+  font-family: 'JetBrains Mono', 'SF Mono', 'Fira Code', Consolas, Monaco, monospace;
+  font-size: 13px;
+  line-height: 1.55;
+  white-space: pre;
+}
+
+#bm-md pre code {
+  padding: 0;
+  border-radius: 0;
+  color: inherit;
+  background-color: transparent;
+  font-size: inherit;
+  line-height: inherit;
+}
+
+/* ============================================
+   表格 — 表头染粉底 SURFACE，正文斑马纹沿用同一卡片色
+   ============================================ */
+
+#bm-md table {
+  width: 100%;
+  margin: 18px 0;
+  border-collapse: collapse;
+  color: #c7b4bf;
+  font-size: 13px;
+}
+
+#bm-md th,
+#bm-md td {
+  padding: 8px 12px;
+  border: none;
+  border-bottom: 1px solid rgba(241, 231, 236, 0.18);
+  text-align: left;
+  vertical-align: top;
+}
+
+#bm-md th {
+  color: #ed3d8c;
+  background-color: #1a1418;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+#bm-md tbody tr:nth-child(even) {
+  background-color: #1a1418;
+}
+
+/* Frontmatter 元信息表 - 等宽字体，呼应"精品店目录标签"的气质 */
+#bm-md .frontmatter-table {
+  width: auto;
+  margin-bottom: 20px;
+  color: #c7b4bf;
+  font-family: 'JetBrains Mono', 'SF Mono', 'Fira Code', Consolas, Monaco, monospace;
+  font-size: 12px;
+}
+
+#bm-md .frontmatter-table td {
+  padding: 3px 12px 3px 0;
+  border: none;
+  background-color: transparent;
+  vertical-align: top;
+}
+
+#bm-md .frontmatter-key {
+  color: #ed3d8c;
+  font-weight: 600;
+  white-space: nowrap;
+  text-transform: uppercase;
+}
+
+#bm-md .frontmatter-key::after {
+  content: ':';
+}
+
+#bm-md .frontmatter-value {
+  color: #c7b4bf;
+}
+
+/* ============================================
+   分割线 — 极细的热粉印刷线，标记章节转场
+   ============================================ */
+
+#bm-md hr {
+  height: 1px;
+  margin: 28px 0;
+  border: none;
+  background-color: rgba(237, 61, 140, 0.4);
+}
+
+/* ============================================
+   图片与媒体 — 米白细描边，呼应容器的内框线语言
+   ============================================ */
+
+#bm-md img {
+  display: block;
+  max-width: 100%;
+  margin: 18px 0;
+  border: 1px solid rgba(241, 231, 236, 0.12);
+  border-radius: 4px;
+}
+
+#bm-md picture {
+  display: block;
+  margin: 18px 0;
+}
+
+#bm-md picture img {
+  margin: 0;
+}
+
+#bm-md figure {
+  margin: 20px 0;
+  text-align: center;
+}
+
+#bm-md figure img {
+  margin: 0 auto;
+}
+
+/* 图注 - 衬线斜体，像时尚杂志照片下方的说明文字 */
+#bm-md figcaption {
+  margin-top: 8px;
+  color: #c7b4bf;
+  font-family:
+    Georgia, 'Palatino Linotype', Palatino, 'Source Han Serif SC', 'Source Han Serif CN', 'Noto Serif CJK SC',
+    'Songti SC', 'STSong', SimSun, serif;
+  font-size: 12px;
+  font-style: italic;
+  line-height: 1.5;
+  text-align: center;
+}
+
+/* ============================================
+   脚注
+   ============================================ */
+
+#bm-md .footnotes {
+  margin-top: 32px;
+  padding-top: 14px;
+  border-top: 1px solid rgba(241, 231, 236, 0.18);
+  color: #c7b4bf;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+#bm-md .footnotes ol {
+  padding-left: 18px;
+}
+
+#bm-md .footnote-ref {
+  color: #ed3d8c;
+  font-weight: 600;
+  font-size: 0.75em;
+  vertical-align: super;
+}
+
+#bm-md .footnote-backref,
+#bm-md .data-footnote-backref {
+  color: #ed3d8c;
+  text-decoration: none;
+}
+
+/* ============================================
+   定义列表
+   ============================================ */
+
+#bm-md dl {
+  margin: 16px 0;
+}
+
+#bm-md dt {
+  margin-top: 10px;
+  color: #fbeef5;
+  font-weight: 700;
+}
+
+#bm-md dt:first-child {
+  margin-top: 0;
+}
+
+#bm-md dd {
+  margin-top: 4px;
+  margin-left: 20px;
+  color: #c7b4bf;
+}
+
+/* ============================================
+   键盘按键
+   ============================================ */
+
+#bm-md kbd {
+  display: inline-block;
+  padding: 2px 6px;
+  border: 1px solid rgba(241, 231, 236, 0.18);
+  border-bottom: 2px solid rgba(241, 231, 236, 0.18);
+  border-radius: 3px;
+  color: #f1e7ec;
+  background-color: #1a1418;
+  font-family: 'JetBrains Mono', 'SF Mono', 'Fira Code', Consolas, Monaco, monospace;
+  font-size: 12px;
+}
+
+/* ============================================
+   警告框 — note/tip/important 共用热粉，仅深浅与边框粗细分层；
+   warning/caution 共用独立的橙棕警示色，caution 更深一分
+   ============================================ */
+
+#bm-md .markdown-alert {
+  margin: 18px 0;
+  padding: 12px 16px;
+  border-left: 2px solid #ed3d8c;
+  border-radius: 4px;
+  color: #f1e7ec;
+  background-color: #1a1418;
+  line-height: 1.55;
+}
+
+#bm-md .markdown-alert-title {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 6px;
+  color: #ed3d8c;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+/* GitHub 注入的 octicon 图标默认继承黑色填充，改为跟随标题文字色 */
+#bm-md .markdown-alert-title svg {
+  fill: currentColor;
+}
+
+/* Note - 热粉最浅的一层，信息提示 */
+#bm-md .markdown-alert-note,
+#bm-md .markdown-alert-note .markdown-alert-title {
+  border-left-color: #e4639d;
+  color: #e4639d;
+}
+
+#bm-md .markdown-alert-note {
+  background-color: rgba(237, 61, 140, 0.06);
+}
+
+/* Tip - 品牌热粉本色 */
+#bm-md .markdown-alert-tip,
+#bm-md .markdown-alert-tip .markdown-alert-title {
+  border-left-color: #ed3d8c;
+  color: #ed3d8c;
+}
+
+#bm-md .markdown-alert-tip {
+  background-color: rgba(237, 61, 140, 0.1);
+}
+
+/* Important - 提亮版热粉 + 更粗边线，三者中层级最高 */
+#bm-md .markdown-alert-important,
+#bm-md .markdown-alert-important .markdown-alert-title {
+  border-left-color: #ff6bae;
+  color: #ff6bae;
+}
+
+#bm-md .markdown-alert-important {
+  border-left-width: 3px;
+  background-color: rgba(237, 61, 140, 0.16);
+}
+
+/* Warning - 独立的橙棕警示色，与品牌粉明确区分 */
+#bm-md .markdown-alert-warning,
+#bm-md .markdown-alert-warning .markdown-alert-title {
+  border-left-color: #e2933f;
+  color: #e2933f;
+}
+
+#bm-md .markdown-alert-warning {
+  background-color: rgba(226, 147, 63, 0.1);
+}
+
+/* Caution - 同一警示色系，更深一分表示层级更高 */
+#bm-md .markdown-alert-caution,
+#bm-md .markdown-alert-caution .markdown-alert-title {
+  border-left-color: #c97430;
+  color: #c97430;
+}
+
+#bm-md .markdown-alert-caution {
+  border-left-width: 3px;
+  background-color: rgba(226, 147, 63, 0.1);
+}
+
+/* ============================================
+   数学公式
+   ============================================ */
+
+#bm-md .math-inline {
+  color: #f1e7ec;
+  font-size: 1em;
+}
+
+#bm-md .math-display {
+  margin: 18px 0;
+  padding: 12px 14px;
+  overflow-x: auto;
+  border-left: 2px solid #ed3d8c;
+  border-radius: 4px;
+  color: #f1e7ec;
+  background-color: #1a1418;
+  text-align: center;
+}
+
+/* ============================================
+   折叠详情
+   ============================================ */
+
+#bm-md details {
+  margin: 18px 0;
+  padding: 12px 16px;
+  border-left: 2px solid #ed3d8c;
+  border-radius: 4px;
+  background-color: #1a1418;
+}
+
+#bm-md summary {
+  color: #ed3d8c;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+#bm-md details[open] summary {
+  margin-bottom: 8px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid rgba(241, 231, 236, 0.12);
+}
+
+/* ============================================
+   嵌入媒体
+   ============================================ */
+
+#bm-md iframe,
+#bm-md video {
+  display: block;
+  max-width: 100%;
+  margin: 18px 0;
+  border: 1px solid rgba(241, 231, 236, 0.12);
+  border-radius: 4px;
+}
+
+/* ============================================
+   元信息与时间 — 等宽字体，模拟精品店目录的标签铅印
+   ============================================ */
+
+#bm-md .meta,
+#bm-md time {
+  color: #c7b4bf;
+  font-family: 'JetBrains Mono', 'SF Mono', 'Fira Code', Consolas, Monaco, monospace;
+  font-size: 12px;
+  text-transform: uppercase;
+}
+
+/* ============================================
+   首行缩进变体
+   ============================================ */
+
+#bm-md.indent-first-line p {
+  text-indent: 2em;
+}

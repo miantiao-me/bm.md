@@ -1,0 +1,831 @@
+/* ============================================
+   Black Ledger — 黑白账本
+   纯墨色的文献质感：象牙纸配全黑墨色印刷，
+   Lora 风衬线标题与 Jost 风极细无衬线正文对照，
+   零彩色强调，只靠墨色深浅、线条与留白表达层级。
+
+   本次新增风格中唯一"零彩色"主题：全文不出现
+   任何有色相的强调色，mark/警示框等一律用纸色与
+   墨色的深浅、粗细、正/反色来区分层级。
+
+   配色定义（硬编码，均为无色相的暖调纸/墨阶）：
+   纸色
+     纸面（背景）：       #f7f4ea
+     纸面二阶（板块底）： #efe8d3
+     纸面三阶（强调底）： #e5dcc0
+   墨色
+     主墨（H1/正文/强调）：#1a1a16
+     二阶墨（H2）：       #2b2a24
+     三阶墨（H3）：       #3e3c33
+     石墨（H4-H6/次要）： #57544a
+     浅石墨（三级文字）： #6f6b58
+     淡石墨（装饰末级）： #96906f
+   线条
+     细线（卡片/表格边框）：#cdc4a4
+   ============================================ */
+
+#bm-md {
+  color: #1a1a16;
+  background-color: #f7f4ea;
+  font-family:
+    'Century Gothic',
+    Futura,
+    'Avenir Next',
+    Avenir,
+    -apple-system,
+    BlinkMacSystemFont,
+    'Segoe UI',
+    'PingFang SC',
+    'Noto Sans SC',
+    'Microsoft YaHei',
+    sans-serif;
+  font-size: 15px;
+  line-height: 1.75;
+  padding: 30px 26px;
+}
+
+/* ============================================
+   标题 — Lora 气质的衬线标题，与极细无衬线正文
+   形成"展示体 vs 正文体"的文学化对照；
+   墨色随层级逐级变淡，H4-H6 共用同一石墨色。
+   ============================================ */
+
+#bm-md h1,
+#bm-md h2,
+#bm-md h3,
+#bm-md h4,
+#bm-md h5,
+#bm-md h6 {
+  font-family:
+    'Palatino Linotype', Palatino, 'Hoefler Text', Georgia, 'Songti SC', 'Noto Serif SC', STSong, SimSun, serif;
+  font-weight: 600;
+  break-after: avoid;
+}
+
+/* H1 — 账本封面式标题，双线底纹呼应"总计双划线"的记账传统 */
+#bm-md h1 {
+  margin-top: 36px;
+  margin-bottom: 16px;
+  padding-bottom: 12px;
+  border-bottom: 4px double #1a1a16;
+  color: #1a1a16;
+  font-size: 26px;
+  line-height: 1.25;
+}
+
+/* H2 — 单线收束，账本分节标题 */
+#bm-md h2 {
+  margin-top: 32px;
+  margin-bottom: 14px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid #cdc4a4;
+  color: #2b2a24;
+  font-size: 20px;
+  line-height: 1.3;
+}
+
+/* H3 — 左侧墨线，条目式小标题 */
+#bm-md h3 {
+  margin-top: 26px;
+  margin-bottom: 10px;
+  padding-left: 12px;
+  border-left: 2px solid #1a1a16;
+  color: #3e3c33;
+  font-size: 17px;
+  line-height: 1.35;
+}
+
+/* H4-H6 — 统一石墨色，仅靠字号/字重/斜体区分 */
+#bm-md h4,
+#bm-md h5,
+#bm-md h6 {
+  color: #57544a;
+  line-height: 1.4;
+}
+
+#bm-md h4 {
+  margin-top: 22px;
+  margin-bottom: 8px;
+  font-size: 15px;
+}
+
+#bm-md h5 {
+  margin-top: 18px;
+  margin-bottom: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  font-style: italic;
+}
+
+#bm-md h6 {
+  margin-top: 16px;
+  margin-bottom: 6px;
+  font-size: 12.5px;
+  font-weight: 500;
+  font-style: italic;
+}
+
+/* h6 前缀短横线，页边批注的手记感（非空元素，允许装饰内容） */
+#bm-md h6::before {
+  content: '—';
+  margin-right: 0.5em;
+}
+
+#bm-md > h1:first-child,
+#bm-md > h2:first-child,
+#bm-md > h3:first-child,
+#bm-md > h4:first-child,
+#bm-md > h5:first-child,
+#bm-md > h6:first-child {
+  margin-top: 0;
+}
+
+/* ============================================
+   段落 — Jost 气质的极细正文，长文阅读的主战场
+   ============================================ */
+
+#bm-md p {
+  margin-bottom: 14px;
+  color: #1a1a16;
+  font-weight: 300;
+  widows: 2;
+  orphans: 2;
+}
+
+#bm-md p:last-child {
+  margin-bottom: 0;
+}
+
+/* ============================================
+   行内文本样式
+   ============================================ */
+
+#bm-md strong,
+#bm-md b {
+  color: #1a1a16;
+  font-weight: 700;
+}
+
+/* em/i 借衬线斜体传达"人声"："引用/强调即 Lora 斜体"的巧思 */
+#bm-md em,
+#bm-md i {
+  color: #1a1a16;
+  font-family:
+    'Palatino Linotype', Palatino, 'Hoefler Text', Georgia, 'Songti SC', 'Noto Serif SC', STSong, SimSun, serif;
+  font-style: italic;
+  font-weight: 400;
+}
+
+#bm-md del,
+#bm-md s,
+#bm-md strike {
+  color: #6f6b58;
+  text-decoration: line-through;
+  text-decoration-color: #1a1a16;
+}
+
+/* mark — 无色相高亮：纸色加深 + 底线，替代荧光色 */
+#bm-md mark {
+  padding: 1px 4px;
+  border-bottom: 1px solid #1a1a16;
+  color: #1a1a16;
+  background-color: #e5dcc0;
+}
+
+#bm-md small {
+  color: #6f6b58;
+  font-size: 12px;
+}
+
+#bm-md sup,
+#bm-md sub {
+  font-size: 0.75em;
+  line-height: 0;
+}
+
+#bm-md sup {
+  vertical-align: super;
+}
+
+#bm-md sub {
+  vertical-align: sub;
+}
+
+#bm-md ins {
+  padding: 1px 3px;
+  border-bottom: 1px solid #1a1a16;
+  color: #1a1a16;
+  background-color: #efe8d3;
+  text-decoration: none;
+}
+
+#bm-md q {
+  color: #1a1a16;
+  font-family:
+    'Palatino Linotype', Palatino, 'Hoefler Text', Georgia, 'Songti SC', 'Noto Serif SC', STSong, SimSun, serif;
+  font-style: italic;
+  font-weight: 400;
+}
+
+#bm-md q::before {
+  content: '\201C';
+  color: #57544a;
+}
+
+#bm-md q::after {
+  content: '\201D';
+  color: #57544a;
+}
+
+#bm-md var {
+  color: #57544a;
+  font-style: italic;
+  font-weight: 400;
+}
+
+#bm-md samp,
+#bm-md tt {
+  padding: 1px 4px;
+  color: #1a1a16;
+  background-color: #efe8d3;
+  font-family: 'JetBrains Mono', 'SF Mono', Consolas, Monaco, 'Courier New', monospace;
+  font-size: 12px;
+  font-weight: 400;
+}
+
+#bm-md abbr[title] {
+  border-bottom: 1px dotted #1a1a16;
+  cursor: help;
+  text-decoration: none;
+}
+
+/* ============================================
+   链接 — 无色相下划线，仅靠字重与线条粗细传达可交互
+   ============================================ */
+
+#bm-md a {
+  color: #1a1a16;
+  font-weight: 600;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 2px;
+}
+
+#bm-md a:hover {
+  background-color: #efe8d3;
+  text-decoration-thickness: 2px;
+}
+
+/* ============================================
+   Ruby 注音
+   ============================================ */
+
+#bm-md ruby {
+  ruby-align: center;
+}
+
+#bm-md rt {
+  color: #6f6b58;
+  font-size: 0.5em;
+}
+
+#bm-md rp {
+  color: #96906f;
+}
+
+/* ============================================
+   列表
+   ============================================ */
+
+#bm-md ul,
+#bm-md ol {
+  margin-bottom: 14px;
+  padding-left: 22px;
+}
+
+#bm-md ul {
+  list-style-type: disc;
+}
+
+#bm-md ol {
+  list-style-type: decimal;
+}
+
+#bm-md li {
+  margin-bottom: 4px;
+  color: #1a1a16;
+  font-weight: 300;
+}
+
+#bm-md ul li::marker {
+  color: #57544a;
+}
+
+#bm-md ol li::marker {
+  color: #1a1a16;
+  font-weight: 700;
+}
+
+#bm-md li > ul,
+#bm-md li > ol {
+  margin-top: 4px;
+  margin-bottom: 4px;
+}
+
+#bm-md ul ul {
+  list-style-type: circle;
+}
+
+#bm-md ul ul ul {
+  list-style-type: square;
+}
+
+/* 任务列表 */
+#bm-md ul.contains-task-list {
+  padding-left: 0;
+  list-style-type: none;
+}
+
+#bm-md li.task-list-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
+}
+
+#bm-md input[type='checkbox'] {
+  margin-top: 4px;
+  accent-color: #1a1a16;
+}
+
+/* ============================================
+   引用块 — 衬线斜体的"人声"引述，
+   呼应"Lora 斜体 = 引文/人声"的设计巧思
+   ============================================ */
+
+#bm-md blockquote {
+  margin: 18px 0;
+  padding: 2px 0 2px 16px;
+  border-left: 2px solid #1a1a16;
+  color: #57544a;
+}
+
+#bm-md blockquote p {
+  margin-bottom: 8px;
+  color: #57544a;
+  font-family:
+    'Palatino Linotype', Palatino, 'Hoefler Text', Georgia, 'Songti SC', 'Noto Serif SC', STSong, SimSun, serif;
+  font-style: italic;
+  font-weight: 400;
+}
+
+#bm-md blockquote p:last-child {
+  margin-bottom: 0;
+}
+
+#bm-md blockquote blockquote {
+  margin-top: 10px;
+  margin-bottom: 0;
+  border-left-color: #cdc4a4;
+}
+
+/* ============================================
+   代码 — 打字机式等宽标签，纸面二阶底色
+   ============================================ */
+
+#bm-md code {
+  padding: 1px 5px;
+  color: #1a1a16;
+  background-color: #efe8d3;
+  font-family: 'JetBrains Mono', 'SF Mono', Consolas, Monaco, 'Courier New', monospace;
+  font-size: 12.5px;
+  font-weight: 400;
+}
+
+#bm-md pre {
+  margin: 18px 0;
+  padding: 14px 16px;
+  overflow-x: auto;
+  border: 1px solid #cdc4a4;
+  border-top: 3px solid #1a1a16;
+  color: #1a1a16;
+  background-color: #efe8d3;
+  font-family: 'JetBrains Mono', 'SF Mono', Consolas, Monaco, 'Courier New', monospace;
+  font-size: 12.5px;
+  font-weight: 400;
+  line-height: 1.6;
+  white-space: pre;
+}
+
+#bm-md pre code {
+  padding: 0;
+  color: inherit;
+  background-color: transparent;
+  font-size: inherit;
+  font-weight: inherit;
+  line-height: inherit;
+}
+
+/* ============================================
+   表格 — 顶底双墨线为账本式外框，斑马纹用纸面二阶
+   ============================================ */
+
+#bm-md table {
+  width: 100%;
+  margin: 18px 0;
+  border-collapse: collapse;
+  border-top: 2px solid #1a1a16;
+  border-bottom: 2px solid #1a1a16;
+  color: #1a1a16;
+  font-size: 13.5px;
+}
+
+#bm-md th,
+#bm-md td {
+  padding: 8px 12px;
+  border-bottom: 1px solid #cdc4a4;
+  text-align: left;
+  vertical-align: top;
+}
+
+#bm-md th {
+  border-bottom: 2px solid #1a1a16;
+  color: #1a1a16;
+  font-weight: 700;
+  font-size: 12px;
+  text-transform: uppercase;
+}
+
+#bm-md tbody tr:nth-child(even) {
+  background-color: #efe8d3;
+}
+
+/* Frontmatter 元数据表格 — 等宽大写键名，如账本页眉 */
+#bm-md .frontmatter-table {
+  width: auto;
+  margin-bottom: 22px;
+  border-bottom: 1px solid #cdc4a4;
+  color: #57544a;
+  font-size: 12.5px;
+}
+
+#bm-md .frontmatter-table td {
+  padding: 3px 14px 3px 0;
+  border: none;
+  background-color: transparent;
+  vertical-align: top;
+}
+
+#bm-md .frontmatter-key {
+  color: #1a1a16;
+  font-family: 'JetBrains Mono', 'SF Mono', Consolas, Monaco, 'Courier New', monospace;
+  font-weight: 600;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+#bm-md .frontmatter-key::after {
+  content: ':';
+}
+
+#bm-md .frontmatter-value {
+  color: #6f6b58;
+}
+
+/* ============================================
+   分割线 — 双细线，账本"合计"式收束
+   （hr 为空元素，不使用伪元素，纯靠边框盒模型实现双线）
+   ============================================ */
+
+#bm-md hr {
+  height: 6px;
+  margin: 30px 0;
+  border: none;
+  border-top: 1px solid #1a1a16;
+  border-bottom: 1px solid #1a1a16;
+  background-color: transparent;
+}
+
+/* ============================================
+   图片与媒体 — 细墨框，方正无装饰
+   ============================================ */
+
+#bm-md img {
+  display: block;
+  max-width: 100%;
+  margin: 18px 0;
+  border: 1px solid #cdc4a4;
+}
+
+#bm-md picture {
+  display: block;
+  margin: 18px 0;
+}
+
+#bm-md picture img {
+  display: block;
+  margin: 0;
+}
+
+#bm-md figure {
+  margin: 20px 0;
+}
+
+#bm-md figure img {
+  display: block;
+  margin: 0 auto;
+}
+
+#bm-md figcaption {
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px solid #cdc4a4;
+  color: #6f6b58;
+  font-family:
+    'Palatino Linotype', Palatino, 'Hoefler Text', Georgia, 'Songti SC', 'Noto Serif SC', STSong, SimSun, serif;
+  font-size: 12px;
+  font-style: italic;
+  font-weight: 400;
+  line-height: 1.5;
+  text-align: center;
+}
+
+/* ============================================
+   脚注
+   ============================================ */
+
+#bm-md .footnotes {
+  margin-top: 32px;
+  padding-top: 14px;
+  border-top: 1px solid #1a1a16;
+  color: #6f6b58;
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+#bm-md .footnotes ol {
+  padding-left: 18px;
+}
+
+/* 脚注正文实际渲染为 <p>，需比通用段落规则更高优先级才能生效 */
+#bm-md .footnotes p {
+  margin-bottom: 4px;
+  color: #6f6b58;
+  font-weight: 400;
+}
+
+#bm-md .footnote-ref {
+  color: #1a1a16;
+  font-family: 'JetBrains Mono', 'SF Mono', Consolas, Monaco, 'Courier New', monospace;
+  font-size: 0.75em;
+  vertical-align: super;
+}
+
+#bm-md .footnote-backref,
+#bm-md .data-footnote-backref {
+  color: #1a1a16;
+  text-decoration: none;
+}
+
+/* ============================================
+   定义列表
+   ============================================ */
+
+#bm-md dl {
+  margin: 16px 0;
+}
+
+#bm-md dt {
+  margin-top: 10px;
+  color: #1a1a16;
+  font-weight: 700;
+}
+
+#bm-md dt:first-child {
+  margin-top: 0;
+}
+
+#bm-md dd {
+  margin-top: 3px;
+  margin-left: 18px;
+  color: #6f6b58;
+  font-weight: 400;
+}
+
+/* ============================================
+   键盘按键 — 方框墨线，无阴影无圆角
+   ============================================ */
+
+#bm-md kbd {
+  display: inline-block;
+  padding: 1px 6px;
+  border: 1px solid #1a1a16;
+  color: #1a1a16;
+  background-color: #efe8d3;
+  font-family: 'JetBrains Mono', 'SF Mono', Consolas, Monaco, 'Courier New', monospace;
+  font-size: 12px;
+  font-weight: 400;
+}
+
+/* ============================================
+   警示框 — 零彩色五级：note = tip（细边浅底）
+   < important（实边深底）< warning（更粗+图形前缀）
+   < caution（正反色印章，全篇唯一的"反转"用法）
+   ============================================ */
+
+#bm-md .markdown-alert {
+  margin: 18px 0;
+  padding: 13px 16px;
+  border: 1px solid #cdc4a4;
+  border-left: 2px solid #1a1a16;
+  color: #1a1a16;
+  background-color: #efe8d3;
+  line-height: 1.65;
+}
+
+#bm-md .markdown-alert-title {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 6px;
+  color: #1a1a16;
+  font-family: 'JetBrains Mono', 'SF Mono', Consolas, Monaco, 'Courier New', monospace;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+/* 提示框正文实际渲染为 <p>，用 inherit 让文字色跟随各变体容器
+   （尤其是 caution 反色印章变体，必须继承纸色才可读） */
+#bm-md .markdown-alert p {
+  margin-bottom: 8px;
+  color: inherit;
+  font-weight: 400;
+}
+
+#bm-md .markdown-alert p:last-child {
+  margin-bottom: 0;
+}
+
+/* Note — 最轻一级：细边浅底 */
+#bm-md .markdown-alert-note,
+#bm-md .markdown-alert-note .markdown-alert-title {
+  border-left-color: #1a1a16;
+  color: #1a1a16;
+}
+
+#bm-md .markdown-alert-note {
+  background-color: #efe8d3;
+}
+
+/* Tip — 与 note 同级方框，标题借衬线斜体传达"洞见"般的人声语气 */
+#bm-md .markdown-alert-tip {
+  border-left-color: #1a1a16;
+  color: #1a1a16;
+  background-color: #efe8d3;
+}
+
+#bm-md .markdown-alert-tip .markdown-alert-title {
+  color: #3e3c33;
+  font-family:
+    'Palatino Linotype', Palatino, 'Hoefler Text', Georgia, 'Songti SC', 'Noto Serif SC', STSong, SimSun, serif;
+  font-size: 14px;
+  font-style: italic;
+  font-weight: 500;
+  text-transform: none;
+}
+
+/* Important — 实边加深，边框由细线换成实墨 */
+#bm-md .markdown-alert-important,
+#bm-md .markdown-alert-important .markdown-alert-title {
+  border-left-color: #1a1a16;
+  color: #1a1a16;
+}
+
+#bm-md .markdown-alert-important {
+  border: 1px solid #1a1a16;
+  border-left-width: 3px;
+  background-color: #e5dcc0;
+}
+
+/* Warning — 更粗左边线 + 三角图形前缀（纯字符，随文字色，不引入彩色） */
+#bm-md .markdown-alert-warning,
+#bm-md .markdown-alert-warning .markdown-alert-title {
+  border-left-color: #1a1a16;
+  color: #1a1a16;
+}
+
+#bm-md .markdown-alert-warning {
+  border: 1px solid #1a1a16;
+  border-left-width: 4px;
+  background-color: #e5dcc0;
+}
+
+#bm-md .markdown-alert-warning .markdown-alert-title::before {
+  content: '▲';
+}
+
+/* Caution — 全篇唯一的正反色反转："墨色印章"，比其余四级更重 */
+#bm-md .markdown-alert-caution {
+  border: 1px solid #1a1a16;
+  border-left-width: 4px;
+  color: #f7f4ea;
+  background-color: #1a1a16;
+}
+
+#bm-md .markdown-alert-caution .markdown-alert-title {
+  color: #f7f4ea;
+}
+
+#bm-md .markdown-alert-caution .markdown-alert-title::before {
+  content: '■';
+}
+
+/* caution 反色底上的行内元素需显式改色，否则会被通用行内规则的墨色覆盖为不可读 */
+#bm-md .markdown-alert-caution strong,
+#bm-md .markdown-alert-caution b,
+#bm-md .markdown-alert-caution em,
+#bm-md .markdown-alert-caution i,
+#bm-md .markdown-alert-caution a,
+#bm-md .markdown-alert-caution del,
+#bm-md .markdown-alert-caution s,
+#bm-md .markdown-alert-caution strike,
+#bm-md .markdown-alert-caution var,
+#bm-md .markdown-alert-caution q {
+  color: #f7f4ea;
+}
+
+/* ============================================
+   数学公式
+   ============================================ */
+
+#bm-md .math-inline {
+  color: #1a1a16;
+  font-size: 1em;
+}
+
+#bm-md .math-display {
+  margin: 18px 0;
+  padding: 12px 14px;
+  overflow-x: auto;
+  border-top: 1px solid #cdc4a4;
+  border-bottom: 1px solid #cdc4a4;
+  background-color: #efe8d3;
+  text-align: center;
+}
+
+/* ============================================
+   折叠详情
+   ============================================ */
+
+#bm-md details {
+  margin: 18px 0;
+  padding: 12px 14px;
+  border: 1px solid #cdc4a4;
+  border-left: 3px solid #1a1a16;
+  background-color: #efe8d3;
+}
+
+#bm-md summary {
+  color: #1a1a16;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+#bm-md details[open] summary {
+  margin-bottom: 10px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid #cdc4a4;
+}
+
+/* ============================================
+   嵌入媒体
+   ============================================ */
+
+#bm-md iframe,
+#bm-md video {
+  display: block;
+  max-width: 100%;
+  margin: 18px 0;
+  border: 1px solid #cdc4a4;
+}
+
+/* ============================================
+   元信息与时间 — 等宽大写标签
+   ============================================ */
+
+#bm-md .meta,
+#bm-md time {
+  color: #6f6b58;
+  font-family: 'JetBrains Mono', 'SF Mono', Consolas, Monaco, 'Courier New', monospace;
+  font-size: 12px;
+  font-style: normal;
+  text-transform: uppercase;
+}
+
+/* ============================================
+   首行缩进变体
+   ============================================ */
+
+#bm-md.indent-first-line p {
+  text-indent: 2em;
+}

@@ -1,7 +1,7 @@
 {
   "info": {
     "title": "bm.md API",
-    "version": "0.2.0",
+    "version": "0.3.2",
     "description": "OpenAPI specification for the bm.md API."
   },
   "servers": [
@@ -35,7 +35,16 @@
                       "newsprint",
                       "retro",
                       "sketch",
-                      "terminal"
+                      "terminal",
+                      "black-ledger",
+                      "forest-review",
+                      "navy-vellum",
+                      "rose-nocturne",
+                      "solar-catalog",
+                      "triad-paper",
+                      "field-tablet",
+                      "public-square",
+                      "pixel-orbit"
                     ],
                     "type": "string",
                     "default": "kami",
@@ -78,8 +87,7 @@
                       "tokyo-night",
                       "tokyo-night-light",
                       "tokyo-night-storm",
-                      "zinc-dark",
-                      "zinc-light"
+                      "zinc-dark"
                     ],
                     "type": "string",
                     "default": "",
