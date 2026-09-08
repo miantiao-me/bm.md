@@ -1,7 +1,6 @@
 import type { MarkdownStyleId } from './metadata'
 import { describe, expect, it, vi } from 'vitest'
 import bauhausCss from './bauhaus.css?inline'
-import blackLedgerCss from './black-ledger.css?inline'
 import blueprintCss from './blueprint.css?inline'
 import botanicalCss from './botanical.css?inline'
 import fieldTabletCss from './field-tablet.css?inline'
@@ -31,7 +30,6 @@ const cssFixtures = vi.hoisted(() => ({
   'retro': '#bm-md { color: #456789; }',
   'sketch': '#bm-md { color: #56789a; }',
   'terminal': '#bm-md { color: #6789ab; }',
-  'black-ledger': '#bm-md { color: #1a1a16; }',
   'forest-review': '#bm-md { color: #1a1a17; }',
   'navy-vellum': '#bm-md { color: #e8d85c; }',
   'rose-nocturne': '#bm-md { color: #f5edf1; }',
@@ -51,7 +49,6 @@ vi.mock('./newsprint.css?inline', () => ({ default: cssFixtures.newsprint }))
 vi.mock('./retro.css?inline', () => ({ default: cssFixtures.retro }))
 vi.mock('./sketch.css?inline', () => ({ default: cssFixtures.sketch }))
 vi.mock('./terminal.css?inline', () => ({ default: cssFixtures.terminal }))
-vi.mock('./black-ledger.css?inline', () => ({ default: cssFixtures['black-ledger'] }))
 vi.mock('./forest-review.css?inline', () => ({ default: cssFixtures['forest-review'] }))
 vi.mock('./navy-vellum.css?inline', () => ({ default: cssFixtures['navy-vellum'] }))
 vi.mock('./rose-nocturne.css?inline', () => ({ default: cssFixtures['rose-nocturne'] }))
@@ -70,7 +67,6 @@ const expectedThemeCss = {
   'retro': retroCss,
   'sketch': sketchCss,
   'terminal': terminalCss,
-  'black-ledger': blackLedgerCss,
   'forest-review': forestReviewCss,
   'navy-vellum': navyVellumCss,
   'rose-nocturne': roseNocturneCss,

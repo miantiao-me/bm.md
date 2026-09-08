@@ -1,6 +1,5 @@
 import type { MarkdownStyleId } from './metadata'
 import bauhausCss from './bauhaus.css?inline'
-import blackLedgerCss from './black-ledger.css?inline'
 import blueprintCss from './blueprint.css?inline'
 import botanicalCss from './botanical.css?inline'
 import fieldTabletCss from './field-tablet.css?inline'
@@ -28,7 +27,6 @@ const themeCssMap = {
   'retro': retroCss,
   'sketch': sketchCss,
   'terminal': terminalCss,
-  'black-ledger': blackLedgerCss,
   'forest-review': forestReviewCss,
   'navy-vellum': navyVellumCss,
   'rose-nocturne': roseNocturneCss,

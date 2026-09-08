@@ -14,7 +14,6 @@ export const markdownStyles = [
   { id: 'retro', name: 'Retro', description: '复古怀旧风格' },
   { id: 'sketch', name: 'Sketch', description: '手绘素描风格' },
   { id: 'terminal', name: 'Terminal', description: '终端/命令行风格' },
-  { id: 'black-ledger', name: 'Black Ledger', description: '黑白账本风格，纯墨色的文献质感' },
   { id: 'forest-review', name: 'Forest Review', description: '森林季报风格，暖调编辑排版' },
   { id: 'navy-vellum', name: 'Navy Vellum', description: '深蓝羊皮纸风格，静谧的学术手记' },
   { id: 'rose-nocturne', name: 'Rose Nocturne', description: '玫瑰夜曲风格，暗色调时尚编辑' },

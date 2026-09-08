@@ -152,7 +152,7 @@
 #bm-md strong,
 #bm-md b {
   font-weight: 700;
-  color: #ff0000;
+  color: #980000;
 }
 
 /* 斜体 - 海军蓝 */
@@ -166,7 +166,7 @@
 #bm-md del,
 #bm-md s,
 #bm-md strike {
-  color: #808080;
+  color: #4a4a4a;
   text-decoration: line-through;
   text-decoration-color: #ff0000;
   text-decoration-thickness: 2px;
@@ -401,7 +401,7 @@
   font-family: 'Courier New', Courier, monospace;
   font-size: 0.9em;
   background-color: #ffffff;
-  color: #ff0000;
+  color: #c00000;
   padding: 0.1em 0.35em;
   border: 1px solid #000000;
 }
@@ -670,7 +670,7 @@
 }
 
 #bm-md .markdown-alert-tip .markdown-alert-title {
-  color: #00aa00;
+  color: #006c00;
 }
 
 /* Important - 紫色重要框 */
@@ -690,7 +690,7 @@
 }
 
 #bm-md .markdown-alert-warning .markdown-alert-title {
-  color: #cc8800;
+  color: #8f5f00;
 }
 
 /* Caution - 红色危险框 */
@@ -700,7 +700,7 @@
 }
 
 #bm-md .markdown-alert-caution .markdown-alert-title {
-  color: #ff0000;
+  color: #a80000;
 }
 
 /* ============================================

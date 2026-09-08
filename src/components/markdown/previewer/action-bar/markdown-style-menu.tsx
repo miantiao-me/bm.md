@@ -17,7 +17,7 @@ import { RadioMenuGroup } from './radio-menu'
 
 const label = '排版样式'
 /** 下拉菜单只放最常用的前几个，避免列表过长；完整列表交给样式画廊弹窗 */
-const QUICK_STYLE_COUNT = 6
+const QUICK_STYLE_COUNT = 8
 const quickStyles = markdownStyles.slice(0, QUICK_STYLE_COUNT)
 
 export function MarkdownStyleMenu() {

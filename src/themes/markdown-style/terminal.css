@@ -87,7 +87,7 @@
 #bm-md h4,
 #bm-md h5,
 #bm-md h6 {
-  color: #1a881a;
+  color: #1f9a1f;
 }
 
 #bm-md h4 {
@@ -157,7 +157,7 @@
 #bm-md del,
 #bm-md s,
 #bm-md strike {
-  color: #666666;
+  color: #828282;
   text-decoration: line-through;
   text-decoration-color: #ff3333;
   text-decoration-thickness: 2px;

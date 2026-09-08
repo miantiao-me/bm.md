@@ -243,7 +243,6 @@ curl -X POST https://bm.md/api/markdown/lint \
 | `retro`         | Retro         | 复古怀旧风格                   |
 | `sketch`        | Sketch        | 手绘素描风格                   |
 | `terminal`      | Terminal      | 终端/命令行风格                |
-| `black-ledger`  | Black Ledger  | 黑白账本风格，纯墨色的文献质感 |
 | `forest-review` | Forest Review | 森林季报风格，暖调编辑排版     |
 | `navy-vellum`   | Navy Vellum   | 深蓝羊皮纸风格，静谧的学术手记 |
 | `rose-nocturne` | Rose Nocturne | 玫瑰夜曲风格，暗色调时尚编辑   |

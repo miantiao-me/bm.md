@@ -74,7 +74,7 @@
 /* H3 - 内联标签风格 */
 #bm-md h3 {
   font-size: 1.25em;
-  color: #ff4d4d;
+  color: #c93030;
   display: inline-block;
   padding: 0.15em 0.5em;
   background-color: rgba(255, 77, 77, 0.08);
@@ -87,7 +87,7 @@
 #bm-md h4,
 #bm-md h5,
 #bm-md h6 {
-  color: #ff6b6b;
+  color: #d53030;
 }
 
 #bm-md h4 {
@@ -132,7 +132,7 @@
 #bm-md strong,
 #bm-md b {
   font-weight: 700;
-  color: #c93030;
+  color: #a02424;
   background-color: rgba(255, 77, 77, 0.14);
 }
 
@@ -147,7 +147,7 @@
 #bm-md del,
 #bm-md s,
 #bm-md strike {
-  color: #888888;
+  color: #666666;
   text-decoration: line-through;
   text-decoration-style: wavy;
   text-decoration-color: #ff4d4d;
@@ -668,7 +668,7 @@
 }
 
 #bm-md .markdown-alert-tip .markdown-alert-title {
-  color: #3d8b40;
+  color: #285c2a;
 }
 
 /* Important - 紫色荧光笔 */
@@ -688,7 +688,7 @@
 }
 
 #bm-md .markdown-alert-warning .markdown-alert-title {
-  color: #e68900;
+  color: #875000;
 }
 
 /* Caution - 红色马克笔 */

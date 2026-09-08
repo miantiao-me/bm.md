@@ -10,7 +10,6 @@ const KEPT_STYLE_IDS = [
   'retro',
   'sketch',
   'terminal',
-  'black-ledger',
   'forest-review',
   'navy-vellum',
   'rose-nocturne',
@@ -31,6 +30,7 @@ const REMOVED_STYLE_IDS = [
   'professional',
   'supper-table',
   'grid-signal',
+  'black-ledger',
 ] as const
 
 describe('markdown style 注册表', () => {
@@ -38,7 +38,7 @@ describe('markdown style 注册表', () => {
     expect(DEFAULT_MARKDOWN_STYLE_ID).toBe('kami')
   })
 
-  it('保留 17 个主题且 Kami 位于首位', () => {
+  it('保留 16 个主题且 Kami 位于首位', () => {
     expect(markdownStyleIds).toEqual([...KEPT_STYLE_IDS])
     expect(markdownStyles.map(style => style.id)).toEqual([...KEPT_STYLE_IDS])
   })
@@ -64,7 +64,6 @@ describe('图表字体族', () => {
     'retro',
     'sketch',
     'terminal',
-    'black-ledger',
     'navy-vellum',
     'rose-nocturne',
     'solar-catalog',

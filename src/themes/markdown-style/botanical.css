@@ -92,7 +92,7 @@
 #bm-md h4,
 #bm-md h5,
 #bm-md h6 {
-  color: #4a7c6f;
+  color: #3d6660;
 }
 
 #bm-md h4 {
@@ -150,7 +150,7 @@
 #bm-md del,
 #bm-md s,
 #bm-md strike {
-  color: #9a9590;
+  color: #6c665f;
   text-decoration: line-through;
   text-decoration-color: #7a7570;
 }
@@ -597,7 +597,7 @@
 }
 
 #bm-md .markdown-alert-note .markdown-alert-title {
-  color: #5c7a95;
+  color: #456079;
 }
 
 /* Tip - 铜版绿（有益建议） */
@@ -630,7 +630,7 @@
 }
 
 #bm-md .markdown-alert-warning .markdown-alert-title {
-  color: #8a7040;
+  color: #725c32;
 }
 
 /* Caution - 勃艮第红（危险警告） */
