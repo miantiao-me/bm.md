@@ -1,6 +1,8 @@
+import type { ViewUpdate } from '@codemirror/view'
 import { EditorView, ViewPlugin } from '@codemirror/view'
 import { toast } from 'sonner'
 import { importFilesAsNewTabs, partitionImportFiles } from '@/lib/file-importer'
+import { AsyncImportTarget, attachImportView, detachImportView, IMPORT_CANCELLED_MESSAGE, updateImportTargets } from './async-import-target'
 import { importFilesToEditor } from './import-files'
 
 export { importFilesToEditor } from './import-files'
@@ -44,9 +46,15 @@ export const importViewTrackerExtension = ViewPlugin.fromClass(
     constructor(view: EditorView) {
       this.view = view
       currentEditorView = view
+      attachImportView(view)
+    }
+
+    update(update: ViewUpdate) {
+      updateImportTargets(this.view, update.transactions)
     }
 
     destroy() {
+      detachImportView(this.view)
       if (currentEditorView === this.view) {
         currentEditorView = null
       }
@@ -92,19 +100,27 @@ export const importDropPasteExtension = EditorView.domEventHandlers({
 
     event.preventDefault()
     const selection = view.state.selection.main
+    const target = new AsyncImportTarget(view, selection.from, selection.to)
     void (async () => {
       try {
         const { markdown } = await import('@/lib/markdown/browser')
         const { result: md } = await markdown.parse({ html })
-        view.dispatch({
-          changes: { from: selection.from, to: selection.to, insert: md },
-          selection: { anchor: selection.from + md.length },
-        })
+        if (!target.insert(md)) {
+          toast.info(IMPORT_CANCELLED_MESSAGE)
+          return
+        }
         toast.success('HTML 解析成功')
       }
       catch (error) {
+        if (!target.active) {
+          toast.info(IMPORT_CANCELLED_MESSAGE)
+          return
+        }
         console.error('HTML parse error:', error)
         toast.error('HTML 解析失败')
+      }
+      finally {
+        target.dispose()
       }
     })()
   },

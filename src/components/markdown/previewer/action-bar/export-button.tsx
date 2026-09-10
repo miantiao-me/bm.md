@@ -53,7 +53,13 @@ export function ExportButton() {
           render={(
             <DropdownMenuTrigger
               render={(
-                <Button variant="ghost" size="icon" aria-label="导出" disabled={!isReady}>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="disabled:opacity-100"
+                  aria-label="导出"
+                  disabled={!isReady}
+                >
                   <Download className="size-4" />
                 </Button>
               )}

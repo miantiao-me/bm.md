@@ -32,6 +32,24 @@ describe('markdown -> text extract', () => {
     expect(text).not.toContain('==')
   })
 
+  it.each(['**', '__', '*', '_', '~~'])('提取高亮与 %s 双向嵌套的正文', async (delimiter) => {
+    expect(await extract(`==${delimiter}中文${delimiter}== ${delimiter}==English==${delimiter}`)).toBe('中文 English')
+  })
+
+  it('提取多重嵌套并保留代码和词内下划线', async () => {
+    expect(await extract('**==~~*中文*~~==** ==`**code**`== ==foo_bar_baz==')).toBe('中文 **code** foo_bar_baz')
+  })
+
+  it.each([
+    ['前文==**高亮文本**==后文', '前文高亮文本后文'],
+    ['前文**==高亮文本==**后文', '前文高亮文本后文'],
+    ['before==_text_==after', 'beforetextafter'],
+    ['before_==text==_after', 'before_text_after'],
+    ['前文==**未配对==后文', '前文**未配对后文'],
+  ])('提取贴邻正文的嵌套高亮：%s', async (markdown, expected) => {
+    expect(await extract(markdown)).toBe(expected)
+  })
+
   it('extracts text from headings', async () => {
     const markdown = '# 一级标题\n\n## 二级标题'
     const text = await extract(markdown)
