@@ -66,10 +66,10 @@
   border-bottom: 2px solid #2e5d4e;
 }
 
-/* H2 - 章节标题，精致左边框 + 纯色浅绿底 */
+/* H2 - 章节标题，精致左边框 + 纯色浅绿底；比 H1 略淡一级，延续逐级变淡的色阶 */
 #bm-md h2 {
   font-size: 1.5em;
-  color: #2e5d4e;
+  color: #326252;
   padding: 0.25em 0.75em;
   border-left: 3px solid #2e5d4e;
   background-color: rgba(46, 93, 78, 0.06);

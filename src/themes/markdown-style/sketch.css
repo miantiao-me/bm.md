@@ -71,10 +71,10 @@
   border-radius: 0 12px 8px 0;
 }
 
-/* H3 - 内联标签风格 */
+/* H3 - 内联标签风格；文字色比 H1 淡一级，避免与 H1 撞色打断逐级变淡的节奏 */
 #bm-md h3 {
   font-size: 1.25em;
-  color: #c93030;
+  color: #df4f4f;
   display: inline-block;
   padding: 0.15em 0.5em;
   background-color: rgba(255, 77, 77, 0.08);

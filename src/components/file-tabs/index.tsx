@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useFilesStore } from '@/stores/files'
 import { FILE_TAB_PANEL_ID, getFileTabId } from './a11y'
 import { FileTab } from './file-tab'
@@ -7,6 +7,9 @@ import { NewFileButton } from './new-file-button'
 function prefersReducedMotion(): boolean {
   return window.matchMedia('(prefers-reduced-motion: reduce)').matches
 }
+
+// 标签栏溢出时用 inset 阴影提示左右还有更多标签，滚动条已用 scrollbar-none 隐藏
+const EDGE_SHADOW = 'color-mix(in oklch, var(--foreground) 15%, transparent)'
 
 export function FileTabs() {
   const files = useFilesStore(state => state.files)
@@ -19,6 +22,34 @@ export function FileTabs() {
   const renameFile = useFilesStore(state => state.renameFile)
 
   const tabsRef = useRef<Map<string, HTMLButtonElement> | null>(null)
+  const scrollRef = useRef<HTMLDivElement>(null)
+  const [canScrollLeft, setCanScrollLeft] = useState(false)
+  const [canScrollRight, setCanScrollRight] = useState(false)
+
+  useEffect(() => {
+    const el = scrollRef.current
+    if (!el) {
+      return
+    }
+
+    const updateScrollState = () => {
+      // eslint-disable-next-line react/set-state-in-effect -- 滚动/尺寸变化后同步刷新遮罩状态是合理的模式
+      setCanScrollLeft(el.scrollLeft > 1)
+      // eslint-disable-next-line react/set-state-in-effect -- 同上
+      setCanScrollRight(el.scrollLeft + el.clientWidth < el.scrollWidth - 1)
+    }
+
+    updateScrollState()
+    el.addEventListener('scroll', updateScrollState, { passive: true })
+    const observer = new ResizeObserver(updateScrollState)
+    observer.observe(el)
+
+    return () => {
+      el.removeEventListener('scroll', updateScrollState)
+      observer.disconnect()
+    }
+    // files.length 变化会改变可滚动空间，需要重新计算
+  }, [files.length])
 
   useEffect(() => {
     void initialize().catch(() => undefined)
@@ -104,9 +135,16 @@ export function FileTabs() {
   return (
     <div className="flex h-8 shrink-0 items-center border-b bg-muted/30">
       <div
+        ref={scrollRef}
         role="tablist"
         aria-label="打开的文件"
         className="flex min-w-0 flex-1 scrollbar-none overflow-x-auto"
+        style={{
+          boxShadow: [
+            canScrollLeft && `inset 8px 0 6px -6px ${EDGE_SHADOW}`,
+            canScrollRight && `inset -8px 0 6px -6px ${EDGE_SHADOW}`,
+          ].filter(Boolean).join(', ') || undefined,
+        }}
       >
         {files.map((file, index) => (
           <FileTab

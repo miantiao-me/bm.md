@@ -1,5 +1,5 @@
 import { Brush, ChevronDown } from 'lucide-react'
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import { Button } from '@/components/ui/button'
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible'
 import {
@@ -49,6 +49,9 @@ export function CustomCssDialog() {
   const [localCss, setLocalCss] = useState(customCss)
   const [open, setOpen] = useState(false)
   const [examplesOpen, setExamplesOpen] = useState(false)
+  const textareaRef = useRef<HTMLTextAreaElement>(null)
+  const hasCustomCss = customCss.trim().length > 0
+  const isOverLimit = localCss.length > MAX_CSS_LENGTH
 
   const handleOpen = (isOpen: boolean) => {
     setOpen(isOpen)
@@ -58,6 +61,10 @@ export function CustomCssDialog() {
   }
 
   const handleSave = () => {
+    if (isOverLimit) {
+      textareaRef.current?.focus()
+      return
+    }
     setCustomCss(localCss)
     setOpen(false)
     trackEvent('style', 'custom-css', 'button')
@@ -66,9 +73,6 @@ export function CustomCssDialog() {
   const handleClear = () => {
     setLocalCss('')
   }
-
-  const hasCustomCss = customCss.trim().length > 0
-  const isOverLimit = localCss.length > MAX_CSS_LENGTH
 
   return (
     <Dialog open={open} onOpenChange={handleOpen}>
@@ -110,6 +114,7 @@ export function CustomCssDialog() {
               自定义 CSS
             </FieldLabel>
             <Textarea
+              ref={textareaRef}
               id="custom-css"
               name="custom-css"
               value={localCss}
@@ -120,7 +125,7 @@ export function CustomCssDialog() {
               className="max-h-60 min-h-40 font-mono text-xs"
             />
             <div className="flex items-center justify-between">
-              <FieldDescription>
+              <FieldDescription className="tabular-nums">
                 {localCss.length.toLocaleString()}
                 {' / '}
                 {MAX_CSS_LENGTH.toLocaleString()}
@@ -164,7 +169,7 @@ export function CustomCssDialog() {
           <Button variant="outline" onClick={handleClear}>
             清空
           </Button>
-          <Button onClick={handleSave} disabled={isOverLimit}>
+          <Button onClick={handleSave}>
             保存
           </Button>
         </DialogFooter>

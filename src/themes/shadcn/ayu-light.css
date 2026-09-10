@@ -16,9 +16,10 @@
   --ayu-light-popover: oklch(0.98 0.003 264);
   --ayu-light-popover-foreground: oklch(0.44 0.02 264);
 
-  /* Primary - Orange accent #f29718 */
-  --ayu-light-primary: oklch(0.72 0.16 62);
-  --ayu-light-primary-foreground: oklch(0.99 0.002 264);
+  /* Primary - Orange accent #c77618（原 #f29718 加深，保证浅色主题下与 primary-foreground 的文字对比度、
+     以及作为 focus ring 时与背景的非文字对比度均达到 WCAG AA） */
+  --ayu-light-primary: oklch(0.64 0.14 62);
+  --ayu-light-primary-foreground: oklch(0.2 0.05 62);
 
   /* Secondary */
   --ayu-light-secondary: oklch(0.96 0.005 264);
@@ -26,7 +27,7 @@
 
   /* Muted */
   --ayu-light-muted: oklch(0.96 0.005 264);
-  --ayu-light-muted-foreground: oklch(0.58 0.02 264);
+  --ayu-light-muted-foreground: oklch(0.52 0.02 264);
 
   /* Accent */
   --ayu-light-accent: oklch(0.96 0.005 264);
@@ -34,11 +35,11 @@
 
   /* Destructive - Error red #e65050 */
   --ayu-light-destructive: oklch(0.61 0.18 25);
-  --ayu-light-destructive-foreground: oklch(0.99 0.002 264);
+  --ayu-light-destructive-foreground: oklch(0.16 0.04 25);
 
   /* Success - Green #6cbf43 */
   --ayu-light-success: oklch(0.72 0.17 136);
-  --ayu-light-success-foreground: oklch(0.99 0.002 264);
+  --ayu-light-success-foreground: oklch(0.25 0.06 136);
 
   /* Warning - Yellow #f2a300 */
   --ayu-light-warning: oklch(0.76 0.15 77);
@@ -46,14 +47,14 @@
 
   /* Info - Blue #55b4d4 */
   --ayu-light-info: oklch(0.73 0.09 231);
-  --ayu-light-info-foreground: oklch(0.99 0.002 264);
+  --ayu-light-info-foreground: oklch(0.25 0.06 231);
 
   /* Border */
   --ayu-light-border: oklch(0.55 0.02 264 / 0.12);
   --ayu-light-input: oklch(0.55 0.02 264 / 0.2);
 
-  /* Ring - Focus indicator #f29718 */
-  --ayu-light-ring: oklch(0.72 0.16 62);
+  /* Ring - Focus indicator，与 primary 同色，加深后与背景的非文字对比度达到 3:1 */
+  --ayu-light-ring: oklch(0.64 0.14 62);
 
   /* Chart colors */
   --ayu-light-chart-1: oklch(0.72 0.16 62); /* accent orange */

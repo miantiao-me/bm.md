@@ -32,6 +32,7 @@ export default function CodeMirrorEditor() {
       basicSetup={{
         autocompletion: false,
       }}
+      indentWithTab={false}
       onCreateEditor={onCreateEditor}
     />
   )

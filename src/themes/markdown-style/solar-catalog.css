@@ -55,12 +55,13 @@
   line-height: 1.15;
 }
 
-/* H2 — 章节分界，太阳黄通栏色块 + 墨色文字（章节休止符） */
+/* H2 — 章节分界，太阳黄通栏色块 + 墨色文字（章节休止符）；文字色比 H1 略淡一级，
+   保持在通栏黄底上的可读性的同时延续逐级变淡的墨色阶梯 */
 #bm-md h2 {
   margin-top: 1.6em;
   margin-bottom: 0.7em;
   padding: 0.35em 0.55em;
-  color: #1b2566;
+  color: #262f6d;
   background-color: #f1ee2e;
   font-size: 1.5em;
 }

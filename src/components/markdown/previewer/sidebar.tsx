@@ -61,6 +61,7 @@ export default function MarkdownPreviewerSidebar() {
               variant="ghost"
               size="icon"
               aria-label="切换主题"
+              aria-pressed={isDark}
               onClick={handleThemeToggle}
             >
               <ClientOnly fallback={<Sun className="size-4" />}>
@@ -131,6 +132,7 @@ export default function MarkdownPreviewerSidebar() {
               variant="ghost"
               size="icon"
               aria-label={isPreviewDark ? '预览区切换到浅色模式' : '预览区切换到深色模式'}
+              aria-pressed={!isPreviewDark}
               onClick={handlePreviewThemeToggle}
             >
               <LampDesk className={isPreviewDark

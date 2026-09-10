@@ -9,25 +9,25 @@ colors:
   card-foreground: "oklch(0.44 0.02 264)"
   popover: "oklch(0.98 0.003 264)"
   popover-foreground: "oklch(0.44 0.02 264)"
-  primary: "oklch(0.72 0.16 62)"
-  primary-foreground: "oklch(0.99 0.002 264)"
+  primary: "oklch(0.64 0.14 62)"
+  primary-foreground: "oklch(0.2 0.05 62)"
   secondary: "oklch(0.96 0.005 264)"
   secondary-foreground: "oklch(0.44 0.02 264)"
   muted: "oklch(0.96 0.005 264)"
-  muted-foreground: "oklch(0.58 0.02 264)"
+  muted-foreground: "oklch(0.52 0.02 264)"
   accent: "oklch(0.96 0.005 264)"
   accent-foreground: "oklch(0.44 0.02 264)"
   destructive: "oklch(0.61 0.18 25)"
-  destructive-foreground: "oklch(0.99 0.002 264)"
+  destructive-foreground: "oklch(0.16 0.04 25)"
   success: "oklch(0.72 0.17 136)"
-  success-foreground: "oklch(0.99 0.002 264)"
+  success-foreground: "oklch(0.25 0.06 136)"
   warning: "oklch(0.76 0.15 77)"
   warning-foreground: "oklch(0.25 0.05 77)"
   info: "oklch(0.73 0.09 231)"
-  info-foreground: "oklch(0.99 0.002 264)"
+  info-foreground: "oklch(0.25 0.06 231)"
   border: "oklch(0.55 0.02 264 / 0.12)"
   input: "oklch(0.55 0.02 264 / 0.2)"
-  ring: "oklch(0.72 0.16 62)"
+  ring: "oklch(0.64 0.14 62)"
   editor: "oklch(0.9816 0.0018 248.6)"
   dark-background: "oklch(0.26 0.025 264)"
   dark-foreground: "oklch(0.83 0.015 77)"
@@ -37,7 +37,7 @@ colors:
   dark-primary-foreground: "oklch(0.18 0.02 264)"
   dark-secondary: "oklch(0.22 0.025 264)"
   dark-muted: "oklch(0.22 0.025 264)"
-  dark-muted-foreground: "oklch(0.56 0.025 264)"
+  dark-muted-foreground: "oklch(0.68 0.02 264)"
   dark-accent: "oklch(0.22 0.025 264)"
   dark-destructive: "oklch(0.67 0.2 17)"
   dark-success: "oklch(0.82 0.15 136)"
@@ -170,13 +170,13 @@ bm.md 是面向 Markdown 编辑、排版、检查与自动化接口的工具型�
 
 色彩系统使用 OKLCH，亮色主题基于 Ayu Light，暗色主题基于 Ayu Mirage。色彩语义继承 shadcn/ui：`background` / `foreground`、`card`、`popover`、`primary`、`secondary`、`muted`、`accent`、`destructive`、`border`、`input`、`ring`。
 
-- **Primary**：亮色为 Ayu 橙 `oklch(0.72 0.16 62)`，暗色为 Ayu 黄 `oklch(0.86 0.13 87)`。只用于每屏最重要动作、焦点环、选中态或关键高亮。
+- **Primary**：亮色为 Ayu 橙 `oklch(0.64 0.14 62)`，暗色为 Ayu 黄 `oklch(0.86 0.13 87)`。用于每屏最重要动作、焦点环、选中态或关键高亮；亮色主题的明度已加深，`primary-foreground` 改为深色文字，使默认按钮、徽标等实心填充上的文字与非文字焦点环均达到 WCAG AA。
 - **Neutral surfaces**：背景、卡片、弹层均是低彩度蓝灰；通过明度差和边框区分层级，避免彩色面板泛滥。
-- **Feedback colors**：`success`、`warning`、`info`、`destructive` 是项目扩展语义色。只用于状态反馈、校验和告警，不替代主操作色。
+- **Feedback colors**：`success`、`warning`、`info`、`destructive` 是项目扩展语义色。只用于状态反馈、校验和告警，不替代主操作色；亮色主题下四者均使用深色 `-foreground` 文字（与暗色主题的处理方式一致），而不是在浅色语义底上叠加近白文字。
 - **Editor surface**：`editor` 对齐 CodeMirror 背景，编辑区不要直接套用普通 `card` 色。
 - **Sidebar colors**：侧边栏使用独立 `sidebar-*` token，保持导航区域与主编辑区解耦。
 
-正常文本必须满足 WCAG AA 4.5:1。当前亮色主题中 `primary` 与 `primary-foreground` 的对比度不足以承载小号正文；在源 token 修正前，主色更适合用于焦点、图标、边框、选中态或极短操作标签。不要在 `muted`、`accent` 等浅色表面上叠加低透明度正文；辅助文本才使用 `muted-foreground`。
+正常文本必须满足 WCAG AA 4.5:1。`primary`、`destructive`、`success`、`info`、`warning` 与其对应 `-foreground`，以及 `muted-foreground` 与 `background`/`muted` 的组合均已按 OKLCH 精确换算验证达到 4.5:1（`primary`/`ring` 作为非文字焦点环时对背景 ≥3:1）。不要在 `muted`、`accent` 等浅色表面上叠加低透明度正文；辅助文本才使用 `muted-foreground`。
 
 ## Typography
 
@@ -246,7 +246,7 @@ bm.md 主要通过边框、色面和 ring 表达层级，而不是通过重阴�
 - Do 保持 `text-xs` 控件体系和小步进间距，新增组件先匹配现有密度。
 - Do 为纯图标按钮提供 `aria-label`，交互控件保留可见 focus ring。
 - Do 只动画 `transform` 和 `opacity`；入场/退出优先使用 `tw-animate-css` 的 `animate-in` / `animate-out`。
-- Don't 在亮色主题中把 `primary` 背景上的 `primary-foreground` 当作普通正文配色；若文本较长或字号较小，应先保证 4.5:1 对比度。
+- Don't 修改 `primary`/`destructive`/`success`/`info`/`warning` 与其 `-foreground`、或 `muted-foreground` 的明度时，脱离 WCAG AA 4.5:1（非文字场景 3:1）复核；新增语义色配对时同样要先算好对比度再合入。
 - Don't 使用渐变、彩色阴影、玻璃拟态或营销页式大面积装饰。
 - Don't 对 `width`、`height`、`margin`、`padding` 等布局属性做动画。
 - Don't 使用 `h-screen`，应使用 `h-dvh` 或 `100dvh`。

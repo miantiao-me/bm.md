@@ -26,7 +26,7 @@
 
   /* Muted */
   --ayu-mirage-muted: oklch(0.22 0.025 264);
-  --ayu-mirage-muted-foreground: oklch(0.56 0.025 264);
+  --ayu-mirage-muted-foreground: oklch(0.68 0.02 264);
 
   /* Accent */
   --ayu-mirage-accent: oklch(0.22 0.025 264);

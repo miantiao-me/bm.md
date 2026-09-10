@@ -674,11 +674,6 @@
   text-shadow: none;
 }
 
-#bm-md .markdown-alert::before {
-  font-weight: 700;
-  margin-right: 0.5em;
-}
-
 #bm-md .markdown-alert-title {
   display: flex;
   align-items: center;
