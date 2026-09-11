@@ -15,9 +15,9 @@ import {
   isFileStorageError,
   isStorageUnavailable,
   renameFileRecord,
-  saveFileContent,
 } from '@/lib/file-storage'
 import { publishCatalogSignal, publishContentSignal } from '@/lib/files-sync'
+import { createFileWriters } from './file-writers'
 
 export type { MarkdownFile } from '@/lib/file-storage'
 export { defaultMarkdown }
@@ -64,14 +64,6 @@ interface LegacyState {
   exists: boolean
 }
 
-interface Writer {
-  forceFlush: boolean
-  latest: string | null
-  promise: Promise<void>
-  releaseTail: (() => void) | null
-  tailTimer: ReturnType<typeof setTimeout> | null
-}
-
 type SetState = StoreApi<FilesState>['setState']
 type GetState = StoreApi<FilesState>['getState']
 
@@ -80,7 +72,6 @@ const SESSION_ACTIVE_KEY = 'bm.md.files.active'
 const DEFAULT_FILE_NAME = 'bm.md'
 const STORAGE_FAILURE_MESSAGE = '浏览器持久化操作失败，请重试或导出内容'
 const SAVE_FAILURE_MESSAGE = '保存失败，请立即导出备份。'
-const SAVE_TAIL_MS = 150
 function getSessionStorage(): Storage | null {
   try {
     return typeof sessionStorage === 'undefined' ? null : sessionStorage
@@ -92,9 +83,10 @@ function getSessionStorage(): Storage | null {
 
 const fileSessionStorage = getSessionStorage()
 
-const writers = new Map<string, Writer>()
-const failedDrafts = new Map<string, string>()
-const flushPromises = new Map<string, Promise<boolean>>()
+const fileWriters = createFileWriters({
+  onSaveResult: handleSaveResult,
+  onFailure: error => reportStorageFailure(error, SAVE_FAILURE_MESSAGE),
+})
 let activeIntentToken = 0
 let contentLoadToken = 0
 let localEditEpoch = 0
@@ -199,142 +191,6 @@ function defaultFile() {
   }
 }
 
-function releaseWriterTail(writer: Writer): void {
-  writer.forceFlush = true
-  writer.releaseTail?.()
-}
-
-function waitForWriterTail(writer: Writer): Promise<void> {
-  if (writer.forceFlush) {
-    return Promise.resolve()
-  }
-
-  return new Promise((resolve) => {
-    let settled = false
-    const finish = () => {
-      if (settled) {
-        return
-      }
-      settled = true
-      if (writer.tailTimer !== null) {
-        clearTimeout(writer.tailTimer)
-        writer.tailTimer = null
-      }
-      writer.releaseTail = null
-      resolve()
-    }
-    writer.releaseTail = finish
-    writer.tailTimer = setTimeout(finish, SAVE_TAIL_MS)
-  })
-}
-
-function startWriter(id: string, content: string, setState: SetState): Writer {
-  failedDrafts.set(id, content)
-  const existing = writers.get(id)
-  if (existing) {
-    existing.latest = content
-    return existing
-  }
-
-  const writer: Writer = {
-    forceFlush: false,
-    latest: null,
-    promise: Promise.resolve(),
-    releaseTail: null,
-    tailTimer: null,
-  }
-  writer.promise = (async () => {
-    let next: string | null = content
-    while (next !== null) {
-      const saving = next
-      next = null
-      try {
-        const version = await saveFileContent(id, saving)
-        warnStorageUnavailable()
-        if (version === false) {
-          failedDrafts.delete(id)
-          writer.latest = null
-          break
-        }
-        setState((state) => {
-          if (state.contentFileId !== id) {
-            return state
-          }
-          return { contentVersion: Math.max(state.contentVersion, version) }
-        })
-        if (!isStorageUnavailable()) {
-          publishContentSignal(id, version)
-        }
-        if (failedDrafts.get(id) === saving) {
-          failedDrafts.delete(id)
-        }
-        await waitForWriterTail(writer)
-      }
-      catch (error) {
-        reportStorageFailure(error, SAVE_FAILURE_MESSAGE)
-        failedDrafts.set(id, writer.latest ?? saving)
-        writer.latest = null
-        break
-      }
-      next = writer.latest
-      writer.latest = null
-    }
-  })().finally(() => {
-    writer.releaseTail?.()
-    writers.delete(id)
-  })
-  writers.set(id, writer)
-  return writer
-}
-
-function flushFile(id: string | null, setState: SetState): Promise<boolean> {
-  if (!id) {
-    return Promise.resolve(true)
-  }
-  const existing = flushPromises.get(id)
-  if (existing) {
-    return existing
-  }
-
-  const operation = (async () => {
-    const running = writers.get(id)
-    if (running) {
-      releaseWriterTail(running)
-      await running.promise
-    }
-    const failedDraft = failedDrafts.get(id)
-    if (failedDraft === undefined) {
-      return true
-    }
-    const retryWriter = startWriter(id, failedDraft, setState)
-    releaseWriterTail(retryWriter)
-    await retryWriter.promise
-    return !failedDrafts.has(id)
-  })()
-  const flushing = operation.finally(() => {
-    if (flushPromises.get(id) === flushing) {
-      flushPromises.delete(id)
-    }
-  })
-  flushPromises.set(id, flushing)
-  return flushing
-}
-
-async function flushAll(setState: SetState): Promise<boolean> {
-  const ids = new Set([...writers.keys(), ...failedDrafts.keys()])
-  const results = await Promise.all([...ids].map(id => flushFile(id, setState)))
-  return results.every(Boolean)
-}
-
-async function flushFiles(ids: Array<string | null>, setState: SetState): Promise<boolean> {
-  for (const id of new Set(ids)) {
-    if (!await flushFile(id, setState)) {
-      return false
-    }
-  }
-  return true
-}
-
 function applyCatalog(catalog: FileCatalog, setState: SetState, getState: GetState): void {
   const state = getState()
   if (catalog.revision > state.revision || (state.files.length === 0 && !state.isInitialized && catalog.revision === state.revision)) {
@@ -380,8 +236,8 @@ async function activate(
   }
 
   const previousContentId = state.contentFileId
-  if ([previousContentId, id].some(fileId => fileId && (writers.has(fileId) || failedDrafts.has(fileId)))) {
-    if (!await flushFiles([previousContentId, id], setState)) {
+  if ([previousContentId, id].some(fileId => fileId && fileWriters.hasPending(fileId))) {
+    if (!await fileWriters.flushFiles([previousContentId, id])) {
       return
     }
   }
@@ -476,7 +332,7 @@ export const useFilesStore = create<FilesState>()((set, get) => ({
     }
     ++localEditEpoch
     set({ currentContent: content })
-    startWriter(fileId, content, set)
+    fileWriters.save(fileId, content)
   },
 
   replaceFileContentIfUnchanged: (fileId, expectedContent, nextContent) => {
@@ -503,7 +359,7 @@ export const useFilesStore = create<FilesState>()((set, get) => ({
   createFile: async (name, content = '') => {
     const intentToken = ++activeIntentToken
     const previousActiveId = get().activeFileId
-    if (!await flushFile(get().contentFileId, set)) {
+    if (!await fileWriters.flushFile(get().contentFileId)) {
       await recoverCreateIntent(intentToken, previousActiveId, set, get)
       throw new FileStorageError()
     }
@@ -547,7 +403,7 @@ export const useFilesStore = create<FilesState>()((set, get) => ({
 
   deleteFile: async (id) => {
     const state = get()
-    if (!await flushFiles([state.contentFileId, id], set)) {
+    if (!await fileWriters.flushFiles([state.contentFileId, id])) {
       return
     }
     const before = get().revision
@@ -652,7 +508,7 @@ export const useFilesStore = create<FilesState>()((set, get) => ({
         return
       }
       const fileId = state.contentFileId
-      if ((writers.has(fileId) || failedDrafts.has(fileId)) && !await flushFile(fileId, set)) {
+      if (fileWriters.hasPending(fileId) && !await fileWriters.flushFile(fileId)) {
         return
       }
       state = get()
@@ -683,5 +539,21 @@ export const useFilesStore = create<FilesState>()((set, get) => ({
   },
 
   refreshCatalog: () => get().syncExternalChanges(),
-  flushPendingSaves: () => flushAll(set),
+  flushPendingSaves: () => fileWriters.flushAll(),
 }))
+
+function handleSaveResult(id: string, version: number | false): void {
+  warnStorageUnavailable()
+  if (version === false) {
+    return
+  }
+  useFilesStore.setState((state) => {
+    if (state.contentFileId !== id) {
+      return state
+    }
+    return { contentVersion: Math.max(state.contentVersion, version) }
+  })
+  if (!isStorageUnavailable()) {
+    publishContentSignal(id, version)
+  }
+}

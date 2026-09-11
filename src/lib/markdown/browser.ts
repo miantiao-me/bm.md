@@ -9,7 +9,10 @@ type Client = RouterClient<typeof workerRouter>
 let workerPromise: Promise<Client> | null = null
 
 function getWorker() {
-  return workerPromise ??= (async () => {
+  if (workerPromise)
+    return workerPromise
+
+  const initialization = (async () => {
     // 动态导入 Worker，避免 SSR 时执行
     const { default: MarkdownWorker } = await import('./worker?worker')
     const link = new RPCLink({
@@ -17,7 +20,13 @@ function getWorker() {
       interceptors: [onError(error => logSafeError('Markdown browser RPC error', error))],
     })
     return createORPCClient(link) as Client
-  })()
+  })().catch((error) => {
+    if (workerPromise === initialization)
+      workerPromise = null
+    throw error
+  })
+  workerPromise = initialization
+  return initialization
 }
 
 export const markdown: Client['markdown'] = {

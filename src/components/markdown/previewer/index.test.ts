@@ -12,8 +12,9 @@ describe('预览模式生命周期', () => {
 
   it('显式切换预览宽度仍会重建 iframe', () => {
     const source = readFileSync(new URL('./render.tsx', import.meta.url), 'utf8')
+    const controller = readFileSync(new URL('./use-preview-controller.ts', import.meta.url), 'utf8')
 
-    expect(source).toMatch(/const iframeKey = `\$\{contentFileId \?\? 'none'\}:\$\{previewWidth\}`/)
+    expect(controller).toMatch(/const iframeKey = `\$\{contentFileId \?\? 'none'\}:\$\{previewWidth\}`/)
     expect(source).toContain('key={iframeKey}')
   })
 })

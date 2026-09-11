@@ -28,6 +28,10 @@ interface CaptureSize {
   width: number
 }
 
+function isHtmlImage(element: SVGSVGElement | HTMLImageElement): element is HTMLImageElement {
+  return element.namespaceURI === 'http://www.w3.org/1999/xhtml' && element.localName === 'img'
+}
+
 function isSvgImage(image: HTMLImageElement, baseUrl: string): boolean {
   const source = (image.currentSrc || image.getAttribute('src') || '').trim()
   if (/^data:image\/svg\+xml(?:[;,]|$)/i.test(source))
@@ -43,7 +47,7 @@ function isSvgImage(image: HTMLImageElement, baseUrl: string): boolean {
 function shouldCapture(element: SVGSVGElement | HTMLImageElement, baseUrl: string): boolean {
   if (element.closest('[data-bm-rich="katex"]'))
     return false
-  if (element instanceof HTMLImageElement)
+  if (isHtmlImage(element))
     return isSvgImage(element, baseUrl)
   return element.matches('.figure-mermaid > svg, .figure-infographic > svg')
     || element.matches(COMPLEX_SVG_SELECTOR)
@@ -57,7 +61,7 @@ function candidates(root: Element): Array<SVGSVGElement | HTMLImageElement> {
 }
 
 function identity(element: SVGSVGElement | HTMLImageElement, baseUrl: string): string {
-  if (element instanceof HTMLImageElement) {
+  if (isHtmlImage(element)) {
     const source = (element.currentSrc || element.getAttribute('src') || '').trim()
     try {
       return `img:${new URL(source, baseUrl).href}`
@@ -91,7 +95,7 @@ function contentSize(source: SVGSVGElement | HTMLImageElement): CaptureSize {
     throw new Error('SVG snapshot has no content size')
   return {
     height,
-    layoutWidth: source instanceof HTMLImageElement && computed?.boxSizing === 'border-box' ? rect.width : width,
+    layoutWidth: isHtmlImage(source) && computed?.boxSizing === 'border-box' ? rect.width : width,
     width,
   }
 }
@@ -147,7 +151,7 @@ function replacementImage(
   url: string,
   width: number,
 ) {
-  if (clone instanceof HTMLImageElement) {
+  if (isHtmlImage(clone)) {
     clone.src = url
     clone.removeAttribute('srcset')
     clone.removeAttribute('sizes')
@@ -199,7 +203,7 @@ export async function replaceSvgWithImages(sourceRoot: Element, cloneRoot: Eleme
     try {
       const size = contentSize(source)
       const dpr = getSafeRasterScale(size.width, size.height, 2)
-      const snapshot = source instanceof HTMLImageElement
+      const snapshot = isHtmlImage(source)
         ? await captureSvgImage(snapdom, source, size, dpr)
         : await snapdom(source, { dpr, embedFonts: true })
       const blob = await snapshot.toBlob({ dpr, type: 'png' })

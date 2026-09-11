@@ -2,43 +2,43 @@
 
 [![持续集成](https://img.shields.io/github/actions/workflow/status/miantiao-me/bm.md/ci.yml?branch=master&style=flat&logo=github)](https://github.com/miantiao-me/bm.md/actions/workflows/ci.yml) [![npm 版本](https://img.shields.io/npm/v/bmmd?style=flat&logo=npm&logoColor=white)](https://www.npmjs.com/package/bmmd) [![许可证](https://img.shields.io/github/license/miantiao-me/bm.md?style=flat)](https://github.com/miantiao-me/bm.md/blob/master/LICENSE) [![TanStack Start](https://img.shields.io/badge/TanStack%20Start-React-FF4154?style=flat&logo=tanstack&logoColor=white)](https://tanstack.com/start/latest) [![shadcn/ui](https://img.shields.io/badge/shadcn-ui-000000?style=flat&logo=shadcnui&logoColor=white)](https://ui.shadcn.com/)
 
-更好用的 Markdown 排版助手｜微信公众号专门适配，支持输出到网页与图片。
+Markdown 排版工具，专为微信公众号与多平台排版设计，支持富文本复制、图片生成与矢量 PDF 导出。
 
 ---
 
-## ✨ 特性
+## ✨ 核心特性
 
-- 📝 **实时预览** - 基于 CodeMirror 6 的 Markdown 编辑器，所见即所得
-- 🎨 **16 种排版样式** - 从纸张阅读到复古怀旧、暗色编辑到行动主义海报，样式画廊弹窗可平铺预览并一键切换
-- 🌈 **14 种代码主题** - 支持浅色/深色多种代码高亮风格
-- 📱 **平台适配** - 微信公众号专门适配，同时支持通用 HTML 输出
-- 📊 **图表与信息图** - 支持 Mermaid 与 AntV Infographic
-- 🖼️ **图片导出** - 下载 JPEG 或复制 PNG 图片
-- 📄 **PDF 与打印** - 支持高质量分页 PDF 导出和直接打印
-- 📥 **文档导入** - 支持 Markdown、HTML，以及常见 Office、OpenDocument、可提取文本的 PDF、RTF、CSV、EPUB 文档转换为 Markdown
-- 🌓 **明暗模式** - 支持浅色、深色界面切换
-- 🔌 **开发者友好** - 提供 CLI、REST API 和 MCP 协议集成
-- ⌨️ **快捷操作** - 命令面板 + 全局快捷键，高效操作
+- **专门适配微信排版**：一键复制带内联样式的富文本，自动处理链接转脚注、代码块空格保护及移动端表格横向滚动；同时支持复制通用 HTML。
+- **丰富的样式系统**：内置 16 款经过细致调校的 Markdown 排版样式（涵盖经典纸质、现代报章、终端、学术等风格）与 14 款代码高亮主题，支持追加自定义 CSS。
+- **图表与信息图集成**：支持 Mermaid 流程图与 AntV Infographic 信息图，渲染产物自动进行安全清理并无缝内嵌。
+- **多样化导出能力**：基于 snapDOM 生成 PNG/JPEG 图片；集成 Takumi PDF WASM 引擎，直接在浏览器端按 A4 规范分页排版并导出矢量 PDF，支持字体子集下载与缺字降级。
+- **多文件与格式导入**：基于 IndexedDB 实现多标签页事务化持久存储；支持直接打开 Markdown，并借助 AnyDoc WASM 引擎将 Word、PowerPoint、Excel、PDF、RTF、EPUB、CSV 及 HTML 文档转换为 Markdown。
+- **三位一体的能力入口**：除 Web 交互界面外，所有 Markdown 处理能力均通过统一 Registry 派生为命令行工具（CLI）、REST API 与 MCP（Model Context Protocol）服务。
 
 ## 🚀 快速开始
 
-前置条件：Node.js >= 20、pnpm 11.11.0。
+### 环境要求
+
+- Node.js >= 20（推荐使用 `.node-version` 声明的 Node 22）
+- pnpm 11.11.0
+
+### 本地运行
 
 ```bash
-# 克隆项目
+# 克隆仓库
 git clone https://github.com/miantiao-me/bm.md.git
 cd bm.md
 
 # 安装依赖
 pnpm install
 
-# 启动开发服务器
+# 启动本地开发服务（默认端口 2663）
 pnpm dev
 ```
 
-访问 http://localhost:2663 开始使用。
+启动后在浏览器中访问 `http://localhost:2663`。
 
-本地生产构建与预览：
+生产构建与本地预览：
 
 ```bash
 pnpm build
@@ -47,42 +47,43 @@ pnpm preview
 
 ### 环境变量
 
-环境变量均为可选配置，可参考 `.env.example`：
+环境变量均为可选配置，具体可参考 `.env.example`：
 
-- `VITE_APP_URL`、`VITE_API_URL`：客户端可用的应用与 API 地址。
-- `ANALYTICS_SCRIPT_URL`、`ANALYTICS_SITE_ID`：服务端读取的统计分析配置。
-- `S3_ENDPOINT`、`S3_ACCESS_KEY_ID`、`S3_SECRET_ACCESS_KEY`：三项均配置时启用 S3；`S3_BUCKET`、`S3_REGION`、`S3_PUBLIC_BASE_URL` 用于配置存储目标与公开访问地址。
-- `DC_UPLOAD_URL`：可选的 DC 图床上传地址。S3 启用所需配置不完整时，存储服务回退到 DC 图床。
+- `VITE_APP_URL`、`VITE_API_URL`：客户端访问的应用基地址与 API 地址。
+- `ANALYTICS_SCRIPT_URL`、`ANALYTICS_SITE_ID`：统计分析脚本配置（服务端注入）。
+- `S3_ENDPOINT`、`S3_ACCESS_KEY_ID`、`S3_SECRET_ACCESS_KEY`：三者齐备时启用 S3 兼容对象存储；配合 `S3_BUCKET`、`S3_REGION`、`S3_PUBLIC_BASE_URL` 指定存储桶与公开访问域名。
+- `DC_UPLOAD_URL`：可选的 DC 图床上传地址。在 S3 未配置或信息不全时自动回退至该图床服务。
 
-### CLI 使用
+## 💻 命令行工具（CLI）
 
-`bmmd` 可在命令行中复用核心 Markdown 处理能力，支持文件输入或 stdin，默认输出到 stdout。安装后直接使用 `bmmd`；未安装时可通过 `pnpm dlx bmmd` 临时运行。
+项目核心处理能力已封装为独立命令行工具 `bmmd`，支持文件输入与标准管道（stdin/stdout）。
 
 ```bash
-# 全局安装后运行
+# 全局安装
 pnpm add -g bmmd
-bmmd render article.md --platform wechat --output article.html
 
-# 临时运行，无需安装
+# 或无需安装直接通过 dlx 运行
 pnpm dlx bmmd render article.md --platform wechat --output article.html
 
-# 管道输入
+# 管道输入与提取纯文本
 cat article.md | bmmd extract
 
-# 修复 Markdown 并写回源文件
+# 按照 markdownlint 规则修复并写回原文件
 bmmd lint article.md --fix
 ```
 
-本地开发可执行 `pnpm build:cli` 构建 CLI，入口文件为 `bin/bmmd.mjs`。
+本地开发时，可通过 `pnpm build:cli` 构建命令行产物，输出路径为 `bin/bmmd.mjs`。
 
-## 🛠️ 技术栈
+## 🛠️ 技术栈与部署
 
-- **框架**: [TanStack Start](https://tanstack.com/start) (React 19 + TanStack Router)
-- **构建**: [Vite 8](https://vite.dev)
-- **样式**: [Tailwind CSS 4](https://tailwindcss.com) + [shadcn/ui](https://ui.shadcn.com)
-- **部署**: [Nitro](https://nitro.build) (支持 Cloudflare Workers / Vercel / Netlify / Docker / Alibaba ESA / Tencent EdgeOne 等)
+- **前端框架**：[TanStack Start](https://tanstack.com/start)（React 19 + TanStack Router）
+- **构建工具**：[Vite 8](https://vite.dev)
+- **视觉样式**：[Tailwind CSS 4](https://tailwindcss.com) + [shadcn/ui](https://ui.shadcn.com)（基础原语基于 `@base-ui/react`，设计系统基于 Ayu Light / Ayu Mirage）
+- **部署驱动**：[Nitro](https://nitro.build)，支持主流云服务商与边缘运行时
 
-阿里云部署配置：
+### 阿里云 ESA 部署
+
+构建系统检测到环境变量 `AliUid` 时会自动启用 ESA 适配，预渲染常用页面并将资源输出到 `dist/client`：
 
 ```txt
 安装命令: pnpm install
@@ -92,7 +93,9 @@ bmmd lint article.md --fix
 函数文件路径: dist/server/server.js
 ```
 
-腾讯云 EdgeOne 部署配置：
+### 腾讯云 EdgeOne 部署
+
+构建系统检测到 `edgeone_pages` 或相关环境变量时自动适配 EdgeOne：
 
 ```txt
 框架预设: Other
@@ -102,26 +105,20 @@ bmmd lint article.md --fix
 安装命令: pnpm install
 ```
 
-EdgeOne 构建环境由 std-env 自动识别，Nitro 会自动选择官方 preset。
+其他部署环境配置请参考 [Nitro 官方文档](https://nitro.build/deploy)。
 
-其他环境部署配置参考 [Nitro](https://nitro.build/deploy) 文档。
+## 📖 深入文档
 
-## 📖 文档
-
-- [功能说明](https://github.com/miantiao-me/bm.md/blob/master/docs/features.md) - 完整功能介绍
-- [架构设计](https://github.com/miantiao-me/bm.md/blob/master/docs/architecture.md) - 技术架构详解
-- [UI 设计](https://github.com/miantiao-me/bm.md/blob/master/docs/design.md) - 界面设计说明
-- [UI Skill](https://github.com/miantiao-me/bm.md/blob/master/docs/ui-skill.md) - 智能代理 UI 约束
-- [API 文档](https://bm.md/docs) - REST API 参考
+- [功能特性详述](https://github.com/miantiao-me/bm.md/blob/master/docs/features.md)：多文件管理、编辑器特性、排版样式、多格式转换与导出细节。
+- [技术架构设计](https://github.com/miantiao-me/bm.md/blob/master/docs/architecture.md)：系统分层、Registry 派生、状态持久化、Worker 通信与离线 PDF 排版机制。
+- [UI 设计系统](https://github.com/miantiao-me/bm.md/blob/master/docs/design.md)：高密度设计哲学、Ayu 配色体系、无障碍对比度考量与组件规范。
+- [前端工程准则](https://github.com/miantiao-me/bm.md/blob/master/docs/ui-skill.md)：界面组件、交互与动效约束。
+- [REST API 文档](https://bm.md/docs)：由 Scalar 驱动的 OpenAPI 在线文档。
 
 ## 🙏 致谢
 
-- [Kami](https://github.com/tw93/Kami) — 「Kami」排版风格的灵感来源。
-
-## 🤝 贡献
-
-欢迎提交 Issue 和 Pull Request。
+- [Kami](https://github.com/tw93/Kami)：默认排版样式「Kami」的设计灵感来源。
 
 ## 📄 许可证
 
-[LGPL-3.0](https://github.com/miantiao-me/bm.md/blob/master/LICENSE)
+本项目开源许可证为 [LGPL-3.0](LICENSE)。

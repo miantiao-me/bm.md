@@ -69,24 +69,23 @@ export function MarkdownStyleGalleryDialog({
             {markdownStyles.map((style) => {
               const isSelected = style.id === value
               return (
-                <button
+                <div
                   key={style.id}
-                  type="button"
-                  onClick={() => handleSelect(style.id)}
                   data-selected={isSelected}
                   className={cn(
                     `
-                      flex flex-col overflow-hidden text-left ring-1
+                      relative flex flex-col overflow-hidden text-left ring-1
                       ring-foreground/10 transition-colors
                     `,
                     'hover:ring-foreground/30',
                     isSelected && 'ring-2 ring-primary ring-inset',
                   )}
                 >
-                  <span className="
-                    relative block h-40 overflow-hidden border-b
-                    border-foreground/10 bg-muted
-                  "
+                  <span
+                    className="
+                      relative block h-40 overflow-hidden border-b
+                      border-foreground/10 bg-muted
+                    "
                   >
                     <iframe
                       srcDoc={buildPreviewDocument(style.id)}
@@ -103,18 +102,32 @@ export function MarkdownStyleGalleryDialog({
                         justify-center bg-primary text-primary-foreground
                       "
                       >
-                        <Check className="size-3.5" />
+                        <Check aria-hidden="true" className="size-3.5" />
                       </span>
                     )}
                   </span>
-                  <span className="flex flex-col gap-0.5 p-2.5">
+                  <span
+                    aria-hidden="true"
+                    className="flex flex-col gap-0.5 p-2.5"
+                  >
                     <span className="text-sm font-medium">
                       {style.name}
-                      {isSelected && <span className="sr-only">，当前选中</span>}
                     </span>
                     <span className="text-xs text-muted-foreground">{style.description}</span>
                   </span>
-                </button>
+                  <button
+                    type="button"
+                    onClick={() => handleSelect(style.id)}
+                    aria-label={`${style.name}：${style.description}${isSelected ? '，当前选中' : ''}`}
+                    aria-pressed={isSelected}
+                    className="
+                      absolute inset-0 z-10 cursor-pointer border-0
+                      bg-transparent p-0
+                      focus-visible:ring-1 focus-visible:ring-ring/50
+                      focus-visible:ring-inset
+                    "
+                  />
+                </div>
               )
             })}
           </div>

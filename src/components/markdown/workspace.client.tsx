@@ -7,6 +7,7 @@ import MarkdownPreviewer from '@/components/markdown/previewer'
 import { restorePreviewScrollState } from '@/components/markdown/previewer/restore-scroll-state'
 import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from '@/components/ui/resizable'
 import { useFilesSync } from '@/hooks/use-files-sync'
+import { logSafeError } from '@/lib/log-safe-error'
 import { prepareMarkdownWorker } from '@/lib/markdown/prepare-worker'
 import { isFileContentReady, useFilesStore } from '@/stores/files'
 
@@ -24,7 +25,7 @@ export default function Workspace() {
   useFilesSync()
 
   useEffect(() => {
-    void prepareMarkdownWorker()
+    void prepareMarkdownWorker().catch(error => logSafeError('Markdown Worker 预热失败', error))
   }, [])
 
   useEffect(() => {

@@ -121,6 +121,35 @@ function ready(files = [file('one')], active = 'one', revision = 1) {
 }
 
 describe('files store', () => {
+  it('同文件保存串行且其他文件不等待其提交', async () => {
+    const first = deferred<number>()
+    mocks.saveFileContent.mockImplementation((id: string, content: string) => {
+      return id === 'one' && content === '第一笔' ? first.promise : Promise.resolve(3)
+    })
+    ready([file('one'), file('two')])
+    const store = storeModule.useFilesStore
+    store.getState().setCurrentContent('第一笔')
+    store.getState().setCurrentContent('最新正文')
+    expect(mocks.saveFileContent).toHaveBeenCalledTimes(1)
+
+    ready([file('one'), file('two')], 'two')
+    store.getState().setCurrentContent('另一文件')
+    expect(mocks.saveFileContent.mock.calls).toEqual([
+      ['one', '第一笔'],
+      ['two', '另一文件'],
+    ])
+
+    const flushing = store.getState().flushPendingSaves()
+    first.resolve(2)
+    await expect(flushing).resolves.toBe(true)
+    expect(mocks.saveFileContent.mock.calls).toEqual([
+      ['one', '第一笔'],
+      ['two', '另一文件'],
+      ['one', '最新正文'],
+    ])
+    expect(store.getState().contentVersion).toBe(3)
+  })
+
   it('ready 要求存在非空 activeFileId', () => {
     expect(storeModule.isFileContentReady({ activeFileId: null, contentFileId: null, contentStatus: 'ready' })).toBe(false)
     expect(storeModule.isFileContentReady({ activeFileId: 'one', contentFileId: 'one', contentStatus: 'ready' })).toBe(true)

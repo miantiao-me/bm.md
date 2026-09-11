@@ -100,6 +100,43 @@ describe('file-storage', () => {
     await expect(storage.getFileContent('one')).resolves.toBe('')
   })
 
+  it('legacy metadata 过滤非法项并按顺序保留每个 ID 的首个合法项', async () => {
+    const storage = await loadStorage()
+    const first = { id: 'one', name: '一.md', createdAt: 1, updatedAt: 2 }
+    const second = { id: 'two', name: '二.md', createdAt: 3, updatedAt: 4 }
+    const legacy = [
+      { ...first, name: 123 },
+      first,
+      { ...first, name: '重复.md' },
+      { ...second, createdAt: Number.NaN },
+      { ...second, updatedAt: Number.POSITIVE_INFINITY },
+      { ...second, id: 123 },
+      { ...second, id: '' },
+      second,
+    ] as MarkdownFile[]
+
+    const catalog = await storage.initializeFileStorage({ legacyFiles: legacy, defaultFile: file('default') })
+
+    expect(catalog.files).toEqual([first, second])
+    expect(catalog.files[0]).not.toHaveProperty('content')
+    first.name = '外部修改.md'
+    catalog.files[1].name = '返回值修改.md'
+    await expect(storage.getFileCatalog()).resolves.toMatchObject({
+      files: [{ id: 'one', name: '一.md' }, { id: 'two', name: '二.md' }],
+    })
+  })
+
+  it('名称去重排除自身并跳过大小写不同的已有后缀', async () => {
+    const storage = await loadStorage()
+    await initialize(storage, file('default', 'Note.MD'))
+    const renamed = await storage.renameFileRecord('default', 'note.md')
+    expect(renamed.files[0].name).toBe('note.md')
+
+    await storage.createFileRecord(file('suffix', 'NOTE (1).MD'))
+    const created = await storage.createFileRecord(file('next', 'Note.MD'))
+    expect(created.file.name).toBe('Note (2).MD')
+  })
+
   it('两个独立连接并发创建最终均存在且名称大小写不敏感唯一', async () => {
     const first = await loadStorage()
     await initialize(first)

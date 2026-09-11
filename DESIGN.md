@@ -156,100 +156,104 @@ components:
     padding: "{spacing.sm}"
 ---
 
-# bm.md Design System
+# bm.md 设计系统规范
 
-## Overview
+## 系统概览
 
-bm.md 是面向 Markdown 编辑、排版、检查与自动化接口的工具型产品。界面应表现为冷静、清晰、工程化，而不是营销化或娱乐化。视觉风格来自 Ayu Light / Ayu Mirage：以蓝灰中性色承载长时间阅读与编辑，以橙黄主色标记关键交互。
+bm.md 是一款面向 Markdown 排版、语法校验与自动化发布的工程化工具。界面视觉与交互遵循**克制、沉静、高密度**的工具型设计原则，避免营销类或消费类产品常见的过度装饰。
 
-设计源以代码为准：`src/styles.css` 注册 Tailwind 4 token，`src/themes/shadcn/ayu-light.css` 与 `src/themes/shadcn/ayu-mirage.css` 提供亮暗色值，`src/components/ui` 提供组件形态。`DESIGN.md` 中 front matter 是规范值；正文只解释意图与使用规则。
+视觉风格建立在 Ayu Light 与 Ayu Mirage 之上：以低彩度的蓝灰中性表面承载长时间的高频阅读与编辑，以鲜明的橙黄色相标注最关键的操作焦点。
 
-整体方向是高密度桌面工具：控件小、边界清楚、层级克制、动效短促。不要引入与编辑器气质冲突的装饰性渐变、过度圆角或大面积阴影。
+### 事实源约定
 
-## Colors
+- **设计 Token 事实源**：本文件顶部的 YAML Front Matter 为设计 Token 声明；代码实现对应 `src/styles.css`（Tailwind CSS 4 注册）、`src/themes/shadcn/ayu-light.css` 与 `src/themes/shadcn/ayu-mirage.css`（亮暗色值）。
+- **组件形态事实源**：基础控件形态以 `src/components/ui/` 为准。本规范正文阐述各模块的设计取向与协同边界。
 
-色彩系统使用 OKLCH，亮色主题基于 Ayu Light，暗色主题基于 Ayu Mirage。色彩语义继承 shadcn/ui：`background` / `foreground`、`card`、`popover`、`primary`、`secondary`、`muted`、`accent`、`destructive`、`border`、`input`、`ring`。
+---
 
-- **Primary**：亮色为 Ayu 橙 `oklch(0.64 0.14 62)`，暗色为 Ayu 黄 `oklch(0.86 0.13 87)`。用于每屏最重要动作、焦点环、选中态或关键高亮；亮色主题的明度已加深，`primary-foreground` 改为深色文字，使默认按钮、徽标等实心填充上的文字与非文字焦点环均达到 WCAG AA。
-- **Neutral surfaces**：背景、卡片、弹层均是低彩度蓝灰；通过明度差和边框区分层级，避免彩色面板泛滥。
-- **Feedback colors**：`success`、`warning`、`info`、`destructive` 是项目扩展语义色。只用于状态反馈、校验和告警，不替代主操作色；亮色主题下四者均使用深色 `-foreground` 文字（与暗色主题的处理方式一致），而不是在浅色语义底上叠加近白文字。
-- **Editor surface**：`editor` 对齐 CodeMirror 背景，编辑区不要直接套用普通 `card` 色。
-- **Sidebar colors**：侧边栏使用独立 `sidebar-*` token，保持导航区域与主编辑区解耦。
+## 色彩体系（Colors）
 
-正常文本必须满足 WCAG AA 4.5:1。`primary`、`destructive`、`success`、`info`、`warning` 与其对应 `-foreground`，以及 `muted-foreground` 与 `background`/`muted` 的组合均已按 OKLCH 精确换算验证达到 4.5:1（`primary`/`ring` 作为非文字焦点环时对背景 ≥3:1）。不要在 `muted`、`accent` 等浅色表面上叠加低透明度正文；辅助文本才使用 `muted-foreground`。
+色彩系统全面采用 OKLCH 色彩空间，语义命名继承并扩展 shadcn/ui 规范：
 
-## Typography
+### 核心语义角色
 
-默认字体是系统无衬线：`--font-sans: sans-serif`，全局 `body` 使用 `font-sans antialiased`。界面控件以 `text-xs` 为主，卡片标题和少量标题使用 `text-sm`，让编辑器、面板和命令菜单保持紧凑。
+- **主操作色（Primary）**：
+  - 浅色模式为加深后的 Ayu 橙 `oklch(0.64 0.14 62)`（`#c77618`）；深色模式为金黄 `oklch(0.86 0.13 87)`（`#ffcc66`）。
+  - 用于全屏权重最高的核心动作、交互焦点环（Focus Ring）与关键高亮。
+  - **对比度加固**：浅色模式下，原版 Ayu 橙 `#f29718` 与浅色文字对比度仅为 2.51:1。为满足无障碍标准，系统加深了橙色相，并将 `primary-foreground` 设定为深色文字 `oklch(0.2 0.05 62)`，使实心按钮上的文字对比度达到 5.22:1，且焦点环对背景的非文字对比度达到 3:1 以上。
+- **中性色面（Neutral Surfaces）**：背景（`background`）、卡片（`card`）与浮层（`popover`）均采用极低彩度的蓝灰色系，依靠明度梯度与边框区分层级，避免使用厚重色块。
+- **状态反馈色（Feedback Colors）**：`destructive`、`success`、`warning`、`info` 为系统扩展语义色，仅用于操作反馈、校验与警示，不用于普通按钮；浅色模式下均匹配深色 `-foreground` 文本，确保全部满足 WCAG AA 4.5:1 对比度要求。
+- **编辑器专属色（Editor Surface）**：`editor` 语义色专用于对齐 CodeMirror 编辑器背景，不可与通用 `card` 混用。
+- **侧边栏色组（Sidebar Colors）**：侧边工具条使用独立的 `sidebar-*` 变量，保持与主编辑区的视觉解耦。
 
-- **正文与说明**：Markdown 内容区由 `@tailwindcss/typography` 控制；普通 UI 说明使用 `body-sm` 或 `caption-xs`。
-- **控件文字**：按钮、输入框、菜单项、选择器、标签优先使用 `control-xs`，必要时用 `font-medium` 强调可点击性。
-- **品牌装饰**：`.doto-font` 仅用于 Logo 或极少量品牌化文字，字体为 `'Doto', monospace`，`font-weight: 700`，可变轴固定为 `'wght' 700, 'ROND' 0`。
+---
 
-单屏不要混用超过两种字重。除非是 Markdown 正文渲染，不要为 UI 控件单独引入新字体或大字号展示风格。
+## 版式系统（Typography）
 
-## Layout
+- **无衬线系统字体**：全局采用 `--font-sans: sans-serif`，`body` 挂载 `font-sans antialiased` 平滑抗锯齿。
+- **控件字号梯队**：界面交互控件以 `text-xs` 为主基准；卡片标题与小节标题使用 `text-sm`，确保桌面工具界面的紧凑视域。
+- **正文排版**：Markdown 内容由 `@tailwindcss/typography` 统筹排版；普通 UI 说明文字采用 `body-sm` 或 `caption-xs`。
+- **品牌字体**：`.doto-font` 仅用于 Logo 与极少数品牌展示场景，采用 `'Doto', monospace`（字重 700，可变轴固定为 `'wght' 700, 'ROND' 0`）。
+- **字重约束**：同一交互视窗内不得混用超过两种字重；禁止为常规控件单独引入外挂字体。
 
-布局遵循 Tailwind 间距 scale，面向工具型高密度界面。基础控件高度以 `h-8` 为默认，紧凑控件使用 `h-7` / `h-6`，图标按钮使用对应 `size-8` / `size-7` / `size-6`。
+---
 
-- 用 `gap`、`px`、`py` 表达空间关系，优先选择 `0.5rem`、`0.625rem`、`0.75rem`、`1rem` 等小步进。
-- 全屏或视口高度必须使用 `h-dvh` / `100dvh`，不要使用 `h-screen`。
-- 可滚动区域保持细滚动条：WebKit 宽高 6px，默认透明，hover 时用 `foreground` 混合色显示。
-- CodeMirror 编辑器滚动条只在编辑器 hover 时显露，避免长期干扰文本阅读。
+## 布局与间距（Layout & Spacing）
 
-组件布局应先保证可读性与可操作性，再追求装饰。不要为了视觉留白牺牲编辑器、预览区和工具面板的有效面积。
+- **高密度工具视窗**：间距遵循 Tailwind 标度，基础控件高度默认使用 `h-8`，紧凑型控件使用 `h-7` / `h-6`，图标按钮对应使用 `size-8` / `size-7` / `size-6`。
+- **动态视口规范**：全屏工作区高度必须使用 `h-dvh`（或 `100dvh`），禁止使用 `h-screen`，避免在触屏或可变视口设备中出现溢出截断。
+- **极细滚动条**：滚动区域配置专用细滚动条（宽度 6px），常态透明，仅在鼠标悬停时显现；CodeMirror 编辑器滚动条仅在鼠标悬停于编辑区域时显示，阅读时自动隐匿。
+- **有效视区优先**：界面的布局先满足编辑与预览的可用性，不为单方面的视觉留白而压缩核心编辑视窗。
 
-## Elevation & Depth
+---
 
-bm.md 主要通过边框、色面和 ring 表达层级，而不是通过重阴影制造深度。
+## 层级与深度（Elevation & Depth）
 
-- 弹层类组件（DropdownMenu、Select、Popover、Sheet、Menubar）使用 `shadow-md` 或 `shadow-lg` 搭配 `ring-1 ring-foreground/10`。
-- Dialog 以居中布局、`bg-popover`、`ring-1 ring-foreground/10` 和轻量 zoom/fade 动画建立层级，不依赖大阴影。
-- Tooltip 使用 `bg-foreground text-background` 的反色关系，不额外加阴影。
-- Sidebar 的浮动与 inset 形态可使用 `shadow-sm`，但仍应以边框/ring 为主要分隔。
+bm.md 通过精细的边框、半透明色面与 Focus Ring 表达层级关系，杜绝厚重的漫反射阴影：
 
-新增界面时优先使用 `border-border`、`ring-ring/50`、`bg-muted`、`bg-popover` 来建立深度。不要叠加多层阴影或彩色阴影。
+- **下拉菜单与气泡浮层（Dropdown / Popover / Select）**：使用 `shadow-md` 结合 `ring-1 ring-foreground/10` 勾勒边界。
+- **模态弹窗（Dialog）**：采用居中浮层，结合 `bg-popover`、`ring-1 ring-foreground/10` 与轻度背景模糊遮罩建立焦点，不依赖大尺寸扩散阴影。
+- **文字提示（Tooltip）**：采用 `bg-foreground text-background` 反色风格，不附加多余阴影。
 
-## Shapes
+---
 
-形状语言是“锐利、工程化、低装饰”。虽然全局 radius token 从 `--radius: 0.375rem` 派生出 `sm` 到 `4xl`，实际组件默认大量使用 `rounded-none`。这是刻意的零圆角设计，不是遗漏。
+## 形状语言：直角美学（Shapes）
 
-- 按钮、输入框、卡片、弹层、菜单项、标签、表格容器等矩形控件默认直角。
-- `Avatar`、状态点、Spinner、Switch thumb 等天然圆形元素使用 `rounded-full`。
-- 同一视图不要混用大圆角卡片与直角工具控件。若必须使用圆角，只用于头像、圆形状态、品牌装饰或第三方内容缩略图。
+系统的形状哲学是**锐利、坚固、低装饰**：
 
-## Components
+- **常规矩形直角化**：常规按钮、文本框、卡片、菜单、标签页、表格容器等均默认使用 `rounded-none`（零圆角）。这是深思熟虑的设计特征，严禁随意改为圆角。
+- **全圆角特例**：仅 Avatar、状态指示灯、Switch 滑块等天然圆形元素使用 `rounded-full`。
+- **禁止圆角混杂**：同一交互视图中严禁大圆角卡片与直角工具组件并存。
 
-`src/components/ui` 由 shadcn/ui 风格组件和项目定制组件组成，底层优先使用 `@base-ui/react` 无障碍原语，图标只使用 `lucide-react`，变体通常由 `class-variance-authority` 定义，类名通过 `cn()` 合并。
+---
 
-主要组件包括：Accordion、Alert、AlertDialog、AspectRatio、Avatar、Badge、Breadcrumb、Button、ButtonGroup、Calendar、Card、Carousel、Chart、Checkbox、Collapsible、Combobox、Command、ContextMenu、Dialog、Drawer、DropdownMenu、Field、HoverCard、Input、InputGroup、InputOTP、Kbd、Label、Menubar、NativeSelect、NavigationMenu、Pagination、Popover、Progress、RadioGroup、Resizable、ScrollArea、Select、Separator、Sheet、Sidebar、Skeleton、Slider、Sonner、Spinner、Switch、Table、Tabs、Textarea、Toggle、ToggleGroup、Tooltip。
+## 组件与无障碍（Components & A11y）
 
-项目定制组件包括：Attachment、Bubble、Direction、Empty、Item、Marker、Message、MessageScroller、SunIcon。它们服务于消息、附件、空状态、方向提示与主题切换等场景，应沿用同样的直角、高密度与语义色规则。
+基础组件基于 shadcn/ui 与 `@base-ui/react` 封装，图标一律采用 `lucide-react`，类名由 `cn()` 合并：
 
-组件规则：
+- **Button**：提供 `default`、`outline`、`secondary`、`ghost`、`destructive`、`link` 变体；按压微动效固定为 `active:translate-y-px`。纯图标按钮必须显式声明 `aria-label`。
+- **Input / Textarea / Select**：默认直角、细边框、透明底色；聚焦时显示清晰的 `ring-1 ring-ring/50`；校验错误时呈现 `destructive` 边框与光环。
+- **Menu / Popover**：使用 `bg-popover text-popover-foreground`，通过 `data-open` / `data-closed` 驱动极短的淡入微缩放动效。
+- **Sonner Toast**：通过 CSS 变量深度对齐 `--popover` 与 `--border`，保持与整站 Ayu 色相完全协调。
+- **组件维护边界**：`src/components/ui/` 下的文件均通过 `pnpm shadcn add <component>` 管理，禁止手工随意格式化或破坏其底层结构。
 
-- **Button**：变体为 `default`、`outline`、`secondary`、`ghost`、`destructive`、`link`；尺寸为 `default`、`xs`、`sm`、`lg`、`icon`、`icon-xs`、`icon-sm`、`icon-lg`。默认 `text-xs font-medium rounded-none`，按压反馈是 `active:translate-y-px`。
-- **Input / Textarea / Select**：默认直角、细边框、透明背景、`focus-visible:border-ring` 与 `focus-visible:ring-1 ring-ring/50`。错误态使用 destructive 边框和 ring。
-- **Menu / Popover / SelectContent**：使用 `bg-popover text-popover-foreground shadow-md ring-1 ring-foreground/10`，通过 `data-open` / `data-closed` 驱动 fade、zoom 和 slide 动画。
-- **Badge / Kbd / Toggle / Tabs**：保持紧凑高度与 `text-xs`。Tabs 支持默认填充形态和 `line` 下划线形态。
-- **Card / Item / Empty**：用于信息组织，默认以边框、背景色和紧凑 padding 建立结构，不做营销卡片式大圆角。
-- **Skeleton / Spinner**：Skeleton 使用 `animate-pulse bg-muted`；Spinner 使用旋转动画。加载态要简短、低干扰。
-- **Sonner**：Toast 通过 CSS 变量映射到 `--popover`、`--popover-foreground`、`--border`，保持与主题一致。
+---
 
-不要直接手改 `src/components/ui` 生成组件；需要新增或重置 shadcn 组件时使用 `pnpm shadcn add <component>`。
+## 实践准则（Do's and Don'ts）
 
-## Do's and Don'ts
+### 推荐做法（Do）
 
-- Do 使用 `primary` 标记单屏最重要动作，不要把多个普通按钮都做成主按钮。
-- Do 使用 `bg-background text-foreground`、`bg-card text-card-foreground`、`bg-popover text-popover-foreground` 成对 token。
-- Do 用 `border`、`ring`、`muted`、`popover` 表达层级，保持工具界面的克制感。
-- Do 保持 `text-xs` 控件体系和小步进间距，新增组件先匹配现有密度。
-- Do 为纯图标按钮提供 `aria-label`，交互控件保留可见 focus ring。
-- Do 只动画 `transform` 和 `opacity`；入场/退出优先使用 `tw-animate-css` 的 `animate-in` / `animate-out`。
-- Don't 修改 `primary`/`destructive`/`success`/`info`/`warning` 与其 `-foreground`、或 `muted-foreground` 的明度时，脱离 WCAG AA 4.5:1（非文字场景 3:1）复核；新增语义色配对时同样要先算好对比度再合入。
-- Don't 使用渐变、彩色阴影、玻璃拟态或营销页式大面积装饰。
-- Don't 对 `width`、`height`、`margin`、`padding` 等布局属性做动画。
-- Don't 使用 `h-screen`，应使用 `h-dvh` 或 `100dvh`。
-- Don't 使用任意 `z-[...]`；需要层级时使用项目已有固定刻度。
-- Don't 在同一视图混用大圆角卡片和直角控件。
-- Don't 引入除 `lucide-react` 之外的图标库。
+- 始终成对使用色彩 Token，例如 `bg-background text-foreground`、`bg-popover text-popover-foreground`。
+- 在每个视图内克制使用 `primary`，将其保留给最重要的单一主要操作。
+- 依靠 `border`、`ring`、`muted` 建立层次，维持工具软件的理性与克制。
+- 保持 `text-xs` 控件尺寸体系与小步进间距，新组件优先贴合既有密度。
+- 动效严格局限在 `transform` 与 `opacity`，入场优先使用 `tw-animate-css`。
+
+### 禁止做法（Don't）
+
+- 严禁在修改颜色明度时破坏 WCAG AA 4.5:1 的文字对比度基准（非文字焦点环 3:1）。
+- 严禁添加彩色渐变、弥散光晕、玻璃拟态等装饰。
+- 严禁对 `width`、`height`、`margin`、`padding` 等布局属性施加过渡动画。
+- 严禁使用 `h-screen`；必须使用 `h-dvh` 或 `100dvh`。
+- 严禁使用任意的 `z-[...]`，必须从项目已有层级刻度中选用。
+- 严禁在主界面中混入非直角组件或除 `lucide-react` 之外的第三方图标库。

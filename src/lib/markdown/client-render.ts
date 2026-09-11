@@ -1,36 +1,19 @@
-import type { Platform } from '@/lib/markdown/render/adapters'
-import type { MarkdownStyleId } from '@/themes/markdown-style/metadata'
+import type { output } from 'zod'
+import type { renderDefinition } from './render/definition'
 import { getMarkdownLocaleTexts } from '@/lib/locale'
 
-export interface PreviewRenderOptions {
-  content: string
-  markdownStyle: MarkdownStyleId
-  codeTheme: string
-  mermaidTheme: string
-  infographicTheme: string
-  infographicPalette: string
-  customCss: string
-  enableFootnoteLinks: boolean
-  breaks: boolean
-  openLinksInNewWindow: boolean
+type RenderInput = output<typeof renderDefinition.inputSchema>
+type ClientRenderOptions = Omit<RenderInput, 'markdown' | 'platform' | 'footnoteLabel' | 'referenceTitle'> & {
+  content: RenderInput['markdown']
+}
+
+export interface PreviewRenderOptions extends ClientRenderOptions {
   colorScheme: string
 }
 
-export interface RenderPlatformHtmlOptions {
-  platform: Platform
-  content: string
-  markdownStyle: MarkdownStyleId
-  codeTheme: string
-  mermaidTheme: string
-  infographicTheme: string
-  infographicPalette: string
-  customCss: string
-  enableFootnoteLinks: boolean
-  breaks: boolean
-  openLinksInNewWindow: boolean
-}
+export interface RenderPlatformHtmlOptions extends ClientRenderOptions, Pick<RenderInput, 'platform'> {}
 
-export async function renderMarkdownPreview({
+function createRenderInput({
   content,
   markdownStyle,
   codeTheme,
@@ -41,10 +24,8 @@ export async function renderMarkdownPreview({
   enableFootnoteLinks,
   breaks,
   openLinksInNewWindow,
-  colorScheme,
-}: PreviewRenderOptions): Promise<{ html: string, css: string }> {
-  const { markdown } = await import('@/lib/markdown/browser')
-  const renderInput = {
+}: ClientRenderOptions) {
+  return {
     markdown: content,
     markdownStyle,
     codeTheme,
@@ -57,6 +38,14 @@ export async function renderMarkdownPreview({
     openLinksInNewWindow,
     ...getMarkdownLocaleTexts(),
   }
+}
+
+export async function renderMarkdownPreview({
+  colorScheme,
+  ...options
+}: PreviewRenderOptions): Promise<{ html: string, css: string }> {
+  const { markdown } = await import('@/lib/markdown/browser')
+  const renderInput = createRenderInput(options)
 
   const result = colorScheme === 'dark'
     ? await markdown.render(renderInput)
@@ -71,31 +60,12 @@ export async function renderMarkdownPreview({
 
 export async function renderPlatformHtml({
   platform,
-  content,
-  markdownStyle,
-  codeTheme,
-  mermaidTheme,
-  infographicTheme,
-  infographicPalette,
-  customCss,
-  enableFootnoteLinks,
-  breaks,
-  openLinksInNewWindow,
+  ...options
 }: RenderPlatformHtmlOptions): Promise<string> {
   const { markdown } = await import('@/lib/markdown/browser')
   const result = await markdown.render({
-    markdown: content,
-    markdownStyle,
-    codeTheme,
-    mermaidTheme,
-    infographicTheme,
-    infographicPalette,
-    customCss,
-    enableFootnoteLinks,
-    breaks,
-    openLinksInNewWindow,
+    ...createRenderInput(options),
     platform,
-    ...getMarkdownLocaleTexts(),
   })
 
   return result.result

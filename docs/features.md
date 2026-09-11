@@ -1,556 +1,339 @@
-# bm.md
+# 功能特性
 
-bm.md 是一个专业的 Markdown 排版工具，专为内容创作者设计。本文档详细介绍所有功能特性。
-
-## 多文件管理
-
-### 文件标签页
-
-支持同时打开多个 Markdown 文件：
-
-- **多标签切换** - 顶部标签栏显示所有打开的文件
-- **重命名文件** - 双击标签或聚焦后按 F2
-- **自动命名** - 根据文档首个 H1 标题自动命名
-- **IndexedDB 存储** - 文件列表与内容事务化持久存储，刷新不丢失
-- **新建文件** - 点击 + 按钮创建并立即激活新文件
-- **关闭文件** - 点击 × 或聚焦标签后按 Delete
-
-### 文件存储
-
-- 文件元数据与正文统一存储在 IndexedDB，创建和删除保持事务一致
-- 当前活动标签保存在 sessionStorage，不同浏览器标签页互不抢占
-- 跨标签通过轻量 revision 通知重读 IndexedDB，文件列表与正文版本最终收敛
-- 首次无法使用浏览器存储时自动降级为内存；运行期保存失败会保留可导出的内存草稿
+bm.md 是一款面向内容创作者与开发者的 Markdown 排版工具，专为微信公众号、网页文章排版及文档分发设计。本文档系统介绍各模块的功能特性与使用方式。
 
 ---
 
-## 编辑器功能
+## 多文件与文档管理
 
-### Markdown 编辑器
+### 标签页管理
 
-基于 CodeMirror 6 构建的高性能编辑器：
+顶部标签栏支持多文档并行处理：
 
-- **语法高亮** - Markdown 语法实时着色
-- **Ayu 主题** - 与整体 UI 风格统一的编辑器配色
+- **标签切换与浏览**：标签栏展示当前所有打开的文档，点击即可切换；标签过多时支持横向滚动。
+- **新建文档**：点击标签栏右侧的 `+` 按钮，立即创建并激活空白文档。
+- **关闭文档**：点击标签右侧的 `×`，或在聚焦标签时按下 `Delete` 键关闭对应文档。
+- **重命名文档**：双击标签标题或聚焦时按下 `F2` 即可原地修改文件名。
+- **智能自动命名**：新建文档未命名时，系统将依据正文首个一级标题（H1）自动更新文件名。
 
-### 文件导入
+### 事务化本地存储
 
-支持多种方式导入内容：
-
-- **Markdown 文件** - 支持 `.md`、`.markdown`、`.mdown`、`.mkd`，扩展名大小写不敏感
-- **HTML 转换** - `.html`、`.htm` 文件经 Markdown Worker 转换后导入
-- **文档转换** - 支持 Word（`.doc`、`.docx`、`.docm`）、PowerPoint（`.ppt`、`.pps`、`.pot`、`.pptx`、`.pptm`、`.ppsx`、`.ppsm`）、Excel（`.xls`、`.xlsx`、`.xlsm`、`.xlsb`）、OpenDocument（`.odt`、`.ods`、`.odp`），以及 `.rtf`、`.epub`、`.csv`、`.pdf`
-- **大小限制** - 可转换文档单个不超过 20MB
-- **拖拽导入** - 直接拖拽文件到编辑器区域
-- **粘贴导入** - 支持粘贴 HTML 内容自动转换为 Markdown
-- **快捷键** - `Cmd/Ctrl + O` 快速打开文件
-
-### Markdown 格式化
-
-一键美化 Markdown 代码：
-
-- 基于 markdownlint 规则自动修复
-- 统一标题、列表、空行等格式
-- 快捷键 `Cmd/Ctrl + Shift + L`
-
-### 导出 Markdown
-
-将编辑器内容保存为本地文件：
-
-- 导出为 `.md` 文件
-- 快捷键 `Cmd/Ctrl + S`
+- **IndexedDB 存储模型**：文档列表元数据（catalog）与文档正文独立存储于 IndexedDB（`bm.md` v2）。文件创建、重命名、删除操作在单一事务中完成，确保元数据与正文一致性，页面刷新数据不丢失。
+- **多标签页会话隔离**：活动文件标识保存于 `sessionStorage`，同一浏览器打开多个标签页时各自保持独立的编辑状态，互不干扰。
+- **跨标签同步**：某一标签页更新或保存文件时，仅向 `localStorage` 发送轻量版本失效信号（`bm.md.files.signal`），其他标签页据此增量重读 IndexedDB，避免在存储中传递全量数据快照。
+- **写入合并与降级保护**：连续按键输入以 150ms 尾随窗口合并写入，切换标签或窗口失焦时立即刷新。若浏览器 IndexedDB 无法访问，系统自动降级为内存存储，并保留可随时导出的本地草稿。
 
 ---
 
-## 预览功能
+## 内容导入与编辑
 
-### 软换行
+### 多格式文档导入
 
-`render` 的 `breaks` 布尔参数默认是 `false`，保留 Markdown 的软换行行为。设置为 `true` 时，段落内的单个换行会转换为 HTML `<br>`；原生硬换行保持不变，代码块不受影响。
+支持通过拖拽、系统文件选择（快捷键 `Cmd/Ctrl + O`）或剪贴板粘贴导入外部内容：
 
-- CLI：`bmmd render input.md --breaks`
-- REST API：向 `/api/markdown/render` 提交 `{"markdown":"第一行\n第二行","breaks":true}`。
-- MCP：调用 `render` 工具时传入 `breaks: true`。
+- **原生 Markdown 文档**：支持 `.md`、`.markdown`、`.mdown`、`.mkd` 等扩展名（大小写不敏感），直接载入编辑器。
+- **HTML 内容转换**：导入 `.html`、`.htm` 文件或从网页复制富文本粘贴到编辑器时，由后台 Worker 自动解析并逆向转换为纯净 Markdown。
+- **多类型文档转换**：内置 AnyDoc WASM 转换引擎，可在浏览器端将以下格式解析转换为 Markdown：
+  - Word 文档：`.doc`、`.docx`、`.docm`
+  - PowerPoint 演示文稿：`.ppt`、`.pps`、`.pot`、`.pptx`、`.pptm`、`.ppsx`、`.ppsm`
+  - Excel 工作簿：`.xls`、`.xlsx`、`.xlsm`、`.xlsb`
+  - OpenDocument 格式：`.odt`、`.ods`、`.odp`
+  - 电子书与纯文本：`.rtf`、`.epub`、`.csv`、`.pdf`
+- **导入规格限制**：单个待转换文档体积上限为 20MB，超限文档会在进入转换引擎前直接提示并拦截。
 
-### 实时预览
+### 编辑器体验
 
-编辑即可见的预览体验：
+基于 CodeMirror 6 构建的高性能纯文本编辑环境：
 
-- **增量更新** - 使用 morphdom 进行 DOM diff，仅更新变化部分
-- **防抖渲染** - 100ms 防抖，避免频繁渲染
-- **样式隔离** - iframe 沙箱隔离，预览样式不影响编辑器
-- **导出一致性** - 图片、PDF 与打印仅在当前正文和样式已写入预览 iframe 后启用
-
-Mermaid 图表也会随 Markdown 渲染进入预览，例如下面的渲染流程：
-
-```mermaid
-sequenceDiagram
-  participant U as 用户
-  participant E as 编辑器
-  participant W as 渲染 Worker
-  participant P as 实时预览
-  U->>E: 输入 Markdown
-  E->>W: 请求渲染
-  W-->>P: 返回 HTML 与样式
-  P-->>U: 展示并支持导出
-```
-
-### 视图切换
-
-适配不同设备的预览宽度：
-
-- **移动端视图** - 415px 宽度，iPhone 设备框展示
-- **桌面端视图** - 768px 宽度，Safari 浏览器框展示
-- **偏好持久化** - 刷新后保留用户选择的预览模式
-- 拖动编辑器与预览区分割线不会切换模式或中断滚动同步
-
-### 滚动同步
-
-编辑器与预览区域双向滚动同步：
-
-- 编辑器滚动时预览跟随
-- 预览滚动时编辑器跟随
-- 可通过设置开关此功能
+- **语法着色**：针对 Markdown 语法与代码块提供实时着色。
+- **Ayu 配色体系**：编辑器深浅色面严格对齐整站视觉标准，避免高对比刺眼或低对比阅读疲劳。
+- **自动格式化**：集成 markdownlint 规则引擎，一键统一标题层级、规范列表缩进、整理空行与清除行尾空白字符（快捷键 `Cmd/Ctrl + Shift + L`）。
+- **Markdown 本地导出**：随时将当前正文直接保存为本地 `.md` 文件（快捷键 `Cmd/Ctrl + S`）。
 
 ---
 
-## 主题系统
+## 排版渲染与预览
+
+### 实时预览引擎
+
+- **增量 DOM 渲染**：利用 morphdom 实现精准的 DOM 差异比对，仅替换发生变动的节点，杜绝全量刷新引起的滚动抖动。
+- **渲染防抖**：采用 100ms 输入防抖，兼顾实时输入流畅感与性能开销。
+- **iframe 严格沙箱**：预览区运行于独立的 iframe 沙箱中，外部 UI 样式与正文排版 CSS 完全隔离。
+- **双向滚动同步**：编辑器与预览视窗保持位置联动，滚动任一侧均能精准对应阅读位置；该行为可在设置中随时关闭。
+- **软换行控制（Breaks）**：系统遵循标准 Markdown 规范，默认段落内单个回车视为软换行（不产生 HTML 换行）。在编辑器设置中开启“回车即换行”后，单个回车将自动转为 `<br>` 换行输出。
+
+### 设备模拟预览
+
+预览区提供两类经过真实设备比例校准的模拟容器：
+
+- **移动端视图**：模拟 iPhone 设备视窗，外壳设计宽度 415px（内容视口 375px，左右边框各 20px），配备灵动岛装饰，高度在 650px 至 850px 间自适应，适合模拟微信阅读效果。
+- **桌面端视图**：模拟 Safari 浏览器视窗，最大宽度 768px，配备简约标题栏与中性窗口控制点。
+- **视窗自适应**：拖拽中央分割线仅调整两侧工作区占比，不中断预览渲染状态或修改当前选定的设备模拟模式。
+
+---
+
+## 主题与样式系统
 
 ### Markdown 排版样式
 
-内置 16 种排版风格。Kami 是默认样式，定位为简洁、清晰的纸张阅读体验，设计灵感来自 [tw93/Kami](https://github.com/tw93/Kami)。预览区工具栏的排版样式下拉菜单展示常用的前 8 种，底部提供“浏览全部样式…”入口，弹窗内平铺展示全部样式的真实渲染缩略图，点击即可切换（预览缩略图本身不可点击，仅点击卡片才会选中样式）。
+内置 16 款经过专门适配的 Markdown 排版样式。默认样式为「Kami」，源自 [tw93/Kami](https://github.com/tw93/Kami)，追求克制、通透的纸张阅读美感。点击工具栏“浏览全部样式…”可唤起画廊弹窗，平铺查看所有样式的真实渲染缩略图并一键应用。
 
-| 样式 ID         | 名称          | 风格描述                       |
-| --------------- | ------------- | ------------------------------ |
-| `kami`          | Kami          | 简洁的纸张阅读风格（默认）     |
-| `bauhaus`       | Bauhaus       | 包豪斯风格，几何与功能主义     |
-| `blueprint`     | Blueprint     | 蓝图技术文档风格               |
-| `botanical`     | Botanical     | 植物园风格，自然柔和           |
-| `newsprint`     | Newsprint     | 报纸印刷风格                   |
-| `retro`         | Retro         | 复古怀旧风格                   |
-| `sketch`        | Sketch        | 手绘素描风格                   |
-| `terminal`      | Terminal      | 终端/命令行风格                |
-| `forest-review` | Forest Review | 森林季报风格，暖调编辑排版     |
-| `navy-vellum`   | Navy Vellum   | 深蓝羊皮纸风格，静谧的学术手记 |
-| `rose-nocturne` | Rose Nocturne | 玫瑰夜曲风格，暗色调时尚编辑   |
-| `solar-catalog` | Solar Catalog | 日光图录风格，展览海报质感     |
-| `triad-paper`   | Triad Paper   | 三调纸面风格，三色时尚杂志感   |
-| `field-tablet`  | Field Tablet  | 田野铭牌风格，考古手册质感     |
-| `public-square` | Public Square | 公共广场风格，行动主义海报     |
-| `pixel-orbit`   | Pixel Orbit   | 像素轨道风格，复古像素街机     |
+| 样式 ID         | 显示名称      | 风格定位                           |
+| :-------------- | :------------ | :--------------------------------- |
+| `kami`          | Kami          | 经典纸张阅读质感（默认排版）       |
+| `bauhaus`       | Bauhaus       | 包豪斯功能主义，几何块面与理性构图 |
+| `blueprint`     | Blueprint     | 蓝图工程图纸，冷峻的技术文档气质   |
+| `botanical`     | Botanical     | 植物园自然调性，柔和温润的自然色泽 |
+| `newsprint`     | Newsprint     | 现代报章排版，清晰紧凑的铅印质感   |
+| `retro`         | Retro         | 复古怀旧胶片，温和的复古印刷风     |
+| `sketch`        | Sketch        | 手绘素描风，带手作感的草稿笔触     |
+| `terminal`      | Terminal      | 终端绿字，硬核命令行极简感         |
+| `forest-review` | Forest Review | 森林季报，暖色系人文编辑刊物       |
+| `navy-vellum`   | Navy Vellum   | 深蓝羊皮纸，静谧典雅的学术笔记     |
+| `rose-nocturne` | Rose Nocturne | 玫瑰夜曲，暗调时尚刊物与艺术文论   |
+| `solar-catalog` | Solar Catalog | 日光图录，充满张力的展览海报风格   |
+| `triad-paper`   | Triad Paper   | 三调纸面，现代杂志色彩碰撞         |
+| `field-tablet`  | Field Tablet  | 田野铭牌，考据与野外调查手册质感   |
+| `public-square` | Public Square | 公共广场，利落明确的行动主义海报   |
+| `pixel-orbit`   | Pixel Orbit   | 像素轨道，复古像素街机风格         |
 
-### 代码高亮主题
+### 代码块高亮主题
 
-支持 14 种代码块高亮主题（来自 highlight.js）：
+内置 14 款精选 highlight.js 代码配色方案，满足不同明暗环境下的高对比度阅读需求：
 
-| 主题 ID                | 名称                 | 类型 |
-| ---------------------- | -------------------- | ---- |
-| `catppuccin-frappe`    | Catppuccin Frappé    | 深色 |
-| `catppuccin-latte`     | Catppuccin Latte     | 浅色 |
-| `catppuccin-macchiato` | Catppuccin Macchiato | 深色 |
-| `catppuccin-mocha`     | Catppuccin Mocha     | 深色 |
-| `tokyo-night-light`    | Tokyo Night Light    | 浅色 |
-| `tokyo-night-dark`     | Tokyo Night Dark     | 深色 |
-| `panda-syntax-light`   | Panda Syntax Light   | 浅色 |
-| `panda-syntax-dark`    | Panda Syntax Dark    | 深色 |
-| `rose-pine-dawn`       | Rosé Pine Dawn       | 浅色 |
-| `rose-pine`            | Rosé Pine            | 深色 |
-| `kimbie-light`         | Kimbie Light         | 浅色 |
-| `kimbie-dark`          | Kimbie Dark          | 深色 |
-| `paraiso-light`        | Paraiso Light        | 浅色 |
-| `paraiso-dark`         | Paraiso Dark         | 深色 |
+- **深色主题**：Catppuccin Frappé、Catppuccin Macchiato、Catppuccin Mocha、Tokyo Night Dark、Panda Syntax Dark、Rosé Pine、Kimbie Dark、Paraiso Dark。
+- **浅色主题**：Catppuccin Latte、Tokyo Night Light、Panda Syntax Light、Rosé Pine Dawn、Kimbie Light、Paraiso Light。
 
-### 浅色/深色模式
+### 自定义 CSS 扩展
 
-应用整体支持浅色和深色两种模式：
+支持在内置排版样式的基础之上追加自定义 CSS：
 
-- 基于 next-themes 实现
-- 切换时直接更新主题，不使用页面遮罩动画
-
-### 自定义 CSS
-
-在主题样式基础上进行二次定制：
-
-- 点击预览区工具栏的画笔图标打开配置
-- CSS 选择器需约束在 `#bm-md` 下
-- 自定义样式在主题样式之后应用，可覆盖默认样式
-- 支持通过 API/MCP 传入 `customCss` 参数
-- 编辑完成后点击“保存”才会应用，并持久化到本地存储
-
-示例：
-
-```css
-/* 修改标题颜色 */
-#bm-md h1 {
-  color: #e74c3c;
-}
-
-/* 调整段落行高 */
-#bm-md p {
-  line-height: 1.8;
-}
-
-/* 自定义引用块样式 */
-#bm-md blockquote {
-  border-left-color: #9b59b6;
-  background: #f8f4fc;
-}
-```
+- **作用域约束**：自定义选择器必须限定在容器 `#bm-md` 命名空间下（例如 `#bm-md h1 { color: #d97706; }`）。
+- **层叠顺序**：自定义样式注入于排版主题之后，可精确覆盖已有样式。
+- **本地持久化**：修改后点击“保存”即刻写入本地配置，刷新页面保持生效。
 
 ---
 
-## 多平台导出
+## 平台导出与富文本复制
 
-### 一键复制
+### 一键复制富文本
 
-针对不同平台优化的复制功能：
+通过 `juice` 将排版 CSS 精准内联到 HTML 标签中，确保粘贴后格式不丢失：
 
-| 平台       | 快捷键                 | 特殊处理                               |
-| ---------- | ---------------------- | -------------------------------------- |
-| 微信公众号 | `Cmd/Ctrl + Shift + 7` | 链接转脚注、代码空格保护、表格滚动适配 |
-| HTML       | `Cmd/Ctrl + Shift + 0` | 通用 HTML 输出                         |
+- **微信公众号复制**（快捷键 `Cmd/Ctrl + Shift + 7`）：
+  - 自动将正文超链接转为文末引用脚注列表。
+  - 针对代码块空格注入 `\u00A0`，规避微信后台对连续空格的吞并问题。
+  - 宽表格自动包装横向滚动容器，防止移动端阅读时撑破版面。
+- **通用 HTML 复制**（快捷键 `Cmd/Ctrl + Shift + 0`）：保留完备的内联样式结构，适用于语雀、飞书、知乎等现代富文本发布系统。
 
-所有输出均使用 CSS 内联（通过 juice），可直接粘贴到富文本编辑器。
+### 长图与画板导出
 
-### 图片导出
+- 基于 snapDOM 捕获当前设备框中已渲染的预览内容。
+- 支持一键导出 JPEG 文件下载，或将带有透明通道的 PNG 图像直接写入剪贴板。
 
-将预览内容导出为图片：
+### 矢量 PDF 导出与打印
 
-- 使用 snapDOM 捕获当前预览
-- 可下载 JPEG 文件
-- 可将 PNG 图片复制到剪贴板
-
-### PDF 导出与打印
-
-- **矢量 PDF** - 按当前预览导出 A4 分页 PDF；文字可选中，标题生成书签
-- **中日韩与 Emoji** - 按文档语言与内容加载对应 Noto 字体（含代码等宽与 Emoji）；个别字符仍无法覆盖时替换为 `□` 并提示
-- **页面背景** - 纯色底铺满整页（含页边距）；主题渐变、点阵等纹理只出现在正文区域
-- **图片** - 支持预览中的图片与内联 SVG；外链图片需允许跨域读取（CORS）。单张不超过 20 MiB，合计不超过 64 MiB，最多 64 个不同图片地址
-- **边界** - 使用引擎支持的 CSS 子集，不运行预览中的脚本；外部背景图、遮罩等资源不一定打进 PDF；复杂样式可能与预览不完全一致
-- **打印降级** - 离线且所需字体尚未缓存，或 PDF 引擎不可用时，自动打开浏览器打印；也可随时对当前预览使用打印
+- **本地 WASM 排版引擎**：集成 Takumi PDF 引擎，直接在浏览器端解析当前页面的 HTML/CSS 并按 A4 标准分页，输出矢量 PDF。
+- **矢量文本与大纲书签**：生成的 PDF 保留真实文字（可选择、复制与检索），并根据各级标题自动构建层级书签目录。
+- **动态字体子集化**：根据文档内容按需拉取 Google Fonts 的 Noto 系列中日韩与 Emoji 字体分片；未覆盖字符替换为 `□` 占位符号。
+- **版面与页边距控制**：页面背景色统一延展至整页（含页边距），正文纹理限定于内容区域，遵循标准页边距（上下 45pt、左右 30pt）。
+- **资源限制与容灾**：外链图片须允许跨域访问（CORS），单图限制 20MiB、总大小限制 64MiB；网络离线且未缓存字体、或 PDF 引擎异常时，系统自动无缝切换为浏览器原生打印对话框。
 
 ---
 
-## 图片上传
+## 图片上传与图床存储
 
-### 临时图片存储
+编辑器支持将本地图片上传至远端存储并自动插入 Markdown 语法：
 
-支持上传图片到临时存储：
-
-- S3 兼容存储（可配置）
-- 支持拖拽图片到编辑器
-- 支持粘贴剪贴板图片
-- 文件大小限制 5MB
-- 通过文件签名校验 PNG、JPEG、GIF、WebP，拒绝伪造 MIME 与 SVG
+- **上传方式**：支持拖拽图片进入编辑区，或直接从剪贴板粘贴截图。
+- **安全与类型校验**：仅接受经真实文件签名校验的 PNG、JPEG、GIF 与 WebP 图片；单张文件限制 5MB，拒绝伪造扩展名或不受信任的 SVG 矢量文件。
+- **多后端存储策略**：
+  - **S3 兼容对象存储**：配置环境变量 `S3_ENDPOINT`、`S3_ACCESS_KEY_ID`、`S3_SECRET_ACCESS_KEY` 后自动启用，支持 Cloudflare R2、MinIO、AWS S3 等。
+  - **DC 图床回退**：未配置 S3 或配置缺失时，自动回退到配置的 DC 图床服务。
 
 ---
 
-## 开发者集成
+## 开发者与生态集成
 
-### CLI 命令行
+基于 `src/lib/markdown/definitions.ts` 集中注册的唯一 Tool Registry，bm.md 的核心 Markdown 能力以三类规范形式向外输出：
 
-`bmmd` 将 Web 端相同的 Markdown 处理能力封装为命令行工具，适合在本地脚本、CI 或内容发布流程中使用。
+### 1. 命令行界面（CLI）
 
-- npm 包名与命令名均为 `bmmd`
-- 运行环境要求 Node.js 20+
-- 支持输入文件或 stdin 管道输入
-- 默认输出到 stdout，可通过 `--output <file>` 写入文件
-- 运行 `bmmd --help` 或 `bmmd <command> --help` 查看完整参数
-
-| 命令           | 输入     | 功能                                 |
-| -------------- | -------- | ------------------------------------ |
-| `bmmd render`  | Markdown | 渲染为内联样式 HTML，支持平台适配    |
-| `bmmd parse`   | HTML     | 将 HTML 转换为 Markdown              |
-| `bmmd extract` | Markdown | 提取纯文本，保留段落分隔             |
-| `bmmd lint`    | Markdown | 使用 markdownlint 规则校验并自动修复 |
-
-常用示例：
+命令行工具 `bmmd` 支持文件参数与 stdin 管道输入，默认输出至 stdout：
 
 ```bash
-# 渲染为微信公众号 HTML
-pnpm dlx bmmd render article.md --platform wechat --output article.html
+# 渲染为适合微信公众号的内联 HTML
+bmmd render input.md --platform wechat --output output.html
 
-# 追加自定义 CSS 文件
-pnpm dlx bmmd render article.md --custom-css-file theme.css --output article.html
+# 开启软换行转换并追加外部样式文件
+bmmd render input.md --breaks --custom-css-file extra.css > output.html
 
-# 从 HTML 转回 Markdown
-cat page.html | pnpm dlx bmmd parse --output article.md
+# 将 HTML 文件逆向转换为 Markdown
+bmmd parse input.html --output output.md
 
-# 提取 Markdown 纯文本
-pnpm dlx bmmd extract article.md
+# 提取 Markdown 文档中的纯文本内容
+bmmd extract input.md
 
-# 格式化并写回原 Markdown 文件
-pnpm dlx bmmd lint article.md --fix
+# 按照规则校验并原地修复 Markdown 文件
+bmmd lint input.md --fix
 ```
 
-`render` 支持的核心参数包括：
+核心命令选项参考：
 
-| 参数                         | 默认值         | 说明                               |
-| ---------------------------- | -------------- | ---------------------------------- |
-| `--platform <platform>`      | `html`         | 输出平台：`html`、`wechat`         |
-| `--markdown-style <id>`      | `kami`         | Markdown 排版样式                  |
-| `--code-theme <id>`          | `kimbie-light` | 代码块高亮主题                     |
-| `--mermaid-theme <id>`       | 默认主题       | Mermaid 流程图主题                 |
-| `--infographic-theme <id>`   | `default`      | Infographic 信息图主题             |
-| `--infographic-palette <id>` | `antv`         | Infographic 信息图配色             |
-| `--custom-css <css>`         | -              | 追加自定义 CSS                     |
-| `--custom-css-file <file>`   | -              | 从文件追加自定义 CSS               |
-| `--breaks`                   | 关闭           | 将段落内的软换行转换为 HTML 换行   |
-| `--no-footnote-links`        | 开启           | 关闭文中链接脚注转换               |
-| `--no-open-links`            | 开启           | 不为外部链接添加 `target="_blank"` |
-| `--footnote-label <text>`    | `Footnotes`    | GFM 脚注区域标题                   |
-| `--reference-title <text>`   | `References`   | 外部链接参考区域标题               |
+| 选项旗标                     | 适用命令 | 默认值         | 功能说明                                           |
+| :--------------------------- | :------- | :------------- | :------------------------------------------------- |
+| `-o, --output <file>`        | 全部     | stdout         | 指定输出文件路径                                   |
+| `--platform <platform>`      | `render` | `html`         | 目标平台，可选 `html` 或 `wechat`                  |
+| `--markdown-style <id>`      | `render` | `kami`         | 指定 16 款排版样式 ID 之一                         |
+| `--code-theme <id>`          | `render` | `kimbie-light` | 指定 14 款代码高亮主题 ID 之一                     |
+| `--mermaid-theme <id>`       | `render` | 空（默认）     | 指定 Mermaid 图表配色主题                          |
+| `--infographic-theme <id>`   | `render` | `default`      | 信息图主题（`default`, `dark`, `hand-drawn`）      |
+| `--infographic-palette <id>` | `render` | `antv`         | 信息图调色板（`antv`, `spectral`）                 |
+| `--custom-css <css>`         | `render` | 空             | 传入内联自定义 CSS 字符串                          |
+| `--custom-css-file <file>`   | `render` | -              | 读取指定文件内容作为自定义 CSS                     |
+| `--breaks`                   | `render` | 关闭           | 将段落内软换行转换为 HTML `<br>`                   |
+| `--no-footnote-links`        | `render` | 开启           | 禁止自动将文中超链接转换为文末脚注                 |
+| `--no-open-links`            | `render` | 开启           | 禁止为外部链接附加 `target="_blank"`               |
+| `--fix`                      | `lint`   | 关闭           | 将规范修复结果直接写回原文件（与 `--output` 互斥） |
 
-### REST API
+### 2. REST API
 
-#### Markdown API
+通过 oRPC 与 OpenAPI 生成规范接口，前端提供 Scalar 文档页面（`/docs`）：
 
-Scalar 文档 `/docs` 展示以下 4 个 Markdown API：
+- `POST /api/markdown/render`：Markdown 转内联 HTML。
+- `POST /api/markdown/parse`：HTML 逆向转 Markdown。
+- `POST /api/markdown/extract`：提取 Markdown 纯文本。
+- `POST /api/markdown/lint`：Markdown 规则校验与自动修复。
+- `POST /api/upload/image`：独立图片上传接口（`multipart/form-data`）。
 
-| 端点                         | 功能                 |
-| ---------------------------- | -------------------- |
-| `POST /api/markdown/render`  | Markdown 渲染为 HTML |
-| `POST /api/markdown/parse`   | HTML 转换为 Markdown |
-| `POST /api/markdown/extract` | 提取纯文本           |
-| `POST /api/markdown/lint`    | 格式校验与修复       |
+### 3. Model Context Protocol（MCP）
 
-#### 图片上传
-
-`POST /api/upload/image` 用于将编辑器中的临时图片写入配置的 S3 兼容存储或默认图床。请求使用 `multipart/form-data`，包含 `file` 与非空 `name` 字段；图片文件不超过 5MB，声明的 `Content-Length` 超过 6MB 时会被拒绝，仅接受经文件签名识别的 PNG、JPEG、GIF、WebP，成功时返回 `{ "url": "..." }`。该路由独立实现，不属于上述 Scalar/OpenAPI 文档。
-
-### MCP 协议
-
-支持 Model Context Protocol，可集成到 AI Agent：
-
-- 提供 4 个工具：`render`、`parse`、`extract`、`lint`
-- Streamable HTTP 传输
-- 配置说明可访问 `/docs/mcp` 查看
+提供标准化 MCP 端点（`/mcp`），AI Agent 可通过 Streamable HTTP 协议直接调度 `render`、`parse`、`extract`、`lint` 四项工具。在 Web 界面访问 `/docs/mcp` 可查看适用于 Claude Desktop、Cursor 等客户端的预制配置片段。
 
 ---
 
-## PWA 支持
+## 增强排版语法参考
 
-### 离线访问
+除标准 CommonMark 规范外，bm.md 额外支持以下排版与扩展语法：
 
-应用支持 PWA（渐进式 Web 应用）：
+### 图片尺寸控制（Obsidian 语法）
 
-- 离线可用 - 核心功能无需网络
-- 可安装 - 支持添加到主屏幕
-- 文件关联 - 支持在操作系统中直接用 bm.md 打开 `.md`、`.markdown`、`.mdown`、`.mkd`，以及文件导入支持的 Word、PowerPoint、Excel、OpenDocument、RTF、EPUB、CSV、PDF 文档
+在图片替代文本中使用竖线 `|` 声明宽度或宽高（单位固定为像素，不污染最终图片的题注）：
 
----
-
-## 快捷操作
-
-### 命令面板
-
-类似 Raycast/Spotlight 的全局命令面板：
-
-- `Cmd/Ctrl + K` 打开
-- 搜索所有可用命令
-- 支持子菜单（主题选择等）
-
-### 编辑器设置
-
-可配置的编辑器行为：
-
-| 设置           | 说明                                             |
-| -------------- | ------------------------------------------------ |
-| 引用链接列表   | 将文中链接转换为脚注形式                         |
-| 新窗口打开链接 | 为链接添加 `target="_blank"`                     |
-| 回车即换行     | 默认关闭，开启后正文回车在预览和复制结果中也换行 |
-| 滚动同步       | 编辑器与预览双向滚动同步                         |
-
----
-
-## Markdown 语法支持
-
-### 基础语法
-
-#### 标题
-
-# 一级标题
-
-## 二级标题
-
-### 三级标题
-
-#### 四级标题
-
-##### 五级标题
-
-###### 六级标题
-
-#### 文本格式
-
-这是**粗体文本**，这是*斜体文本*，这是~~删除线文本~~，这是***粗斜体文本***，这是==高亮文本==。
-
-高亮内可继续使用内联格式，例如 `==**粗体高亮**==` 与 `==*斜体高亮*==`；行内代码中的 `==` 保持原样。
-
-==这里是一段真实高亮示例==
-
-#### 列表
-
-无序列表：
-
-- 项目一
-- 项目二
-  - 嵌套项目
-  - 另一个嵌套
-
-有序列表：
-
-1. 第一项
-2. 第二项
-   1. 嵌套项目
-   2. 另一个嵌套
-
-#### 引用块
-
-> 这是一段引用文字，可以用来强调重要内容或引用他人观点。
->
-> 引用可以包含多个段落。
->
-> > 这是嵌套引用，用于多层次的引用场景。
-
-#### 代码
-
-行内代码：使用 `const x = 1` 定义常量。
-
-代码块示例：
-
-```javascript
-function greet(name) {
-  console.info(`Hello, ${name}!`)
-}
-
-greet('World')
+```markdown
+![仅指定宽度为 360px|360](/banner.png)
+![指定宽 480px、高 270px|480x270](/banner.png)
 ```
 
-#### 链接与图片
+### 文本高亮
 
-这是一个[普通链接](https://bm.md)，这是一个[带标题的链接](https://bm.md 'bm.md 官网')。
+使用双等号包裹需要强调的文字，高亮内部仍可嵌套粗体与斜体：
 
-![bm.md](/banner.png)
-
-支持 Obsidian 风格图片尺寸。尺寸只接受正整数，宽高之间使用小写 `x`；尺寸后缀不会出现在替代文本和图片题注中。
-
-![单宽图片|320](/banner.png)
-
-![固定宽高图片|320x180](/banner.png)
-
----
-
-### GFM 扩展
-
-#### 表格
-
-| 功能       |  状态   |                            备注 |
-| :--------- | :-----: | ------------------------------: |
-| 实时预览   | ✅ 完成 |                        核心功能 |
-| 多平台导出 | ✅ 完成 | 微信专门适配；HTML 使用通用输出 |
-| 图片上传   | ✅ 完成 |                         S3 存储 |
-
-#### 任务列表
-
-- [x] 支持基础 Markdown 语法
-- [x] 支持 GFM 扩展语法
-- [x] 支持数学公式渲染
-- [x] 支持 Mermaid 图表
-
-Mermaid 代码块会渲染为经过清理的 SVG figure，适合在预览与导出 HTML 中使用。
-
-交互流程示例：
-
-```mermaid
-sequenceDiagram
-  participant U as 用户
-  participant E as 编辑器
-  participant W as 渲染 Worker
-  U->>E: 输入 Markdown
-  E->>W: 请求渲染
-  W-->>E: 返回 HTML
-  E-->>U: 更新预览
+```markdown
+请务必在提交前确认 ==核心数据准确无误==。
+支持嵌套格式：==**重点粗体高亮**==。
 ```
 
-#### AntV Infographic
+### YAML 与 TOML Frontmatter 自动表格化
 
-使用官方 Infographic DSL 描述信息图：
-
-```infographic
-infographic list-row-simple-horizontal-arrow
-theme
-  palette antv
-data
-  title 内容发布流程
-  lists
-    - label 编写
-      desc 使用 Markdown 整理内容
-    - label 预览
-      desc 检查排版与图表
-    - label 导出
-      desc 复制或下载结果
-```
-
-#### 自动链接
-
-直接输入 URL 自动识别：https://bm.md
-
-邮箱地址也支持：bm.md@bm.md
-
----
-
-### 高级功能
-
-#### Frontmatter
-
-支持 YAML（`---`）与 TOML（`+++`）Frontmatter，并在渲染时转换为表格：
+文档顶部的元数据将自动解析并渲染为紧凑美观的属性表格：
 
 ```yaml
 ---
-title: 示例文章
-author: bm.md
+title: 版本发布通告
+author: bm.md 团队
+date: 2026-09-11
 ---
 ```
 
 ```text
 +++
-title = "示例文章"
-draft = false
+title = "技术架构演进"
+status = "draft"
 +++
 ```
 
-#### 脚注
+### 流程图与图表（Mermaid）
 
-Markdown[^1] 是一种轻量级标记语言，由 John Gruber[^gruber] 于 2004 年创建。
+支持时序图、流程图、状态图、甘特图等，系统将其转换为经过安全清理的独立 SVG 矢量图像：
 
-[^1]: Markdown 文件通常使用 `.md` 或 `.markdown` 扩展名。
+````markdown
+```mermaid
+sequenceDiagram
+  autonumber
+  Client->>API: 提交 Markdown 内容
+  API->>Worker: 调度渲染管道
+  Worker-->>Client: 返回内联样式 HTML
+```
+````
 
-[^gruber]: John Gruber 是 Daring Fireball 博客的创始人。
+### 信息图（AntV Infographic）
 
-#### 数学公式
+通过声明式 DSL 语法快速生成结构化视觉信息卡片：
 
-支持 KaTeX 渲染。行内公式：$E = mc^2$，质能方程揭示了质量与能量的关系。
+````markdown
+```infographic
+infographic list-row-simple-horizontal-arrow
+theme
+  palette antv
+data
+  title 生产发布三步法
+  lists
+    - label 编写
+      desc 梳理文字与图表逻辑
+    - label 预览
+      desc 切换移动端校验视觉效果
+    - label 导出
+      desc 一键复制至微信公众号
+```
+````
 
-块级公式：
+### 数学公式（KaTeX）
 
+行内公式使用单美元符号 `$E = mc^2$`；独立公式块使用双美元符号：
+
+```latex
 $$
-\sum_{i=1}^{n} x_i = x_1 + x_2 + \cdots + x_n
+\int_{-\infty}^{+\infty} e^{-x^2} dx = \sqrt{\pi}
 $$
+```
 
-#### GitHub Alert
+### GitHub Alert 警示块
 
+```markdown
 > [!NOTE]
-> 这是一条提示信息，用于补充说明。
+> 提示信息：用于补充说明常规背景。
 
 > [!TIP]
-> 这是一条小技巧，帮助用户更好地使用功能。
+> 技巧建议：帮助提升操作效率的实用方法。
 
 > [!IMPORTANT]
-> 这是重要信息，请务必注意。
+> 重要事项：用户必须知晓的关键规则。
 
 > [!WARNING]
-> 这是警告信息，操作前请三思。
+> 操作警告：执行前需复核的前置条件。
 
 > [!CAUTION]
-> 这是危险警告，可能导致数据丢失或不可逆操作。
+> 严重风险：可能引起数据覆写或不可逆后果。
+```
+
+---
+
+## 交互控制与快捷键
+
+### 全局命令面板
+
+按下 `Cmd/Ctrl + K` 随时唤起命令面板，支持模糊搜索所有编辑器操作、平台导出、排版样式切换、代码主题选择及系统设置。
+
+### 快捷键对照表
+
+| 动作                | macOS 快捷键           | Windows / Linux 快捷键 |
+| :------------------ | :--------------------- | :--------------------- |
+| 打开文件            | `Cmd + O`              | `Ctrl + O`             |
+| 导出 Markdown 文件  | `Cmd + S`              | `Ctrl + S`             |
+| 自动格式化 Markdown | `Cmd + Shift + L`      | `Ctrl + Shift + L`     |
+| 复制微信公众号格式  | `Cmd + Shift + 7`      | `Ctrl + Shift + 7`     |
+| 复制通用 HTML 格式  | `Cmd + Shift + 0`      | `Ctrl + Shift + 0`     |
+| 唤起命令面板        | `Cmd + K`              | `Ctrl + K`             |
+| 重命名当前文件标签  | `F2`（或双击标签）     | `F2`（或双击标签）     |
+| 关闭当前文件标签    | `Delete`（聚焦标签时） | `Delete`（聚焦标签时） |

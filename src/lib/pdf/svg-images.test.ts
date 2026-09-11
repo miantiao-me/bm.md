@@ -39,6 +39,33 @@ beforeEach(() => {
 })
 
 describe('pdf SVG 图片化', () => {
+  it('识别 iframe 中的 SVG img，保留 border-box 与普通 PNG', async () => {
+    const iframe = document.createElement('iframe')
+    document.body.append(iframe)
+    const frameDocument = iframe.contentDocument!
+    const source = frameDocument.createElement('div')
+    source.innerHTML = '<img src="https://example.com/chart.svg" style="box-sizing:border-box;padding:10px;border:2px solid black"><img src="https://example.com/photo.png">'
+    frameDocument.body.append(source)
+    const image = source.querySelector('img')!
+    expect(image).not.toBeInstanceOf(HTMLImageElement)
+    image.getBoundingClientRect = () => new DOMRect(0, 0, 100, 40)
+    const clone = source.cloneNode(true) as HTMLElement
+    const cloneImage = clone.querySelector('img')!
+
+    await expect(replaceSvgWithImages(source, clone)).resolves.toEqual(['blob:svg-1'])
+
+    expect(mocks.snapdom).toHaveBeenCalledOnce()
+    const wrapper = mocks.snapdom.mock.calls[0][0] as HTMLDivElement
+    expect(wrapper.style.width).toBe('76px')
+    expect(wrapper.querySelector('img')?.style.height).toBe('16px')
+    expect(wrapper.isConnected).toBe(false)
+    expect(clone.querySelector('img')).toBe(cloneImage)
+    expect(cloneImage.src).toBe('blob:svg-1')
+    expect(cloneImage.style.width).toBe('100px')
+    expect(clone.querySelectorAll('img')[1].src).toBe('https://example.com/photo.png')
+    expect(URL.revokeObjectURL).not.toHaveBeenCalled()
+  })
+
   it('转换 Mermaid 与 Infographic 的 SVG，保留 figure 和 caption', async () => {
     const { clone, source } = roots(`
       <figure class="figure-mermaid"><svg><path d="M0 0"></path></svg><figcaption>流程图</figcaption></figure>

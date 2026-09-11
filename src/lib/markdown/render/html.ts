@@ -1,4 +1,3 @@
-import type { Plugin } from 'unified'
 import type * as z from 'zod'
 import type { renderDefinition } from './definition'
 import juice from 'juice'
@@ -91,14 +90,7 @@ function createProcessor({ breaks = false, enableFootnoteLinks, openLinksInNewWi
   }
 
   const adapterPlugins = getAdapterPlugins(platform, { referenceTitle })
-  for (const plugin of adapterPlugins) {
-    if (Array.isArray(plugin)) {
-      processor.use(plugin[0] as Plugin, plugin[1])
-    }
-    else {
-      processor.use(plugin as Plugin)
-    }
-  }
+  processor.use(adapterPlugins)
 
   processor.use(rehypeDivToSection)
   processor.use(rehypeWrapTextNodes)

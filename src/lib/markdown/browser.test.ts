@@ -15,6 +15,35 @@ afterEach(() => {
 })
 
 describe('markdown browser RPC', () => {
+  it('初始化失败后允许再次调用，并发初始化共用一次构造，RPC 失败不重置', async () => {
+    const failure = new Error('初始化失败')
+    const construct = vi.fn().mockImplementationOnce(() => {
+      throw failure
+    })
+    const render = vi.fn().mockRejectedValueOnce(new Error('工具失败')).mockResolvedValue('成功')
+    const client = { markdown: { render } }
+    vi.doMock('./worker?worker', () => ({
+      default: class {
+        constructor() {
+          construct()
+        }
+      },
+    }))
+    vi.doMock('@orpc/client/message-port', () => ({ RPCLink: class {} }))
+    vi.doMock('@orpc/client', () => ({ createORPCClient: () => client, onError: vi.fn() }))
+    const { markdown, worker } = await import('./browser')
+
+    const first = worker.prepare()
+    expect(worker.prepare()).toBe(first)
+    await expect(first).rejects.toBe(failure)
+    expect(construct).toHaveBeenCalledTimes(1)
+    await expect(Promise.all([worker.prepare(), worker.prepare()])).resolves.toEqual([client, client])
+    expect(construct).toHaveBeenCalledTimes(2)
+    await expect(markdown.render({ markdown: '正文' })).rejects.toThrow('工具失败')
+    await expect(markdown.render({ markdown: '正文' })).resolves.toBe('成功')
+    expect(construct).toHaveBeenCalledTimes(2)
+  })
+
   it('markdown 方法懒加载同一个 worker 客户端并转发调用', async () => {
     const interceptor = { name: 'browser-error-interceptor' }
     const workerPorts: Array<{ readonly kind: string }> = []

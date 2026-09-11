@@ -1,4 +1,4 @@
 export async function prepareMarkdownWorker() {
   const { worker } = await import('@/lib/markdown/browser')
-  worker.prepare()
+  return worker.prepare()
 }

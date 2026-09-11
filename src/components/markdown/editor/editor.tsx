@@ -1,6 +1,6 @@
 import CodeMirror from '@uiw/react-codemirror'
 import { useTheme } from 'next-themes'
-import { useEditorScrollSync } from '@/components/markdown/hooks/use-scroll-sync'
+import { useEditorScrollSync } from '@/components/markdown/hooks/use-editor-scroll-sync'
 import { useEditorStore } from '@/stores/editor'
 import { useFilesStore } from '@/stores/files'
 import { getAyuCodeMirrorTheme } from '@/themes/codemirror'

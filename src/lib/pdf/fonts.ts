@@ -1,5 +1,6 @@
 import type { GoogleFontFamily } from '@takumi-rs/helpers'
 import type { GlyphReplacement, PdfRenderInput } from './protocol'
+import { uniqBy } from 'es-toolkit'
 import { normalizeGoogleFontsMirrorUrl } from '../google-fonts'
 import { PdfError } from './protocol'
 
@@ -240,9 +241,7 @@ export function recoverMissingGlyphs(
 }
 
 export function replacementSummary(replacements: GlyphReplacement[]): string {
-  const unique = replacements.filter((item, index, values) => (
-    values.findIndex(value => value.original === item.original) === index
-  ))
+  const unique = uniqBy(replacements, item => item.original)
   return unique.slice(0, 6).map(item => (
     `${item.original} (${item.codepoints.map(codepoint => `U+${codepoint.toString(16).toUpperCase()}`).join(' ')})`
   )).join('、')

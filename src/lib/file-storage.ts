@@ -218,7 +218,12 @@ function ensureUniqueName(name: string, files: MarkdownFile[], excludeId?: strin
   const normalized = normalizeFileName(name)
   const extension = getMarkdownFileExtension(normalized) ?? '.md'
   const baseName = normalized.slice(0, -extension.length)
-  const names = new Set(files.filter(file => file.id !== excludeId).map(file => file.name.toLocaleLowerCase()))
+  const names = new Set<string>()
+  for (const file of files) {
+    if (file.id !== excludeId) {
+      names.add(file.name.toLocaleLowerCase())
+    }
+  }
   if (!names.has(normalized.toLocaleLowerCase())) {
     return normalized
   }
@@ -240,13 +245,15 @@ function isValidLegacyFile(value: MarkdownFile): boolean {
 
 function validLegacyFiles(files: MarkdownFile[]): MarkdownFile[] {
   const ids = new Set<string>()
-  return files.filter((file) => {
+  const validFiles: MarkdownFile[] = []
+  for (const file of files) {
     if (!isValidLegacyFile(file) || ids.has(file.id)) {
-      return false
+      continue
     }
     ids.add(file.id)
-    return true
-  }).map(cloneFile)
+    validFiles.push(cloneFile(file))
+  }
+  return validFiles
 }
 
 async function readCatalogFromTransaction(
@@ -510,61 +517,43 @@ export async function getFileContent(id: string): Promise<string> {
   return (await getFileSnapshot(id)).content
 }
 
-export function saveFileContent(
+export async function saveFileContent(
   id: string,
   content: string,
 ): Promise<number | false> {
-  return (async () => {
-    if (dbUnavailable) {
-      if (!memoryCatalog?.files.some(file => file.id === id)) {
-        return false
-      }
-      const version = (memorySnapshots.get(id)?.version ?? 0) + 1
-      memorySnapshots.set(id, { content, version })
-      return version
-    }
-    let transaction: IDBPTransaction<FileDB, StoreNames<FileDB>[], 'readwrite'> | undefined
-    try {
-      const database = await getDB()
-      transaction = database.transaction(['files', 'catalog'], 'readwrite')
-      const catalog = await readCatalogFromTransaction(transaction)
-      if (!catalog.files.some(file => file.id === id)) {
-        await transaction.done
-        mirrorCatalog(catalog)
-        return false
-      }
-      const current = await transaction.objectStore('files').get(id)
-      const version = (current?.version ?? 0) + 1
-      await transaction.objectStore('files').put({ id, content, version })
-      await transaction.done
-      mirrorCatalog(catalog)
-      memorySnapshots.set(id, { content, version })
-      return version
-    }
-    catch {
-      if (transaction) {
-        await abortTransaction(transaction)
-      }
-      if (!transaction && canUseMemoryFallback()) {
-        return saveFileContent(id, content)
-      }
-      throw storageError()
-    }
-  })()
-}
-
-/** @deprecated 仅供旧 Store 迁移期间使用，业务删除请使用 deleteFileRecord。 */
-export async function deleteFileContent(id: string): Promise<void> {
   if (dbUnavailable) {
-    memorySnapshots.delete(id)
-    return
+    if (!memoryCatalog?.files.some(file => file.id === id)) {
+      return false
+    }
+    const version = (memorySnapshots.get(id)?.version ?? 0) + 1
+    memorySnapshots.set(id, { content, version })
+    return version
   }
+  let transaction: IDBPTransaction<FileDB, StoreNames<FileDB>[], 'readwrite'> | undefined
   try {
     const database = await getDB()
-    await database.delete('files', id)
-    memorySnapshots.delete(id)
+    transaction = database.transaction(['files', 'catalog'], 'readwrite')
+    const catalog = await readCatalogFromTransaction(transaction)
+    if (!catalog.files.some(file => file.id === id)) {
+      await transaction.done
+      mirrorCatalog(catalog)
+      return false
+    }
+    const current = await transaction.objectStore('files').get(id)
+    const version = (current?.version ?? 0) + 1
+    await transaction.objectStore('files').put({ id, content, version })
+    await transaction.done
+    mirrorCatalog(catalog)
+    memorySnapshots.set(id, { content, version })
+    return version
   }
   catch {
+    if (transaction) {
+      await abortTransaction(transaction)
+    }
+    if (!transaction && canUseMemoryFallback()) {
+      return saveFileContent(id, content)
+    }
     throw storageError()
   }
 }

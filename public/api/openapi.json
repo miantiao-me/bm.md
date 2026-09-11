@@ -1,7 +1,7 @@
 {
   "info": {
     "title": "bm.md API",
-    "version": "0.3.3",
+    "version": "0.3.4",
     "description": "OpenAPI specification for the bm.md API."
   },
   "servers": [

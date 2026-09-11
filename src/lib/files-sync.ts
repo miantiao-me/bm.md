@@ -46,6 +46,3 @@ export function publishCatalogSignal(revision: number): void {
 export function publishContentSignal(fileId: string, version: number): void {
   publish({ kind: 'content', fileId, version, nonce: crypto.randomUUID() })
 }
-
-/** @deprecated 使用 publishCatalogSignal。 */
-export const publishFilesSignal = publishCatalogSignal

@@ -1,4 +1,5 @@
 import type { Element, RootContent, Text } from 'hast'
+import { escapeRegExp } from 'es-toolkit'
 import { isElement } from '@/lib/markdown/hast'
 
 const allowedTags = new Set([
@@ -247,10 +248,6 @@ function sanitizeNode(node: Element): boolean {
   node.children = children
 
   return true
-}
-
-function escapeRegExp(value: string): string {
-  return value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
 }
 
 function sortedIds(idMap: Map<string, string>): string[] {

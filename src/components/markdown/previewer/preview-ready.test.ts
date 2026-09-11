@@ -95,6 +95,12 @@ describe('预览瞬时就绪判定', () => {
     expect(isPreviewReadyNow()).toBe(false)
   })
 
+  it('相同正文切换文件时拒绝上一文件的已提交签名', () => {
+    setReadyInput()
+    useFilesStore.setState({ activeFileId: 'file-2', contentFileId: 'file-2' })
+    expect(isPreviewReadyNow()).toBe(false)
+  })
+
   it('文件仍在加载时即使签名匹配也未就绪', () => {
     setReadyInput()
     useFilesStore.setState({ contentStatus: 'loading' })

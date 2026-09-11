@@ -1,11 +1,8 @@
+import type { RefObject } from 'react'
 import morphdom from 'morphdom'
 import { applyDarkModeToPreviewHtml } from './darkmode'
 
 const PREVIEW_STYLE_ID = 'bm-preview-style'
-
-interface MutableRef<T> {
-  current: T
-}
 
 export interface RenderedPreview {
   html: string
@@ -69,7 +66,7 @@ function applyIframeContent(iframe: HTMLIFrameElement | null, preview: RenderedP
 export function syncIframeContent(
   iframe: HTMLIFrameElement | null,
   preview: RenderedPreview,
-  pendingPreviewRef: MutableRef<RenderedPreview | null>,
+  pendingPreviewRef: RefObject<RenderedPreview | null>,
 ): boolean {
   try {
     if (!applyIframeContent(iframe, preview)) {

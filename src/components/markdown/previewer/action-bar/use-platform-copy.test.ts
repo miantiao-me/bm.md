@@ -138,5 +138,6 @@ describe('usePlatformCopy', () => {
     const { getHtml } = usePlatformCopy('html')
 
     await expect(getHtml()).rejects.toEqual(new Error('渲染失败'))
+    expect(mocks.setIsLoading.mock.calls).toEqual([[true], [false]])
   })
 })

@@ -72,6 +72,9 @@ export const useEditorStore = create<EditorState>()(
         enableScrollSync: state.enableScrollSync,
       }),
       merge: (persistedState, currentState) => {
+        if (persistedState === null || typeof persistedState !== 'object') {
+          return currentState
+        }
         const settings = persistedState as Partial<Pick<
           EditorState,
           'enableFootnoteLinks' | 'breaks' | 'openLinksInNewWindow' | 'enableScrollSync'

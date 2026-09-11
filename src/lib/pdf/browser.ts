@@ -3,12 +3,7 @@ import { logSafeError } from '@/lib/log-safe-error'
 import { recoverMissingGlyphs } from './fonts'
 import { PDF_WORKER_TIMEOUT_MS, PdfError } from './protocol'
 
-interface PdfWorker {
-  addEventListener: Worker['addEventListener']
-  postMessage: Worker['postMessage']
-  removeEventListener: Worker['removeEventListener']
-  terminate: Worker['terminate']
-}
+type PdfWorker = Pick<Worker, 'addEventListener' | 'postMessage' | 'removeEventListener' | 'terminate'>
 
 type Recover = typeof recoverMissingGlyphs
 type WorkerFactory = () => PdfWorker
