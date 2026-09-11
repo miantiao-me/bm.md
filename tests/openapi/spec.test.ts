@@ -74,6 +74,25 @@ function getRequestSchema(operation: Operation) {
 }
 
 describe('openapi 规范', () => {
+  it.each([
+    ['render', 'markdown', MAX_INPUT_SIZE],
+    ['render', 'customCss', 50000],
+    ['render', 'footnoteLabel', 50],
+    ['render', 'referenceTitle', 50],
+    ['parse', 'html', MAX_INPUT_SIZE],
+    ['extract', 'markdown', MAX_INPUT_SIZE],
+    ['lint', 'markdown', MAX_INPUT_SIZE],
+  ] as const)('%s 的 %s 长度限制在直接生成和公开规范中保持一致', async (tool, field, limit) => {
+    const directSpec = await generateSpec()
+    const publicSpec = JSON.parse(await readFile('public/api/openapi.json', 'utf8')) as OpenAPISpec
+
+    for (const spec of [directSpec, publicSpec]) {
+      const schema = getRequestSchema(spec.paths?.[`/markdown/${tool}`]?.post as Operation)
+      const properties = getJsonObject(schema.properties, '请求属性')
+      expect(properties[field]).toMatchObject({ type: 'string', maxLength: limit })
+    }
+  })
+
   it('只暴露 registry 中的四个 Markdown 工具', async () => {
     const spec = await generateSpec()
 

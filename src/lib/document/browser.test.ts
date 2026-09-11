@@ -87,6 +87,22 @@ describe('document browser Worker', () => {
     expect(workers).toHaveLength(1)
   })
 
+  it('需要 OCR 时保留错误码、提示处理方式且不重建 Worker', async () => {
+    const { convertDocument } = await import('./browser')
+    const { getDocumentImportErrorMessage } = await import('./error')
+    const conversion = convertDocument({ bytes: new ArrayBuffer(1) })
+    await vi.waitFor(() => expect(workers).toHaveLength(1))
+
+    workers[0].respond({ success: false, code: 'needsOcr' })
+    await expect(conversion).rejects.toMatchObject({ code: 'needsOcr' })
+    await conversion.catch((error) => {
+      expect(getDocumentImportErrorMessage('扫描.pdf', error)).toBe(
+        '文件需要文字识别（OCR），请先识别文字后再导入: 扫描.pdf',
+      )
+    })
+    expect(workers[0].terminate).not.toHaveBeenCalled()
+  })
+
   it.each(['runtime', 'error', 'messageerror'] as const)('%s 失败后重建 Worker', async (failure) => {
     const { convertDocument } = await import('./browser')
     const first = convertDocument({ bytes: new ArrayBuffer(1) })

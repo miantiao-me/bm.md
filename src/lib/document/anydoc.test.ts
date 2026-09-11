@@ -51,6 +51,7 @@ describe('anyDoc 转换', () => {
 
   it.each([
     ['encrypted', 'encrypted'],
+    ['needsOcr', 'needsOcr'],
     ['unknown', 'runtime'],
   ] as const)('将 %s 错误映射为 %s', async (sourceCode, expectedCode) => {
     mocks.toMarkdownBytes.mockImplementation(() => {

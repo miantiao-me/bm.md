@@ -24,8 +24,9 @@ pnpm test src/lib/markdown/registry.test.ts
 
 ## 环境与命令
 
-- Node.js `>=20`，仓库 `.node-version` 为 22。
-- 包管理器固定为 `pnpm@11.11.0`。
+- 本地开发、构建和应用部署使用 Node.js 24，仓库 `.node-version` 为 24。
+- npm 发布包仅提供已打包 CLI，`engines.node` 为 `>=20`，CLI 输出目标保留 `node20`；这不表示构建工具支持 Node.js 20。Node.js 20 已结束维护，推荐 CLI 用户使用 Node.js 24。
+- 包管理器固定为 `pnpm@11.26.0`。
 - CLI 与应用共用依赖，所有依赖均放在 `devDependencies`：`pnpm add -D <package>`。
 
 ```bash
@@ -40,7 +41,7 @@ pnpm doctor                 # React 变更的聚焦检查
 
 pnpm test                                            # 全部测试
 pnpm test src/lib/markdown/extract/text.test.ts      # 单文件
-pnpm test --grep "keeps paragraph"                  # 按名称筛选
+pnpm test -t "keeps paragraph"                      # 按名称筛选
 pnpm test --watch                                    # 监听模式
 
 pnpm shadcn add <component>

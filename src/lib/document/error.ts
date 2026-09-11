@@ -19,6 +19,7 @@ export function getDocumentImportErrorMessage(fileName: string, error: DocumentI
     encrypted: '文件已加密，无法导入',
     resourceLimit: '文件过于复杂，无法导入',
     missingPart: '文件内容不完整',
+    needsOcr: '文件需要文字识别（OCR），请先识别文字后再导入',
     runtime: '文档转换失败，请重试',
   }
   return `${messages[code]}: ${fileName}`

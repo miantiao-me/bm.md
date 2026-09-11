@@ -6,6 +6,7 @@ export const DOCUMENT_ERROR_CODES = [
   'encrypted',
   'resourceLimit',
   'missingPart',
+  'needsOcr',
 ] as const satisfies readonly ConvertErrorCode[]
 
 export type DocumentWorkerErrorCode = ConvertErrorCode | 'runtime'

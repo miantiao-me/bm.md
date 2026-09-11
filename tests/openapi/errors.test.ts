@@ -125,9 +125,14 @@ describe('openapi HTTP 错误响应', () => {
     expect(response.status).toBe(400)
   })
 
-  it('输入超过大小限制时返回 400', async () => {
-    const response = await submitJson('/api/markdown/extract', {
-      markdown: 'x'.repeat(MAX_INPUT_SIZE + 1),
+  it.each([
+    ['render', 'markdown'],
+    ['parse', 'html'],
+    ['extract', 'markdown'],
+    ['lint', 'markdown'],
+  ])('%s 输入超过大小限制时返回 400', async (tool, field) => {
+    const response = await submitJson(`/api/markdown/${tool}`, {
+      [field]: 'x'.repeat(MAX_INPUT_SIZE + 1),
     })
 
     expect(response.status).toBe(400)

@@ -19,8 +19,9 @@ Markdown 排版工具，专为微信公众号与多平台排版设计，支持�
 
 ### 环境要求
 
-- Node.js >= 20（推荐使用 `.node-version` 声明的 Node 22）
-- pnpm 11.11.0
+- 本地开发、构建和应用部署使用 Node.js 24（见 `.node-version`）；npm 发布的 CLI 支持 Node.js >= 20。
+- Node.js 20 已结束维护，建议 CLI 用户也使用 Node.js 24。
+- pnpm 11.26.0
 
 ### 本地运行
 
