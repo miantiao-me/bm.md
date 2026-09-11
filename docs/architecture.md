@@ -178,7 +178,7 @@ PDF 导出不重新执行 Markdown 或脚本。主线程快照预览 iframe 的 
 ### Store 架构
 
 - `filesStore`：文件 catalog、活动文件、当前正文及其加载状态；通过 `contentFileId`、`contentVersion`、`contentEpoch` 标识正文身份与版本
-- `editorStore`：滚动位置/来源，以及引用链接、新窗口打开、滚动同步三项编辑设置
+- `editorStore`：滚动位置/来源，以及引用链接、新窗口打开、回车即换行、滚动同步四项编辑设置
 - `previewStore`：预览宽度和配色、Markdown/代码/Mermaid/Infographic 主题、自定义 CSS 与当前渲染签名
 - `commandPaletteStore`：命令面板开关与当前子菜单
 
@@ -188,7 +188,7 @@ PDF 导出不重新执行 Markdown 或脚本。主线程快照预览 iframe 的 
 | ------------------- | --------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------- |
 | filesStore          | IndexedDB `bm.md` v2；sessionStorage `bm.md.files.active` | `catalog` 中的文件元数据与 revision、`files` 中的正文与 version；当前标签的活动文件 ID                         |
 | filesStore 同步信号 | localStorage `bm.md.files.signal`                         | 仅保存 catalog/正文的 revision/version 失效通知，不保存文件快照                                                |
-| editorStore         | localStorage `bm.md.editor`                               | `enableFootnoteLinks`、`openLinksInNewWindow`、`enableScrollSync`（不含滚动状态）                              |
+| editorStore         | localStorage `bm.md.editor`                               | `enableFootnoteLinks`、`breaks`、`openLinksInNewWindow`、`enableScrollSync`（不含滚动状态）                    |
 | previewStore        | localStorage `bm.md.preview`                              | `previewWidth`、`previewColorScheme`、`markdownStyle`、`codeTheme`、`mermaidTheme`、`infographic`、`customCss` |
 | commandPaletteStore | -                                                         | 不持久化                                                                                                       |
 

@@ -11,6 +11,7 @@ export interface PreviewRenderOptions {
   infographicPalette: string
   customCss: string
   enableFootnoteLinks: boolean
+  breaks: boolean
   openLinksInNewWindow: boolean
   colorScheme: string
 }
@@ -25,6 +26,7 @@ export interface RenderPlatformHtmlOptions {
   infographicPalette: string
   customCss: string
   enableFootnoteLinks: boolean
+  breaks: boolean
   openLinksInNewWindow: boolean
 }
 
@@ -37,6 +39,7 @@ export async function renderMarkdownPreview({
   infographicPalette,
   customCss,
   enableFootnoteLinks,
+  breaks,
   openLinksInNewWindow,
   colorScheme,
 }: PreviewRenderOptions): Promise<{ html: string, css: string }> {
@@ -50,6 +53,7 @@ export async function renderMarkdownPreview({
     infographicPalette,
     customCss,
     enableFootnoteLinks,
+    breaks,
     openLinksInNewWindow,
     ...getMarkdownLocaleTexts(),
   }
@@ -75,6 +79,7 @@ export async function renderPlatformHtml({
   infographicPalette,
   customCss,
   enableFootnoteLinks,
+  breaks,
   openLinksInNewWindow,
 }: RenderPlatformHtmlOptions): Promise<string> {
   const { markdown } = await import('@/lib/markdown/browser')
@@ -87,6 +92,7 @@ export async function renderPlatformHtml({
     infographicPalette,
     customCss,
     enableFootnoteLinks,
+    breaks,
     openLinksInNewWindow,
     platform,
     ...getMarkdownLocaleTexts(),

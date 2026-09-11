@@ -64,6 +64,14 @@ bm.md 是一个专业的 Markdown 排版工具，专为内容创作者设计。�
 
 ## 预览功能
 
+### 软换行
+
+`render` 的 `breaks` 布尔参数默认是 `false`，保留 Markdown 的软换行行为。设置为 `true` 时，段落内的单个换行会转换为 HTML `<br>`；原生硬换行保持不变，代码块不受影响。
+
+- CLI：`bmmd render input.md --breaks`
+- REST API：向 `/api/markdown/render` 提交 `{"markdown":"第一行\n第二行","breaks":true}`。
+- MCP：调用 `render` 工具时传入 `breaks: true`。
+
 ### 实时预览
 
 编辑即可见的预览体验：
@@ -287,6 +295,7 @@ pnpm dlx bmmd lint article.md --fix
 | `--infographic-palette <id>` | `antv`         | Infographic 信息图配色             |
 | `--custom-css <css>`         | -              | 追加自定义 CSS                     |
 | `--custom-css-file <file>`   | -              | 从文件追加自定义 CSS               |
+| `--breaks`                   | 关闭           | 将段落内的软换行转换为 HTML 换行   |
 | `--no-footnote-links`        | 开启           | 关闭文中链接脚注转换               |
 | `--no-open-links`            | 开启           | 不为外部链接添加 `target="_blank"` |
 | `--footnote-label <text>`    | `Footnotes`    | GFM 脚注区域标题                   |
@@ -345,11 +354,12 @@ Scalar 文档 `/docs` 展示以下 4 个 Markdown API：
 
 可配置的编辑器行为：
 
-| 设置           | 说明                         |
-| -------------- | ---------------------------- |
-| 引用链接列表   | 将文中链接转换为脚注形式     |
-| 新窗口打开链接 | 为链接添加 `target="_blank"` |
-| 滚动同步       | 编辑器与预览双向滚动同步     |
+| 设置           | 说明                                             |
+| -------------- | ------------------------------------------------ |
+| 引用链接列表   | 将文中链接转换为脚注形式                         |
+| 新窗口打开链接 | 为链接添加 `target="_blank"`                     |
+| 回车即换行     | 默认关闭，开启后正文回车在预览和复制结果中也换行 |
+| 滚动同步       | 编辑器与预览双向滚动同步                         |
 
 ---
 

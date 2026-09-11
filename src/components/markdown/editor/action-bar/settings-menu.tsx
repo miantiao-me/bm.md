@@ -19,10 +19,12 @@ const settingsAriaLabel = '编辑器设置'
 
 export function SettingsMenu() {
   const enableFootnoteLinks = useEditorStore(state => state.enableFootnoteLinks)
+  const breaks = useEditorStore(state => state.breaks)
   const openLinksInNewWindow = useEditorStore(state => state.openLinksInNewWindow)
   const enableScrollSync = useEditorStore(state => state.enableScrollSync)
   const settings = {
     enableFootnoteLinks,
+    breaks,
     openLinksInNewWindow,
     enableScrollSync,
   }

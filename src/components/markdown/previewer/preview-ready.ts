@@ -17,6 +17,7 @@ export interface PreviewSignatureInput {
   infographicPalette: InfographicPaletteId
   customCss: string
   enableFootnoteLinks: boolean
+  breaks: boolean
   openLinksInNewWindow: boolean
   previewColorScheme: PreviewColorScheme
 }
@@ -33,6 +34,7 @@ export function createPreviewSignature(input: PreviewSignatureInput): string {
     input.infographicPalette,
     input.customCss,
     input.enableFootnoteLinks,
+    input.breaks,
     input.openLinksInNewWindow,
     input.previewColorScheme,
   ])
@@ -54,6 +56,7 @@ function getCurrentPreviewSignature(): string {
     infographicPalette: preview.infographic.palette,
     customCss: preview.customCss,
     enableFootnoteLinks: editor.enableFootnoteLinks,
+    breaks: editor.breaks,
     openLinksInNewWindow: editor.openLinksInNewWindow,
     previewColorScheme: preview.previewColorScheme,
   })
@@ -82,6 +85,7 @@ export function useIsPreviewReady(): boolean {
   const previewColorScheme = usePreviewStore(state => state.previewColorScheme)
   const renderedSignature = usePreviewStore(state => state.renderedSignature)
   const enableFootnoteLinks = useEditorStore(state => state.enableFootnoteLinks)
+  const breaks = useEditorStore(state => state.breaks)
   const openLinksInNewWindow = useEditorStore(state => state.openLinksInNewWindow)
 
   const signature = createPreviewSignature({
@@ -95,6 +99,7 @@ export function useIsPreviewReady(): boolean {
     infographicPalette: infographic.palette,
     customCss,
     enableFootnoteLinks,
+    breaks,
     openLinksInNewWindow,
     previewColorScheme,
   })

@@ -21,7 +21,7 @@ describe('editor store 持久化', () => {
     vi.unstubAllGlobals()
   })
 
-  it('显式恢复时只恢复三个设置字段并忽略旧滚动状态', async () => {
+  it('显式恢复时只恢复四个设置字段并忽略旧滚动状态', async () => {
     const localStorage = createMemoryStorage({
       'bm.md.editor': JSON.stringify({
         state: {
@@ -44,8 +44,25 @@ describe('editor store 持久化', () => {
       scrollRatio: 0,
       scrollSource: null,
       enableFootnoteLinks: false,
+      breaks: false,
       openLinksInNewWindow: false,
       enableScrollSync: false,
     })
+  })
+
+  it('恢复已持久化的 breaks 设置', async () => {
+    const localStorage = createMemoryStorage({
+      'bm.md.editor': JSON.stringify({
+        state: { breaks: true },
+        version: 0,
+      }),
+    })
+    vi.stubGlobal('localStorage', localStorage)
+    vi.stubGlobal('window', { localStorage })
+
+    const { useEditorStore } = await import('./editor')
+    await useEditorStore.persist.rehydrate()
+
+    expect(useEditorStore.getState().breaks).toBe(true)
   })
 })

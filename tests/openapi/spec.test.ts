@@ -143,11 +143,15 @@ describe('openapi 规范', () => {
     expect(properties).toHaveProperty('openLinksInNewWindow')
     expect(properties).toHaveProperty('referenceTitle')
     expect(properties).toHaveProperty('footnoteLabel')
+    expect(properties.breaks).toMatchObject({ type: 'boolean', default: false })
+    expect(schema.required).not.toContain('breaks')
   })
 
   it('已生成的公开规范包含关键路径', async () => {
     const content = await readFile('public/api/openapi.json', 'utf8')
     const spec = JSON.parse(content) as OpenAPISpec
+    const schema = getRequestSchema(spec.paths?.['/markdown/render']?.post as Operation)
+    expect(getJsonObject(schema.properties, '渲染请求属性').breaks).toMatchObject({ type: 'boolean', default: false })
 
     for (const path of paths) {
       expect(spec.paths).toHaveProperty(path)

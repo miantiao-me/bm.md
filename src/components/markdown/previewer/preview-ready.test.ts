@@ -17,6 +17,7 @@ const baseInput = {
   infographicPalette: 'antv',
   customCss: '',
   enableFootnoteLinks: true,
+  breaks: false,
   openLinksInNewWindow: true,
   previewColorScheme: 'light',
 } satisfies PreviewSignatureInput
@@ -43,6 +44,7 @@ describe('预览输入签名', () => {
     ['Markdown 样式', { markdownStyle: 'bauhaus' }],
     ['代码样式', { codeTheme: 'github-dark' }],
     ['自定义样式', { customCss: 'p { color: red; }' }],
+    ['单换行设置', { breaks: true }],
   ] satisfies Array<[string, Partial<PreviewSignatureInput>]>)('%s变化后签名不匹配', (_name, change) => {
     expect(createPreviewSignature({ ...baseInput, ...change })).not.toBe(createPreviewSignature(baseInput))
   })
@@ -71,6 +73,7 @@ describe('预览瞬时就绪判定', () => {
     })
     useEditorStore.setState({
       enableFootnoteLinks: baseInput.enableFootnoteLinks,
+      breaks: baseInput.breaks,
       openLinksInNewWindow: baseInput.openLinksInNewWindow,
     })
   }
@@ -83,6 +86,12 @@ describe('预览瞬时就绪判定', () => {
   it('执行瞬间正文变化时立即拒绝旧预览', () => {
     setReadyInput()
     useFilesStore.setState({ currentContent: '# 点击瞬间的新正文' })
+    expect(isPreviewReadyNow()).toBe(false)
+  })
+
+  it('换行设置变化时立即拒绝旧预览', () => {
+    setReadyInput()
+    useEditorStore.setState({ breaks: true })
     expect(isPreviewReadyNow()).toBe(false)
   })
 

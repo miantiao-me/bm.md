@@ -62,6 +62,7 @@ export default function MarkdownRender() {
   const contentFileId = useFilesStore(state => state.contentFileId)
   const enableScrollSync = useEditorStore(state => state.enableScrollSync)
   const enableFootnoteLinks = useEditorStore(state => state.enableFootnoteLinks)
+  const breaks = useEditorStore(state => state.breaks)
   const openLinksInNewWindow = useEditorStore(state => state.openLinksInNewWindow)
   const hasHydrated = usePreviewStore(state => state.hasHydrated)
   const previewWidth = usePreviewStore(state => state.previewWidth)
@@ -183,6 +184,7 @@ export default function MarkdownRender() {
       infographicPalette: infographic.palette,
       customCss,
       enableFootnoteLinks,
+      breaks,
       openLinksInNewWindow,
       previewColorScheme,
     })
@@ -197,6 +199,7 @@ export default function MarkdownRender() {
           infographicPalette: infographic.palette,
           customCss,
           enableFootnoteLinks,
+          breaks,
           openLinksInNewWindow,
           colorScheme: previewColorScheme,
         })
@@ -246,7 +249,7 @@ export default function MarkdownRender() {
       canceled = true
       scheduleRender.cancel()
     }
-  }, [hasHydrated, contentFileId, content, previewWidth, markdownStyle, codeTheme, mermaidTheme, infographic, customCss, enableFootnoteLinks, openLinksInNewWindow, previewColorScheme, iframeRef, frameLifecycle])
+  }, [hasHydrated, contentFileId, content, previewWidth, markdownStyle, codeTheme, mermaidTheme, infographic, customCss, enableFootnoteLinks, breaks, openLinksInNewWindow, previewColorScheme, iframeRef, frameLifecycle])
 
   const isMobile = previewWidth === PREVIEW_WIDTH_MOBILE
 

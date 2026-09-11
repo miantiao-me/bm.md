@@ -12,6 +12,9 @@ export interface EditorState {
   enableFootnoteLinks: boolean
   setEnableFootnoteLinks: (enable: boolean) => void
 
+  breaks: boolean
+  setBreaks: (enable: boolean) => void
+
   openLinksInNewWindow: boolean
   setOpenLinksInNewWindow: (enable: boolean) => void
 
@@ -50,6 +53,9 @@ export const useEditorStore = create<EditorState>()(
       enableFootnoteLinks: true,
       setEnableFootnoteLinks: enable => set({ enableFootnoteLinks: enable }),
 
+      breaks: false,
+      setBreaks: enable => set({ breaks: enable }),
+
       openLinksInNewWindow: true,
       setOpenLinksInNewWindow: enable => set({ openLinksInNewWindow: enable }),
 
@@ -61,13 +67,14 @@ export const useEditorStore = create<EditorState>()(
       skipHydration: true,
       partialize: state => ({
         enableFootnoteLinks: state.enableFootnoteLinks,
+        breaks: state.breaks,
         openLinksInNewWindow: state.openLinksInNewWindow,
         enableScrollSync: state.enableScrollSync,
       }),
       merge: (persistedState, currentState) => {
         const settings = persistedState as Partial<Pick<
           EditorState,
-          'enableFootnoteLinks' | 'openLinksInNewWindow' | 'enableScrollSync'
+          'enableFootnoteLinks' | 'breaks' | 'openLinksInNewWindow' | 'enableScrollSync'
         >>
 
         return {
@@ -75,6 +82,9 @@ export const useEditorStore = create<EditorState>()(
           enableFootnoteLinks: typeof settings.enableFootnoteLinks === 'boolean'
             ? settings.enableFootnoteLinks
             : currentState.enableFootnoteLinks,
+          breaks: typeof settings.breaks === 'boolean'
+            ? settings.breaks
+            : currentState.breaks,
           openLinksInNewWindow: typeof settings.openLinksInNewWindow === 'boolean'
             ? settings.openLinksInNewWindow
             : currentState.openLinksInNewWindow,

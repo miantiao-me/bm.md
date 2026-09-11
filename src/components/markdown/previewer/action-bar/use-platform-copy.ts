@@ -32,7 +32,7 @@ export function usePlatformCopy(platform: Platform): PlatformCopyResult {
         infographic,
         customCss,
       } = usePreviewStore.getState()
-      const { enableFootnoteLinks, openLinksInNewWindow } = useEditorStore.getState()
+      const { enableFootnoteLinks, breaks, openLinksInNewWindow } = useEditorStore.getState()
 
       const html = await renderPlatformHtml({
         platform,
@@ -44,6 +44,7 @@ export function usePlatformCopy(platform: Platform): PlatformCopyResult {
         infographicPalette: infographic.palette,
         customCss,
         enableFootnoteLinks,
+        breaks,
         openLinksInNewWindow,
       })
       setIsLoading(false)

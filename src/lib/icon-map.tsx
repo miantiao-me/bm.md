@@ -19,6 +19,7 @@ import {
   Smartphone,
   Sun,
   Wand,
+  WrapText,
 } from 'lucide-react'
 import GithubIcon from '@/icons/github'
 import MCPIcon from '@/icons/mcp'
@@ -48,6 +49,7 @@ const iconMap = {
   Sun,
   Twitter: TwitterIcon,
   Wand,
+  WrapText,
   Wechat: WechatIcon,
   MCP: MCPIcon,
   Skill: SkillIcon,

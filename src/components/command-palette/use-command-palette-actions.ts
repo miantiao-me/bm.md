@@ -68,10 +68,12 @@ export function useCommandPaletteActions(setResetDialogOpen: (open: boolean) => 
   const resetSubMenu = useCommandPaletteStore(state => state.resetSubMenu)
 
   const enableFootnoteLinks = useEditorStore(state => state.enableFootnoteLinks)
+  const breaks = useEditorStore(state => state.breaks)
   const openLinksInNewWindow = useEditorStore(state => state.openLinksInNewWindow)
   const enableScrollSync = useEditorStore(state => state.enableScrollSync)
   const settings = {
     enableFootnoteLinks,
+    breaks,
     openLinksInNewWindow,
     enableScrollSync,
   }

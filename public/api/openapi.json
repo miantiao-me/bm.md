@@ -1,7 +1,7 @@
 {
   "info": {
     "title": "bm.md API",
-    "version": "0.3.2",
+    "version": "0.3.3",
     "description": "OpenAPI specification for the bm.md API."
   },
   "servers": [
@@ -121,6 +121,11 @@
                     "type": "boolean",
                     "default": true,
                     "description": "是否将文中链接自动转换为脚注形式，便于阅读时查看原始链接"
+                  },
+                  "breaks": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "是否将段落内的软换行转换为 HTML 换行，不影响代码块"
                   },
                   "openLinksInNewWindow": {
                     "type": "boolean",

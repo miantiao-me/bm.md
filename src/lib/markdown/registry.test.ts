@@ -1,4 +1,4 @@
-import type { ListToolsResult } from '@modelcontextprotocol/server'
+import type { CallToolResult, ListToolsResult } from '@modelcontextprotocol/server'
 import type { RouterClient } from '@orpc/server'
 import type * as z from 'zod'
 import type { parseDefinition, renderDefinition } from './definitions'
@@ -55,6 +55,9 @@ describe('markdown 工具集合契约', () => {
     const expectedNames = sorted(markdownTools.map(tool => tool.name))
 
     expect(sorted(data.result.tools.map(tool => tool.name))).toEqual(expectedNames)
+    const renderTool = data.result.tools.find(tool => tool.name === 'render')
+    expect(renderTool?.inputSchema.properties?.breaks).toMatchObject({ type: 'boolean', default: false })
+    expect(renderTool?.inputSchema.required ?? []).not.toContain('breaks')
   })
 
   it('worker 只比公开工具集合额外暴露 preview', () => {
@@ -64,5 +67,22 @@ describe('markdown 工具集合契约', () => {
     ])
 
     expect(sorted(Object.keys(workerRouter.markdown))).toEqual(expectedNames)
+  })
+
+  it.each([undefined, false, true])('mcp render 支持 breaks=%s', async (breaks) => {
+    const response = await createMcpRequest(mcpHandler, {
+      jsonrpc: '2.0',
+      id: 2,
+      method: 'tools/call',
+      params: {
+        name: 'render',
+        arguments: { markdown: '第一行\n第二行', ...(breaks === undefined ? {} : { breaks }) },
+      },
+    })
+    const data = await readMcpJson<McpResult<CallToolResult>>(response)
+    expect(data.result.isError).not.toBe(true)
+    const text = data.result.content.filter(item => item.type === 'text').map(item => item.text).join('')
+    expect(text).toContain('第一行')
+    expect(/<br[\s>]/.test(text)).toBe(breaks === true)
   })
 })

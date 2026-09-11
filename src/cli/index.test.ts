@@ -163,6 +163,12 @@ describe('cli core', () => {
 })
 
 describe('cli entry', () => {
+  it.each([{ flags: [] }, { flags: ['--breaks'] }])('render 正确解析换行选项 $flags', async ({ flags }) => {
+    const result = await runCli(['render', ...flags], '第一行\n第二行')
+    expect(result.exitCode).toBe(0)
+    expect(/<br[\s>]/.test(result.stdout)).toBe(flags.length > 0)
+  }, 10_000)
+
   it('无参数时输出 help', async () => {
     const result = await runCli([])
 

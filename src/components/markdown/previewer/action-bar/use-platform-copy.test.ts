@@ -21,6 +21,7 @@ const mocks = vi.hoisted(() => ({
   },
   editorState: {
     enableFootnoteLinks: true,
+    breaks: false,
     openLinksInNewWindow: true,
   },
 }))
@@ -66,6 +67,7 @@ describe('usePlatformCopy', () => {
     mocks.filesState.contentStatus = 'ready'
     mocks.filesState.currentContent = '初始内容'
     mocks.previewState.markdownStyle = 'initial-style'
+    mocks.editorState.breaks = false
     mocks.editorState.openLinksInNewWindow = true
     mocks.renderPlatformHtml.mockResolvedValue('<section>完整平台 HTML</section>')
   })
@@ -77,6 +79,7 @@ describe('usePlatformCopy', () => {
 
     mocks.filesState.currentContent = '点击时内容'
     mocks.previewState.markdownStyle = 'click-time-style'
+    mocks.editorState.breaks = true
     mocks.editorState.openLinksInNewWindow = false
 
     const html = getHtml()
@@ -88,9 +91,21 @@ describe('usePlatformCopy', () => {
       platform: 'html',
       content: '点击时内容',
       markdownStyle: 'click-time-style',
+      breaks: true,
       openLinksInNewWindow: false,
     }))
     expect(mocks.previewState.getRenderedHtml).not.toHaveBeenCalled()
+  })
+
+  it.each(['html', 'wechat'] as const)('复制 %s 时传递 breaks 设置', async (platform) => {
+    const { getHtml } = usePlatformCopy(platform)
+    mocks.editorState.breaks = true
+
+    await expect(getHtml()).resolves.toBe('<section>完整平台 HTML</section>')
+    expect(mocks.renderPlatformHtml).toHaveBeenCalledWith(expect.objectContaining({
+      platform,
+      breaks: true,
+    }))
   })
 
   it('点击时正文未就绪则拒绝复制且不渲染空正文', async () => {

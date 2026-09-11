@@ -41,6 +41,15 @@ describe('openapi HTTP 端点', () => {
     expect(data.result).toMatch(/<h1[\s>]/)
   })
 
+  it.each([undefined, false, true])('渲染端点支持 breaks=%s', async (breaks) => {
+    const { data, response } = await postAndReadResult('/api/markdown/render', {
+      markdown: '第一行\n第二行',
+      ...(breaks === undefined ? {} : { breaks }),
+    })
+    expect(response.status).toBe(200)
+    expect(/<br[\s>]/.test(data.result)).toBe(breaks === true)
+  })
+
   it('接受微信公众号平台和参考标题参数', async () => {
     const { data, response } = await postAndReadResult('/api/markdown/render', {
       markdown: '# 标题\n\n这是一段[参考链接](https://example.com)。',

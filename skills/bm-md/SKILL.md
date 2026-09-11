@@ -73,6 +73,7 @@ cat article.md | npx -y bmmd render --platform wechat > article.html
 | `infographicPalette`   | string  | 否   | `antv`         | Infographic 信息图配色 ID                                             |
 | `customCss`            | string  | 否   | `""`           | 自定义 CSS，选择器需约束在 `#bm-md` 下，如 `#bm-md h1 { color: red }` |
 | `enableFootnoteLinks`  | boolean | 否   | `true`         | 是否将链接转换为脚注形式                                              |
+| `breaks`               | boolean | 否   | `false`        | 是否将段落内的软换行转换为 HTML 换行，不影响代码块                    |
 | `openLinksInNewWindow` | boolean | 否   | `true`         | 是否在新窗口打开链接                                                  |
 | `platform`             | string  | 否   | `html`         | 目标平台：`html`、`wechat`                                            |
 | `footnoteLabel`        | string  | 否   | `Footnotes`    | GFM 脚注区域标题                                                      |

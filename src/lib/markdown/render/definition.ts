@@ -28,6 +28,7 @@ export const renderDefinition = {
     infographicPalette: infographicPaletteSchema.optional().default('antv').describe('Infographic 信息图配色 ID'),
     customCss: z.string().max(50000, '自定义 CSS 不能超过 50000 字符').optional().default('').describe('自定义 CSS 样式，在主题样式之后应用。选择器需约束在 #bm-md 下，例如：#bm-md h1 { color: red; }'),
     enableFootnoteLinks: z.boolean().optional().default(true).describe('是否将文中链接自动转换为脚注形式，便于阅读时查看原始链接'),
+    breaks: z.boolean().optional().default(false).describe('是否将段落内的软换行转换为 HTML 换行，不影响代码块'),
     openLinksInNewWindow: z.boolean().optional().default(true).describe('是否为所有外部链接添加 target="_blank"，在新窗口打开'),
     platform: platformSchema.optional().default('html').describe('目标发布平台。wechat 会进行微信公众号适配，html 使用通用 HTML 输出'),
     footnoteLabel: z.string().max(50).optional().default('Footnotes').describe('GFM 脚注区域标题'),
@@ -41,6 +42,7 @@ export const renderDefinition = {
     inputLabel: 'file',
     options: [
       outputOption,
+      { name: 'breaks', description: '将段落内的软换行转换为 HTML 换行', type: 'boolean' },
       { name: 'platform', description: '目标发布平台', type: 'string', choices: platforms, valueName: 'platform' },
       { name: 'markdownStyle', description: 'Markdown 排版样式 ID', type: 'string', choices: markdownStyleIds, valueName: 'id' },
       { name: 'codeTheme', description: '代码块高亮主题 ID', type: 'string', choices: codeThemeIds, valueName: 'id' },

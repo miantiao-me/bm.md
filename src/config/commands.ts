@@ -125,6 +125,13 @@ export const editorSettingsConfig: readonly EditorSettingItem[] = [
     setterKey: 'setOpenLinksInNewWindow',
   },
   {
+    id: 'breaks',
+    label: '回车即换行',
+    icon: 'WrapText',
+    storeKey: 'breaks',
+    setterKey: 'setBreaks',
+  },
+  {
     id: 'scrollSync',
     label: '滚动同步',
     icon: 'RefreshCw',
