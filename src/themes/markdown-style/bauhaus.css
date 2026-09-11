@@ -392,13 +392,12 @@
   font-weight: 600;
 }
 
-/* 代码块 - 深蓝背景 + 红色顶边 */
+/* 代码块 - 深蓝背景 + 黑色四边框 */
 #bm-md pre {
   margin: 1.25em 0;
   padding: 1.1em;
   background-color: #1040c0;
   border: 4px solid #121212;
-  border-top: 8px solid #d02020;
   box-shadow: 8px 8px 0 #f0c020;
   overflow-x: auto;
 }

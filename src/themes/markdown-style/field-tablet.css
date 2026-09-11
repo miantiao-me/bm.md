@@ -322,13 +322,12 @@
   font-size: 13px;
 }
 
-/* 代码块保持中性墨黑文字，避免整块代码都被青绿淹没；顶部黑线呼应标题的铭牌切口 */
+/* 代码块保持中性墨黑文字，避免整块代码都被青绿淹没 */
 #bm-md pre {
   margin: 16px 0;
   padding: 14px 16px;
   overflow-x: auto;
   border: 1px solid #d8cba3;
-  border-top: 3px solid #0a0a0a;
   border-radius: 4px;
   color: #0a0a0a;
   background-color: #e2dcc9;

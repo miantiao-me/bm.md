@@ -2,7 +2,6 @@ import { ClientOnly } from '@tanstack/react-router'
 import { lazy, Suspense } from 'react'
 import { FileTabs } from '@/components/file-tabs'
 import { FILE_TAB_PANEL_ID, getFileTabId } from '@/components/file-tabs/a11y'
-import { MarkdownLoadingFallback } from '@/components/markdown/loading-fallback'
 import { useFilesStore } from '@/stores/files'
 
 const CodeMirrorEditor = lazy(() => import('./editor'))
@@ -25,13 +24,13 @@ export default function MarkdownEditor() {
       >
         {isContentReady
           ? (
-              <ClientOnly fallback={<MarkdownLoadingFallback brand="bm" label="加载编辑器…" />}>
-                <Suspense fallback={<MarkdownLoadingFallback brand="bm" label="加载编辑器…" />}>
+              <ClientOnly fallback={null}>
+                <Suspense fallback={null}>
                   <CodeMirrorEditor key={`${contentFileId}:${contentEpoch}`} />
                 </Suspense>
               </ClientOnly>
             )
-          : <MarkdownLoadingFallback brand="bm" label="加载文件…" />}
+          : null}
       </div>
     </div>
   )

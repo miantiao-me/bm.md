@@ -368,12 +368,12 @@
   font-size: 0.875em;
 }
 
-/* 代码块反转为靛蓝印版，太阳黄压线收边，稀有的「反色」时刻 */
+/* 代码块反转为靛蓝印版，形成稀有的「反色」时刻 */
 #bm-md pre {
   margin: 1.4em 0;
   padding: 1em 1.15em;
   overflow-x: auto;
-  border-top: 3px solid #f1ee2e;
+  border: none;
   color: #ece7d8;
   background-color: #1b2566;
   font-family: 'JetBrains Mono', 'SF Mono', Consolas, 'Liberation Mono', Menlo, monospace;

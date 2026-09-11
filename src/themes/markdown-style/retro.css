@@ -411,9 +411,7 @@
   margin: 0.875em 0;
   padding: 0.75em;
   background-color: #000080;
-  border: 2px solid;
-  border-color: #808080 #ffffff #ffffff #808080;
-  box-shadow: inset 1px 1px 0 #000000;
+  border: 2px solid #808080;
   overflow-x: auto;
 }
 

@@ -1,3 +1,5 @@
+import { cn } from '@/lib/utils'
+
 interface MarkdownLoadingFallbackProps {
   animationDelayMs?: number
   brand?: string
@@ -24,14 +26,17 @@ export function MarkdownLoadingFallback({ animationDelayMs = 0, brand, label }: 
       <span aria-hidden="true">
         {brand && (
           <span className={`
-            doto-font flex text-7xl font-bold text-muted-foreground/30
+            doto-font flex text-7xl font-bold text-foreground/30
             md:text-9xl
           `}
           >
             {brandCharacters.map(({ character, key }, index) => (
               <span
                 key={key}
-                className="animate-wave-bounce"
+                className={cn(
+                  'animate-wave-bounce',
+                  character === '.' && 'text-primary/30',
+                )}
                 style={{ animationDelay: `${animationDelayMs + index * 100}ms` }}
               >
                 {character}
@@ -42,4 +47,8 @@ export function MarkdownLoadingFallback({ animationDelayMs = 0, brand, label }: 
       </span>
     </div>
   )
+}
+
+export function MarkdownWorkspaceLoadingFallback() {
+  return <MarkdownLoadingFallback brand="bm.md" label="加载 bm.md…" />
 }

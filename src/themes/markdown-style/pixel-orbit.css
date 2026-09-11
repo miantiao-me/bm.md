@@ -373,14 +373,13 @@
   font-size: 0.85em;
 }
 
-/* 代码块 - 顶边 4px 青色色条模拟终端窗口标题条，结构性硬阴影保持克制
+/* 代码块 - 青色文字与结构性硬阴影保持像素界面气质
    （代码块出现频率高，不用霓虹色阴影，避免长文里视觉噪音过重） */
 #bm-md pre {
   margin: 1.2em 0;
   padding: 1em 1.1em;
   overflow-x: auto;
   border: 1px solid #2c3768;
-  border-top: 4px solid #5edcf4;
   background-color: #111833;
   color: #ccd3f0;
   font-family: 'JetBrains Mono', 'SF Mono', 'Fira Code', Consolas, Monaco, monospace;

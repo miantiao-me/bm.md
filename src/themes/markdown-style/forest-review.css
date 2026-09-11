@@ -312,12 +312,12 @@
   font-size: 12px;
 }
 
-/* pre 顶部用森林绿细线标记，如同季报里的数据表页眉 */
+/* 代码块沿用季报纸张底色，保持正文阅读节奏 */
 #bm-md pre {
   margin: 15px 0;
   padding: 12px 14px;
   overflow-x: auto;
-  border-top: 2px solid #2e4a2a;
+  border: none;
   color: #3a3627;
   background-color: #e6dcc4;
   font-family:

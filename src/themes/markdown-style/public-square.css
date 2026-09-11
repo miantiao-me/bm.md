@@ -416,7 +416,7 @@
 }
 
 /* ============================================
-   代码 — 行内代码保持克制，代码块用墨黑重边框 + 红色硬阴影
+   代码 — 行内代码保持克制，代码块用墨黑重边框
    语法高亮由渲染器接管，此处只重置 pre code 外观
    ============================================ */
 
@@ -433,10 +433,8 @@
   padding: 14px 16px;
   overflow-x: auto;
   border: 2px solid #17171f;
-  border-top: 5px solid #17171f;
   color: #17171f;
   background-color: #fbf6e9;
-  box-shadow: 4px 4px 0 #e83a2a;
   font-family: 'JetBrains Mono', 'SF Mono', Consolas, 'Liberation Mono', Menlo, monospace;
   font-size: 13px;
   line-height: 1.55;
@@ -463,7 +461,6 @@
   border: 2px solid #17171f;
   border-collapse: collapse;
   background-color: #fbf6e9;
-  box-shadow: 4px 4px 0 #e83a2a;
   font-size: 14px;
 }
 
@@ -765,7 +762,7 @@
 }
 
 /* ============================================
-   折叠详情 — 墨黑重框 + 红色硬阴影，展开线做成撕口虚线
+   折叠详情 — 墨黑重框，展开线做成撕口虚线
    ============================================ */
 
 #bm-md details {
@@ -773,7 +770,6 @@
   padding: 14px 16px;
   border: 2px solid #17171f;
   background-color: #fbf6e9;
-  box-shadow: 4px 4px 0 #e83a2a;
 }
 
 #bm-md summary {

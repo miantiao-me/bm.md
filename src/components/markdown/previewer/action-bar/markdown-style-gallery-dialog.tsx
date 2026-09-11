@@ -80,7 +80,7 @@ export function MarkdownStyleGalleryDialog({
                       ring-foreground/10 transition-colors
                     `,
                     'hover:ring-foreground/30',
-                    isSelected && 'ring-2 ring-primary',
+                    isSelected && 'ring-2 ring-primary ring-inset',
                   )}
                 >
                   <span className="

@@ -398,13 +398,12 @@
   box-shadow: 1px 1px 0 rgba(45, 45, 45, 0.15);
 }
 
-/* 代码块 - 纸张背景 + 蓝色左边框 */
+/* 代码块 - 纸张背景 + 蓝色边框 */
 #bm-md pre {
   margin: 1.15em 0;
   padding: 1.1em;
   background-color: #fdfbf7;
-  border: 2px solid #2d2d2d;
-  border-left: 5px solid #2d5da1;
+  border: 2px solid #2d5da1;
   /* 不规则圆角 */
   border-radius: 6px 12px 8px 10px;
   box-shadow: 4px 4px 0 rgba(45, 45, 45, 0.12);

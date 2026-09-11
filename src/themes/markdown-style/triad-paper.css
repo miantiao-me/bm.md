@@ -385,7 +385,7 @@
   margin: 16px 0;
   padding: 14px 16px;
   overflow-x: auto;
-  border-top: 4px solid #f2d86a;
+  border: none;
   background-color: #43101c;
   color: #f2d86a;
   font-family: 'JetBrains Mono', 'SF Mono', 'Fira Code', Consolas, Monaco, monospace;
