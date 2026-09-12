@@ -8,12 +8,12 @@ import viteReact, { reactCompilerPreset } from '@vitejs/plugin-react'
 import { nitro } from 'nitro/vite'
 import { defineConfig } from 'vite'
 import { VitePWA } from 'vite-plugin-pwa'
-import { name } from './package.json'
-import { cssRawMinifyPlugin, markdownPlugin } from './scripts/vite'
-import { resolvePlatformConfig } from './scripts/vite/platform'
-import { appConfig } from './src/config/app'
-import { DOCUMENT_MIME_EXTENSIONS } from './src/lib/document/files'
-import { MARKDOWN_FILE_EXTENSIONS } from './src/lib/markdown-file'
+import packageJson from './package.json' with { type: 'json' }
+import { cssRawMinifyPlugin, markdownPlugin } from './scripts/vite/index.ts'
+import { resolvePlatformConfig } from './scripts/vite/platform.ts'
+import { appConfig } from './src/config/app.ts'
+import { DOCUMENT_MIME_EXTENSIONS } from './src/lib/document/files.ts'
+import { MARKDOWN_FILE_EXTENSIONS } from './src/lib/markdown-file.ts'
 
 const require = createRequire(import.meta.url)
 const platformConfig = resolvePlatformConfig(env)
@@ -58,7 +58,7 @@ const config = defineConfig({
             cloudflare: {
               nodeCompat: true,
               wrangler: {
-                name,
+                name: packageJson.name,
                 compatibility_date: '2026-07-12',
                 observability: { enabled: true },
                 keep_vars: true,

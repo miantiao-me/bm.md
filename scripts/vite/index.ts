@@ -1,2 +1,2 @@
-export { cssRawMinifyPlugin } from './css-raw-minify-plugin'
-export { markdownPlugin } from './markdown-plugin'
+export { cssRawMinifyPlugin } from './css-raw-minify-plugin.ts'
+export { markdownPlugin } from './markdown-plugin.ts'

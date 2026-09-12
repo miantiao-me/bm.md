@@ -6,9 +6,9 @@ import remarkGfm from 'remark-gfm'
 import remarkParse from 'remark-parse'
 import remarkRehype from 'remark-rehype'
 import { unified } from 'unified'
-import remarkHighlight from '../../src/lib/markdown/render/plugins/remark-highlight'
-import remarkImageDimensions from '../../src/lib/markdown/render/plugins/remark-image-dimensions'
-import { sanitizeSchema } from '../../src/lib/markdown/render/sanitize-schema'
+import remarkHighlight from '../../src/lib/markdown/render/plugins/remark-highlight.ts'
+import remarkImageDimensions from '../../src/lib/markdown/render/plugins/remark-image-dimensions.ts'
+import { sanitizeSchema } from '../../src/lib/markdown/render/sanitize-schema.ts'
 
 export async function renderBuildMarkdown(markdown: string): Promise<string> {
   const result = await unified()
