@@ -128,10 +128,13 @@ const config = defineConfig({
     tsconfigPaths: true,
     // CodeMirror 扩展依赖 instanceof 检查，必须解析到同一份 state/view 模块。
     dedupe: codemirrorPackages,
-    alias: {
-      'decode-named-character-reference': require.resolve('decode-named-character-reference'),
-      'hast-util-from-html-isomorphic': require.resolve('hast-util-from-html-isomorphic'),
-    },
+    alias: [
+      { find: 'decode-named-character-reference', replacement: require.resolve('decode-named-character-reference') },
+      { find: 'hast-util-from-html-isomorphic', replacement: require.resolve('hast-util-from-html-isomorphic') },
+      // 只需要 CSS 内联，避免加载 Juice/Cheerio 的 Node 文件与网络 I/O 链。
+      { find: /^juice$/, replacement: require.resolve('juice/client') },
+      { find: /^cheerio$/, replacement: createRequire(require.resolve('juice/package.json')).resolve('cheerio/slim') },
+    ],
   },
   optimizeDeps: {
     include: [...codemirrorPackages, ...dynamicOptimizeDeps],
