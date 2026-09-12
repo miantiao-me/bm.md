@@ -1,5 +1,5 @@
 import type { PreviewRenderOptions, RenderPlatformHtmlOptions } from './client-render'
-import { beforeEach, describe, expect, it, vi } from 'vitest'
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { DEFAULT_MARKDOWN_STYLE_ID } from '@/themes/markdown-style/metadata'
 import { renderMarkdownPreview, renderPlatformHtml } from './client-render'
 
@@ -44,9 +44,14 @@ const basePlatformOptions = {
 
 describe('浏览器端 Markdown 渲染调用链', () => {
   beforeEach(() => {
+    vi.stubGlobal('navigator', { language: 'zh-CN' })
     vi.clearAllMocks()
     mocks.markdown.render.mockResolvedValue({ result: '<p>渲染结果</p>' })
     mocks.markdown.preview.mockResolvedValue({ html: '<p>预览结果</p>', css: '' })
+  })
+
+  afterEach(() => {
+    vi.unstubAllGlobals()
   })
 
   it('预览调用 worker 时传递 breaks', async () => {

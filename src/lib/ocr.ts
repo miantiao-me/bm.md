@@ -4,7 +4,7 @@ import { Mutex } from 'es-toolkit'
 type OcrEngine = Awaited<ReturnType<typeof PaddleOCR.create>>
 type OcrModel = 'PP-OCRv6_tiny' | 'PP-OCRv6_small'
 
-const ortWasmPaths = 'https://testingcf.jsdelivr.net/npm/onnxruntime-web@1.24.3/dist/'
+const ortWasmPaths = 'https://testingcf.jsdelivr.net/npm/onnxruntime-web@1.29.0/dist/'
 
 let currentEngine: OcrEngine | null = null
 let currentModel: OcrModel | null = null

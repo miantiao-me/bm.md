@@ -39,7 +39,7 @@ describe('图片 OCR', () => {
       textRecognitionModelName: `${model}_rec`,
       ortOptions: {
         backend: 'auto',
-        wasmPaths: 'https://testingcf.jsdelivr.net/npm/onnxruntime-web@1.24.3/dist/',
+        wasmPaths: 'https://testingcf.jsdelivr.net/npm/onnxruntime-web@1.29.0/dist/',
         numThreads: 1,
         simd: true,
       },

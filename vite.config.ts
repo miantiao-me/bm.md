@@ -8,7 +8,6 @@ import viteReact, { reactCompilerPreset } from '@vitejs/plugin-react'
 import { nitro } from 'nitro/vite'
 import { defineConfig } from 'vite'
 import { VitePWA } from 'vite-plugin-pwa'
-import packageJson from './package.json' with { type: 'json' }
 import { cssRawMinifyPlugin, markdownPlugin } from './scripts/vite/index.ts'
 import { resolvePlatformConfig } from './scripts/vite/platform.ts'
 import { appConfig } from './src/config/app.ts'
@@ -60,7 +59,7 @@ const config = defineConfig({
             cloudflare: {
               nodeCompat: true,
               wrangler: {
-                name: packageJson.name,
+                name: 'bm-md',
                 compatibility_date: '2026-07-12',
                 observability: { enabled: true },
                 keep_vars: true,
@@ -144,6 +143,7 @@ const config = defineConfig({
     },
   },
   resolve: {
+    conditions: ['module', 'browser', 'development|production', 'onnxruntime-web-use-extern-wasm'],
     tsconfigPaths: true,
     // CodeMirror 扩展依赖 instanceof 检查，必须解析到同一份 state/view 模块。
     dedupe: codemirrorPackages,
