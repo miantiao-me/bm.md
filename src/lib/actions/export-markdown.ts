@@ -1,8 +1,6 @@
-import fileSaver from 'file-saver'
 import { toast } from 'sonner'
+import { saveBlob } from '@/lib/download'
 import { useFilesStore } from '@/stores/files'
-
-const { saveAs } = fileSaver
 
 export function exportMarkdown(content: string, fileName?: string) {
   if (!content.trim()) {
@@ -14,6 +12,6 @@ export function exportMarkdown(content: string, fileName?: string) {
   const exportFileName = fileName ?? activeFile?.name ?? 'bm.md'
 
   const blob = new Blob([content], { type: 'text/markdown;charset=utf-8' })
-  saveAs(blob, exportFileName)
+  saveBlob(blob, exportFileName)
   toast.success('已导出 Markdown 文件')
 }

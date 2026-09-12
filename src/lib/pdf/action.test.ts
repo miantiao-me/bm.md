@@ -19,7 +19,7 @@ const mocks = vi.hoisted(() => ({
 }))
 
 vi.mock('sonner', () => ({ toast: mocks.toast }))
-vi.mock('file-saver', () => ({ default: { saveAs: mocks.saveAs } }))
+vi.mock('@/lib/download', () => ({ saveBlob: mocks.saveAs }))
 vi.mock('@/lib/log-safe-error', () => ({ logSafeError: mocks.logSafeError }))
 vi.mock('../actions/preview', () => ({ getPreviewIframe: mocks.getPreviewIframe }))
 vi.mock('./snapshot', () => ({ createPdfSnapshot: mocks.createPdfSnapshot }))

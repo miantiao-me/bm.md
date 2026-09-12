@@ -1,4 +1,5 @@
 import { toast } from 'sonner'
+import { saveBlob } from '@/lib/download'
 import { logSafeError } from '@/lib/log-safe-error'
 import { pdfErrorMessage, renderPdf, shouldPrintFallback } from '../pdf/browser'
 import { replacementSummary } from '../pdf/fonts'
@@ -25,11 +26,8 @@ export async function exportPdf(): Promise<void> {
   isExporting = true
   const loadingToast = toast.loading('正在生成 PDF…')
   try {
-    const [result, { default: fileSaver }] = await Promise.all([
-      createPdfSnapshot(preview.content).then(renderPdf),
-      import('file-saver'),
-    ])
-    fileSaver.saveAs(new Blob([result.pdf], { type: 'application/pdf' }), 'bm.md.pdf')
+    const result = await createPdfSnapshot(preview.content).then(renderPdf)
+    saveBlob(new Blob([result.pdf], { type: 'application/pdf' }), 'bm.md.pdf')
     if (result.replacements.length > 0) {
       toast.warning('PDF 已导出，部分不支持字符已替换为 □', {
         id: loadingToast,
