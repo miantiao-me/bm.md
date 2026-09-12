@@ -95,7 +95,7 @@ function EditorSettingsGroup({ actions }: { actions: CommandPaletteActions }) {
         return (
           <CommandItem
             key={item.id}
-            onSelect={() => actions.handleToggleSetting(item.storeKey, item.setterKey)}
+            onSelect={() => actions.handleToggleSetting(item.storeKey)}
             data-checked={isChecked}
           >
             <item.Icon className="size-4" />

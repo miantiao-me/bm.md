@@ -37,6 +37,8 @@ const dynamicOptimizeDeps = [
   '@antv/infographic/ssr',
   '@zumer/snapdom',
   'beautiful-mermaid',
+  '@paddleocr/paddleocr-js > @techstark/opencv-js',
+  '@paddleocr/paddleocr-js > clipper-lib',
   'juice',
   'markdownlint',
   'markdownlint/promise',
@@ -117,6 +119,11 @@ const config = defineConfig({
       },
       injectManifest: {
         globPatterns: ['**/*.{js,css,html,ico,png,svg,wasm,woff,woff2}'],
+        globIgnores: [
+          '**/ort-wasm-*.wasm',
+          '**/paddleocr-*.js',
+          '**/worker-entry-*.js',
+        ],
         maximumFileSizeToCacheInBytes: 8 * 1024 * 1024,
       },
       devOptions: {
@@ -124,6 +131,18 @@ const config = defineConfig({
       },
     }),
   ],
+  build: {
+    rolldownOptions: {
+      output: {
+        codeSplitting: {
+          groups: [{
+            name: 'paddleocr',
+            test: /\/node_modules\/@techstark\/opencv-js\//,
+          }],
+        },
+      },
+    },
+  },
   resolve: {
     tsconfigPaths: true,
     // CodeMirror 扩展依赖 instanceof 检查，必须解析到同一份 state/view 模块。
@@ -138,7 +157,7 @@ const config = defineConfig({
   },
   optimizeDeps: {
     include: [...codemirrorPackages, ...dynamicOptimizeDeps],
-    exclude: ['@firecrawl/anydoc-wasm'],
+    exclude: ['@firecrawl/anydoc-wasm', '@paddleocr/paddleocr-js'],
   },
   worker: {
     format: 'es',

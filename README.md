@@ -12,7 +12,7 @@ Markdown 排版工具，专为微信公众号与多平台排版设计，支持�
 - **丰富的样式系统**：内置 16 款经过细致调校的 Markdown 排版样式（涵盖经典纸质、现代报章、终端、学术等风格）与 14 款代码高亮主题，支持追加自定义 CSS。
 - **图表与信息图集成**：支持 Mermaid 流程图与 AntV Infographic 信息图，渲染产物自动进行安全清理并无缝内嵌。
 - **多样化导出能力**：基于 snapDOM 生成 PNG/JPEG 图片；集成 Takumi PDF WASM 引擎，直接在浏览器端按 A4 规范分页排版并导出矢量 PDF，支持字体子集下载与缺字降级。
-- **多文件与格式导入**：基于 IndexedDB 实现多标签页事务化持久存储；支持直接打开 Markdown，并借助 AnyDoc WASM 引擎将 Word、PowerPoint、Excel、PDF、RTF、EPUB、CSV 及 HTML 文档转换为 Markdown。
+- **多文件与格式导入**：基于 IndexedDB 实现多标签页事务化持久存储；支持直接打开 Markdown，借助 AnyDoc WASM 引擎转换各类文档，并支持在图片导入时调用端侧 PaddleOCR.js 识别并提取纯文本。
 - **三位一体的能力入口**：除 Web 交互界面外，所有 Markdown 处理能力均通过统一 Registry 派生为命令行工具（CLI）、REST API 与 MCP（Model Context Protocol）服务。
 
 ## 🚀 快速开始

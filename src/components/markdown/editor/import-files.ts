@@ -2,7 +2,8 @@ import type { EditorView } from '@codemirror/view'
 import { toast } from 'sonner'
 import { DocumentImportError, getDocumentImportErrorMessage } from '@/lib/document/error'
 import { classifyFile, parseFileToMarkdown } from '@/lib/file-importer'
-import { uploadImage } from '@/lib/upload-image'
+import { prepareImageImport } from '@/lib/image-import'
+import { useEditorStore } from '@/stores/editor'
 import { AsyncImportTarget, IMPORT_CANCELLED_MESSAGE } from './async-import-target'
 
 function completeBlockSeparator(content: string): string {
@@ -18,6 +19,7 @@ export async function importFilesToEditor(
   insertPos: number,
 ): Promise<void> {
   const target = new AsyncImportTarget(view, insertPos)
+  const { enableImageOcr, enableEnhancedImageOcr } = useEditorStore.getState()
   let lastInserted: 'text' | 'image' | null = null
   let lastTextContent = ''
 
@@ -63,30 +65,45 @@ export async function importFilesToEditor(
       }
 
       if (fileKind === 'image') {
-        const toastId = toast.loading(`正在上传 ${file.name}…`)
+        const toastId = toast.loading(enableImageOcr
+          ? `正在识别 ${file.name}…`
+          : `正在上传 ${file.name}…`)
         try {
-          const formData = new FormData()
-          formData.append('file', file)
-          formData.append('name', file.name)
           // react-doctor-disable-next-line react-doctor/async-await-in-loop -- 图片插入位置依赖前一个文件的结果。
-          const result = await uploadImage(formData)
-          const separator = lastInserted === 'text' ? completeBlockSeparator(lastTextContent) : ''
-          const imageMarkdown = `${separator}![${file.name}](${result.url})\n\n`
-
-          if (!target.insert(imageMarkdown)) {
+          const result = await prepareImageImport(file, enableImageOcr, enableEnhancedImageOcr)
+          if (!target.active) {
             toast.info(IMPORT_CANCELLED_MESSAGE, { id: toastId })
             return
           }
-          lastInserted = 'image'
-          toast.success(`图片上传成功: ${file.name}`, { id: toastId })
+          if (!result.content) {
+            toast.info(`${file.name} 中未识别到文字`, { id: toastId })
+            continue
+          }
+
+          const separator = lastInserted === 'text' ? completeBlockSeparator(lastTextContent) : ''
+          const content = `${separator}${result.content}`
+          if (!target.insert(content)) {
+            toast.info(IMPORT_CANCELLED_MESSAGE, { id: toastId })
+            return
+          }
+          lastInserted = result.kind
+          if (result.kind === 'text') {
+            lastTextContent = result.content
+          }
+          const message = result.kind === 'text'
+            ? `已识别 ${file.name}`
+            : `图片上传成功: ${file.name}`
+          toast.success(message, { id: toastId })
         }
         catch (error) {
           if (!target.active) {
             toast.info(IMPORT_CANCELLED_MESSAGE, { id: toastId })
             return
           }
-          console.error('Image upload error:', error)
-          const message = error instanceof Error ? error.message : `图片上传失败: ${file.name}`
+          console.error(enableImageOcr ? 'Image OCR error:' : 'Image upload error:', error)
+          const message = enableImageOcr
+            ? `无法识别 ${file.name}，请重试`
+            : error instanceof Error ? error.message : `图片上传失败: ${file.name}`
           toast.error(message, { id: toastId })
         }
         continue

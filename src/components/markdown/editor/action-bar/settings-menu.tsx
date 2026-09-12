@@ -12,22 +12,13 @@ import {
 } from '@/components/ui/dropdown-menu'
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip'
 import { editorSettingsConfig } from '@/config'
-import { useEditorStore } from '@/stores/editor'
+import { useEditorSettings, useEditorStore } from '@/stores/editor'
 
 const settingsTooltip = '编辑器设置'
 const settingsAriaLabel = '编辑器设置'
 
 export function SettingsMenu() {
-  const enableFootnoteLinks = useEditorStore(state => state.enableFootnoteLinks)
-  const breaks = useEditorStore(state => state.breaks)
-  const openLinksInNewWindow = useEditorStore(state => state.openLinksInNewWindow)
-  const enableScrollSync = useEditorStore(state => state.enableScrollSync)
-  const settings = {
-    enableFootnoteLinks,
-    breaks,
-    openLinksInNewWindow,
-    enableScrollSync,
-  }
+  const settings = useEditorSettings()
 
   return (
     <DropdownMenu>
@@ -56,7 +47,7 @@ export function SettingsMenu() {
                 className="cursor-pointer"
                 checked={settings[item.storeKey]}
                 onCheckedChange={(checked) => {
-                  useEditorStore.getState()[item.setterKey](checked)
+                  useEditorStore.getState().setSetting(item.storeKey, checked)
                 }}
               >
                 {item.label}

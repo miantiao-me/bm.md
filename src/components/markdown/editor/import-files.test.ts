@@ -3,12 +3,13 @@ import type { EditorView, ViewUpdate } from '@codemirror/view'
 import { EditorState } from '@codemirror/state'
 import { toast } from 'sonner'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
+import { useEditorStore } from '@/stores/editor'
 import { attachImportView, detachImportView, updateImportTargets } from './async-import-target'
 import { importFilesToEditor } from './import-files'
 
 const mocks = vi.hoisted(() => ({
   parseFileToMarkdown: vi.fn(),
-  uploadImage: vi.fn(),
+  prepareImageImport: vi.fn(),
 }))
 
 vi.mock('sonner', () => ({
@@ -25,7 +26,7 @@ vi.mock('@/lib/file-importer', async (importOriginal) => {
   return { ...original, parseFileToMarkdown: mocks.parseFileToMarkdown }
 })
 
-vi.mock('@/lib/upload-image', () => ({ uploadImage: mocks.uploadImage }))
+vi.mock('@/lib/image-import', () => ({ prepareImageImport: mocks.prepareImageImport }))
 
 function file(name: string, type = ''): File {
   return new File(['内容'], name, { type })
@@ -56,17 +57,23 @@ function deferred<T>() {
   return { promise, resolve, reject }
 }
 
-beforeEach(() => vi.clearAllMocks())
+beforeEach(() => {
+  vi.clearAllMocks()
+  useEditorStore.setState({
+    enableImageOcr: false,
+    enableEnhancedImageOcr: false,
+  })
+})
 afterEach(() => vi.restoreAllMocks())
 
 describe('编辑器文件插入', () => {
   it('上传期间映射输入位置并保留后来移动的光标', async () => {
-    const pending = deferred<{ url: string }>()
-    mocks.uploadImage.mockReturnValue(pending.promise)
+    const pending = deferred<{ kind: 'image', content: string }>()
+    mocks.prepareImageImport.mockReturnValue(pending.promise)
     const { view, content } = createView('AB')
     const task = importFilesToEditor(view, [file('图.png', 'image/png')], 1)
     view.dispatch({ changes: { from: 0, insert: '前' }, selection: { anchor: 0 } })
-    pending.resolve({ url: '/图' })
+    pending.resolve({ kind: 'image', content: '![图.png](/图)\n\n' })
     await task
     expect(content()).toBe('前A![图.png](/图)\n\nB')
     expect(view.state.selection.main.anchor).toBe(0)
@@ -75,8 +82,8 @@ describe('编辑器文件插入', () => {
   })
 
   it.each(['删除', '销毁', '重挂载'])('%s后取消上传结果并结束提示', async (action) => {
-    const pending = deferred<{ url: string }>()
-    mocks.uploadImage.mockReturnValue(pending.promise)
+    const pending = deferred<{ kind: 'image', content: string }>()
+    mocks.prepareImageImport.mockReturnValue(pending.promise)
     const { view, content } = createView('AB')
     const task = importFilesToEditor(view, [file('图.png', 'image/png')], 1)
     if (action === '删除')
@@ -84,7 +91,7 @@ describe('编辑器文件插入', () => {
     else if (action === '销毁')
       detachImportView(view)
     else attachImportView(view)
-    pending.resolve({ url: '/图' })
+    pending.resolve({ kind: 'image', content: '![图.png](/图)\n\n' })
     await task
     expect(content()).toBe(action === '删除' ? '' : 'AB')
     expect(toast.success).not.toHaveBeenCalled()
@@ -94,8 +101,8 @@ describe('编辑器文件插入', () => {
 
   it.each([false, true])('上传失败时结束 loading，目标失效状态为 %s', async (cancelled) => {
     vi.spyOn(console, 'error').mockImplementation(() => {})
-    const pending = deferred<{ url: string }>()
-    mocks.uploadImage.mockReturnValue(pending.promise)
+    const pending = deferred<{ kind: 'image', content: string }>()
+    mocks.prepareImageImport.mockReturnValue(pending.promise)
     const { view, content } = createView('AB')
     const task = importFilesToEditor(view, [file('图.png', 'image/png')], 1)
     expect(toast.loading).toHaveBeenCalledExactlyOnceWith('正在上传 图.png…')
@@ -114,6 +121,16 @@ describe('编辑器文件插入', () => {
       expect(toast.info).not.toHaveBeenCalled()
     }
     detachImportView(view)
+  })
+
+  it('上传抛出非 Error 时显示文件名', async () => {
+    mocks.prepareImageImport.mockRejectedValue('上传失败')
+    const { view } = createView()
+    vi.spyOn(console, 'error').mockImplementation(() => {})
+
+    await importFilesToEditor(view, [file('图.png', 'image/png')], 0)
+
+    expect(toast.error).toHaveBeenCalledExactlyOnceWith('图片上传失败: 图.png', { id: 'toast' })
   })
 
   it('并行批次独立映射，批内顺序与分隔符保持', async () => {
@@ -166,7 +183,7 @@ describe('编辑器文件插入', () => {
     mocks.parseFileToMarkdown
       .mockResolvedValueOnce({ content: '一', kind: 'document' })
       .mockResolvedValueOnce({ content: '二', kind: 'document' })
-    mocks.uploadImage.mockResolvedValue({ url: '/image.png' })
+    mocks.prepareImageImport.mockResolvedValue({ kind: 'image', content: '![图.png](/image.png)\n\n' })
     const { view, content } = createView()
 
     await importFilesToEditor(view, [file('一.pdf'), file('图.png', 'image/png'), file('二.pdf')], 0)
@@ -174,13 +191,55 @@ describe('编辑器文件插入', () => {
   })
 
   it('图片 MIME 优先，不调用文档转换', async () => {
-    mocks.uploadImage.mockResolvedValue({ url: '/image.png' })
+    mocks.prepareImageImport.mockResolvedValue({ kind: 'image', content: '![伪装.docx](/image.png)\n\n' })
+    const image = file('伪装.docx', 'image/png')
     const { view, content } = createView()
 
-    await importFilesToEditor(view, [file('伪装.docx', 'image/png')], 0)
+    await importFilesToEditor(view, [image], 0)
 
     expect(mocks.parseFileToMarkdown).not.toHaveBeenCalled()
-    expect(mocks.uploadImage).toHaveBeenCalledOnce()
+    expect(mocks.prepareImageImport).toHaveBeenCalledExactlyOnceWith(image, false, false)
     expect(content()).toBe('![伪装.docx](/image.png)\n\n')
+  })
+
+  it.each([false, true])('ocr 开启时仅插入识别文本，增强=%s', async (enhanced) => {
+    useEditorStore.setState({
+      enableImageOcr: true,
+      enableEnhancedImageOcr: enhanced,
+    })
+    mocks.prepareImageImport.mockResolvedValue({ kind: 'text', content: '第一行\n第二行' })
+    const image = file('图.png', 'image/png')
+    const { view, content } = createView('AB')
+
+    await importFilesToEditor(view, [image], 1)
+
+    expect(mocks.prepareImageImport).toHaveBeenCalledExactlyOnceWith(image, true, enhanced)
+    expect(content()).toBe('A第一行\n第二行B')
+    expect(toast.success).toHaveBeenCalledExactlyOnceWith('已识别 图.png', { id: 'toast' })
+  })
+
+  it('ocr 未识别到文字时不插入内容', async () => {
+    useEditorStore.setState({ enableImageOcr: true })
+    mocks.prepareImageImport.mockResolvedValue({ kind: 'text', content: '' })
+    const { view, content } = createView('AB')
+
+    await importFilesToEditor(view, [file('空白.png', 'image/png')], 1)
+
+    expect(content()).toBe('AB')
+    expect(toast.info).toHaveBeenCalledExactlyOnceWith('空白.png 中未识别到文字', { id: 'toast' })
+  })
+
+  it('ocr 失败时不回退上传图片', async () => {
+    useEditorStore.setState({ enableImageOcr: true })
+    mocks.prepareImageImport.mockRejectedValue(new Error('模型加载失败'))
+    const image = file('图.png', 'image/png')
+    const { view, content } = createView('AB')
+    vi.spyOn(console, 'error').mockImplementation(() => {})
+
+    await importFilesToEditor(view, [image], 1)
+
+    expect(content()).toBe('AB')
+    expect(mocks.prepareImageImport).toHaveBeenCalledExactlyOnceWith(image, true, false)
+    expect(toast.error).toHaveBeenCalledExactlyOnceWith('无法识别 图.png，请重试', { id: 'toast' })
   })
 })

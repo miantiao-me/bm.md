@@ -68,6 +68,7 @@
     "@orpc/openapi": "^1.15.0",
     "@orpc/server": "^1.15.0",
     "@orpc/zod": "^1.15.0",
+    "@paddleocr/paddleocr-js": "^0.4.2",
     "@rolldown/plugin-babel": "^0.2.4",
     "@shadcn/react": "^0.3.1",
     "@tailwindcss/typography": "^0.5.20",

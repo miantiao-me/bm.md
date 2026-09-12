@@ -1,6 +1,6 @@
 import type { IconName } from '@/lib/icon-map'
 import type { Platform } from '@/lib/markdown/render/adapters'
-import type { EditorBooleanKey, EditorBooleanSetterKey } from '@/stores/editor'
+import type { EditorSettingKey } from '@/stores/editor'
 import { env } from '@/env'
 import { appConfig } from './app'
 
@@ -22,8 +22,7 @@ interface EditorSettingItem {
   id: string
   label: string
   icon: IconName
-  storeKey: EditorBooleanKey
-  setterKey: EditorBooleanSetterKey
+  storeKey: EditorSettingKey
   separator?: boolean
 }
 
@@ -115,29 +114,38 @@ export const editorSettingsConfig: readonly EditorSettingItem[] = [
     label: '引用链接列表',
     icon: 'Link',
     storeKey: 'enableFootnoteLinks',
-    setterKey: 'setEnableFootnoteLinks',
   },
   {
     id: 'openLinksInNewWindow',
     label: '新窗口打开链接',
     icon: 'ExternalLink',
     storeKey: 'openLinksInNewWindow',
-    setterKey: 'setOpenLinksInNewWindow',
   },
   {
     id: 'breaks',
     label: '回车即换行',
     icon: 'WrapText',
     storeKey: 'breaks',
-    setterKey: 'setBreaks',
   },
   {
     id: 'scrollSync',
     label: '滚动同步',
     icon: 'RefreshCw',
     storeKey: 'enableScrollSync',
-    setterKey: 'setEnableScrollSync',
     separator: true,
+  },
+  {
+    id: 'imageOcr',
+    label: '导入图片时启用 OCR',
+    icon: 'ScanText',
+    storeKey: 'enableImageOcr',
+    separator: true,
+  },
+  {
+    id: 'enhancedImageOcr',
+    label: '使用增强 OCR（约 30 MB）',
+    icon: 'Wand',
+    storeKey: 'enableEnhancedImageOcr',
   },
 ]
 

@@ -32,6 +32,8 @@ describe('editor store 持久化', () => {
       breaks: 1,
       openLinksInNewWindow: null,
       enableScrollSync: {},
+      enableImageOcr: 'true',
+      enableEnhancedImageOcr: 1,
       scrollRatio: 0.75,
       scrollSource: 'preview',
     }],
@@ -54,10 +56,12 @@ describe('editor store 持久化', () => {
       breaks: false,
       openLinksInNewWindow: true,
       enableScrollSync: true,
+      enableImageOcr: false,
+      enableEnhancedImageOcr: false,
     })
   })
 
-  it('显式恢复时只恢复四个设置字段并忽略旧滚动状态', async () => {
+  it('显式恢复时只恢复设置字段并忽略旧滚动状态', async () => {
     const localStorage = createMemoryStorage({
       'bm.md.editor': JSON.stringify({
         state: {
@@ -66,6 +70,8 @@ describe('editor store 持久化', () => {
           enableFootnoteLinks: false,
           openLinksInNewWindow: false,
           enableScrollSync: false,
+          enableImageOcr: true,
+          enableEnhancedImageOcr: true,
         },
         version: 0,
       }),
@@ -83,6 +89,8 @@ describe('editor store 持久化', () => {
       breaks: false,
       openLinksInNewWindow: false,
       enableScrollSync: false,
+      enableImageOcr: true,
+      enableEnhancedImageOcr: true,
     })
   })
 

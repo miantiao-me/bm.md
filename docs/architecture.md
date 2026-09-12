@@ -27,7 +27,7 @@ bm.md 是一个纯前端优先、支持边缘与 Node.js 部署的 Markdown 排�
          │                │               │             │
 ┌────────▼────────────────▼───────────────▼─────────────▼─────┐
 │                       核心处理引擎                           │
-│   Unified (Remark/Rehype) │ AnyDoc WASM │ Takumi PDF WASM   │
+│ Unified (Remark/Rehype) │ AnyDoc │ Takumi PDF │ PaddleOCR   │
 └─────────────────────────────────────────────────────────────┘
 ```
 
@@ -35,22 +35,24 @@ bm.md 是一个纯前端优先、支持边缘与 Node.js 部署的 Markdown 排�
 
 ## 技术栈与依赖选型
 
-| 领域               | 选型                                        | 作用与说明                                                |
-| :----------------- | :------------------------------------------ | :-------------------------------------------------------- |
-| **应用框架**       | TanStack Start (React 19 + TanStack Router) | 同构路由、服务端轻量加载与强类型客户端导航                |
-| **构建与打包**     | Vite 8 + Rolldown/Babel (React Compiler)    | 现代 ESM 极速构建，编译期自动执行 React 依赖优化          |
-| **样式与组件**     | Tailwind CSS 4 + shadcn/ui                  | 现代原子化 CSS；无障碍底层原语使用 `@base-ui/react`       |
-| **语言与类型**     | TypeScript (`strict: true`)                 | 全链路严格类型检查与推导                                  |
-| **参数与数据校验** | Zod                                         | 统一校验 API、CLI 选项与存储数据边界                      |
-| **状态管理**       | Zustand                                     | 细粒度、非侵入式的模块化状态管理                          |
-| **本地持久化**     | IndexedDB (`idb`) + Storage 信号            | 事务化本地文件库与跨标签页低开销通知                      |
-| **测试框架**       | Vitest (`fake-indexeddb`)                   | 单元测试、集成测试与离线存储模拟                          |
-| **部署运行时**     | Nitro                                       | 跨运行时适配（Cloudflare Workers, ESA, EdgeOne, Node 等） |
+| 领域               | 选型                                        | 作用与说明                                                  |
+| :----------------- | :------------------------------------------ | :---------------------------------------------------------- |
+| **应用框架**       | TanStack Start (React 19 + TanStack Router) | 同构路由、服务端轻量加载与强类型客户端导航                  |
+| **构建与打包**     | Vite 8 + Rolldown/Babel (React Compiler)    | 现代 ESM 极速构建，编译期自动执行 React 依赖优化            |
+| **样式与组件**     | Tailwind CSS 4 + shadcn/ui                  | 现代原子化 CSS；无障碍底层原语使用 `@base-ui/react`         |
+| **语言与类型**     | TypeScript (`strict: true`)                 | 全链路严格类型检查与推导                                    |
+| **参数与数据校验** | Zod                                         | 统一校验 API、CLI 选项与存储数据边界                        |
+| **状态管理**       | Zustand                                     | 细粒度、非侵入式的模块化状态管理                            |
+| **本地持久化**     | IndexedDB (`idb`) + Storage 信号            | 事务化本地文件库与跨标签页低开销通知                        |
+| **端侧 OCR 识别**  | `@paddleocr/paddleocr-js`                   | 浏览器端按需加载的 OCR 引擎（ONNX Runtime Web + OpenCV.js） |
+| **测试框架**       | Vitest (`fake-indexeddb`)                   | 单元测试、集成测试与离线存储模拟                            |
+| **部署运行时**     | Nitro                                       | 跨运行时适配（Cloudflare Workers, ESA, EdgeOne, Node 等）   |
 
 ### 关键依赖说明
 
 - `mcp-config`：通过 GitHub 依赖保留。项目在 MCP 配置生成面板中依赖其 `getClients`、`transformConfig` 与 `mcp-config/src/index.js`，当前 npm 公开发行版本不包含对应导出。
 - `takumi-pdf` 与 `@takumi-rs/helpers`：作为统一升级组维护，负责浏览器端 WASM 驱动的 A4 矢量 PDF 排版。
+- `@paddleocr/paddleocr-js`：按需加载的端侧文字识别 SDK，运行于专用 Worker 中，结合 ONNX Runtime Web 与 OpenCV.js 处理多语言端侧双模型推理。
 
 ---
 
@@ -82,6 +84,8 @@ src/
 │   ├── pdf/             # Takumi PDF WASM 分页排版 Worker、字体加载与快照
 │   ├── file-storage.ts  # IndexedDB v2 事务化文件存储事实源
 │   ├── file-importer.ts # 多格式文档导入、分类与标签初始化
+│   ├── image-import.ts  # 图片导入适配器（OCR 识别与图床上传分流）
+│   ├── ocr.ts           # PaddleOCR.js 引擎生命周期管理与互斥串行队列
 │   ├── upload-image.ts  # 图片上传客户端边界
 │   └── markdown/        # 核心 Markdown 处理中枢
 │       ├── definitions.ts # 唯一 Tool Registry（render / parse / extract / lint）
@@ -186,6 +190,14 @@ PDF 导出直接以当前预览 iframe 的实际视觉呈现为蓝本，避免�
 
 Word、PPT、Excel、PDF 等外部文件通过独立 Document Worker 加载 AnyDoc WASM 引擎。为了防止多文件连续导入引发内存溢出，客户端采用**严格串行队列**提交转换任务，并在文件进入 Worker 前执行 20MB 硬性大小校验。
 
+### PaddleOCR 端侧文字识别
+
+图片导入若开启 OCR，系统通过独立 PaddleOCR Worker 在端侧运行检测与识别：
+
+1. **按需加载与包体积隔离**：PaddleOCR SDK、Worker、ONNX Runtime Web 与 OpenCV.js 均不进入首屏静态依赖，通过 Vite 独立代码分块（`codeSplitting`）隔离，仅在开启 OCR 且首次导入图片时动态载入。
+2. **双模型按需选择**：默认使用超轻量 `PP-OCRv6_tiny`（加载迅速）；支持按需切换为高精度 `PP-OCRv6_small`（约 30MB）。模型切换时自动原子化重置引擎实例。
+3. **互斥排队（Mutex）**：基于 `es-toolkit` 的 `Mutex` 对图片预测流程加锁，保证多图连续导入时串行推理，避免瞬时内存飙升。
+
 ---
 
 ## 状态管理与持久化分层
@@ -201,7 +213,7 @@ Word、PPT、Excel、PDF 等外部文件通过独立 Document Worker 加载 AnyD
 │                  │ • 活动文件 ID 存入 sessionStorage (多标签隔离)          │
 │                  │ • 跨标签同步仅依靠 localStorage 发送失效信号            │
 ├──────────────────┼────────────────────────────────────────────────────────┤
-│ editorStore      │ • 负责换行规则 (breaks)、脚注转换等编辑器配置          │
+│ editorStore      │ • 负责换行规则 (breaks)、OCR 开关与脚注转换等编辑器配置│
 │                  │ • 持久化于 localStorage (bm.md.editor)                  │
 │                  │ • 客户端挂载时显式触发 rehydrate                       │
 ├──────────────────┼────────────────────────────────────────────────────────┤

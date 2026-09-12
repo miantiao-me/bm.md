@@ -1,5 +1,5 @@
 import type { SupportedPlatform } from '@/config'
-import type { EditorBooleanKey, EditorBooleanSetterKey } from '@/stores/editor'
+import type { EditorSettingKey } from '@/stores/editor'
 import type { InfographicSettings } from '@/stores/preview'
 import type { MarkdownStyleId } from '@/themes/markdown-style/metadata'
 import type { MermaidThemeId } from '@/themes/mermaid-theme'
@@ -18,7 +18,7 @@ import { handleImportFiles } from '@/lib/actions/import-file'
 import { toggleTheme } from '@/lib/actions/toggle-theme'
 import { trackEvent } from '@/lib/analytics'
 import { useCommandPaletteStore } from '@/stores/command-palette'
-import { useEditorStore } from '@/stores/editor'
+import { useEditorSettings, useEditorStore } from '@/stores/editor'
 import { isFileContentReady, useFilesStore } from '@/stores/files'
 import {
   PREVIEW_WIDTH_DESKTOP,
@@ -51,8 +51,8 @@ export interface CommandPaletteActions {
   handleDesktopView: () => void
   handleNavigate: (path: string) => void
   handleExternalLink: (url: string) => void
-  isSettingEnabled: (storeKey: EditorBooleanKey) => boolean
-  handleToggleSetting: (storeKey: EditorBooleanKey, setterKey: EditorBooleanSetterKey) => void
+  isSettingEnabled: (storeKey: EditorSettingKey) => boolean
+  handleToggleSetting: (storeKey: EditorSettingKey) => void
   handleSelectMarkdownStyle: (id: MarkdownStyleId) => void
   handleSelectCodeTheme: (id: string) => void
   handleSelectMermaidTheme: (id: MermaidThemeId) => void
@@ -67,16 +67,7 @@ export function useCommandPaletteActions(setResetDialogOpen: (open: boolean) => 
   const setOpen = useCommandPaletteStore(state => state.setOpen)
   const resetSubMenu = useCommandPaletteStore(state => state.resetSubMenu)
 
-  const enableFootnoteLinks = useEditorStore(state => state.enableFootnoteLinks)
-  const breaks = useEditorStore(state => state.breaks)
-  const openLinksInNewWindow = useEditorStore(state => state.openLinksInNewWindow)
-  const enableScrollSync = useEditorStore(state => state.enableScrollSync)
-  const settings = {
-    enableFootnoteLinks,
-    breaks,
-    openLinksInNewWindow,
-    enableScrollSync,
-  }
+  const settings = useEditorSettings()
 
   const previewWidth = usePreviewStore(state => state.previewWidth)
   const setPreviewWidth = usePreviewStore(state => state.setPreviewWidth)
@@ -236,15 +227,13 @@ export function useCommandPaletteActions(setResetDialogOpen: (open: boolean) => 
     closePanel()
   }
 
-  const isSettingEnabled = (storeKey: EditorBooleanKey) => {
+  const isSettingEnabled = (storeKey: EditorSettingKey) => {
     return settings[storeKey]
   }
 
-  const handleToggleSetting = (storeKey: EditorBooleanKey, setterKey: EditorBooleanSetterKey) => {
+  const handleToggleSetting = (storeKey: EditorSettingKey) => {
     const editorStore = useEditorStore.getState()
-    const currentValue = editorStore[storeKey]
-    const setter = editorStore[setterKey]
-    setter(!currentValue)
+    editorStore.setSetting(storeKey, !editorStore[storeKey])
   }
 
   const handleSelectMarkdownStyle = (id: MarkdownStyleId) => {

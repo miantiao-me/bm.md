@@ -2,6 +2,7 @@ allowBuilds:
   core-js: true
   esbuild: true
   msw: true
+  protobufjs: true
   sharp: true
   simple-git-hooks: true
   workerd: true
