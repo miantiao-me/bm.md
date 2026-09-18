@@ -75,7 +75,7 @@ export const ayuMirage = {
   borderSolid: '#282e3b', // bgWidget
   border: '#171b24',
   selection: '#409fff40',
-  activeLine: '#1a1f29',
+  activeLine: '#707a8c33',
   cursor: '#ffcc66',
   highlight: '#736950',
 } as const
