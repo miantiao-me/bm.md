@@ -54,17 +54,15 @@ describe('markdown style 注册表', () => {
 })
 
 describe('图表字体族', () => {
-  it.each(['kami', 'botanical', 'newsprint', 'forest-review'] as const)('衬线风格 %s 解析为 serif', (id) => {
+  it.each(['kami', 'newsprint', 'botanical', 'retro', 'forest-review', 'navy-vellum'] as const)('衬线风格 %s 解析为 serif', (id) => {
     expect(resolveDiagramFontFamily(id)).toBe('serif')
   })
 
   it.each([
     'bauhaus',
     'blueprint',
-    'retro',
     'sketch',
     'terminal',
-    'navy-vellum',
     'rose-nocturne',
     'solar-catalog',
     'triad-paper',

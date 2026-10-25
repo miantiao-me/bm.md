@@ -1,18 +1,33 @@
 /* ============================================
-   Forest Review — 森林季报风格，暖调编辑排版
-   燕麦纸色打底，森林绿与灰调玫红双色呼应，
-   衬线正文与标题统一，克制而有分量的季刊气质
+   Forest Review — 文化季刊
+   黑体标题配宋体正文、林绿顶线分节、填充式引用与斑马纹表格
    ============================================ */
 
 #bm-md {
-  color: #1a1a17;
-  background-color: #efe7d4;
+  color: #22261f;
+  background-color: #efeadf;
+  font-family: Georgia, 'Songti SC', SimSun, 'Source Han Serif SC', 'Noto Serif CJK SC', serif;
+  font-size: 16px;
+  line-height: 1.8;
+  padding: 28px 22px;
+  overflow-wrap: break-word;
+}
+
+#bm-md h1,
+#bm-md h2,
+#bm-md h3,
+#bm-md h4,
+#bm-md h5,
+#bm-md h6,
+#bm-md table,
+#bm-md figcaption,
+#bm-md .markdown-alert-title,
+#bm-md summary,
+#bm-md .meta,
+#bm-md time {
   font-family:
-    'Source Han Serif SC', 'Source Han Serif CN', 'Noto Serif CJK SC', 'Noto Serif SC', 'Songti SC', 'STSong', SimSun,
-    Charter, Georgia, Palatino, serif;
-  font-size: 15px;
-  line-height: 1.65;
-  padding: 26px 22px;
+    -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, 'PingFang SC', 'Microsoft YaHei', 'Source Han Sans SC',
+    'Noto Sans CJK SC', sans-serif;
 }
 
 #bm-md h1,
@@ -21,61 +36,49 @@
 #bm-md h4,
 #bm-md h5,
 #bm-md h6 {
-  font-family: inherit;
-  font-weight: 600;
+  font-weight: 700;
   break-after: avoid;
 }
 
-/* H1 — 深林绿，左侧竖线如刊物内页的章节脊 */
 #bm-md h1 {
-  margin-top: 30px;
-  margin-bottom: 14px;
-  padding-left: 12px;
-  border-left: 4px solid #20331d;
-  color: #20331d;
-  font-size: 27px;
-  line-height: 1.25;
+  margin: 36px 0 20px;
+  color: #1d3a27;
+  font-size: 36px;
+  line-height: 1.15;
 }
 
-/* H2 — 品牌森林绿 + 浅苔线，标记章节分段 */
+/* 林绿全宽顶线分节 */
 #bm-md h2 {
-  margin-top: 26px;
-  margin-bottom: 12px;
-  padding-bottom: 6px;
-  border-bottom: 1px solid #dbe4cb;
-  color: #2e4a2a;
-  font-size: 20px;
+  margin: 36px 0 12px;
+  padding-top: 10px;
+  border-top: 3px solid #2f5a3c;
+  color: #1d3a27;
+  font-size: 22px;
   line-height: 1.3;
 }
 
 #bm-md h3 {
-  margin-top: 20px;
-  margin-bottom: 8px;
-  color: #3f5c3a;
-  font-size: 17px;
-  line-height: 1.35;
+  margin: 26px 0 8px;
+  color: #284632;
+  font-size: 18px;
+  line-height: 1.4;
 }
 
-/* H4-H6 同色，仅字号递减 */
 #bm-md h4,
 #bm-md h5,
 #bm-md h6 {
-  margin-top: 16px;
-  margin-bottom: 6px;
-  color: #5a6754;
+  margin: 20px 0 6px;
+  color: #34503d;
+  font-size: 15px;
   line-height: 1.4;
 }
 
 #bm-md h4 {
-  font-size: 15px;
+  font-size: 17px;
 }
 
 #bm-md h5 {
-  font-size: 14px;
-}
-
-#bm-md h6 {
-  font-size: 13px;
+  font-size: 16px;
 }
 
 #bm-md > h1:first-child,
@@ -88,8 +91,7 @@
 }
 
 #bm-md p {
-  margin-bottom: 13px;
-  color: #1a1a17;
+  margin: 0 0 16px;
   widows: 2;
   orphans: 2;
 }
@@ -100,35 +102,32 @@
 
 #bm-md strong,
 #bm-md b {
-  color: #1a1a17;
+  color: #1d3a27;
   font-weight: 700;
 }
 
-/* em/i 保留 Markdown 斜体语义，不额外变色，靠字体本身的斜体气质表达 */
 #bm-md em,
 #bm-md i {
-  color: #1a1a17;
   font-style: italic;
 }
 
 #bm-md del,
 #bm-md s,
 #bm-md strike {
-  color: #5c5648;
+  color: #50574b;
   text-decoration: line-through;
 }
 
-/* mark 沿用灰玫红——高亮如编辑手记里的钢笔勾画 */
 #bm-md mark {
-  padding: 1px 5px;
+  padding: 0 3px;
   border-radius: 2px;
-  color: #954458;
-  background-color: #f1dee2;
+  color: #22261f;
+  background-color: #e8d79a;
 }
 
 #bm-md small {
-  color: #5c5648;
-  font-size: 12px;
+  color: #50574b;
+  font-size: 14px;
 }
 
 #bm-md sup,
@@ -145,64 +144,56 @@
   vertical-align: sub;
 }
 
-/* ins 与 mark 相对，取森林绿，形成双色呼应 */
 #bm-md ins {
-  padding: 1px 4px;
-  border-bottom: 1px solid #2e4a2a;
-  color: #20331d;
-  background-color: #e3e8d6;
-  text-decoration: none;
-}
-
-#bm-md q {
-  color: #5c5648;
+  text-decoration: underline;
+  text-decoration-color: #2f5a3c;
+  text-underline-offset: 3px;
 }
 
 #bm-md q::before {
-  content: '\201C';
-  color: #954458;
+  content: '“';
 }
 
 #bm-md q::after {
-  content: '\201D';
-  color: #954458;
+  content: '”';
 }
 
 #bm-md var {
-  color: #3f5c3a;
-  font-style: normal;
-  font-weight: 600;
+  font-style: italic;
 }
 
+#bm-md code,
+#bm-md samp,
+#bm-md tt,
+#bm-md kbd,
+#bm-md pre {
+  font-family: Menlo, Consolas, 'Songti SC', SimSun, 'Source Han Serif SC', 'Noto Serif CJK SC', monospace;
+}
+
+#bm-md code,
 #bm-md samp,
 #bm-md tt {
   padding: 1px 5px;
   border-radius: 2px;
-  color: #3a3627;
-  background-color: #e6dcc4;
-  font-family:
-    'JetBrains Mono', 'SF Mono', 'Fira Code', Consolas, Monaco, 'Source Han Serif SC', 'Noto Serif CJK SC', 'Songti SC',
-    monospace;
-  font-size: 12px;
+  color: #22261f;
+  background-color: #e4ddcd;
+  font-size: 14px;
 }
 
 #bm-md abbr[title] {
-  border-bottom: 1px dotted #2e4a2a;
+  text-decoration: underline dotted #50574b;
+  text-underline-offset: 3px;
   cursor: help;
-  text-decoration: none;
 }
 
-/* 链接取灰调玫红，与森林绿标题形成克制的双色叙事 */
 #bm-md a {
-  color: #954458;
-  font-weight: 600;
-  text-decoration: none;
+  color: #2f5a3c;
+  text-decoration: underline;
+  text-underline-offset: 3px;
 }
 
 #bm-md a:hover {
-  color: #7c3a4c;
-  text-decoration: underline;
-  text-underline-offset: 3px;
+  color: #1d3a27;
 }
 
 #bm-md ruby {
@@ -210,18 +201,18 @@
 }
 
 #bm-md rt {
-  color: #5c5648;
+  color: #50574b;
   font-size: 0.5em;
 }
 
 #bm-md rp {
-  color: #5c5648;
+  color: #50574b;
 }
 
 #bm-md ul,
 #bm-md ol {
-  margin-bottom: 13px;
-  padding-left: 22px;
+  margin: 0 0 16px;
+  padding-left: 24px;
 }
 
 #bm-md ul {
@@ -233,23 +224,16 @@
 }
 
 #bm-md li {
-  margin-bottom: 5px;
-  color: #1a1a17;
+  margin-bottom: 4px;
 }
 
-#bm-md ul li::marker {
-  color: #2e4a2a;
-}
-
-#bm-md ol li::marker {
-  color: #2e4a2a;
-  font-weight: 600;
+#bm-md li::marker {
+  color: #2f5a3c;
 }
 
 #bm-md li > ul,
 #bm-md li > ol {
-  margin-top: 4px;
-  margin-bottom: 4px;
+  margin: 4px 0;
 }
 
 #bm-md ul ul {
@@ -268,27 +252,24 @@
 #bm-md li.task-list-item {
   display: flex;
   align-items: flex-start;
-  gap: 6px;
+  gap: 8px;
 }
 
 #bm-md input[type='checkbox'] {
-  margin-top: 4px;
-  accent-color: #2e4a2a;
+  margin-top: 7px;
+  accent-color: #2f5a3c;
 }
 
-/* 引用块留白不设底色，只用玫红竖线标记，保持安静 */
 #bm-md blockquote {
-  margin: 16px 0;
-  padding: 6px 0 6px 16px;
-  border-left: 3px solid #954458;
-  color: #5c5648;
-  background-color: transparent;
-  line-height: 1.65;
+  margin: 20px 0;
+  padding: 16px 20px;
+  border-radius: 2px;
+  color: #3a3f36;
+  background-color: #e4ddcd;
 }
 
 #bm-md blockquote p {
-  margin-bottom: 6px;
-  color: #5c5648;
+  margin-bottom: 10px;
 }
 
 #bm-md blockquote p:last-child {
@@ -296,35 +277,20 @@
 }
 
 #bm-md blockquote blockquote {
-  margin-top: 8px;
-  margin-bottom: 0;
-  border-left-color: #ddd0b0;
+  margin: 12px 0 0;
+  padding: 12px 16px;
+  background-color: #ebe5d8;
 }
 
-#bm-md code {
-  padding: 1px 5px;
-  border-radius: 2px;
-  color: #3a3627;
-  background-color: #e6dcc4;
-  font-family:
-    'JetBrains Mono', 'SF Mono', 'Fira Code', Consolas, Monaco, 'Source Han Serif SC', 'Noto Serif CJK SC', 'Songti SC',
-    monospace;
-  font-size: 12px;
-}
-
-/* 代码块沿用季报纸张底色，保持正文阅读节奏 */
 #bm-md pre {
-  margin: 15px 0;
-  padding: 12px 14px;
+  margin: 18px 0;
+  padding: 14px 16px;
   overflow-x: auto;
-  border: none;
-  color: #3a3627;
-  background-color: #e6dcc4;
-  font-family:
-    'JetBrains Mono', 'SF Mono', 'Fira Code', Consolas, Monaco, 'Source Han Serif SC', 'Noto Serif CJK SC', 'Songti SC',
-    monospace;
-  font-size: 12px;
-  line-height: 1.5;
+  border-radius: 2px;
+  color: #22261f;
+  background-color: #e6dfd0;
+  font-size: 14px;
+  line-height: 1.6;
   white-space: pre;
 }
 
@@ -337,139 +303,159 @@
   line-height: inherit;
 }
 
+/* Georgia 只有高低错落的旧式数字，表格换用数字等高的 Palatino */
 #bm-md table {
   width: 100%;
-  margin: 16px 0;
+  margin: 18px 0;
   border-collapse: collapse;
-  color: #1a1a17;
-  font-size: 13px;
+  font-family: 'Palatino Linotype', Palatino, 'Songti SC', SimSun, 'Source Han Serif SC', 'Noto Serif CJK SC', serif;
+  font-size: 14px;
+  line-height: 1.55;
 }
 
 #bm-md th,
 #bm-md td {
-  padding: 7px 10px;
-  border: none;
-  border-bottom: 1px solid #ddd0b0;
+  padding: 8px 10px;
   text-align: left;
   vertical-align: top;
 }
 
 #bm-md th {
-  border-bottom: 2px solid #2e4a2a;
-  color: #2e4a2a;
-  font-weight: 600;
+  border-bottom: 2px solid #2f5a3c;
+  color: #1d3a27;
+  font-weight: 700;
 }
 
-#bm-md tbody tr:nth-child(even) {
-  background-color: #e6dcc4;
+#bm-md td {
+  border-bottom: 1px solid #d8d0bf;
+}
+
+#bm-md th[align='center'],
+#bm-md td[align='center'] {
+  text-align: center;
+}
+
+#bm-md th[align='right'],
+#bm-md td[align='right'] {
+  text-align: right;
+}
+
+#bm-md .figure-table tbody tr:nth-child(even) {
+  background-color: #e7e1d4;
 }
 
 #bm-md .frontmatter-table {
   width: auto;
-  margin-bottom: 18px;
-  color: #5c5648;
-  font-size: 12px;
+  margin: 0 0 20px;
 }
 
 #bm-md .frontmatter-table td {
-  padding: 2px 10px 2px 0;
+  padding: 2px 12px 2px 0;
   border: none;
-  background-color: transparent;
 }
 
-/* frontmatter-key 用玫红 + 大写，充当页眉标签，不依赖字间距 */
 #bm-md .frontmatter-key {
-  color: #954458;
-  font-weight: 600;
-  text-transform: uppercase;
+  color: #1d3a27;
+  font-weight: 700;
   white-space: nowrap;
 }
 
-#bm-md .frontmatter-key::after {
-  content: ':';
-}
-
 #bm-md .frontmatter-value {
-  color: #5c5648;
+  color: #50574b;
 }
 
 #bm-md hr {
-  height: 1px;
-  margin: 26px 0;
+  height: 0;
+  margin: 32px 0;
   border: none;
-  background-color: #ddd0b0;
+  border-top: 1px solid #b8ae98;
 }
 
-/* img 用硬边偏移阴影模拟叠放的纸片质感（0 模糊，非发光） */
+/* 分隔线后紧跟 H2 时去掉 H2 顶线，避免两道线叠在一起 */
+#bm-md hr + h2 {
+  padding-top: 0;
+  border-top: none;
+}
+
 #bm-md img {
   display: block;
   max-width: 100%;
-  margin: 16px 0;
-  border: 1px solid #ddd0b0;
-  box-shadow: 3px 3px 0 #ddd0b0;
+  margin: 18px auto;
+  border-radius: 2px;
 }
 
 #bm-md picture {
   display: block;
-  margin: 16px 0;
+  margin: 18px 0;
 }
 
 #bm-md picture img {
-  display: block;
   margin: 0;
 }
 
 #bm-md figure {
-  margin: 18px 0;
+  margin: 22px 0;
 }
 
 #bm-md figure img {
-  display: block;
   margin: 0 auto;
 }
 
 #bm-md figcaption {
-  margin-top: 6px;
-  color: #5c5648;
-  font-size: 12px;
-  font-style: italic;
+  margin-top: 8px;
+  color: #50574b;
+  font-size: 14px;
   line-height: 1.5;
-  text-align: center;
 }
 
 #bm-md .footnotes {
-  margin-top: 28px;
-  padding-top: 14px;
-  border-top: 1px solid #ddd0b0;
-  color: #5c5648;
-  font-size: 12px;
-  line-height: 1.55;
+  margin-top: 36px;
+  padding-top: 12px;
+  border-top: 3px solid #2f5a3c;
+  color: #50574b;
+  font-size: 14px;
+  line-height: 1.65;
+}
+
+#bm-md .footnotes h4 {
+  margin: 0 0 8px;
+  color: #34503d;
+  font-size: 14px;
 }
 
 #bm-md .footnotes ol {
-  padding-left: 18px;
+  margin: 0;
+  padding-left: 20px;
+}
+
+#bm-md .footnotes p {
+  margin-bottom: 4px;
 }
 
 #bm-md .footnote-ref {
-  color: #954458;
   font-size: 0.75em;
+  line-height: 0;
   vertical-align: super;
+}
+
+#bm-md .footnote-ref a {
+  text-decoration: none;
 }
 
 #bm-md .footnote-backref,
 #bm-md .data-footnote-backref {
-  color: #954458;
+  color: #2f5a3c;
   text-decoration: none;
 }
 
 #bm-md dl {
-  margin: 15px 0;
+  margin: 16px 0;
 }
 
 #bm-md dt {
-  margin-top: 8px;
-  color: #2e4a2a;
-  font-weight: 600;
+  margin-top: 10px;
+  color: #1d3a27;
+  font-weight: 700;
 }
 
 #bm-md dt:first-child {
@@ -477,149 +463,125 @@
 }
 
 #bm-md dd {
-  margin-top: 3px;
-  margin-left: 18px;
-  padding-left: 10px;
-  border-left: 2px solid #ddd0b0;
-  color: #5c5648;
+  margin: 2px 0 0 24px;
+  color: #50574b;
 }
 
-/* kbd 加一条更深的底边，模拟键帽的物理厚度 */
 #bm-md kbd {
   display: inline-block;
-  padding: 1px 6px;
-  border: 1px solid #ddd0b0;
-  border-bottom: 2px solid #c9b98c;
+  padding: 0 6px;
+  border: 1px solid #b8ae98;
+  border-bottom-width: 2px;
   border-radius: 2px;
-  color: #3a3627;
-  background-color: #e6dcc4;
-  font-family:
-    'JetBrains Mono', 'SF Mono', Consolas, Monaco, 'Source Han Serif SC', 'Noto Serif CJK SC', 'Songti SC', monospace;
-  font-size: 12px;
+  color: #22261f;
+  background-color: #f7f4ec;
+  font-size: 13px;
+  line-height: 1.6;
 }
 
+/* 提示块：浅语义色底，顶部一道语义色粗线与 H2 顶线呼应 */
 #bm-md .markdown-alert {
-  margin: 16px 0;
-  padding: 12px 14px;
-  border-left: 2px solid #2e4a2a;
-  color: #1a1a17;
-  background-color: #e6dcc4;
-  line-height: 1.6;
+  margin: 20px 0;
+  padding: 12px 18px;
+  border-top: 3px solid #2a4f75;
+  color: #22261f;
+  background-color: #e3e4e0;
 }
 
 #bm-md .markdown-alert-title {
   display: flex;
   align-items: center;
   gap: 6px;
-  margin-bottom: 6px;
-  color: #2e4a2a;
-  font-size: 12px;
-  font-weight: 600;
-  text-transform: uppercase;
-}
-
-/* note 与 tip 同属森林绿，仅靠背景深浅区分层级 */
-#bm-md .markdown-alert-note,
-#bm-md .markdown-alert-note .markdown-alert-title {
-  border-left-color: #2e4a2a;
-  color: #2e4a2a;
+  margin-bottom: 4px;
+  font-size: 14px;
+  font-weight: 700;
 }
 
 #bm-md .markdown-alert-note {
-  background-color: #e6ebd8;
+  border-top-color: #2a4f75;
+  background-color: #e3e4e0;
 }
 
-#bm-md .markdown-alert-tip,
-#bm-md .markdown-alert-tip .markdown-alert-title {
-  border-left-color: #2e4a2a;
-  color: #2e4a2a;
+#bm-md .markdown-alert-note .markdown-alert-title {
+  color: #2a4f75;
 }
 
 #bm-md .markdown-alert-tip {
-  background-color: #dbe4cb;
+  border-top-color: #2f5a3c;
+  background-color: #e1e5d6;
 }
 
-/* important 用更深的森林绿 + 更粗的左线，在同一绿色系里升级层级 */
-#bm-md .markdown-alert-important,
-#bm-md .markdown-alert-important .markdown-alert-title {
-  border-left-color: #20331d;
-  color: #20331d;
+#bm-md .markdown-alert-tip .markdown-alert-title {
+  color: #2f5a3c;
 }
 
 #bm-md .markdown-alert-important {
-  border-left-width: 3px;
-  background-color: #cfd8bd;
+  border-top-color: #59456e;
+  background-color: #e7e0e2;
 }
 
-/* warning/caution 切换到独立的暖锈色系，与绿色/玫红区分警示语义 */
-#bm-md .markdown-alert-warning,
-#bm-md .markdown-alert-warning .markdown-alert-title {
-  border-left-color: #8a4b23;
-  color: #8a4b23;
+#bm-md .markdown-alert-important .markdown-alert-title {
+  color: #59456e;
 }
 
 #bm-md .markdown-alert-warning {
-  background-color: #f1e3ce;
+  border-top-color: #7a5408;
+  background-color: #efe2c4;
 }
 
-#bm-md .markdown-alert-caution,
-#bm-md .markdown-alert-caution .markdown-alert-title {
-  border-left-color: #6e3a1b;
-  color: #6e3a1b;
+#bm-md .markdown-alert-warning .markdown-alert-title {
+  color: #6e4b06;
 }
 
 #bm-md .markdown-alert-caution {
-  border-left-width: 3px;
-  background-color: #ead2b0;
+  border-top-color: #96301f;
+  background-color: #f0dbcf;
+}
+
+#bm-md .markdown-alert-caution .markdown-alert-title {
+  color: #8f2c1c;
 }
 
 #bm-md .math-inline {
-  color: #1a1a17;
   font-size: 1em;
 }
 
 #bm-md .math-display {
-  margin: 16px 0;
-  padding: 12px 14px;
+  margin: 18px 0;
   overflow-x: auto;
-  background-color: #e6dcc4;
   text-align: center;
 }
 
 #bm-md details {
-  margin: 16px 0;
-  padding: 10px 14px;
-  border-left: 2px solid #2e4a2a;
-  background-color: #e6dcc4;
+  margin: 18px 0;
+  padding: 10px 16px;
+  border-top: 1px solid #b8ae98;
+  border-bottom: 1px solid #b8ae98;
 }
 
 #bm-md summary {
-  color: #2e4a2a;
+  color: #1d3a27;
   cursor: pointer;
-  font-weight: 600;
+  font-weight: 700;
 }
 
 #bm-md details[open] summary {
   margin-bottom: 8px;
-  padding-bottom: 6px;
-  border-bottom: 1px solid #ddd0b0;
 }
 
 #bm-md iframe,
 #bm-md video {
   display: block;
   max-width: 100%;
-  margin: 16px 0;
-  border: 1px solid #ddd0b0;
+  margin: 18px 0;
+  border: none;
+  border-radius: 2px;
 }
 
-/* meta/time 走大写标签的编辑刊物腔调，靠字重与大小写传达，不用字间距 */
 #bm-md .meta,
 #bm-md time {
-  color: #5c5648;
-  font-size: 12px;
-  font-weight: 600;
-  text-transform: uppercase;
+  color: #50574b;
+  font-size: 14px;
 }
 
 #bm-md.indent-first-line p {

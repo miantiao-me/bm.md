@@ -1,17 +1,30 @@
 /* ============================================
    Kami — 羊皮纸、墨蓝与克制的编辑排版
-   对齐 tw93/Kami V1.12.0，并适配紧凑的屏幕阅读
+   配色、字重、层级比例对齐 tw93/Kami V1.18.0 long-doc 模板与 tokens.json；
+   字号与间距按屏幕规范重排为整数 px（正文 16px），不按打印 pt 换算。
+
+   与上游的平台差异：
+   1. 不用 TsangerJinKai02（两个系统都不预装）：西文 Georgia，中文宋体（macOS Songti SC / Windows SimSun）
+   2. 去掉 letter-spacing: 0.3pt（跨平台折行漂移）
+   3. 屏幕内边距代替 A4 页边距；不引入 @page、页眉页脚、封面、目录
+   4. 上游每章分页，H1 上边距为 0；Markdown 连续排版，非首个 H1 用 32px
+   5. H4–H6、hr、mark、kbd、脚注、提示块、details 无上游组件，按 token 与字号阶梯推导
+   6. em 保留斜体（Markdown 语义）
+   7. 代码高亮 token 由代码主题决定
+   8. 行内代码用屏幕 token #f0eee6，而非打印模板的 ivory
+   9. 链接加下划线（上游无下划线），不只靠颜色识别
    ============================================ */
 
 #bm-md {
   color: #141413;
   background-color: #f5f4ed;
-  font-family:
-    'Source Han Serif SC', 'Source Han Serif CN', 'Noto Serif CJK SC', 'Noto Serif SC', 'Songti SC', 'STSong', SimSun,
-    Charter, Georgia, Palatino, serif;
-  font-size: 14px;
-  line-height: 1.55;
+  font-family: Georgia, 'Songti SC', SimSun, 'Source Han Serif SC', 'Noto Serif CJK SC', serif;
+  font-size: 16px;
+  line-height: 1.65;
   padding: 28px 24px;
+  overflow-wrap: break-word;
+  widows: 3;
+  orphans: 3;
 }
 
 #bm-md h1,
@@ -26,50 +39,44 @@
 }
 
 #bm-md h1 {
-  margin-top: 32px;
-  margin-bottom: 12px;
-  padding-left: 10px;
-  border-left: 3px solid #1b365d;
+  margin: 40px 0 16px;
   color: #141413;
-  font-size: 30px;
-  line-height: 1.2;
-}
-
-#bm-md h2 {
-  margin-top: 28px;
-  margin-bottom: 10px;
-  color: #141413;
-  font-size: 22px;
+  font-size: 32px;
   line-height: 1.25;
 }
 
-#bm-md h3 {
-  margin-top: 22px;
-  margin-bottom: 8px;
-  color: #3d3d3a;
-  font-size: 17px;
+#bm-md h2 {
+  margin: 32px 0 12px;
+  color: #141413;
+  font-size: 24px;
   line-height: 1.3;
+}
+
+#bm-md h3 {
+  margin: 28px 0 8px;
+  color: #3d3d3a;
+  font-size: 20px;
+  line-height: 1.4;
 }
 
 #bm-md h4,
 #bm-md h5,
 #bm-md h6 {
-  margin-top: 18px;
-  margin-bottom: 6px;
+  margin: 20px 0 8px;
   color: #504e49;
-  line-height: 1.35;
+  line-height: 1.4;
 }
 
 #bm-md h4 {
-  font-size: 15px;
+  font-size: 18px;
 }
 
 #bm-md h5 {
-  font-size: 14px;
+  font-size: 16px;
 }
 
 #bm-md h6 {
-  font-size: 12px;
+  font-size: 14px;
 }
 
 #bm-md > h1:first-child,
@@ -82,7 +89,7 @@
 }
 
 #bm-md p {
-  margin-bottom: 12px;
+  margin: 0 0 16px;
   color: #141413;
   widows: 2;
   orphans: 2;
@@ -92,16 +99,14 @@
   margin-bottom: 0;
 }
 
+/* 上游只有 400/500 两档字重，强调不加色 */
 #bm-md strong,
 #bm-md b {
-  color: #141413;
   font-weight: 500;
 }
 
-/* em/i 保留 Markdown 斜体语义，显式声明避免依赖默认行为 */
 #bm-md em,
 #bm-md i {
-  color: #141413;
   font-style: italic;
 }
 
@@ -114,14 +119,14 @@
 
 #bm-md mark {
   padding: 1px 4px;
-  border-radius: 2px;
+  border-radius: 3px;
   color: #1b365d;
   background-color: #e4ecf5;
 }
 
 #bm-md small {
   color: #6b6a64;
-  font-size: 12px;
+  font-size: 14px;
 }
 
 #bm-md sup,
@@ -139,11 +144,10 @@
 }
 
 #bm-md ins {
-  padding: 1px 3px;
-  border-bottom: 1px solid #1b365d;
   color: #1b365d;
   background-color: #eef2f7;
-  text-decoration: none;
+  text-decoration: underline;
+  text-underline-offset: 3px;
 }
 
 #bm-md q {
@@ -152,48 +156,50 @@
 
 #bm-md q::before {
   content: '“';
-  color: #1b365d;
 }
 
 #bm-md q::after {
   content: '”';
-  color: #1b365d;
 }
 
 #bm-md var {
   color: #3d3d3a;
-  font-style: normal;
-  font-weight: 500;
+  font-style: italic;
 }
 
+#bm-md code,
+#bm-md samp,
+#bm-md tt,
+#bm-md kbd,
+#bm-md pre {
+  font-family: Menlo, Consolas, 'Songti SC', SimSun, 'Source Han Serif SC', 'Noto Serif CJK SC', monospace;
+}
+
+#bm-md code,
 #bm-md samp,
 #bm-md tt {
-  padding: 1px 4px;
-  border-radius: 2px;
+  padding: 2px 6px;
+  border-radius: 3px;
   color: #3d3d3a;
-  background-color: #faf9f5;
-  font-family:
-    'JetBrains Mono', 'SF Mono', 'Fira Code', Consolas, Monaco, 'Source Han Serif SC', 'Noto Serif CJK SC', monospace;
-  font-size: 12px;
+  background-color: #f0eee6;
+  font-size: 14px;
 }
 
 #bm-md abbr[title] {
-  border-bottom: 1px dotted #1b365d;
+  text-decoration: underline dotted #6b6a64;
+  text-underline-offset: 3px;
   cursor: help;
-  text-decoration: none;
 }
 
-/* 链接对齐官方 .prose a：品牌色文字，hover 才出现下划线 */
 #bm-md a {
   color: #1b365d;
-  font-weight: 500;
-  text-decoration: none;
+  font-weight: 400;
+  text-decoration: underline;
+  text-underline-offset: 3px;
 }
 
 #bm-md a:hover {
-  color: #1b365d;
-  text-decoration: underline;
-  text-underline-offset: 3px;
+  color: #2d5a8a;
 }
 
 #bm-md ruby {
@@ -211,8 +217,8 @@
 
 #bm-md ul,
 #bm-md ol {
-  margin-bottom: 12px;
-  padding-left: 22px;
+  margin: 8px 0 16px;
+  padding-left: 28px;
 }
 
 #bm-md ul {
@@ -225,23 +231,19 @@
 
 #bm-md li {
   margin-bottom: 4px;
-  color: #141413;
 }
 
-/* 原生 marker：无序不加粗，有序 500（对齐官方列表规则） */
-#bm-md ul li::marker {
+#bm-md li::marker {
   color: #1b365d;
 }
 
-#bm-md ol li::marker {
-  color: #1b365d;
+#bm-md ol > li::marker {
   font-weight: 500;
 }
 
 #bm-md li > ul,
 #bm-md li > ol {
-  margin-top: 4px;
-  margin-bottom: 4px;
+  margin: 4px 0;
 }
 
 #bm-md ul ul {
@@ -260,25 +262,23 @@
 #bm-md li.task-list-item {
   display: flex;
   align-items: flex-start;
-  gap: 6px;
+  gap: 8px;
 }
 
 #bm-md input[type='checkbox'] {
-  margin-top: 4px;
+  margin-top: 7px;
   accent-color: #1b365d;
 }
 
+/* Subtractive rule：引用只靠缩进与 olive 文字区分，无底色无侧线 */
 #bm-md blockquote {
-  margin: 16px 0;
-  padding: 4px 0 4px 14px;
-  border-left: 2px solid #1b365d;
+  margin: 20px 24px;
+  padding: 4px 0;
   color: #504e49;
-  background-color: transparent;
-  line-height: 1.55;
 }
 
 #bm-md blockquote p {
-  margin-bottom: 6px;
+  margin-bottom: 8px;
   color: #504e49;
 }
 
@@ -287,35 +287,19 @@
 }
 
 #bm-md blockquote blockquote {
-  margin-top: 8px;
-  margin-bottom: 0;
-  border-left-color: #e5e3d8;
-}
-
-#bm-md code {
-  padding: 1px 4px;
-  border-radius: 2px;
-  color: #3d3d3a;
-  background-color: #faf9f5;
-  font-family:
-    'JetBrains Mono', 'SF Mono', 'Fira Code', Consolas, Monaco, 'Source Han Serif SC', 'Noto Serif CJK SC', 'Songti SC',
-    monospace;
-  font-size: 12px;
+  margin: 8px 0 0 24px;
 }
 
 #bm-md pre {
-  margin: 14px 0;
-  padding: 12px 14px;
+  margin: 16px 0;
+  padding: 16px 20px;
   overflow-x: auto;
-  border-radius: 4px;
+  border-radius: 6px;
   color: #141413;
   background-color: #faf9f5;
-  font-family:
-    'JetBrains Mono', 'SF Mono', 'Fira Code', Consolas, Monaco, 'Source Han Serif SC', 'Noto Serif CJK SC', 'Songti SC',
-    monospace;
-  font-size: 12px;
-  line-height: 1.5;
-  white-space: pre;
+  font-size: 14px;
+  line-height: 1.6;
+  white-space: pre-wrap;
 }
 
 #bm-md pre code {
@@ -327,52 +311,63 @@
   line-height: inherit;
 }
 
+/* Georgia 只有高低错落的旧式数字，表格换用数字等高的 Palatino */
 #bm-md table {
   width: 100%;
-  margin: 16px 0;
+  margin: 20px 0;
   border-collapse: collapse;
-  color: #3d3d3a;
-  font-size: 13px;
+  font-family: 'Palatino Linotype', Palatino, 'Songti SC', SimSun, 'Source Han Serif SC', 'Noto Serif CJK SC', serif;
+  font-size: 14px;
+  line-height: 1.55;
 }
 
 #bm-md th,
 #bm-md td {
-  padding: 7px 10px;
-  border: none;
-  border-bottom: 1px solid #e5e3d8;
   text-align: left;
-  vertical-align: top;
 }
 
 #bm-md th {
-  border-bottom-color: #e8e6dc;
+  padding: 10px 12px;
+  border-bottom: 1px solid #e8e6dc;
   color: #3d3d3a;
   font-weight: 500;
 }
 
-/* 基础表格无斑马纹；官方 .striped 为可选增强，Markdown 渲染不启用 */
+#bm-md td {
+  padding: 8px 12px;
+  border-bottom: 1px solid #e8e6dc;
+  vertical-align: top;
+}
+
+/* 保留 Markdown 表格列对齐 */
+#bm-md th[align='center'],
+#bm-md td[align='center'] {
+  text-align: center;
+}
+
+#bm-md th[align='right'],
+#bm-md td[align='right'] {
+  text-align: right;
+}
+
+/* 上游基础表格无斑马纹（.striped 为可选增强，Markdown 不启用） */
 
 #bm-md .frontmatter-table {
   width: auto;
-  margin-bottom: 20px;
+  margin: 0 0 24px;
   color: #504e49;
-  font-size: 12px;
+  font-size: 14px;
 }
 
 #bm-md .frontmatter-table td {
-  padding: 2px 10px 2px 0;
+  padding: 2px 12px 2px 0;
   border: none;
-  background-color: transparent;
 }
 
 #bm-md .frontmatter-key {
-  color: #1b365d;
+  color: #3d3d3a;
   font-weight: 500;
   white-space: nowrap;
-}
-
-#bm-md .frontmatter-key::after {
-  content: ':';
 }
 
 #bm-md .frontmatter-value {
@@ -380,63 +375,76 @@
 }
 
 #bm-md hr {
-  height: 1px;
-  margin: 24px 0;
+  height: 0;
+  margin: 32px 0;
   border: none;
-  background-color: #e5e3d8;
+  border-top: 1px solid #e8e6dc;
 }
 
 #bm-md img {
   display: block;
   max-width: 100%;
-  margin: 16px 0;
-  border-radius: 4px;
+  margin: 20px auto;
+  border-radius: 6px;
 }
 
 #bm-md picture {
   display: block;
-  margin: 16px 0;
+  margin: 20px 0;
 }
 
 #bm-md picture img {
-  display: block;
   margin: 0;
 }
 
 #bm-md figure {
-  margin: 18px 0;
+  margin: 24px 0;
 }
 
 #bm-md figure img {
-  display: block;
   margin: 0 auto;
 }
 
 #bm-md figcaption {
-  margin-top: 6px;
+  margin-top: 8px;
   color: #6b6a64;
-  font-size: 12px;
-  line-height: 1.45;
+  font-size: 14px;
+  line-height: 1.5;
   text-align: center;
 }
 
 #bm-md .footnotes {
-  margin-top: 28px;
-  padding-top: 12px;
-  border-top: 1px solid #e5e3d8;
+  margin-top: 40px;
+  padding-top: 16px;
+  border-top: 1px solid #e8e6dc;
   color: #504e49;
-  font-size: 12px;
-  line-height: 1.5;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+#bm-md .footnotes h4 {
+  margin: 0 0 8px;
+  color: #504e49;
+  font-size: 14px;
 }
 
 #bm-md .footnotes ol {
-  padding-left: 18px;
+  margin: 0;
+  padding-left: 20px;
+}
+
+#bm-md .footnotes p {
+  color: #504e49;
 }
 
 #bm-md .footnote-ref {
-  color: #1b365d;
   font-size: 0.75em;
+  line-height: 0;
   vertical-align: super;
+}
+
+#bm-md .footnote-ref a {
+  text-decoration: none;
 }
 
 #bm-md .footnote-backref,
@@ -446,12 +454,11 @@
 }
 
 #bm-md dl {
-  margin: 14px 0;
+  margin: 16px 0;
 }
 
 #bm-md dt {
   margin-top: 8px;
-  color: #141413;
   font-weight: 500;
 }
 
@@ -460,31 +467,28 @@
 }
 
 #bm-md dd {
-  margin-top: 3px;
-  margin-left: 18px;
+  margin: 4px 0 0 24px;
   color: #504e49;
 }
 
 #bm-md kbd {
   display: inline-block;
-  padding: 1px 5px;
+  padding: 0 6px;
   border: 1px solid #e8e6dc;
-  border-radius: 2px;
+  border-radius: 3px;
   color: #3d3d3a;
-  background-color: #faf9f5;
-  font-family:
-    'JetBrains Mono', 'SF Mono', Consolas, Monaco, 'Source Han Serif SC', 'Noto Serif CJK SC', 'Songti SC', monospace;
-  font-size: 12px;
+  background-color: #f0eee6;
+  font-size: 13px;
+  line-height: 1.5;
 }
 
+/* 提示块按上游 callout：ivory 填充 + 圆角，无强调边，靠标题与底色分级 */
 #bm-md .markdown-alert {
-  margin: 16px 0;
-  padding: 12px 14px;
-  border-left: 2px solid #1b365d;
-  border-radius: 4px;
-  color: #3d3d3a;
+  margin: 20px 0;
+  padding: 16px 20px;
+  border-radius: 6px;
+  color: #141413;
   background-color: #faf9f5;
-  line-height: 1.55;
 }
 
 #bm-md .markdown-alert-title {
@@ -493,85 +497,77 @@
   gap: 6px;
   margin-bottom: 6px;
   color: #1b365d;
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 500;
+  line-height: 1.4;
   text-transform: uppercase;
 }
 
 #bm-md .markdown-alert-note,
 #bm-md .markdown-alert-note .markdown-alert-title {
-  border-left-color: #1b365d;
   color: #1b365d;
 }
 
 #bm-md .markdown-alert-note {
+  color: #141413;
   background-color: #faf9f5;
 }
 
-/* tip 与 note 同属墨蓝单色系，以 brand-tint 浅底区分层级 */
 #bm-md .markdown-alert-tip,
 #bm-md .markdown-alert-tip .markdown-alert-title {
-  border-left-color: #1b365d;
   color: #1b365d;
 }
 
 #bm-md .markdown-alert-tip {
+  color: #141413;
   background-color: #eef2f7;
 }
 
 #bm-md .markdown-alert-important,
 #bm-md .markdown-alert-important .markdown-alert-title {
-  border-left-color: #1b365d;
   color: #1b365d;
 }
 
 #bm-md .markdown-alert-important {
-  border-left-width: 3px;
+  color: #141413;
   background-color: #e4ecf5;
 }
 
-/* warning/caution 使用官方唯一授权的暖色例外（breaking-* token），
-   语义同为"警示"；不引入第二套暖色，靠左线宽度区分两级 */
+/* warning/caution 共用上游唯一暖色例外 breaking-*，靠标题文字区分 */
 #bm-md .markdown-alert-warning,
 #bm-md .markdown-alert-warning .markdown-alert-title {
-  border-left-color: #8b4513;
   color: #8b4513;
 }
 
 #bm-md .markdown-alert-warning {
+  color: #141413;
   background-color: #f0e0d8;
 }
 
 #bm-md .markdown-alert-caution,
 #bm-md .markdown-alert-caution .markdown-alert-title {
-  border-left-color: #8b4513;
   color: #8b4513;
 }
 
 #bm-md .markdown-alert-caution {
-  border-left-width: 3px;
+  color: #141413;
   background-color: #f0e0d8;
 }
 
 #bm-md .math-inline {
-  color: #141413;
   font-size: 1em;
 }
 
 #bm-md .math-display {
-  margin: 16px 0;
-  padding: 10px 12px;
+  margin: 20px 0;
   overflow-x: auto;
-  border-radius: 4px;
-  background-color: #faf9f5;
   text-align: center;
 }
 
 #bm-md details {
-  margin: 16px 0;
-  padding: 10px 12px;
-  border-left: 2px solid #1b365d;
-  border-radius: 4px;
+  margin: 20px 0;
+  padding: 12px 20px;
+  border-radius: 6px;
   background-color: #faf9f5;
 }
 
@@ -583,23 +579,23 @@
 
 #bm-md details[open] summary {
   margin-bottom: 8px;
-  padding-bottom: 6px;
-  border-bottom: 1px solid #e5e3d8;
+  padding-bottom: 8px;
+  border-bottom: 1px solid #e8e6dc;
 }
 
 #bm-md iframe,
 #bm-md video {
   display: block;
   max-width: 100%;
-  margin: 16px 0;
-  border: 1px solid #e8e6dc;
-  border-radius: 4px;
+  margin: 20px 0;
+  border: none;
+  border-radius: 6px;
 }
 
 #bm-md .meta,
 #bm-md time {
   color: #6b6a64;
-  font-size: 12px;
+  font-size: 14px;
 }
 
 #bm-md.indent-first-line p {

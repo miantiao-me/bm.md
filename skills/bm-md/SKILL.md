@@ -234,24 +234,24 @@ curl -X POST https://bm.md/api/markdown/lint \
 
 ### 排版样式 (markdownStyle)
 
-| ID              | 名称          | 风格描述                       |
-| --------------- | ------------- | ------------------------------ |
-| `kami`          | Kami          | 简洁的纸张阅读风格（默认）     |
-| `bauhaus`       | Bauhaus       | 包豪斯风格，几何与功能主义     |
-| `blueprint`     | Blueprint     | 蓝图风格，工程设计感           |
-| `botanical`     | Botanical     | 植物园风格，自然柔和           |
-| `newsprint`     | Newsprint     | 报纸印刷风格                   |
-| `retro`         | Retro         | 复古怀旧风格                   |
-| `sketch`        | Sketch        | 手绘素描风格                   |
-| `terminal`      | Terminal      | 终端/命令行风格                |
-| `forest-review` | Forest Review | 森林季报风格，暖调编辑排版     |
-| `navy-vellum`   | Navy Vellum   | 深蓝羊皮纸风格，静谧的学术手记 |
-| `rose-nocturne` | Rose Nocturne | 玫瑰夜曲风格，暗色调时尚编辑   |
-| `solar-catalog` | Solar Catalog | 日光图录风格，展览海报质感     |
-| `triad-paper`   | Triad Paper   | 三调纸面风格，三色时尚杂志感   |
-| `field-tablet`  | Field Tablet  | 田野铭牌风格，考古手册质感     |
-| `public-square` | Public Square | 公共广场风格，行动主义海报     |
-| `pixel-orbit`   | Pixel Orbit   | 像素轨道风格，复古像素街机     |
+| ID              | 名称          | 风格描述                                   |
+| --------------- | ------------- | ------------------------------------------ |
+| `kami`          | Kami          | 羊皮纸长文排版，适合报告与长篇阅读（默认） |
+| `bauhaus`       | Bauhaus       | 几何色块讲义，适合设计讲义与产品宣言       |
+| `blueprint`     | Blueprint     | 冷静的技术规格书，适合 API 文档与工程手册  |
+| `botanical`     | Botanical     | 留白舒展的宋体散文，适合随笔与读书笔记     |
+| `newsprint`     | Newsprint     | 粗衬线报纸特稿，适合新闻评论与深度报道     |
+| `retro`         | Retro         | 暖色老派平装书，适合小说与回忆录           |
+| `sketch`        | Sketch        | 波浪线草稿本，适合课堂笔记与思路草稿       |
+| `terminal`      | Terminal      | 低眩光深色终端，适合 CLI 文档与运维手册    |
+| `forest-review` | Forest Review | 黑体标题配宋体正文，适合书评与文化专栏     |
+| `navy-vellum`   | Navy Vellum   | 藏蓝深色全宋体，适合论文笔记与夜间长读     |
+| `rose-nocturne` | Rose Nocturne | 紫黑底配宋体大标题，适合艺术评论与品牌故事 |
+| `solar-catalog` | Solar Catalog | 大标题展签式图录，适合作品集与展览介绍     |
+| `triad-paper`   | Triad Paper   | Riso 三色套印，适合独立刊物与活动手册      |
+| `field-tablet`  | Field Tablet  | 紧凑的档案卡笔记，适合调研记录与考察报告   |
+| `public-square` | Public Square | 大字粗黑告示，适合公告与倡议书             |
+| `pixel-orbit`   | Pixel Orbit   | 深色像素边框，适合游戏攻略与开发日志       |
 
 ### 代码主题 (codeTheme)
 

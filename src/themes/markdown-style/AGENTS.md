@@ -24,6 +24,11 @@
 18. 不使用 glow/发光效果
 19. 不使用 blur()、backdrop-filter 等高性能开销的滤镜
 20. 除非明确要求，否则不使用 CSS 动画（animation/transition）
+21. 伪元素只做装饰且写 `content: ''`：Juice 会把伪元素内联成真实 `<span>`，写进去的文字会被复制、被屏幕阅读器读出；也不能用 `counter()`。唯一例外是 `q::before/::after` 的引号，`reset.css` 已关掉浏览器默认引号
+22. 无衬线或等宽标题样式的字体栈不得出现宋体、Georgia、Times 等衬线字体：PDF 导出只要在字体栈里找到一个衬线字体，就按衬线嵌字
+23. 表格元素不写 `background-color: transparent`：Juice 会把它转成 `bgcolor="#0000"`，旧 HTML 规则按黑色解析
+24. 阅读优先：正文与底色对比度 ≥ 7:1，次级文字、链接、提示块标题 ≥ 4.5:1；正文左对齐，不两端对齐，只有 H1/H2 与图注可以居中
+25. 字体栈按“两个系统都有 → Win/mac 成对的相似字体 → 思源/Noto 开源字体 → 通用族”排序：通用的有 Georgia、Arial、Times New Roman；成对的有 SF（`-apple-system`）/Segoe UI、Palatino/Palatino Linotype、Menlo/Consolas、苹方/微软雅黑、Songti SC/SimSun。macOS 要在字体册里另行下载的字体（如楷体 Kaiti SC）、Windows 要装 Office 才有的字体（如 Century Gothic）都不算预装。Georgia 只有旧式数字，表格要换用 Palatino。不写两个系统都不预装的字体（如 JetBrains Mono），只在一个系统上有、另一边又无相似替代的字体（如 Bodoni、Iowan）也不用
 
 ## 必须包含的元素
 
@@ -60,7 +65,7 @@ pre
 pre code（重置行内代码样式）
 table
 th, td
-tbody tr:nth-child(even)（例外：kami 对齐 tw93/Kami 官方样式，基础表格不启用斑马纹）
+tbody tr:nth-child(even)（可选：需要斑马纹时才写；不需要时不写，见技术约束 23）
 .frontmatter-table
 .frontmatter-table td
 .frontmatter-key

@@ -1,43 +1,19 @@
 /* ============================================
-   Sketch - Hand-Drawn Imperfection Style
-   手绘风格 | 铅笔草图美学
-
-   设计哲学：
-   拒绝数字化的精确与冷漠，拥抱有机的不规则性
-   像是在纸上的涂鸦、便利贴墙上的草图、
-   餐巾纸上的灵感笔记
-
-   核心原则：
-   - 没有直线：每个边框都使用不规则的 border-radius
-   - 纯色纸张：无纹理背景，靠暖色与不规则边框传达手绘感
-   - 硬偏移阴影：无模糊，创造剪贴纸拼贴效果
-   - 手写感：接近涂鸦和马克笔的视觉效果
-   - 刻意的"杂乱"：不对称、重叠，看起来是草稿状态
-
-   配色系统：
-   - 温暖纸张 #fdfbf7（背景）
-   - 铅笔黑 #2d2d2d（主文字，非纯黑更有机）
-   - 旧纸张 #e5e0d8（辅助背景/擦除痕迹）
-   - 红色马克笔 #ff4d4d（主强调色）
-   - 蓝色圆珠笔 #2d5da1（次强调色/链接）
-   - 便签黄 #fff9c4（高亮/引用）
-   - 木纹边 #c9c3b8（柔和边框）
+   Sketch — 草稿笔记本
+   系统黑体、红铅笔波浪线与虚线骨架；不用歪斜、涂鸦和噪点
    ============================================ */
 
-/* 容器 - 温暖纸张 */
 #bm-md {
-  color: #2d2d2d;
-  background-color: #fdfbf7;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  color: #2a2a2a;
+  background-color: #fbfaf6;
+  font-family:
+    -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, 'PingFang SC', 'Microsoft YaHei', 'Source Han Sans SC',
+    'Noto Sans CJK SC', sans-serif;
   font-size: 16px;
-  line-height: 1.7;
-  padding: 1.5em 1em;
+  line-height: 1.8;
+  padding: 28px 22px;
+  overflow-wrap: break-word;
 }
-
-/* ============================================
-   标题 - 马克笔/铅笔风格
-   H1-H6 使用红色系，逐级变淡；H4-H6 相同颜色
-   ============================================ */
 
 #bm-md h1,
 #bm-md h2,
@@ -45,64 +21,50 @@
 #bm-md h4,
 #bm-md h5,
 #bm-md h6 {
-  font-weight: 700;
-  line-height: 1.3;
-  margin-top: 1.25em;
-  margin-bottom: 0.55em;
+  font-family: inherit;
+  font-weight: 600;
+  break-after: avoid;
 }
 
-/* H1 - 粗马克笔风格，虚线下划线 */
 #bm-md h1 {
-  font-size: 1.875em;
-  color: #c93030;
-  padding-bottom: 0.4em;
-  /* 虚线边框模拟手绘下划线 */
-  border-bottom: 4px dashed #c93030;
+  margin: 32px 0 18px;
+  color: #1f1f1f;
+  font-size: 30px;
+  line-height: 1.35;
+  text-decoration: underline wavy #b5392a;
+  text-decoration-thickness: 1.5px;
+  text-underline-offset: 8px;
 }
 
-/* H2 - 左侧马克笔边条 + 浅背景 */
 #bm-md h2 {
-  font-size: 1.5em;
-  color: #d94545;
-  padding: 0.3em 0.6em;
-  border-left: 5px solid #d94545;
-  background-color: rgba(255, 77, 77, 0.06);
-  /* 不规则圆角：右侧看起来像手绘 */
-  border-radius: 0 12px 8px 0;
+  margin: 30px 0 12px;
+  padding-bottom: 6px;
+  border-bottom: 2px dashed #8a8a8a;
+  color: #262626;
+  font-size: 23px;
+  line-height: 1.35;
 }
 
-/* H3 - 内联标签风格；文字色比 H1 淡一级，避免与 H1 撞色打断逐级变淡的节奏 */
 #bm-md h3 {
-  font-size: 1.25em;
-  color: #df4f4f;
-  display: inline-block;
-  padding: 0.15em 0.5em;
-  background-color: rgba(255, 77, 77, 0.08);
-  border: 2px solid #ff4d4d;
-  /* 不规则手绘边框 */
-  border-radius: 4px 12px 6px 10px;
+  margin: 24px 0 8px;
+  color: #303030;
+  font-size: 19px;
+  line-height: 1.4;
 }
 
-/* H4-H6 - 相同的柔和红色 */
 #bm-md h4,
 #bm-md h5,
 #bm-md h6 {
-  color: #d53030;
+  margin: 20px 0 6px;
+  color: #3a3a3a;
+  font-size: 16px;
+  line-height: 1.4;
 }
 
 #bm-md h4 {
-  font-size: 1.125em;
-  padding-left: 0.5em;
-  border-left: 3px dashed #ff6b6b;
+  font-size: 17px;
 }
 
-#bm-md h5,
-#bm-md h6 {
-  font-size: 1em;
-  font-style: italic;
-}
-
-/* 首个标题无上边距 */
 #bm-md > h1:first-child,
 #bm-md > h2:first-child,
 #bm-md > h3:first-child,
@@ -112,62 +74,46 @@
   margin-top: 0;
 }
 
-/* ============================================
-   段落
-   ============================================ */
-
 #bm-md p {
-  margin-bottom: 1em;
+  margin: 0 0 14px;
+  widows: 2;
+  orphans: 2;
 }
 
 #bm-md p:last-child {
   margin-bottom: 0;
 }
 
-/* ============================================
-   行内文本样式 - 手绘标记效果
-   ============================================ */
-
-/* 加粗 - 红色马克笔 + 纯色荧光笔浅底 */
 #bm-md strong,
 #bm-md b {
+  color: #1f1f1f;
   font-weight: 700;
-  color: #a02424;
-  background-color: rgba(255, 77, 77, 0.14);
 }
 
-/* 斜体 - 蓝色圆珠笔 */
 #bm-md em,
 #bm-md i {
   font-style: italic;
-  color: #2d5da1;
 }
 
-/* 删除线 - 波浪线删除效果 */
 #bm-md del,
 #bm-md s,
 #bm-md strike {
-  color: #666666;
+  color: #5d5d5d;
   text-decoration: line-through;
-  text-decoration-style: wavy;
-  text-decoration-color: #ff4d4d;
-  text-decoration-thickness: 2px;
+  text-decoration-color: #b5392a;
 }
 
-/* 高亮 - 便签黄底色 + 手绘阴影 */
+/* 荧光笔 */
 #bm-md mark {
-  background-color: #fff9c4;
-  color: #2d2d2d;
-  padding: 0.12em 0.35em;
-  border: 1px solid #e5d98a;
-  /* 不规则圆角 */
-  border-radius: 3px 8px 5px 10px;
-  box-shadow: 2px 2px 0 rgba(45, 45, 45, 0.1);
+  padding: 0 3px;
+  border-radius: 2px;
+  color: #2a2a2a;
+  background-color: #fff1a8;
 }
 
 #bm-md small {
-  font-size: 0.875em;
-  color: #666666;
+  color: #5d5d5d;
+  font-size: 15px;
 }
 
 #bm-md sup,
@@ -176,118 +122,88 @@
   line-height: 0;
 }
 
-/* 上标 - 红色小标签 */
 #bm-md sup {
   vertical-align: super;
-  color: #ff4d4d;
-  font-weight: 600;
 }
 
-/* 下标 - 蓝色 */
 #bm-md sub {
   vertical-align: sub;
-  color: #2d5da1;
 }
 
-/* 插入文本 - 蓝色下划线 */
 #bm-md ins {
-  background-color: rgba(45, 93, 161, 0.1);
-  text-decoration: none;
-  padding: 0.1em 0.25em;
-  border-bottom: 2px solid #2d5da1;
-  border-radius: 2px;
+  text-decoration: underline wavy #b5392a;
+  text-underline-offset: 4px;
 }
 
-/* 引用 */
 #bm-md q {
-  quotes: '"' '"';
-  color: #2d2d2d;
-  font-style: italic;
+  color: #3f3f3f;
 }
 
 #bm-md q::before {
-  content: open-quote;
-  color: #ff4d4d;
-  font-weight: 700;
-  font-size: 1.15em;
+  content: '「';
 }
 
 #bm-md q::after {
-  content: close-quote;
-  color: #ff4d4d;
-  font-weight: 700;
-  font-size: 1.15em;
+  content: '」';
 }
 
-/* 变量 - 蓝色斜体 */
 #bm-md var {
+  color: #b5392a;
   font-style: italic;
-  font-weight: 600;
-  color: #2d5da1;
 }
 
-/* 示例/等宽文本 - 虚线边框 */
+#bm-md code,
+#bm-md samp,
+#bm-md tt,
+#bm-md kbd,
+#bm-md pre {
+  font-family: Menlo, Consolas, 'PingFang SC', 'Microsoft YaHei', 'Source Han Sans SC', 'Noto Sans CJK SC', monospace;
+}
+
+#bm-md code,
 #bm-md samp,
 #bm-md tt {
-  font-family: 'SF Mono', Consolas, 'Liberation Mono', Menlo, monospace;
-  font-size: 0.875em;
-  background-color: #f8f6f2;
-  color: #2d2d2d;
-  padding: 0.15em 0.4em;
-  border: 1px dashed #2d2d2d;
-  border-radius: 3px 6px 4px 8px;
+  padding: 1px 5px;
+  border: 1px dashed #b5b5b5;
+  border-radius: 4px;
+  color: #2a2a2a;
+  background-color: #f3f1ea;
+  font-size: 14px;
 }
 
-/* 缩写 - 虚线下划线 */
 #bm-md abbr[title] {
-  border-bottom: 2px dotted #ff4d4d;
+  text-decoration: underline dotted #5d5d5d;
+  text-underline-offset: 3px;
   cursor: help;
-  text-decoration: none;
 }
-
-/* ============================================
-   链接 - 手绘虚线下划线
-   ============================================ */
 
 #bm-md a {
-  color: #2d5da1;
-  /* 原生虚线下划线模拟手绘 */
-  text-decoration: underline dashed;
-  text-decoration-color: #2d5da1;
-  text-decoration-thickness: 1.5px;
-  text-underline-offset: 3px;
+  color: #b5392a;
+  text-decoration: underline;
+  text-underline-offset: 4px;
 }
 
 #bm-md a:hover {
-  color: #ff4d4d;
-  text-decoration-color: #ff4d4d;
+  color: #1f1f1f;
 }
-
-/* ============================================
-   Ruby 注音
-   ============================================ */
 
 #bm-md ruby {
   ruby-align: center;
 }
 
 #bm-md rt {
+  color: #5d5d5d;
   font-size: 0.5em;
-  color: #666666;
 }
 
 #bm-md rp {
-  color: #888888;
+  color: #5d5d5d;
 }
-
-/* ============================================
-   列表 - 手绘标记
-   ============================================ */
 
 #bm-md ul,
 #bm-md ol {
-  margin-bottom: 1em;
-  padding-left: 1.75em;
+  margin: 0 0 14px;
+  padding-left: 24px;
 }
 
 #bm-md ul {
@@ -299,19 +215,16 @@
 }
 
 #bm-md li {
-  margin-bottom: 0.35em;
+  margin-bottom: 4px;
 }
 
-/* 列表标记 - 红色马克笔 */
 #bm-md li::marker {
-  color: #ff4d4d;
-  font-weight: 700;
+  color: #b5392a;
 }
 
 #bm-md li > ul,
 #bm-md li > ol {
-  margin-top: 0.3em;
-  margin-bottom: 0.3em;
+  margin: 4px 0;
 }
 
 #bm-md ul ul {
@@ -322,207 +235,139 @@
   list-style-type: square;
 }
 
-/* 任务列表 */
 #bm-md ul.contains-task-list {
-  list-style-type: none;
   padding-left: 0;
+  list-style-type: none;
 }
 
 #bm-md li.task-list-item {
   display: flex;
   align-items: flex-start;
-  gap: 0.5em;
-  padding-left: 0.25em;
+  gap: 8px;
 }
 
 #bm-md input[type='checkbox'] {
-  margin-top: 0.35em;
-  width: 1.15em;
-  height: 1.15em;
-  accent-color: #ff4d4d;
-  border: 2px solid #2d2d2d;
-  border-radius: 3px;
+  margin-top: 8px;
+  accent-color: #b5392a;
 }
 
-/* ============================================
-   引用块 - 便签纸风格
-   ============================================ */
-
+/* 虚线框引用，像笔记本里圈起来的一段 */
 #bm-md blockquote {
-  margin: 1.15em 0;
-  padding: 0.85em 1.1em;
-  background-color: #fff9c4;
-  color: #2d2d2d;
-  /* 厚边框 + 红色左边 */
-  border: 2px solid #2d2d2d;
-  border-left: 5px solid #ff4d4d;
-  /* 不规则手绘圆角 */
-  border-radius: 4px 16px 12px 6px;
-  /* 硬偏移阴影 - 剪贴画效果 */
-  box-shadow: 4px 4px 0 rgba(45, 45, 45, 0.12);
+  margin: 18px 0;
+  padding: 12px 16px;
+  border: 1.5px dashed #9a9a9a;
+  border-radius: 8px;
+  color: #3f3f3f;
 }
 
 #bm-md blockquote p {
-  margin-bottom: 0.55em;
+  margin-bottom: 8px;
 }
 
 #bm-md blockquote p:last-child {
   margin-bottom: 0;
 }
 
-/* 嵌套引用 - 柔和变体 */
 #bm-md blockquote blockquote {
-  margin-top: 0.65em;
-  margin-bottom: 0;
-  background-color: #fdfbf7;
-  border-color: #c9c3b8;
-  border-left-color: #2d5da1;
-  box-shadow: 3px 3px 0 rgba(45, 45, 45, 0.08);
-  border-radius: 3px 12px 8px 5px;
+  margin: 10px 0 0;
+  border-color: #c4c4c4;
+  color: #5d5d5d;
 }
 
-/* ============================================
-   代码 - 打字机/手写笔记风格
-   ============================================ */
-
-/* 行内代码 - 轻微边框 */
-#bm-md code {
-  font-family: 'SF Mono', Consolas, 'Liberation Mono', Menlo, monospace;
-  font-size: 0.875em;
-  background-color: #f8f6f2;
-  color: #c93030;
-  padding: 0.15em 0.45em;
-  border: 1px solid #2d2d2d;
-  /* 不规则手绘圆角 */
-  border-radius: 3px 7px 4px 9px;
-  box-shadow: 1px 1px 0 rgba(45, 45, 45, 0.15);
-}
-
-/* 代码块 - 纸张背景 + 蓝色边框 */
 #bm-md pre {
-  margin: 1.15em 0;
-  padding: 1.1em;
-  background-color: #fdfbf7;
-  border: 2px solid #2d5da1;
-  /* 不规则圆角 */
-  border-radius: 6px 12px 8px 10px;
-  box-shadow: 4px 4px 0 rgba(45, 45, 45, 0.12);
+  margin: 18px 0;
+  padding: 14px 16px;
   overflow-x: auto;
+  border: 1px dashed #b5b5b5;
+  border-radius: 8px;
+  color: #2a2a2a;
+  background-color: #f3f1ea;
+  font-size: 14px;
+  line-height: 1.6;
+  white-space: pre;
 }
 
-/* 代码块内的代码重置 */
 #bm-md pre code {
-  background-color: transparent;
-  color: inherit;
   padding: 0;
   border: none;
   border-radius: 0;
-  box-shadow: none;
-  font-size: 0.875em;
-  line-height: 1.55;
+  color: inherit;
+  background-color: transparent;
+  font-size: inherit;
+  line-height: inherit;
 }
-
-/* ============================================
-   表格 - 笔记本网格风格
-   ============================================ */
 
 #bm-md table {
   width: 100%;
-  margin: 1.15em 0;
-  border-collapse: separate;
-  border-spacing: 0;
-  font-size: 0.9375em;
-  border: 2px solid #2d2d2d;
-  /* 不规则圆角 */
-  border-radius: 6px 14px 10px 8px;
-  box-shadow: 4px 4px 0 rgba(45, 45, 45, 0.1);
-  overflow: hidden;
-}
-
-/* 表头首行样式（替代 thead） */
-#bm-md tr:first-child th {
-  background-color: #fff9c4;
+  margin: 18px 0;
+  border-collapse: collapse;
+  font-size: 15px;
+  line-height: 1.6;
 }
 
 #bm-md th,
 #bm-md td {
-  padding: 0.55em 0.8em;
-  /* 虚线边框模拟手绘格子 */
-  border: 1px dashed #2d2d2d;
+  padding: 7px 10px;
+  border: 1px dashed #b5b5b5;
   text-align: left;
+  vertical-align: top;
 }
 
 #bm-md th {
-  font-weight: 700;
-  color: #2d2d2d;
-  border-bottom: 2px solid #2d2d2d;
-  border-top: none;
+  color: #1f1f1f;
+  font-size: 14px;
+  font-weight: 600;
 }
 
-#bm-md tbody tr:nth-child(even) {
-  background-color: rgba(229, 224, 216, 0.25);
+#bm-md th[align='center'],
+#bm-md td[align='center'] {
+  text-align: center;
 }
 
-/* Frontmatter 元数据表格 */
+#bm-md th[align='right'],
+#bm-md td[align='right'] {
+  text-align: right;
+}
+
+/* 不用斑马纹；也不写透明底色——Juice 会把它转成 bgcolor="#0000"，按 HTML 旧规则解析为黑色 */
+
 #bm-md .frontmatter-table {
   width: auto;
-  margin-bottom: 1.5em;
-  font-size: 0.875em;
-  border: none;
-  box-shadow: none;
-  background-color: transparent;
-  border-radius: 0;
+  margin: 0 0 20px;
+  font-size: 15px;
 }
 
 #bm-md .frontmatter-table td {
-  padding: 0.25em 0.75em 0.25em 0;
+  padding: 2px 12px 2px 0;
   border: none;
-  vertical-align: top;
-  background-color: transparent;
 }
 
 #bm-md .frontmatter-key {
-  font-weight: 700;
-  color: #2d5da1;
+  color: #b5392a;
   white-space: nowrap;
 }
 
-#bm-md .frontmatter-key::after {
-  content: ':';
-}
-
 #bm-md .frontmatter-value {
-  color: #2d2d2d;
+  color: #5d5d5d;
 }
-
-/* ============================================
-   分割线 - 虚线铅笔线
-   ============================================ */
 
 #bm-md hr {
-  margin: 1.5em 0;
+  height: 0;
+  margin: 28px 0;
   border: none;
-  /* 虚线边框模拟手绘分割线 */
-  border-top: 3px dashed #2d2d2d;
+  border-top: 2px dashed #bdbdbd;
 }
-
-/* ============================================
-   图片与媒体 - 拍立得/剪贴风格
-   ============================================ */
 
 #bm-md img {
   display: block;
   max-width: 100%;
-  border: 3px solid #2d2d2d;
-  /* 不规则手绘边框 */
-  border-radius: 5px 10px 7px 12px;
-  box-shadow: 4px 4px 0 rgba(45, 45, 45, 0.12);
-  margin: 1.15em 0;
+  margin: 18px auto;
+  border-radius: 8px;
 }
 
 #bm-md picture {
   display: block;
-  margin: 1.15em 0;
+  margin: 18px 0;
 }
 
 #bm-md picture img {
@@ -530,72 +375,68 @@
 }
 
 #bm-md figure {
-  margin: 1.25em 0;
-  text-align: center;
+  margin: 20px 0;
 }
 
 #bm-md figure img {
   margin: 0 auto;
 }
 
-/* 图片说明 - 手写便签风格 */
 #bm-md figcaption {
-  margin-top: 0.55em;
-  font-size: 0.875em;
-  color: #666666;
-  font-style: italic;
+  margin-top: 8px;
+  color: #5d5d5d;
+  font-size: 15px;
+  text-align: center;
 }
 
-/* ============================================
-   脚注 - 页边注释风格
-   ============================================ */
-
 #bm-md .footnotes {
-  margin-top: 1.75em;
-  padding-top: 1em;
-  /* 虚线上边框 */
-  border-top: 2px dashed #2d2d2d;
-  font-size: 0.875em;
-  color: #666666;
+  margin-top: 32px;
+  padding-top: 12px;
+  border-top: 2px dashed #bdbdbd;
+  color: #5d5d5d;
+  font-size: 15px;
+  line-height: 1.7;
+}
+
+#bm-md .footnotes h4 {
+  margin: 0 0 8px;
+  color: #3a3a3a;
+  font-size: 14px;
 }
 
 #bm-md .footnotes ol {
-  padding-left: 1.5em;
+  margin: 0;
+  padding-left: 20px;
 }
 
-/* 脚注引用 - 便签黄标签 */
+#bm-md .footnotes p {
+  margin-bottom: 4px;
+}
+
 #bm-md .footnote-ref {
   font-size: 0.75em;
+  line-height: 0;
   vertical-align: super;
-  color: #c93030;
-  font-weight: 700;
-  background-color: #fff9c4;
-  padding: 0.08em 0.35em;
-  border: 1px solid #e5d98a;
-  border-radius: 3px;
+}
+
+#bm-md .footnote-ref a {
+  text-decoration: none;
 }
 
 #bm-md .footnote-backref,
 #bm-md .data-footnote-backref {
-  color: #2d5da1;
+  color: #b5392a;
   text-decoration: none;
-  font-weight: 700;
 }
 
-/* ============================================
-   定义列表 - 草稿笔记风格
-   ============================================ */
-
 #bm-md dl {
-  margin: 1.1em 0;
+  margin: 14px 0;
 }
 
 #bm-md dt {
+  margin-top: 10px;
+  color: #1f1f1f;
   font-weight: 700;
-  color: #c93030;
-  margin-top: 0.6em;
-  padding-left: 0.5em;
-  border-left: 3px solid #ff4d4d;
 }
 
 #bm-md dt:first-child {
@@ -603,180 +444,122 @@
 }
 
 #bm-md dd {
-  margin-left: 1.5em;
-  margin-top: 0.25em;
-  color: #2d2d2d;
-  padding-left: 0.5em;
-  border-left: 2px dashed #e5e0d8;
+  margin: 2px 0 0 24px;
+  color: #5d5d5d;
 }
-
-/* ============================================
-   键盘按键 - 物理按键风格
-   ============================================ */
 
 #bm-md kbd {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  font-size: 0.8125em;
   display: inline-block;
-  padding: 0.18em 0.5em;
-  background-color: #fdfbf7;
-  border: 2px solid #2d2d2d;
-  /* 不规则圆角 */
-  border-radius: 4px 7px 5px 8px;
-  /* 硬阴影创造立体按钮效果 */
-  box-shadow: 2px 2px 0 #2d2d2d;
-  color: #2d2d2d;
-  font-weight: 600;
+  padding: 0 6px;
+  border: 1px solid #9a9a9a;
+  border-bottom-width: 2px;
+  border-radius: 4px;
+  color: #2a2a2a;
+  background-color: #fbfaf6;
+  font-size: 13px;
+  line-height: 1.6;
 }
 
-/* ============================================
-   警告框 - 手绘标注框
-   ============================================ */
-
+/* 提示块：语义色虚线框，透明底 */
 #bm-md .markdown-alert {
-  margin: 1.15em 0;
-  padding: 0.8em 1.05em;
-  border: 2px solid;
-  /* 不规则手绘圆角 */
-  border-radius: 5px 14px 8px 12px;
-  box-shadow: 3px 3px 0 rgba(45, 45, 45, 0.08);
+  margin: 18px 0;
+  padding: 12px 16px;
+  border: 1.5px dashed #2f5f8f;
+  border-radius: 8px;
+  color: #2a2a2a;
 }
 
 #bm-md .markdown-alert-title {
   display: flex;
   align-items: center;
-  gap: 0.4em;
-  font-weight: 700;
-  margin-bottom: 0.4em;
+  gap: 6px;
+  margin-bottom: 4px;
+  font-size: 14px;
+  font-weight: 600;
+  text-transform: uppercase;
 }
 
-/* Note - 蓝色圆珠笔 */
-#bm-md .markdown-alert-note {
-  background-color: rgba(45, 93, 161, 0.06);
-  border-color: #2d5da1;
-}
-
+#bm-md .markdown-alert-note,
 #bm-md .markdown-alert-note .markdown-alert-title {
-  color: #2d5da1;
+  border-color: #2f5f8f;
+  color: #2f5f8f;
 }
 
-/* Tip - 绿色马克笔 */
-#bm-md .markdown-alert-tip {
-  background-color: rgba(76, 175, 80, 0.06);
-  border-color: #4caf50;
-}
-
+#bm-md .markdown-alert-tip,
 #bm-md .markdown-alert-tip .markdown-alert-title {
-  color: #285c2a;
+  border-color: #2f6b3f;
+  color: #2f6b3f;
 }
 
-/* Important - 紫色荧光笔 */
-#bm-md .markdown-alert-important {
-  background-color: rgba(156, 39, 176, 0.06);
-  border-color: #9c27b0;
-}
-
+#bm-md .markdown-alert-important,
 #bm-md .markdown-alert-important .markdown-alert-title {
-  color: #7b1fa2;
+  border-color: #604c86;
+  color: #604c86;
 }
 
-/* Warning - 橙色警告 */
-#bm-md .markdown-alert-warning {
-  background-color: rgba(255, 152, 0, 0.08);
-  border-color: #ff9800;
-}
-
+#bm-md .markdown-alert-warning,
 #bm-md .markdown-alert-warning .markdown-alert-title {
-  color: #875000;
+  border-color: #8a5a00;
+  color: #8a5a00;
 }
 
-/* Caution - 红色马克笔 */
-#bm-md .markdown-alert-caution {
-  background-color: rgba(255, 77, 77, 0.06);
-  border-color: #ff4d4d;
-}
-
+#bm-md .markdown-alert-caution,
 #bm-md .markdown-alert-caution .markdown-alert-title {
-  color: #c93030;
+  border-color: #b5392a;
+  color: #b5392a;
 }
 
-/* ============================================
-   数学公式
-   ============================================ */
+#bm-md .markdown-alert-note,
+#bm-md .markdown-alert-tip,
+#bm-md .markdown-alert-important,
+#bm-md .markdown-alert-warning,
+#bm-md .markdown-alert-caution {
+  color: #2a2a2a;
+}
 
 #bm-md .math-inline {
   font-size: 1em;
-  padding: 0 0.2em;
 }
 
 #bm-md .math-display {
-  margin: 1.15em 0;
+  margin: 18px 0;
   overflow-x: auto;
   text-align: center;
-  padding: 0.75em;
-  background-color: rgba(229, 224, 216, 0.25);
-  border-radius: 5px 10px 7px 12px;
 }
 
-/* ============================================
-   折叠详情 - 可展开笔记
-   ============================================ */
-
 #bm-md details {
-  margin: 1.15em 0;
-  padding: 0.6em 0.85em;
-  background-color: #f8f6f2;
-  border: 2px solid #2d2d2d;
-  /* 不规则圆角 */
-  border-radius: 6px 12px 8px 10px;
-  box-shadow: 3px 3px 0 rgba(45, 45, 45, 0.1);
+  margin: 18px 0;
+  padding: 10px 16px;
+  border: 1.5px dashed #9a9a9a;
+  border-radius: 8px;
 }
 
 #bm-md summary {
-  font-weight: 700;
+  color: #1f1f1f;
   cursor: pointer;
-  color: #2d5da1;
-  padding: 0.25em 0;
-}
-
-#bm-md summary::marker {
-  color: #ff4d4d;
+  font-weight: 700;
 }
 
 #bm-md details[open] summary {
-  margin-bottom: 0.55em;
-  padding-bottom: 0.5em;
-  border-bottom: 1px dashed #e5e0d8;
+  margin-bottom: 8px;
+  padding-bottom: 8px;
+  border-bottom: 1px dashed #bdbdbd;
 }
-
-/* ============================================
-   嵌入媒体 - 剪贴框架
-   ============================================ */
 
 #bm-md iframe,
 #bm-md video {
   display: block;
   max-width: 100%;
-  margin: 1.15em 0;
-  border: 3px solid #2d2d2d;
-  border-radius: 5px 10px 7px 12px;
-  box-shadow: 4px 4px 0 rgba(45, 45, 45, 0.12);
+  margin: 18px 0;
+  border: 1px dashed #b5b5b5;
+  border-radius: 8px;
 }
-
-/* ============================================
-   元信息与时间 - 手写标注
-   ============================================ */
 
 #bm-md .meta,
 #bm-md time {
-  font-size: 0.875em;
-  color: #666666;
-  font-style: italic;
+  color: #5d5d5d;
+  font-size: 15px;
 }
-
-/* ============================================
-   首行缩进变体
-   ============================================ */
 
 #bm-md.indent-first-line p {
   text-indent: 2em;

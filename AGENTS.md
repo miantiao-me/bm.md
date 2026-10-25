@@ -93,4 +93,4 @@ Vitest 默认运行在 Node 环境，没有浏览器 DOM。DOM / Worker 相关�
 
 只读依赖源码位于 `.slim/clonedeps/repos/`，仅供检查，禁止修改。
 
-- `.slim/clonedeps/repos/tw93__Kami/` - `tw93/Kami` at `V1.12.0`; 用于参考 Kami 的设计规范、Token 与文档排版模板。
+- `.slim/clonedeps/repos/tw93__Kami/` - `tw93/Kami` at `V1.18.0`; 用于参考 Kami 的设计规范、Token 与文档排版模板。

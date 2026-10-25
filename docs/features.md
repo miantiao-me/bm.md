@@ -87,24 +87,24 @@ bm.md 是一款面向内容创作者与开发者的 Markdown 排版工具，专�
 
 内置 16 款经过专门适配的 Markdown 排版样式。默认样式为「Kami」，源自 [tw93/Kami](https://github.com/tw93/Kami)，追求克制、通透的纸张阅读美感。点击工具栏“浏览全部样式…”可唤起画廊弹窗，平铺查看所有样式的真实渲染缩略图并一键应用。
 
-| 样式 ID         | 显示名称      | 风格定位                           |
-| :-------------- | :------------ | :--------------------------------- |
-| `kami`          | Kami          | 经典纸张阅读质感（默认排版）       |
-| `bauhaus`       | Bauhaus       | 包豪斯功能主义，几何块面与理性构图 |
-| `blueprint`     | Blueprint     | 蓝图工程图纸，冷峻的技术文档气质   |
-| `botanical`     | Botanical     | 植物园自然调性，柔和温润的自然色泽 |
-| `newsprint`     | Newsprint     | 现代报章排版，清晰紧凑的铅印质感   |
-| `retro`         | Retro         | 复古怀旧胶片，温和的复古印刷风     |
-| `sketch`        | Sketch        | 手绘素描风，带手作感的草稿笔触     |
-| `terminal`      | Terminal      | 终端绿字，硬核命令行极简感         |
-| `forest-review` | Forest Review | 森林季报，暖色系人文编辑刊物       |
-| `navy-vellum`   | Navy Vellum   | 深蓝羊皮纸，静谧典雅的学术笔记     |
-| `rose-nocturne` | Rose Nocturne | 玫瑰夜曲，暗调时尚刊物与艺术文论   |
-| `solar-catalog` | Solar Catalog | 日光图录，充满张力的展览海报风格   |
-| `triad-paper`   | Triad Paper   | 三调纸面，现代杂志色彩碰撞         |
-| `field-tablet`  | Field Tablet  | 田野铭牌，考据与野外调查手册质感   |
-| `public-square` | Public Square | 公共广场，利落明确的行动主义海报   |
-| `pixel-orbit`   | Pixel Orbit   | 像素轨道，复古像素街机风格         |
+| 样式 ID         | 显示名称      | 风格定位                                   |
+| :-------------- | :------------ | :----------------------------------------- |
+| `kami`          | Kami          | 羊皮纸长文排版，适合报告与长篇阅读（默认） |
+| `bauhaus`       | Bauhaus       | 几何色块讲义，适合设计讲义与产品宣言       |
+| `blueprint`     | Blueprint     | 冷静的技术规格书，适合 API 文档与工程手册  |
+| `botanical`     | Botanical     | 留白舒展的宋体散文，适合随笔与读书笔记     |
+| `newsprint`     | Newsprint     | 粗衬线报纸特稿，适合新闻评论与深度报道     |
+| `retro`         | Retro         | 暖色老派平装书，适合小说与回忆录           |
+| `sketch`        | Sketch        | 波浪线草稿本，适合课堂笔记与思路草稿       |
+| `terminal`      | Terminal      | 低眩光深色终端，适合 CLI 文档与运维手册    |
+| `forest-review` | Forest Review | 黑体标题配宋体正文，适合书评与文化专栏     |
+| `navy-vellum`   | Navy Vellum   | 藏蓝深色全宋体，适合论文笔记与夜间长读     |
+| `rose-nocturne` | Rose Nocturne | 紫黑底配宋体大标题，适合艺术评论与品牌故事 |
+| `solar-catalog` | Solar Catalog | 大标题展签式图录，适合作品集与展览介绍     |
+| `triad-paper`   | Triad Paper   | Riso 三色套印，适合独立刊物与活动手册      |
+| `field-tablet`  | Field Tablet  | 紧凑的档案卡笔记，适合调研记录与考察报告   |
+| `public-square` | Public Square | 大字粗黑告示，适合公告与倡议书             |
+| `pixel-orbit`   | Pixel Orbit   | 深色像素边框，适合游戏攻略与开发日志       |
 
 ### 代码块高亮主题
 

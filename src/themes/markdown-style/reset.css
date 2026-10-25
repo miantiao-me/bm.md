@@ -35,6 +35,11 @@
   height: auto;
 }
 
+/* 主题用 q::before/::after 输出引号，Juice 会把它们内联成真实文字；关掉浏览器默认引号，避免叠成双层 */
+#bm-md q {
+  quotes: none;
+}
+
 #bm-md input,
 #bm-md button,
 #bm-md textarea,
