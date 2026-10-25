@@ -6,6 +6,7 @@ import initTakumi, { PdfRenderer } from 'takumi-pdf/no-init'
 import wasmUrl from 'takumi-pdf/wasm-url'
 import { logSafeError } from '@/lib/log-safe-error'
 import { GOOGLE_FONTS_CSS_BASE_URL } from '../google-fonts'
+import { emfontDescriptors, emfontLoaders, withEmfontFallback } from './emfont'
 import {
   createCachedFontFetch,
   FontUnavailableError,
@@ -76,10 +77,21 @@ function exactBuffer(pdf: Uint8Array): ArrayBuffer {
 globalThis.addEventListener('message', async (event: MessageEvent<PdfRenderInput>) => {
   try {
     const request = event.data
-    const pdf = await (await renderer()).render(request.html, {
+    const engine = await renderer()
+    const supplemental = emfontLoaders(request.fallbackFonts ?? [], cachedFontFetch)
+    const fallbackFonts = (await Promise.all(supplemental.map(async (font) => {
+      try {
+        await font.data()
+        return font
+      }
+      catch {
+        return undefined
+      }
+    }))).filter(font => font !== undefined)
+    const render = async (fonts: Awaited<ReturnType<typeof loadFonts>> | ReturnType<typeof emfontLoaders>, target = engine) => target.render(request.html, {
       backgroundColor: request.backgroundColor,
       fontFamilies: request.fontFamilies,
-      fonts: await loadFonts(request.fontFamilies),
+      fonts: [...fonts, ...fallbackFonts],
       images: request.images,
       lang: request.lang,
       landscape: false,
@@ -89,6 +101,19 @@ globalThis.addEventListener('message', async (event: MessageEvent<PdfRenderInput
       size: 'a4',
       stylesheets: request.stylesheets,
     })
+    const pdf = await withEmfontFallback(
+      async () => render(await loadFonts(request.fontFamilies)),
+      async () => {
+        const descriptors = await emfontDescriptors(request.fontFamilies, request.fontUsages ?? [], request.fontChars ?? '')
+        const fallbackEngine = new PdfRenderer()
+        try {
+          return await render(emfontLoaders(descriptors, cachedFontFetch), fallbackEngine)
+        }
+        finally {
+          fallbackEngine.free()
+        }
+      },
+    )
     const buffer = exactBuffer(pdf)
     const response: PdfWorkerResponse = { success: true, pdf: buffer }
     globalThis.postMessage(response, { transfer: [buffer] })

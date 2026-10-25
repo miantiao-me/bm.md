@@ -1,5 +1,4 @@
-import type { PdfTypography } from './fonts'
-import { cjkRegion } from './fonts'
+import { rewriteFontFamily } from './font-map'
 
 function valueEnd(css: string, start: number): number {
   let quote = ''
@@ -92,7 +91,7 @@ function sanitizeValue(value: string): string {
   return result
 }
 
-export function sanitizeCss(css: string): string {
+export function sanitizeCss(css: string, lang = 'zh-CN'): string {
   let result = ''
   let cursor = 0
   let quote = ''
@@ -131,11 +130,13 @@ export function sanitizeCss(css: string): string {
     const boundary = Math.max(css.lastIndexOf('{', index), css.lastIndexOf('}', index), css.lastIndexOf(';', index))
     // 注释可合法地出现在声明前，或属性名与冒号之间。
     const property = css.slice(boundary + 1, index).replace(/\/\*[\s\S]*?\*\//g, '').trim().toLowerCase()
-    if (property !== 'overflow' && property !== 'overflow-x' && property !== 'overflow-y')
+    if (property !== 'overflow' && property !== 'overflow-x' && property !== 'overflow-y' && property !== 'font-family')
       continue
     const end = valueEnd(css, index + 1)
     result += css.slice(cursor, index + 1)
-    result += sanitizeValue(css.slice(index + 1, end))
+    result += property === 'font-family'
+      ? rewriteFontFamily(css.slice(index + 1, end), lang)
+      : sanitizeValue(css.slice(index + 1, end))
     cursor = end
     index = end - 1
   }
@@ -152,52 +153,13 @@ export function selectBackgroundColor(colors: string[]): string {
   }) ?? '#ffffff'
 }
 
-function fontStack(serif: boolean, region: 'SC' | 'TC' | 'JP' | 'KR'): string {
-  const style = serif ? 'Serif' : 'Sans'
-  return `"Noto ${style} ${region}", "Noto Color Emoji", "Noto Emoji", ${serif ? 'serif' : 'sans-serif'}`
-}
-
-function codeFontStack(region: 'SC' | 'TC' | 'JP' | 'KR'): string {
-  return `"Noto Sans Mono", "Noto Sans ${region}", "Noto Color Emoji", "Noto Emoji", monospace`
-}
-
-function languageSelectors(tags: string[], elements: string[]): string {
-  return tags.flatMap(tag => elements.map(element => `#bm-md ${element}:lang(${tag})`)).join(', ')
-}
-
-export function createPdfStyles(typography: PdfTypography, lang = 'zh-CN'): string {
-  const region = cjkRegion(lang)
-  const bodyFamily = fontStack(typography.bodySerif, region)
-  const headingSerif = typography.headingSerif ?? typography.bodySerif
-  const headingFamily = fontStack(headingSerif, region)
-  const bodyElements = ['p', 'li', 'blockquote', 'table']
-  const headingElements = ['h1', 'h2', 'h3', 'h4', 'h5', 'h6']
-  const codeElements = ['pre', 'code', 'kbd', 'samp']
-  const languageRules = [
-    { tags: ['zh-CN', 'zh-Hans'], region: 'SC' as const },
-    { tags: ['zh-TW', 'zh-Hant', 'zh-HK'], region: 'TC' as const },
-    { tags: ['ja'], region: 'JP' as const },
-    { tags: ['ko'], region: 'KR' as const },
-  ].flatMap(rule => [
-    `${languageSelectors(rule.tags, bodyElements)} {\n  font-family: ${fontStack(typography.bodySerif, rule.region)} !important;\n}`,
-    `${languageSelectors(rule.tags, headingElements)} {\n  font-family: ${fontStack(headingSerif, rule.region)} !important;\n}`,
-    `${languageSelectors(rule.tags, codeElements)} {\n  font-family: ${codeFontStack(rule.region)} !important;\n}`,
-  ]).join('\n')
-  // 只固定字体并保证 A4 版心与分页/折行；垂直节奏全部交给主题样式表。
+export function createPdfStyles(): string {
   return `
-#bm-md, #bm-md p, #bm-md li, #bm-md blockquote, #bm-md table {
-  font-family: ${bodyFamily} !important;
-}
-#bm-md h1, #bm-md h2, #bm-md h3, #bm-md h4, #bm-md h5, #bm-md h6 {
-  font-family: ${headingFamily} !important;
-}
-${languageRules}
-#bm-md pre, #bm-md code, #bm-md kbd, #bm-md samp {
-  font-family: ${codeFontStack(region)} !important;
-}
 #bm-md {
   padding: 0;
 }
+/* 中文字体没有斜体字形，Takumi 合成斜体时字形右移却不占宽度，会压住后面的标点；西文斜体有真斜体字形，不受影响。 */
+#bm-md, #bm-md * { font-synthesis-style: none; }
 #bm-md p, #bm-md li { orphans: 3; widows: 3; }
 #bm-md blockquote, #bm-md .markdown-alert { box-decoration-break: clone; }
 #bm-md pre { overflow-x: visible; white-space: pre-wrap; overflow-wrap: break-word; }

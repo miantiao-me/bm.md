@@ -1,19 +1,17 @@
-import type { GoogleFontFamily } from '@takumi-rs/helpers'
 import type { GlyphReplacement, PdfRenderInput } from './protocol'
 import { uniqBy } from 'es-toolkit'
 import { normalizeGoogleFontsMirrorUrl } from '../google-fonts'
+import { cjkRegion, mappedFontFamilies } from './font-map'
 import { PdfError } from './protocol'
 
+export { cjkRegion, googleFontFamily } from './font-map'
+
 export const FONT_PROBE_ATTRIBUTE = 'data-bm-pdf-font-probe'
+export const MISSING_GLYPH_REPLACEMENT = '□'
 
 const DEFAULT_GRAPHEME_SEGMENTER: Pick<Intl.Segmenter, 'segment'> | null = typeof Intl.Segmenter === 'function'
   ? new Intl.Segmenter(undefined, { granularity: 'grapheme' })
   : null
-
-export interface PdfTypography {
-  bodySerif: boolean
-  headingSerif?: boolean
-}
 
 export interface FontCacheStorage {
   open: (name: string) => Promise<{
@@ -26,76 +24,56 @@ export class FontUnavailableError extends Error {
   readonly code = 'FONT_UNAVAILABLE'
 }
 
-export function googleFontFamily(name: string): GoogleFontFamily {
-  if (name === 'Noto Color Emoji' || name === 'Noto Emoji')
-    return { generic: 'emoji', name, weight: 400 }
-  if (name === 'Noto Sans Mono')
-    return { generic: 'monospace', name, weight: [400, 700] }
-  return {
-    generic: name.includes('Serif') ? 'serif' : 'sans-serif',
-    name,
-    weight: name.includes('Serif') ? '200..900' : '100..900',
-  }
-}
-
-export function cjkRegion(lang: string): 'SC' | 'TC' | 'JP' | 'KR' {
-  const normalized = lang.toLowerCase()
-  if (normalized === 'ja' || normalized.startsWith('ja-'))
-    return 'JP'
-  if (normalized === 'ko' || normalized.startsWith('ko-'))
-    return 'KR'
-  if (normalized.includes('hant') || normalized.startsWith('zh-tw') || normalized.startsWith('zh-hk'))
-    return 'TC'
-  return 'SC'
-}
-
 export function hasEmoji(text: string): boolean {
   return text.includes('\uFE0F')
     || /\p{Extended_Pictographic}/u.test(text)
     || /[\u2190-\u27BF]/u.test(text)
 }
 
-export function isSerifFontFamily(fontFamily: string): boolean {
-  return fontFamily.split(',').some((family) => {
-    const normalized = family.trim().replace(/^['"]|['"]$/g, '').toLowerCase()
-    if (!normalized || normalized === 'sans-serif')
-      return false
-    return normalized === 'serif'
-      || /(?:^|[\s-])noto serif(?:[\s-]|$)/.test(normalized)
-      || /(?:^|[\s-])(?:georgia|times(?: new roman)?|song(?:ti)?|stsong|ming[a-z]*|simsun)(?:[\s-]|$)/.test(normalized)
-  })
+export interface FontUsage {
+  fontFamily: string
+  fontWeight: number
+  italic: boolean
+  lang?: string
+}
+
+export function collectFontUsages(usages: FontUsage[], lang: string): FontUsage[] {
+  const result = new Map<string, FontUsage>()
+  for (const usage of usages) {
+    for (const fontFamily of mappedFontFamilies(usage.fontFamily, usage.lang || lang)) {
+      const entry = { fontFamily, fontWeight: usage.fontWeight || 400, italic: usage.italic }
+      result.set(`${fontFamily}:${entry.fontWeight}:${entry.italic}`, entry)
+    }
+  }
+  return [...result.values()]
 }
 
 export function selectFontFamilies(selection: {
   lang: string
   languages: string[]
   text: string
-  typography: PdfTypography
+  fontUsages: FontUsage[]
   usesCode: boolean
 }): string[] {
-  const regions = new Set<ReturnType<typeof cjkRegion>>([cjkRegion(selection.lang)])
-  for (const lang of selection.languages)
-    regions.add(cjkRegion(lang))
+  const usages = selection.fontUsages.length
+    ? selection.fontUsages
+    : collectFontUsages([
+        { fontFamily: 'sans-serif', fontWeight: 400, italic: false },
+      ], selection.lang)
+  const families = new Set(usages.map(usage => usage.fontFamily))
+  const regions = new Set(selection.languages.map(cjkRegion))
   if (/[\u3041-\u30FF\u31F0-\u31FF]/.test(selection.text))
     regions.add('JP')
   if (/[\u1100-\u11FF\u3130-\u318F\uAC00-\uD7AF]/.test(selection.text))
     regions.add('KR')
-
-  const bodyStyle = selection.typography.bodySerif ? 'Serif' : 'Sans'
-  const families = [...regions].map(region => `Noto ${bodyStyle} ${region}`)
-  if (selection.typography.headingSerif !== undefined) {
-    const headingStyle = selection.typography.headingSerif ? 'Serif' : 'Sans'
-    for (const region of regions)
-      families.push(`Noto ${headingStyle} ${region}`)
+  const kinds = new Set([...families].flatMap(family => family.match(/^Noto (Serif|Sans) (SC|TC|JP|KR)$/)?.[1] ?? []))
+  for (const region of regions) {
+    for (const kind of kinds)
+      families.add(`Noto ${kind} ${region}`)
   }
-  if (selection.usesCode) {
-    families.push('Noto Sans Mono')
-    for (const region of regions)
-      families.push(`Noto Sans ${region}`)
-  }
-  if (hasEmoji(selection.text))
-    families.push('Noto Color Emoji', 'Noto Emoji')
-  return [...new Set(families)]
+  if (selection.usesCode)
+    families.add('Fira Mono')
+  return [...families]
 }
 
 export function createCachedFontFetch(
@@ -179,7 +157,7 @@ export function replaceGraphemes(
     if (!codepoints.some(codepoint => missing.has(codepoint)))
       return segment
     replacements.push({ codepoints, original: segment })
-    return '□'
+    return MISSING_GLYPH_REPLACEMENT
   }).join('')
   return { replacements, text: replaced }
 }
@@ -193,8 +171,8 @@ export function generatedProbe(codepoints: number[], lang: string): {
   const text = String.fromCodePoint(...codepoints)
   const emoji = hasEmoji(text) ? ['Noto Color Emoji', 'Noto Emoji'] : []
   return {
-    fontFamily: [`"Noto Sans Mono"`, `"Noto Sans ${region}"`, ...emoji.map(name => `"${name}"`), 'monospace'].join(', '),
-    fontFamilies: ['Noto Sans Mono', `Noto Sans ${region}`, ...emoji],
+    fontFamily: [`"Fira Mono"`, `"Noto Sans ${region}"`, '"Noto Sans Math"', '"Noto Sans Symbols 2"', ...emoji.map(name => `"${name}"`), '"bm.md Fallback"', 'monospace'].join(', '),
+    fontFamilies: ['Fira Mono', `Noto Sans ${region}`, 'Noto Sans Math', 'Noto Sans Symbols 2', ...emoji],
     text,
   }
 }
@@ -205,6 +183,21 @@ export function recoverMissingGlyphs(
   probed: ReadonlySet<number>,
 ): { input: PdfRenderInput, probed: number[], replacements: GlyphReplacement[] } {
   const document = new DOMParser().parseFromString(input.html, 'text/html')
+  const unprobed = codepoints.filter(codepoint => !probed.has(codepoint))
+  if (unprobed.length) {
+    const root = document.querySelector('#bm-md')
+    if (!root)
+      throw new PdfError('renderFailed', '预览内容无法生成 PDF，请刷新后重试')
+    const probe = generatedProbe(unprobed, input.lang)
+    const element = document.createElement('span')
+    element.setAttribute(FONT_PROBE_ATTRIBUTE, 'generated-content')
+    element.setAttribute('style', `position:absolute;opacity:0;font-size:1px;font-family:${probe.fontFamily}`)
+    element.textContent = probe.text
+    root.append(element)
+    input.fontFamilies = [...new Set([...input.fontFamilies, ...probe.fontFamilies])]
+    input.html = document.body.innerHTML
+    return { input, probed: unprobed, replacements: [] }
+  }
   const missing = new Set(codepoints)
   const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT)
   const replacements: GlyphReplacement[] = []
@@ -218,6 +211,7 @@ export function recoverMissingGlyphs(
     node = walker.nextNode()
   }
 
+  document.querySelectorAll(`[${FONT_PROBE_ATTRIBUTE}]`).forEach(element => element.remove())
   const replaced = new Set(replacements.flatMap(item => item.codepoints))
   const unresolved = codepoints.filter(codepoint => !replaced.has(codepoint))
   if (unresolved.some(codepoint => probed.has(codepoint)))

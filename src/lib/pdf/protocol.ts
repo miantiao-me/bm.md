@@ -16,6 +16,12 @@ export interface GlyphReplacement {
 export interface PdfRenderInput {
   backgroundColor: string
   fontFamilies: string[]
+  /** 已去重并打乱的字符集合，不是原文。 */
+  fontChars?: string
+  /** 文档实际使用的字体、字重与斜体。 */
+  fontUsages?: { fontFamily: string, fontWeight: number, italic: boolean }[]
+  /** 缺字补充字体，使用固定回退族名注册。 */
+  fallbackFonts?: { name: string, url: string, weight: number }[]
   html: string
   images: FetchedImage[]
   lang: string

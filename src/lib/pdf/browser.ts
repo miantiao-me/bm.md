@@ -1,5 +1,6 @@
 import type { GlyphReplacement, PdfRenderInput, PdfWorkerResponse } from './protocol'
 import { logSafeError } from '@/lib/log-safe-error'
+import { createEmfontClient, missingGlyphDescriptors, shuffleUniqueCharacters } from './emfont'
 import { recoverMissingGlyphs } from './fonts'
 import { PDF_WORKER_TIMEOUT_MS, PdfError } from './protocol'
 
@@ -76,7 +77,7 @@ export class PdfBrowser {
       worker.addEventListener('error', onError)
       worker.addEventListener('messageerror', onMessageError)
       try {
-        worker.postMessage(input, input.images.map(image => image.data))
+        worker.postMessage({ ...input, fontChars: input.fontChars === undefined ? undefined : shuffleUniqueCharacters(input.fontChars) }, input.images.map(image => image.data))
       }
       catch (error) {
         fail('PDF Worker 请求发送失败', error)
@@ -87,6 +88,8 @@ export class PdfBrowser {
   async render(input: PdfRenderInput): Promise<PdfRenderResult> {
     const replacements: GlyphReplacement[] = []
     const probed = new Set<number>()
+    const supplemented = new Set<number>()
+    const requestEmfont = createEmfontClient()
     for (let attempt = 0; attempt <= 3; attempt++) {
       const response = await this.send(input)
       if (response.success)
@@ -101,6 +104,16 @@ export class PdfBrowser {
         throw new PdfError('renderFailed', '部分字符无法生成 PDF，请使用打印功能')
 
       input.images = response.images
+      // 先让 Noto 探测新增字符，再补字；使用同一重试循环。
+      if (attempt > 0) {
+        const missing = response.codepoints.filter(codepoint => probed.has(codepoint) && !supplemented.has(codepoint))
+        missing.forEach(codepoint => supplemented.add(codepoint))
+        const fonts = await missingGlyphDescriptors(missing, requestEmfont)
+        if (fonts.length) {
+          input.fallbackFonts = [...(input.fallbackFonts ?? []), ...fonts]
+          continue
+        }
+      }
       const recovery = this.recover(input, response.codepoints, probed)
       input = recovery.input
       replacements.push(...recovery.replacements)

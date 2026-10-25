@@ -78,25 +78,16 @@ function inlineBaseline(source: Element, rect: DOMRect): number {
   }
 }
 
-async function captureFormula(
-  snapdom: typeof import('@zumer/snapdom')['snapdom'],
-  source: Element,
-  display: boolean,
-) {
-  const options = {
-    backgroundColor: captureBackgroundColor(source),
-    dpr: 2,
-    embedFonts: true,
-  } as const
-  if (display)
-    return snapdom(source, options)
-
+/**
+ * 行内公式在 nowrap 下测量和截图：公式跨行时外框是两行的并集，宽度接近整行，图片会被放大好几倍。
+ */
+async function withoutWrapping<T>(source: Element, run: () => Promise<T>): Promise<T> {
   const style = (source as HTMLElement).style
   const originalWhiteSpace = style.getPropertyValue('white-space')
   const originalPriority = style.getPropertyPriority('white-space')
   style.setProperty('white-space', 'nowrap', 'important')
   try {
-    return await snapdom(source, options)
+    return await run()
   }
   finally {
     if (originalWhiteSpace)
@@ -129,10 +120,14 @@ export async function replaceKatexWithImages(sourceRoot: Element, cloneRoot: Ele
     await sourceRoot.ownerDocument.fonts?.ready
     const { snapdom } = await import('@zumer/snapdom')
     for (const { clone, display, source } of pairs) {
-      const rect = source.getBoundingClientRect()
       const computed = source.ownerDocument.defaultView?.getComputedStyle(source)
-      const descent = display ? 0 : inlineBaseline(source, rect)
-      const snapshot = await captureFormula(snapdom, source, display)
+      const options = { backgroundColor: captureBackgroundColor(source), dpr: 2, embedFonts: true } as const
+      const capture = async () => {
+        const rect = source.getBoundingClientRect()
+        const descent = display ? 0 : inlineBaseline(source, rect)
+        return { descent, rect, snapshot: await snapdom(source, options) }
+      }
+      const { descent, rect, snapshot } = display ? await capture() : await withoutWrapping(source, capture)
       const blob = await snapshot.toBlob({ dpr: 2, type: 'png' })
       if (blob.size === 0)
         throw new Error('KaTeX snapshot is empty')

@@ -1,7 +1,13 @@
 import type { PdfRenderInput, PdfWorkerResponse } from './protocol'
 import { afterEach, describe, expect, it, vi } from 'vitest'
 import { PdfBrowser, pdfErrorMessage, shouldPrintFallback } from './browser'
+import { missingGlyphDescriptors } from './emfont'
 import { PdfError } from './protocol'
+
+vi.mock('./emfont', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('./emfont')>()
+  return { ...actual, missingGlyphDescriptors: vi.fn().mockResolvedValue([]) }
+})
 
 type Listener = (event: never) => void
 
@@ -70,6 +76,22 @@ describe('pdf browser Worker 协议', () => {
     await expect(pending).resolves.toEqual({ pdf, replacements: [] })
   })
 
+  it('传给 Worker 的字符按码点去重并打乱', async () => {
+    const worker = new FakeWorker()
+    const browser = new PdfBrowser(() => worker as unknown as Worker)
+    const request = input()
+    request.fontChars = '正文正文𠀀abc'
+    const random = vi.spyOn(Math, 'random').mockReturnValue(0)
+    const pending = browser.render(request)
+    const chars = worker.posts[0].message.fontChars!
+    expect(new Set(chars)).toEqual(new Set(request.fontChars))
+    expect(Array.from(chars)).toHaveLength(new Set(request.fontChars).size)
+    expect(chars).not.toBe(request.fontChars)
+    random.mockRestore()
+    worker.emit('message', { success: true, pdf: new ArrayBuffer(1) })
+    await pending
+  })
+
   it('missingGlyphs 返还图片后恢复并重新传输，本地维护 replacements', async () => {
     const worker = new FakeWorker()
     const returnedImages = [{ src: 'restored', data: new ArrayBuffer(4) }]
@@ -101,6 +123,37 @@ describe('pdf browser Worker 协议', () => {
       pdf,
       replacements: [{ original: '✅', codepoints: [0x2705] }],
     })
+  })
+
+  it('探测后在同一缺字循环补字，仍缺才恢复为方框', async () => {
+    const supplement = vi.mocked(missingGlyphDescriptors)
+    supplement.mockResolvedValueOnce([{ name: 'bm.md Fallback', url: 'https://font.emtech.cc/a.woff2', weight: 400 }])
+    const worker = new FakeWorker()
+    const recover = vi.fn().mockImplementation((request: PdfRenderInput, codepoints: number[], probed: Set<number>) => ({
+      input: request,
+      probed: codepoints,
+      replacements: probed.size ? [{ original: '𠀀', codepoints }] : [],
+    }))
+    const browser = new PdfBrowser(() => worker as unknown as Worker, recover)
+    const pending = browser.render(input())
+    const missing = () => worker.emit('message', {
+      success: false,
+      kind: 'missingGlyphs',
+      codepoints: [0x20000],
+      images: [],
+    })
+    missing()
+    await vi.waitFor(() => expect(worker.posts).toHaveLength(2))
+    expect(recover).toHaveBeenCalledTimes(1)
+    missing()
+    await vi.waitFor(() => expect(worker.posts).toHaveLength(3))
+    expect(worker.posts[2].message.fallbackFonts).toHaveLength(1)
+    expect(recover).toHaveBeenCalledTimes(1)
+    missing()
+    await vi.waitFor(() => expect(worker.posts).toHaveLength(4))
+    expect(recover).toHaveBeenCalledTimes(2)
+    worker.emit('message', { success: true, pdf: new ArrayBuffer(1) })
+    expect((await pending).replacements).toEqual([{ original: '𠀀', codepoints: [0x20000] }])
   })
 
   it('探针后相同缺字没有进展时明确终止', async () => {

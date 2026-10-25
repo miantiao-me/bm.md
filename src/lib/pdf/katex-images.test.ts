@@ -95,6 +95,18 @@ describe('pdf katex 图片快照', () => {
     expect(source.querySelector('[aria-hidden="true"]')).toBeNull()
   })
 
+  it('行内公式在不折行的状态下测量宽度和基线', async () => {
+    const { clone, source } = roots('<span data-bm-rich="katex" data-bm-hash="inline">E=mc^2</span>')
+    const inline = source.querySelector<HTMLElement>('[data-bm-rich="katex"]')!
+    // 折行时外框是两行的并集，宽度接近整行。
+    inline.getBoundingClientRect = vi.fn(() => inline.style.getPropertyValue('white-space') === 'nowrap' ? rect(68, 20) : rect(330, 49))
+
+    await replaceKatexWithImages(source, clone)
+
+    expect(clone.querySelector('.bm-pdf-katex-inline')!.getAttribute('style')).toContain('width:68px')
+    expect(inline.style.getPropertyValue('white-space')).toBe('')
+  })
+
   it('透明父层继承深色祖先背景', async () => {
     const { clone, source } = roots(`
       <section style="background-color:rgb(20, 30, 40)">

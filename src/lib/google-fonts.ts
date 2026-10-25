@@ -3,6 +3,7 @@ export const GOOGLE_FONTS_CSS_BASE_URL = `${GOOGLE_FONTS_CSS_ORIGIN}/css2`
 export const GOOGLE_FONTS_STATIC_ORIGIN = 'https://fonts.gstatic.cn'
 
 const FONT_HOST_MIRRORS: Record<string, string> = {
+  'font.emtech.cc': 'font.emtech.cc',
   'fonts.googleapis.cn': 'fonts.googleapis.cn',
   'fonts.googleapis.com': 'fonts.googleapis.cn',
   'fonts.gstatic.cn': 'fonts.gstatic.cn',

@@ -1,7 +1,9 @@
 // @vitest-environment jsdom
 
+import { LIST_MARKER_CHARACTERS } from '@takumi-rs/helpers'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
-import { createPdfSnapshot, detectPdfTypography } from './snapshot'
+import { recoverMissingGlyphs } from './fonts'
+import { createPdfSnapshot } from './snapshot'
 
 const mocks = vi.hoisted(() => ({
   loadImages: vi.fn(),
@@ -36,18 +38,37 @@ beforeEach(() => {
 })
 
 describe('pdf 快照字体特征', () => {
-  it('分别读取正文与首个标题的 computed font-family', () => {
-    const heading = {}
-    const getComputedStyle = vi.fn((element: unknown) => ({
-      fontFamily: element === heading ? 'Georgia, serif' : 'Arial, sans-serif',
-    }))
-    const content = {
-      ownerDocument: { defaultView: { getComputedStyle } },
-      querySelector: vi.fn().mockReturnValue(heading),
-    } as unknown as HTMLElement
+  it('收集所有元素的字体、字重和斜体', async () => {
+    const content = document.createElement('div')
+    content.id = 'bm-md'
+    content.style.fontFamily = 'Arial, sans-serif'
+    content.innerHTML = '<h1 style="font-family:Georgia,serif;font-weight:700;font-style:italic">标题</h1>'
+    document.body.append(content)
+    const result = await createPdfSnapshot(content)
+    expect(result.fontFamilies).toContain('Gelasio')
+    expect(result.fontFamilies).toContain('Inter')
+    expect(result.fontUsages).toContainEqual({ fontFamily: 'Gelasio', fontWeight: 700, italic: true })
+    expect(new Set(result.fontChars)).toEqual(new Set(`标题${LIST_MARKER_CHARACTERS}□`))
+  })
 
-    expect(detectPdfTypography(content)).toEqual({ bodySerif: false, headingSerif: true })
-    expect(getComputedStyle).toHaveBeenCalledTimes(2)
+  it('缺字先探测 Noto，再替换方框并移除探针', () => {
+    const input = {
+      backgroundColor: '#fff',
+      fontFamilies: ['Noto Sans SC'],
+      html: '<div id="bm-md">正文𠀀</div>',
+      images: [],
+      lang: 'zh-CN',
+      stylesheets: [],
+      title: '测试',
+    }
+    const first = recoverMissingGlyphs(input, [0x20000], new Set())
+    expect(first.replacements).toEqual([])
+    expect(first.probed).toEqual([0x20000])
+    expect(first.input.html).toContain('data-bm-pdf-font-probe')
+    expect(first.input.html).toContain('Noto Sans Math')
+    const last = recoverMissingGlyphs(first.input, [0x20000], new Set(first.probed))
+    expect(last.input.html).toBe('<div id="bm-md">正文□</div>')
+    expect(last.replacements).toEqual([{ original: '𠀀', codepoints: [0x20000] }])
   })
 
   it('普通图片与公式图片一次加载，且替换前保留标题并在完成后撤销 URL', async () => {

@@ -26,7 +26,7 @@ describe('takumi CSS 兼容', () => {
 
 describe('pdf 页面样式', () => {
   it('版心清零 padding 并保留分页与折行必需规则', () => {
-    const css = createPdfStyles({ bodySerif: false })
+    const css = createPdfStyles()
     expect(css).toContain('#bm-md {\n  padding: 0;\n}')
     expect(css).toContain('#bm-md p, #bm-md li { orphans: 3; widows: 3; }')
     expect(css).toContain('box-decoration-break: clone')
@@ -39,7 +39,7 @@ describe('pdf 页面样式', () => {
   })
 
   it('不再生成覆盖主题节奏的排版规则', () => {
-    const css = createPdfStyles({ bodySerif: true })
+    const css = createPdfStyles()
     expect(css).not.toContain('line-height')
     expect(css).not.toMatch(/#bm-md h[1-6][^{]*\{[^}]*margin/)
     expect(css).not.toMatch(/#bm-md p[^{]*\{[^}]*margin/)
@@ -47,24 +47,25 @@ describe('pdf 页面样式', () => {
     expect(css).not.toContain('first-child')
   })
 
-  it('按最近祖先语言覆盖目标正文、标题和代码元素，且不影响 KaTeX', () => {
-    const css = createPdfStyles({ bodySerif: false, headingSerif: true })
-    expect(css).toContain('#bm-md, #bm-md p, #bm-md li, #bm-md blockquote, #bm-md table {\n  font-family: "Noto Sans SC"')
-    expect(css).toContain('#bm-md h1, #bm-md h2, #bm-md h3, #bm-md h4, #bm-md h5, #bm-md h6 {\n  font-family: "Noto Serif SC"')
-    expect(css).toContain('#bm-md p:lang(ja)')
-    expect(css).toContain('#bm-md h1:lang(ko)')
-    expect(css).toContain('#bm-md pre:lang(zh-HK)')
-    expect(css).toContain('#bm-md code:lang(zh-HK)')
-    expect(css).toContain('#bm-md kbd:lang(zh-HK)')
-    expect(css).toContain('#bm-md samp:lang(zh-HK)')
-    expect(css).not.toMatch(/#bm-md\s+:lang/)
-    expect(css).not.toMatch(/#bm-md\s+\[lang/)
-    expect(css).not.toContain('#bm-md span:lang')
-    expect(css).not.toContain('.katex')
+  it('不强制覆盖主题字体', () => {
+    const css = createPdfStyles()
+    expect(css).not.toContain('font-family')
+    expect(css).not.toContain('--bm-pdf-')
+  })
+
+  it('关闭合成斜体，避免中文斜体压住后面的标点', () => {
+    expect(createPdfStyles()).toContain('#bm-md, #bm-md * { font-synthesis-style: none; }')
+  })
+
+  it('处理带引号、注释和 important 的内联字体声明', () => {
+    const css = sanitizeCss(`font-family: 'Georgia', /* 中文 */ serif !important; overflow:auto`)
+    expect(css).toContain('"Gelasio"')
+    expect(css).toContain('var(--bm-pdf-serif, "Noto Serif SC")')
+    expect(css).toContain('serif !important; overflow:visible')
   })
 
   it('公式图片在通用图片规则之后清除主题装饰并保持行内和块布局', () => {
-    const css = createPdfStyles({ bodySerif: false })
+    const css = createPdfStyles()
     expect(css.indexOf('img.bm-pdf-katex-inline')).toBeGreaterThan(css.indexOf('#bm-md img, #bm-md svg'))
     expect(css).toContain('padding: 0 !important')
     expect(css).toContain('border-width: 0 !important')
@@ -80,7 +81,7 @@ describe('pdf 页面样式', () => {
   })
 
   it('内联图表图片使用专用规则清除主题装饰并保持自适应高度', () => {
-    const css = createPdfStyles({ bodySerif: false })
+    const css = createPdfStyles()
     const rule = css.match(/#bm-md img\.bm-pdf-svg-diagram \{([^}]*)\}/)?.[1] ?? ''
     expect(rule).toContain('padding: 0 !important')
     expect(rule).toContain('border-width: 0 !important')

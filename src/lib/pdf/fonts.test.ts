@@ -1,10 +1,10 @@
 import { describe, expect, it, vi } from 'vitest'
 import {
+  collectFontUsages,
   createCachedFontFetch,
   FontUnavailableError,
   generatedProbe,
   googleFontFamily,
-  isSerifFontFamily,
   missingGlyphs,
   replaceGraphemes,
   selectFontFamilies,
@@ -14,47 +14,22 @@ describe('pdf 字体', () => {
   it('为 Serif 与 Sans CJK 使用正确字重范围', () => {
     expect(googleFontFamily('Noto Serif SC')).toMatchObject({ generic: 'serif', weight: '200..900' })
     expect(googleFontFamily('Noto Sans TC')).toMatchObject({ generic: 'sans-serif', weight: '100..900' })
-    expect(googleFontFamily('Noto Sans Mono')).toMatchObject({ weight: [400, 700] })
+    expect(googleFontFamily('Fira Mono')).toMatchObject({ weight: [400, 500, 700] })
   })
 
-  it('按语言、代码和 Emoji 选择 CJK/Mono/Emoji 字体', () => {
-    expect(selectFontFamilies({
-      lang: 'zh-Hant',
-      languages: ['ja'],
-      text: '繁體 かな ✅',
-      typography: { bodySerif: true },
-      usesCode: true,
-    })).toEqual([
-      'Noto Serif TC',
-      'Noto Serif JP',
-      'Noto Sans Mono',
-      'Noto Sans TC',
-      'Noto Sans JP',
-      'Noto Color Emoji',
-      'Noto Emoji',
-    ])
-  })
-
-  it('识别常见 Serif 字体且不把 Sans Serif 误判', () => {
-    for (const family of ['serif', 'Noto Serif SC', 'Georgia', 'Times New Roman', 'Songti SC', 'STSong', 'MingLiU', 'SimSun'])
-      expect(isSerifFontFamily(family)).toBe(true)
-    for (const family of ['sans-serif', 'Noto Sans SC', 'Arial', 'Source Sans 3'])
-      expect(isSerifFontFamily(family)).toBe(false)
-  })
-
-  it('混排时同时选择正文和标题家族并去重，无标题时不额外加载', () => {
-    const base = { lang: 'zh-CN', languages: [], text: '正文', usesCode: false }
-    expect(selectFontFamilies({ ...base, typography: { bodySerif: false, headingSerif: true } }))
-      .toEqual(['Noto Sans SC', 'Noto Serif SC'])
-    expect(selectFontFamilies({ ...base, typography: { bodySerif: false } }))
-      .toEqual(['Noto Sans SC'])
-    expect(selectFontFamilies({ ...base, typography: { bodySerif: true, headingSerif: true } }))
-      .toEqual(['Noto Serif SC'])
+  it('按实际字体栈收集族、字重与斜体并去重', () => {
+    const fontUsages = collectFontUsages([
+      { fontFamily: 'Georgia, serif', fontWeight: 700, italic: true },
+      { fontFamily: 'Arial, sans-serif', fontWeight: 400, italic: false },
+    ], 'zh-CN')
+    expect(fontUsages).toContainEqual({ fontFamily: 'Gelasio', fontWeight: 700, italic: true })
+    expect(selectFontFamilies({ lang: 'zh-CN', languages: ['ja'], text: '正文', fontUsages, usesCode: true }))
+      .toEqual(expect.arrayContaining(['Gelasio', 'Inter', 'Noto Serif JP', 'Noto Sans JP', 'Fira Mono']))
   })
 
   it('generated content 探针对 Emoji 同时加入彩色与单色字体', () => {
     expect(generatedProbe([0x2705], 'zh-CN')).toMatchObject({
-      fontFamilies: ['Noto Sans Mono', 'Noto Sans SC', 'Noto Color Emoji', 'Noto Emoji'],
+      fontFamilies: ['Fira Mono', 'Noto Sans SC', 'Noto Sans Math', 'Noto Sans Symbols 2', 'Noto Color Emoji', 'Noto Emoji'],
       text: '✅',
     })
   })
