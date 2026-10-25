@@ -1,3 +1,4 @@
+import type { Options } from 'rehype-sanitize'
 import { defaultSchema } from 'rehype-sanitize'
 
 /**
@@ -5,7 +6,7 @@ import { defaultSchema } from 'rehype-sanitize'
  *
  * 注意：SVG 相关元素不需要在此配置，因为 rehypeMermaid 在 sanitize 之后执行
  */
-export const sanitizeSchema = {
+export const sanitizeSchema: Options = {
   ...defaultSchema,
   protocols: {
     ...(defaultSchema.protocols || {}),
@@ -25,5 +26,7 @@ export const sanitizeSchema = {
     section: [...(defaultSchema.attributes?.section || []), 'className'],
     p: [...(defaultSchema.attributes?.p || []), 'className'],
     figure: [...(defaultSchema.attributes?.figure || []), 'className'],
+    table: [...(defaultSchema.attributes?.table || []), ['className', 'frontmatter-table']],
+    td: [...(defaultSchema.attributes?.td || []), ['className', 'frontmatter-key', 'frontmatter-value']],
   },
 }

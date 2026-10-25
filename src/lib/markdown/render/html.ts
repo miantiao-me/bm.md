@@ -16,6 +16,7 @@ import remarkMath from 'remark-math'
 import remarkParse from 'remark-parse'
 import remarkRehype from 'remark-rehype'
 import { unified } from 'unified'
+import { findBackground } from '@/themes/code-theme/contrast'
 import { loadCodeThemeCss } from '@/themes/code-theme/loader'
 import { loadMarkdownStyleCss } from '@/themes/markdown-style/loader'
 import { resolveDiagramFontFamily } from '@/themes/markdown-style/metadata'
@@ -167,7 +168,8 @@ export function collectRenderCss(options: RenderOptions, html: string): string {
   }
 
   const markdownStyleCss = markdownStyle ? loadMarkdownStyleCss(markdownStyle) : ''
-  const codeThemeCss = codeTheme ? loadCodeThemeCss(codeTheme) : ''
+  const preBackground = markdownStyleCss ? findBackground(markdownStyleCss, /^#bm-md pre$/) : undefined
+  const codeThemeCss = codeTheme ? loadCodeThemeCss(codeTheme, preBackground) : ''
   const mathCss = hasKatex ? katexCss : ''
   return [
     markdownStyleCss ?? '',

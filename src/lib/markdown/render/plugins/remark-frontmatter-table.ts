@@ -1,4 +1,4 @@
-import type { PhrasingContent, Root, RootContent, Table, TableCell, TableRow } from 'mdast'
+import type { PhrasingContent, Root, RootContent, TableCell, TableRow } from 'mdast'
 import type { Plugin } from 'unified'
 import { fromMarkdown } from 'mdast-util-from-markdown'
 import { gfmFromMarkdown } from 'mdast-util-gfm'
@@ -43,13 +43,13 @@ const remarkFrontmatterTable: Plugin<[], Root> = () => {
         const keyCell: TableCell = {
           type: 'tableCell',
           children: [{ type: 'text', value: key }],
-          data: { hProperties: { className: ['frontmatter-key'] } },
+          data: { hName: 'td', hProperties: { className: ['frontmatter-key'] } },
         }
 
         const valueCell: TableCell = {
           type: 'tableCell',
           children: valueChildren as PhrasingContent[],
-          data: { hProperties: { className: ['frontmatter-value'] } },
+          data: { hName: 'td', hProperties: { className: ['frontmatter-value'] } },
         }
 
         return {
@@ -58,13 +58,14 @@ const remarkFrontmatterTable: Plugin<[], Root> = () => {
         } as TableRow
       })
 
-      const tableNode: Table = {
-        type: 'table',
-        children: rows,
-        data: { hProperties: { className: ['frontmatter-table'] } },
+      // 标准 table 节点会把第一行转成 thead/th，frontmatter 没有表头，所以用自定义节点直接生成 table > tbody。
+      const tableNode = {
+        type: 'frontmatterTable',
+        data: { hName: 'table', hProperties: { className: ['frontmatter-table'] } },
+        children: [{ type: 'frontmatterTableBody', data: { hName: 'tbody' }, children: rows }],
       }
 
-      newChildren.push(tableNode)
+      newChildren.push(tableNode as unknown as RootContent)
     }
 
     tree.children = newChildren

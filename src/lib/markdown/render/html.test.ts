@@ -201,6 +201,18 @@ describe('markdown -> html render (general)', () => {
     expect(html).toContain('title')
     expect(html).toContain('测试标题')
     expect(html).toContain('author')
+    expect(html).toContain('<table class="frontmatter-table"><tbody>')
+    expect(html).toContain('<td class="frontmatter-key"><span>title</span></td>')
+    expect(html).not.toContain('<th')
+    expect(html).not.toContain('figure-table')
+  })
+
+  it('用户 HTML 里只能用到 frontmatter 的表格 class', async () => {
+    const html = await render({ markdown: '<table class="frontmatter-table evil"><tr><td class="frontmatter-key x">a</td></tr></table>' })
+
+    expect(html).toContain('class="frontmatter-table"')
+    expect(html).toContain('class="frontmatter-key"')
+    expect(html).not.toContain('evil')
   })
 
   it('handles empty input', async () => {
